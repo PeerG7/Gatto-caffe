@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class SceneLoader : MonoBehaviour
 {
@@ -13,21 +12,27 @@ public class SceneLoader : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void LoadRelationshipScene()
     {
-        StartCoroutine(LoadAdditive());
+        SceneManager.LoadScene("Experimental Method", LoadSceneMode.Additive);
     }
 
-    IEnumerator LoadAdditive()
+    public void CloseRelationshipScene()
     {
-        yield return SceneManager.LoadSceneAsync("RelationshipScene", LoadSceneMode.Additive);
+        //SceneManager.LoadScene("ShopScene");
+        SceneManager.UnloadSceneAsync("Experimental Method");
     }
-
-    public void UnloadRelationshipScene()
+    void Update()
     {
-        SceneManager.UnloadSceneAsync("RelationshipScene");
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneLoader.Instance.CloseRelationshipScene();
+        }
     }
 }

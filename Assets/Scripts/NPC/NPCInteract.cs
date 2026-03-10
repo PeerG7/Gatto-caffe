@@ -1,39 +1,18 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class NPCInteract : MonoBehaviour
 {
-    public string relationshipSceneName = "RelationshipScene";
-    private bool playerInRange = false;
+    private NPCRelationship npcRelationship;
 
-    void Update()
+    void Awake()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
-        {
-            EnterRelationshipScene();
-        }
-        if (RelationshipManager.Instance.CurrentNPC.CanInteract())
-        {
-            RelationshipManager.Instance.CurrentNPC.IncreaseInteraction();
-        }
+        npcRelationship = GetComponent<NPCRelationship>();
     }
 
-    void EnterRelationshipScene()
+    public void Interact()
     {
-        // ส่งข้อมูล NPC ไป Scene ใหม่
-        RelationshipManager.Instance.SetCurrentNPC(gameObject);
-        SceneManager.LoadScene(relationshipSceneName);
-    }
+        RelationshipManager.Instance.SetCurrentNPC(npcRelationship);
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-            playerInRange = true;
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-            playerInRange = false;
+        SceneLoader.Instance.LoadRelationshipScene();
     }
 }
