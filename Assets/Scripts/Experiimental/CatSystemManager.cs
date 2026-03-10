@@ -58,8 +58,8 @@ public class CatSystemManager : MonoBehaviour
     void ApplyResult(bool success)
     {
         // Adjust reputation based on success or failure
-        currentReputation += success ? 20 : -20;
-        currentReputation = Mathf.Clamp(currentReputation, -100, 100);
+        currentReputation += success ? 0.1f : -0.1f;
+        currentReputation = Mathf.Clamp(currentReputation, 0, 1);
 
         UpdateUI();
     }

@@ -5,7 +5,6 @@ public class RelationshipManager : MonoBehaviour
     public static RelationshipManager Instance;
 
     public NPCRelationship CurrentNPC;
-    public GameObject[] hearts;
 
     void Awake()
     {
@@ -20,19 +19,8 @@ public class RelationshipManager : MonoBehaviour
         }
     }
 
-    public void SetCurrentNPC(GameObject npcObject)
+    public void SetCurrentNPC(NPCRelationship npc)
     {
-        CurrentNPC = npcObject.GetComponent<NPCRelationship>();
+        CurrentNPC = npc;
     }
-    public void LeaveShop()
-    {
-        GetComponent<NPCRelationship>().ResetInteraction();
-    }
-    //public void UpdateHearts()
-    //{
-    //    for (int i = 0; i < hearts.Length; i++)
-    //    {
-    //        hearts[i].SetActive(i < currentInteraction);
-    //    }
-    //}
 }
