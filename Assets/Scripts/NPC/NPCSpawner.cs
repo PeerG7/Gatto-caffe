@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.AI;
 
 public class NPCSpawner : MonoBehaviour
 {
@@ -23,22 +22,12 @@ public class NPCSpawner : MonoBehaviour
 
     void SpawnNPC()
     {
+        GameObject npcObj = Instantiate(npcPrefab, spawnPoint.position, Quaternion.identity);
 
-        GameObject npc = Instantiate(npcPrefab, spawnPoint.position, Quaternion.identity);
+        NPCController npc = npcObj.GetComponent<NPCController>();
 
-        Debug.Log(npc.GetComponent<NavMeshAgent>()); //ตัวเช็ค
+        npc.exitPoint = exitPoint;
 
-        NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
-
-        if (agent != null)
-        {
-            agent.Warp(spawnPoint.position);
-        }
-
-        NPCController controller = npc.GetComponent<NPCController>();
-
-        controller.exitPoint = exitPoint;
-
-        QueueManager.Instance.AddToQueue(controller);
+        QueueManager.Instance.AddToQueue(npc);
     }
 }

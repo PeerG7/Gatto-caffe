@@ -17,9 +17,7 @@ public class SeatManager : MonoBehaviour
         foreach (Seat seat in seats)
         {
             if (seat.IsAvailable())
-            {
                 return seat;
-            }
         }
 
         return null;

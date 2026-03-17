@@ -508,7 +508,6 @@ GameObject:
   - component: {fileID: 369521817}
   - component: {fileID: 369521816}
   - component: {fileID: 369521814}
-  - component: {fileID: 369521815}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -545,18 +544,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController2D
   moveSpeed: 5
---- !u!114 &369521815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 369521812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f8da2c6196d9244695036b1ee2df2ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract2D
 --- !u!58 &369521816
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -623,7 +610,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -1623,6 +1610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ad3412974d78a43a7a0512cd82a524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
+  currentCatInConversation: {fileID: 0}
 --- !u!1 &1233005443
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,8 +5,8 @@ public class QueueManager : MonoBehaviour
 {
     public static QueueManager Instance;
 
-    public List<Transform> queuePoints = new List<Transform>();
-    private List<NPCController> queue = new List<NPCController>();
+    public List<NPCController> queue = new List<NPCController>();
+    public Transform[] queuePoints;
 
     void Awake()
     {
@@ -15,13 +15,6 @@ public class QueueManager : MonoBehaviour
 
     public void AddToQueue(NPCController npc)
     {
-        if (queue.Count >= queuePoints.Count)
-        {
-            Debug.Log("Queue Full");
-            npc.GoExit(); // ต้องเป็น public
-            return;
-        }
-
         queue.Add(npc);
         UpdateQueuePositions();
     }
@@ -50,5 +43,4 @@ public class QueueManager : MonoBehaviour
 
         return null;
     }
-
 }

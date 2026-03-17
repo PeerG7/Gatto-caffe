@@ -29,4 +29,4 @@ MonoBehaviour:
     preferredKey: 0
     timeLimit: 3
     reputationChange: 0.1
-  catModelPrefab: {fileID: 5593183639953784550, guid: c6a81d05d779ecb47a31f836dbe9f219, type: 3}
+  catModelPrefab: {fileID: 1500671038587446994, guid: 674566b583f6fde4bb238e43d4da9724, type: 3}
