@@ -15,6 +15,10 @@ public class PlayerInteract2D : MonoBehaviour
                 Debug.Log("Invite NPC To Store");
                 currentNPC.Interact();
             }
+            else
+            {
+                Debug.Log("No NPC in range");
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.R))

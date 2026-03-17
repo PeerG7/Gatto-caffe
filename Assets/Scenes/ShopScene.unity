@@ -1117,6 +1117,52 @@ MonoBehaviour:
   - {fileID: 823503766}
   - {fileID: 2136686411}
   - {fileID: 2003933625}
+--- !u!1 &818866631
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 818866632}
+  - component: {fileID: 818866633}
+  m_Layer: 0
+  m_Name: Seat2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &818866632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818866631}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.01, y: -7.81, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 882997427}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &818866633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818866631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31e411ce53aa9345815cfd9cd9c974c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Seat
+  isOccupied: 0
+  currentNPC: {fileID: 0}
 --- !u!1 &823503765
 GameObject:
   m_ObjectHideFlags: 0
@@ -1309,6 +1355,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1233005444}
+  - {fileID: 818866632}
   - {fileID: 1499395675}
   - {fileID: 1872110153}
   m_Father: {fileID: 0}
@@ -1327,6 +1374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SeatManager
   seats:
   - {fileID: 1233005445}
+  - {fileID: 818866633}
   - {fileID: 1499395676}
   - {fileID: 1872110154}
 --- !u!1 &1007171895
@@ -1595,7 +1643,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 763e6b67b5c527d4692cc48ea62ac0a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RelationshipManager
-  CurrentNPC: {fileID: 0}
 --- !u!4 &1106574821
 Transform:
   m_ObjectHideFlags: 0
@@ -1623,6 +1670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ad3412974d78a43a7a0512cd82a524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
+  relationshipSceneName: Experimental Method
 --- !u!1 &1233005443
 GameObject:
   m_ObjectHideFlags: 0
@@ -1649,7 +1697,7 @@ Transform:
   m_GameObject: {fileID: 1233005443}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.69, y: -8.16, z: 0}
+  m_LocalPosition: {x: -1.91, y: -7.81, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1924,7 +1972,7 @@ GameObject:
   - component: {fileID: 1499395675}
   - component: {fileID: 1499395676}
   m_Layer: 0
-  m_Name: Seat2
+  m_Name: Seat3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1939,7 +1987,7 @@ Transform:
   m_GameObject: {fileID: 1499395674}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.44, y: -8.16, z: 0}
+  m_LocalPosition: {x: 8.01, y: -7.77, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2666,7 +2714,7 @@ GameObject:
   - component: {fileID: 1872110153}
   - component: {fileID: 1872110154}
   m_Layer: 0
-  m_Name: Seat3
+  m_Name: Seat4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2681,7 +2729,7 @@ Transform:
   m_GameObject: {fileID: 1872110152}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.71, y: -8.07, z: 0}
+  m_LocalPosition: {x: 12.41, y: -7.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

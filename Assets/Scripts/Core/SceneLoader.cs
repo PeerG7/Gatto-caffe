@@ -5,6 +5,8 @@ public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance;
 
+    [SerializeField] private string relationshipSceneName = "Experimental Method";
+
     void Awake()
     {
         if (Instance == null)
@@ -20,19 +22,14 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadRelationshipScene()
     {
-        SceneManager.LoadScene("Experimental Method", LoadSceneMode.Additive);
+        if (!SceneManager.GetSceneByName(relationshipSceneName).isLoaded)
+        {
+            SceneManager.LoadScene(relationshipSceneName, LoadSceneMode.Additive);
+        }
     }
 
     public void CloseRelationshipScene()
     {
-        //SceneManager.LoadScene("ShopScene");
-        SceneManager.UnloadSceneAsync("Experimental Method");
-    }
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneLoader.Instance.CloseRelationshipScene();
-        }
+        SceneManager.UnloadSceneAsync(relationshipSceneName);
     }
 }

@@ -1,5 +1,4 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 public class RelationshipMinigame : MonoBehaviour
 {
@@ -8,6 +7,11 @@ public class RelationshipMinigame : MonoBehaviour
 
     public float relationshipGain = 10f;
 
+    void OnEnable()
+    {
+        currentInteraction = 0; // 🔥 รีเซ็ตทุกครั้งที่เปิด
+    }
+
     public void OnClickCat()
     {
         if (currentInteraction >= maxInteraction)
@@ -15,18 +19,38 @@ public class RelationshipMinigame : MonoBehaviour
 
         currentInteraction++;
 
-        RelationshipManager.Instance.CurrentNPC.relationship += relationshipGain;
+        var npc = RelationshipManager.Instance.GetCurrentNPC();
 
-        Debug.Log("Relationship Increased!");
+        if (npc != null)
+        {
+            // 🔥 ดึง component ความสัมพันธ์
+            var relation = npc.GetComponent<NPCRelationship>();
+
+            if (relation != null)
+            {
+                relation.relationship += relationshipGain;
+            }
+        }
+
+        Debug.Log("❤️ Relationship Increased! (" + currentInteraction + "/" + maxInteraction + ")");
 
         if (currentInteraction >= maxInteraction)
         {
-            Debug.Log("Interaction Limit Reached");
+            Debug.Log("✅ Interaction Limit Reached");
         }
     }
 
     public void BackToShop()
     {
-        SceneManager.LoadScene("ShopScene");
+        var npc = RelationshipManager.Instance.GetCurrentNPC();
+
+        if (npc != null)
+        {
+            npc.GoExit(); // 🔥 NPC เดินออกจริง
+        }
+
+        RelationshipManager.Instance.ClearNPC();
+
+        SceneLoader.Instance.CloseRelationshipScene(); // ✔ ใช้ตัวนี้
     }
 }

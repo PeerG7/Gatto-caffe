@@ -8,7 +8,6 @@ public class NPCController : MonoBehaviour
 
     public Transform exitPoint;
     Seat targetSeat;
-    bool isSitting = false;
 
     public enum NPCState
     {
@@ -36,7 +35,13 @@ public class NPCController : MonoBehaviour
 
     void Update()
     {
-        if (targetSeat != null && !agent.pathPending && !isSitting)
+        if (agent == null || !agent.isOnNavMesh)
+            return;
+
+        if (currentState == NPCState.Sitting || currentState == NPCState.Leaving)
+            return;
+
+        if (targetSeat != null && !agent.pathPending)
         {
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
@@ -46,7 +51,11 @@ public class NPCController : MonoBehaviour
     }
     void Sit()
     {
-        isSitting = true;
+        if (currentState == NPCState.Sitting || currentState == NPCState.Leaving)
+            return;
+
+        if (currentState == NPCState.Sitting) return;
+
         currentState = NPCState.Sitting;
 
         Debug.Log("NPC Sitting");
@@ -70,7 +79,7 @@ public class NPCController : MonoBehaviour
             targetSeat = null;
         }
 
-        QueueManager.Instance.RemoveFromQueue(this);
+        //QueueManager.Instance.RemoveFromQueue(this);
 
         GoExit();
     }
@@ -115,18 +124,36 @@ public class NPCController : MonoBehaviour
 
     public void GoExit()
     {
+        if (currentState == NPCState.Leaving) return; // 👈 กันซ้ำ
+
         currentState = NPCState.Leaving;
 
-        agent.isStopped = false;
-        agent.SetDestination(exitPoint.position);
+        if (agent == null || !agent.isOnNavMesh)
+        {
+            Debug.LogWarning("Agent not ready");
+            return;
+        }
 
+        agent.isStopped = false; // 👈 กันติดค้าง
+
+        agent.SetDestination(exitPoint.position);
         StartCoroutine(DestroyWhenArrive());
     }
 
-    System.Collections.IEnumerator DestroyWhenArrive()
+    IEnumerator DestroyWhenArrive()
     {
-        while (agent.pathPending || agent.remainingDistance > 0.2f)
+        while (true)
         {
+            if (agent == null || !agent.isOnNavMesh)
+            {
+                yield break; // ❌ หยุดเลย กัน error
+            }
+
+            if (!agent.pathPending && agent.remainingDistance <= 0.2f)
+            {
+                break;
+            }
+
             yield return null;
         }
 

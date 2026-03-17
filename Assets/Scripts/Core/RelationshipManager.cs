@@ -4,23 +4,25 @@ public class RelationshipManager : MonoBehaviour
 {
     public static RelationshipManager Instance;
 
-    public NPCRelationship CurrentNPC;
+    private NPCController currentNPC;
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Instance = this;
     }
 
-    public void SetCurrentNPC(NPCRelationship npc)
+    public void SetCurrentNPC(NPCController npc)
     {
-        CurrentNPC = npc;
+        currentNPC = npc;
+    }
+
+    public NPCController GetCurrentNPC()
+    {
+        return currentNPC;
+    }
+
+    public void ClearNPC()
+    {
+        currentNPC = null;
     }
 }
