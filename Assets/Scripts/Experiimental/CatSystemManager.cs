@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public enum QTEType { SinglePress, Hold, ButtonMash }
+public enum QTEType { SinglePress, Hold, ButtonMash , Petting }
 public class CatSystemManager : MonoBehaviour
 {
     [Header("ข้อมูลแมวปัจจุบัน (Active Cat)")]
@@ -22,6 +22,11 @@ public class CatSystemManager : MonoBehaviour
     [Header("QTE Settings")]
     public Slider qteProgressBar;
     private bool isInteracting = false;
+    
+    
+    [Header("Pettingzone ")]
+    public HoverDetector pettingZone; // ลากเอา PettingZone UI มาใส่ใน Inspector
+    public RectTransform pettingProgressFill; // ลาก Image ที่เป็นแถบสีในเกจมาใส่
 
     void Start()
     {
@@ -74,6 +79,41 @@ public class CatSystemManager : MonoBehaviour
         // การตั้งค่าความแรง/ความเร็วของ QTE (ดึงมาจาก Manager เดิม)
         float holdRequired = 1.5f;
         int mashRequired = 10;
+        
+        isInteracting = true;
+        float progress = 0f;
+        float targetTime = 3f; // ต้องลูบค้างไว้ 3 วินาทีถึงจะสำเร็จ
+
+        if (data.qteType == QTEType.Petting)
+        {
+            pettingZone.gameObject.SetActive(true); // เปิดโซนลูบ
+
+            while (progress < targetTime)
+            {
+                if (pettingZone.isHovering)
+                {
+                    progress += Time.deltaTime; // เพิ่มความคืบหน้าเมื่อเมาส์แช่ไว้
+                                                // เพิ่ม Visual เช่น ทำให้หัวแมวส่าย หรือมีหัวใจพุ่งออกมาตรงนี้ได้ครับ
+                }
+                else
+                {
+                    // ถ้าเมาส์ออก ค่าอาจจะค่อยๆ ลดลง (Optional)
+                    progress -= Time.deltaTime * 0.5f;
+                }
+
+                progress = Mathf.Clamp(progress, 0, targetTime);
+
+                // อัปเดตแถบเกจ (ถ้ามี)
+                if (pettingProgressFill != null)
+                    pettingProgressFill.localScale = new Vector3(progress / targetTime, 1, 1);
+
+                yield return null;
+            }
+
+            pettingZone.gameObject.SetActive(false);
+            Debug.Log("แมวฟินมาก! QTE สำเร็จ");
+            // สั่งจบ QTE แบบ Success
+        }
 
         while (timeLeft > 0)
         {

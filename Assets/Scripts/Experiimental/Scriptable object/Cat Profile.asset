@@ -25,8 +25,8 @@ MonoBehaviour:
     timeLimit: 3
     reputationChange: 0.1
   - actionName: pet
-    qteType: 1
-    preferredKey: 32
+    qteType: 3
+    preferredKey: 0
     timeLimit: 3
     reputationChange: 0.1
   catModelPrefab: {fileID: 5593183639953784550, guid: c6a81d05d779ecb47a31f836dbe9f219, type: 3}

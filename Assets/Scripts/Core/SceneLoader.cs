@@ -21,9 +21,19 @@ public class SceneLoader : MonoBehaviour
     public void LoadRelationshipScene(CatProfile catToTalkTo)
     {
         currentCatInConversation = catToTalkTo;
-        SceneManager.LoadScene("Experimental Method", LoadSceneMode.Additive);
-    }
 
+        // โหลดฉากแบบ Additive
+        AsyncOperation loadScene = SceneManager.LoadSceneAsync("Experimental Method", LoadSceneMode.Additive);
+
+        // เมื่อโหลดเสร็จแล้ว ให้ส่งข้อมูลแมวไปให้ Manager ในฉากนั้นทันที
+        loadScene.completed += (op) => {
+            CatSystemManager manager = FindObjectOfType<CatSystemManager>();
+            if (manager != null)
+            {
+                manager.SetupCat(currentCatInConversation);
+            }
+        };
+    }
     public void CloseRelationshipScene()
     {
         SceneManager.UnloadSceneAsync("Experimental Method");
