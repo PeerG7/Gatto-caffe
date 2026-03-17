@@ -12,14 +12,21 @@ public class PlayerInteract2D : MonoBehaviour
 
             if (currentNPC != null)
             {
-                Debug.Log("Interacting with NPC");
+                Debug.Log("Invite NPC To Store");
                 currentNPC.Interact();
             }
         }
-        //if (Input.GetKeyDown(KeyCode.E) && currentNPC != null)
-        //{
-        //    currentNPC.Interact();
-        //}
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("Pressed R");
+
+            if (currentNPC != null)
+            {
+                Debug.Log("Interacting with NPC");
+                currentNPC.RelationShip();
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
