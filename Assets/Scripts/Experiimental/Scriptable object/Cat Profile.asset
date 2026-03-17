@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3249cca91ae3734e83693ab8a53bf8d, type: 3}
+  m_Name: Cat Profile
+  m_EditorClassIdentifier: Assembly-CSharp::CatProfile
+  catName: Pelican white
+  interactions:
+  - actionName: ' cutton ball'
+    qteType: 2
+    preferredKey: 101
+    timeLimit: 3
+    reputationChange: 0.1
+  - actionName: feed
+    qteType: 0
+    preferredKey: 101
+    timeLimit: 3
+    reputationChange: 0.1
+  - actionName: pet
+    qteType: 1
+    preferredKey: 32
+    timeLimit: 3
+    reputationChange: 0.1
+  catModelPrefab: {fileID: 5593183639953784550, guid: c6a81d05d779ecb47a31f836dbe9f219, type: 3}

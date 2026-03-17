@@ -1,44 +1,36 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerInteract2D : MonoBehaviour
 {
-    private NPCInteract currentNPC;
+    // เปลี่ยนจาก NPCInteract เป็น CatTrigger
+    private CatTrigger currentCat;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && currentCat != null)
         {
-            Debug.Log("Pressed E");
-
-            if (currentNPC != null)
-            {
-                Debug.Log("Interacting with NPC");
-                currentNPC.Interact();
-            }
+            currentCat.Interact(); // เรียกใช้ฟังก์ชันที่เราเพิ่งสร้าง
         }
-        //if (Input.GetKeyDown(KeyCode.E) && currentNPC != null)
-        //{
-        //    currentNPC.Interact();
-        //}
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        NPCInteract npc = other.GetComponent<NPCInteract>();
+        // เปลี่ยนมาหา Component ตัวใหม่ที่เราใช้
+        CatTrigger cat = other.GetComponent<CatTrigger>();
 
-        if (npc != null)
+        if (cat != null)
         {
-            currentNPC = npc;
+            currentCat = cat;
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        NPCInteract npc = other.GetComponent<NPCInteract>();
+        CatTrigger cat = other.GetComponent<CatTrigger>();
 
-        if (npc == currentNPC)
+        if (cat == currentCat)
         {
-            currentNPC = null;
+            currentCat = null;
         }
     }
 }

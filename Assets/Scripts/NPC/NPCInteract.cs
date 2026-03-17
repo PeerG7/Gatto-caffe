@@ -13,6 +13,6 @@ public class NPCInteract : MonoBehaviour
     {
         RelationshipManager.Instance.SetCurrentNPC(npcRelationship);
 
-        SceneLoader.Instance.LoadRelationshipScene();
+        //SceneLoader.Instance.LoadRelationshipScene();
     }
 }
