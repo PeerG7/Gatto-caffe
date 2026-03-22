@@ -2,38 +2,56 @@
 
 public class NPCInteract : MonoBehaviour
 {
-    private NPCRelationship npcRelationship;
     private NPCController npc;
+
+    public bool isInStore = false;
 
     void Awake()
     {
-        npcRelationship = GetComponent<NPCRelationship>();
         npc = GetComponent<NPCController>();
     }
 
+    // 🎯 ใช้เช็คเปิด QTE
+    public bool CanInteract()
+    {
+        return npc != null && npc.currentState == NPCController.NPCState.Sitting;
+    }
+
+    // 🤖 Invite
     public void Interact()
     {
+        if (npc == null) return;
+
         NPCController frontNPC = QueueManager.Instance.GetFrontNPC();
 
-    // ✔ ทำเฉพาะตัวหน้าคิว
-    if (frontNPC != npc) return;
+        if (frontNPC != npc)
+        {
+            Debug.Log("❌ Not front of queue");
+            return;
+        }
 
-    if (npc.currentState == NPCController.NPCState.InQueue)
-    {
-        npc.GoToSeat();
+        if (npc.currentState == NPCController.NPCState.InQueue)
+        {
+            Debug.Log("✅ Invite NPC");
+            isInStore = true;
+            npc.GoToSeat();
+        }
     }
-    else if (npc.currentState == NPCController.NPCState.Sitting)
-    {
-        npc.LeaveSeat();
-    }
-    }
+
+    // ❤️ QTE
     public void RelationShip()
     {
         if (npc == null) return;
 
-        // ❗ จำ NPC ตัวนี้ไว้
-        RelationshipManager.Instance.SetCurrentNPC(npc);
+        if (npc.currentState != NPCController.NPCState.Sitting)
+        {
+            Debug.Log("❌ NPC not sitting");
+            return;
+        }
 
+        Debug.Log("❤️ OPEN RELATIONSHIP");
+
+        RelationshipManager.Instance.SetCurrentNPC(npc);
         SceneLoader.Instance.LoadRelationshipScene();
     }
 }

@@ -1,55 +1,73 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerInteract2D : MonoBehaviour
 {
-    private NPCInteract currentNPC;
+    public float range = 1.5f;
 
     void Update()
     {
+        if (TimeManager.Instance.isPaused) return; // 🔥 หยุดทุก input
+
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("Pressed E");
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range);
 
-            if (currentNPC != null)
+            // 🔧 1. Repair ก่อน
+            foreach (var hit in hits)
             {
-                Debug.Log("Invite NPC To Store");
-                currentNPC.Interact();
+                DamageableObject obj = hit.GetComponent<DamageableObject>();
+
+                if (obj != null && obj.IsBroken())
+                {
+                    Debug.Log("🔧 Repair");
+                    obj.Repair();
+                    return;
+                }
+            }
+
+            // 🤖 2. หา NPC ที่ใกล้ที่สุด
+            NPCInteract closestNPC = null;
+            float minDist = Mathf.Infinity;
+
+            foreach (var hit in hits)
+            {
+                NPCInteract npc = hit.GetComponent<NPCInteract>();
+
+                if (npc == null) continue;
+
+                float dist = Vector2.Distance(transform.position, npc.transform.position);
+
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    closestNPC = npc;
+                }
+            }
+
+            if (closestNPC != null)
+            {
+                if (closestNPC.CanInteract())
+                {
+                    Debug.Log("➡ Open QTE");
+                    closestNPC.RelationShip();
+                }
+                else
+                {
+                    Debug.Log("➡ Invite NPC");
+                    closestNPC.Interact();
+                }
             }
             else
             {
-                Debug.Log("No NPC in range");
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log("Pressed R");
-
-            if (currentNPC != null)
-            {
-                Debug.Log("Interacting with NPC");
-                currentNPC.RelationShip();
+                Debug.Log("❌ Nothing to interact");
             }
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    // 🎯 Debug ระยะ
+    void OnDrawGizmosSelected()
     {
-        NPCInteract npc = other.GetComponent<NPCInteract>();
-
-        if (npc != null)
-        {
-            currentNPC = npc;
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        NPCInteract npc = other.GetComponent<NPCInteract>();
-
-        if (npc == currentNPC)
-        {
-            currentNPC = null;
-        }
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, range);
     }
 }

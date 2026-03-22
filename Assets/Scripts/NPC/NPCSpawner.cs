@@ -19,13 +19,14 @@ public class NPCSpawner : MonoBehaviour
 
     void Update()
     {
+        if (TimeManager.Instance.isPaused) return; // 🔥 หยุด spawn
+
         timer += Time.deltaTime;
 
-        if (timer >= currentInterval)
+        if (timer >= spawnInterval)
         {
             SpawnNPC();
             timer = 0f;
-            SetNextInterval();
         }
     }
     void SetNextInterval()

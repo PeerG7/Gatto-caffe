@@ -1,31 +1,40 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using System.Linq;
 
 public class NPCController : MonoBehaviour
 {
     private NavMeshAgent agent;
 
+    public DamageableObject targetObject;
     public Transform exitPoint;
     Seat targetSeat;
+
+    [Header("Patience")]
+    public float maxWaitTime = 10f;
+    private float waitTimer = 0f;
+    private bool isAngry = false;
 
     public enum NPCState
     {
         InQueue,
         GoingToSeat,
         Sitting,
+        GoingToDamage,
         Leaving
     }
 
     public NPCState currentState = NPCState.InQueue;
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
 
         if (agent == null)
         {
-            Debug.LogError("❌ NavMeshAgent NOT FOUND on " + gameObject.name);
-            enabled = false; // ปิด script กัน error spam
+            Debug.LogError("No NavMeshAgent");
+            enabled = false;
             return;
         }
 
@@ -35,71 +44,153 @@ public class NPCController : MonoBehaviour
 
     void Update()
     {
-        if (agent == null || !agent.isOnNavMesh)
-            return;
-
-        if (currentState == NPCState.Sitting || currentState == NPCState.Leaving)
-            return;
-
-        if (targetSeat != null && !agent.pathPending)
+        if (TimeManager.Instance.isPaused)
         {
-            if (agent.remainingDistance <= agent.stoppingDistance)
+            if (agent != null)
+                agent.isStopped = true;
+
+            return;
+        }
+        else
+        {
+            if (agent != null)
+                agent.isStopped = false;
+        }
+        if (agent == null || !agent.isOnNavMesh) return;
+
+        // ❌ ไม่ทำอะไรตอนออก
+        if (currentState == NPCState.Leaving) return;
+
+        // 🧱 ไปทำลาย
+        if (currentState == NPCState.GoingToDamage && targetObject != null)
+        {
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                StartCoroutine(DamageRoutine());
+            }
+            return;
+        }
+
+        // 🪑 ไปนั่ง
+        if (currentState == NPCState.GoingToSeat && targetSeat != null)
+        {
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             {
                 Sit();
             }
         }
     }
+
+    // =====================
+    // 🪑 นั่ง
+    // =====================
     void Sit()
     {
-        if (currentState == NPCState.Sitting || currentState == NPCState.Leaving)
-            return;
-
         if (currentState == NPCState.Sitting) return;
 
         currentState = NPCState.Sitting;
-
-        Debug.Log("NPC Sitting");
-
         agent.isStopped = true;
 
         StartCoroutine(SitRoutine());
-
-        // TODO: เล่น animation นั่ง
     }
+
     IEnumerator SitRoutine()
     {
-        yield return new WaitForSeconds(10f); // นั่ง 10 วิ
-        LeaveSeat();
+        waitTimer = 0f;
+
+        while (waitTimer < maxWaitTime)
+        {
+            if (!TimeManager.Instance.isPaused)
+            {
+                waitTimer += Time.deltaTime;
+            }
+
+            yield return null;
+        }
+
+        BecomeAngry();
     }
-    public void LeaveSeat()
+
+    // =====================
+    // 😡 โมโห
+    // =====================
+    void BecomeAngry()
     {
+        if (isAngry) return;
+
+        isAngry = true;
+
+        Debug.Log("NPC Angry!");
+
+        // 🔓 ลุกจากที่นั่ง
         if (targetSeat != null)
         {
             targetSeat.Leave();
             targetSeat = null;
         }
 
-        //QueueManager.Instance.RemoveFromQueue(this);
+        ChooseRandomTarget();
+    }
+
+    // =====================
+    // 🧱 เลือกของไปพัง
+    // =====================
+    void ChooseRandomTarget()
+    {
+        if (DamageableObject.allObjects.Count == 0)
+        {
+            GoExit();
+            return;
+        }
+
+        var available = DamageableObject.allObjects
+            .Where(obj => !obj.IsBroken())
+            .ToList();
+
+        if (available.Count == 0)
+        {
+            GoExit();
+            return;
+        }
+
+        int index = Random.Range(0, available.Count);
+        targetObject = available[index];
+
+        currentState = NPCState.GoingToDamage;
+
+        agent.isStopped = false;
+        agent.SetDestination(targetObject.transform.position);
+    }
+
+    IEnumerator DamageRoutine()
+    {
+        agent.isStopped = true;
+
+        float timer = 0f;
+
+        while (timer < 1f)
+        {
+            if (!TimeManager.Instance.isPaused)
+            {
+                timer += Time.deltaTime;
+            }
+
+            yield return null;
+        }
+
+        if (targetObject != null)
+        {
+            targetObject.StartDamage();
+        }
 
         GoExit();
     }
 
-
-    public void MoveTo(Transform target)
-    {
-        if (agent == null) return;
-
-        if (!agent.isOnNavMesh)
-        {
-            Debug.LogError("Agent not on NavMesh!");
-            return;
-        }
-
-        agent.SetDestination(target.position);
-    }
+    // =====================
+    // 🚶 ไปนั่ง (เรียกจาก QueueManager)
+    // =====================
     public void GoToSeat()
     {
-        // 👇 สำคัญมาก
         QueueManager.Instance.RemoveFromQueue(this);
 
         targetSeat = SeatManager.Instance.GetAvailableSeat();
@@ -109,34 +200,43 @@ public class NPCController : MonoBehaviour
             currentState = NPCState.GoingToSeat;
 
             targetSeat.Occupy(this);
-            MoveTo(targetSeat.transform);
+            agent.isStopped = false;
+            agent.SetDestination(targetSeat.transform.position);
         }
         else
         {
             GoExit();
         }
     }
+
     public void SetQueueTarget(Transform target)
     {
-        agent.isStopped = false; 
-        MoveTo(target);
+        agent.isStopped = false;
+        agent.SetDestination(target.position);
+    }
+    public void LeaveSeat()
+    {
+        if (targetSeat != null)
+        {
+            targetSeat.Leave();
+            targetSeat = null;
+        }
+
+        GoExit();
     }
 
+    // =====================
+    // 🚪 ออก
+    // =====================
     public void GoExit()
     {
-        if (currentState == NPCState.Leaving) return; // 👈 กันซ้ำ
+        if (currentState == NPCState.Leaving) return;
 
         currentState = NPCState.Leaving;
 
-        if (agent == null || !agent.isOnNavMesh)
-        {
-            Debug.LogWarning("Agent not ready");
-            return;
-        }
-
-        agent.isStopped = false; // 👈 กันติดค้าง
-
+        agent.isStopped = false;
         agent.SetDestination(exitPoint.position);
+
         StartCoroutine(DestroyWhenArrive());
     }
 
@@ -144,15 +244,8 @@ public class NPCController : MonoBehaviour
     {
         while (true)
         {
-            if (agent == null || !agent.isOnNavMesh)
-            {
-                yield break; // ❌ หยุดเลย กัน error
-            }
-
             if (!agent.pathPending && agent.remainingDistance <= 0.2f)
-            {
                 break;
-            }
 
             yield return null;
         }
