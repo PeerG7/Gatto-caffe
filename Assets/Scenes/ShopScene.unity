@@ -2778,10 +2778,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2fe23e6a10687342bffe40b60816882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCSpawner
-  npcPrefab: {fileID: 1500671038587446994, guid: 674566b583f6fde4bb238e43d4da9724, type: 3}
+  npcPrefabs:
+  - {fileID: 1500671038587446994, guid: 674566b583f6fde4bb238e43d4da9724, type: 3}
+  - {fileID: 1500671038587446994, guid: ab45d17f33b4ffb4da2fd10426c28e2d, type: 3}
+  - {fileID: 1500671038587446994, guid: bb1300aeb0ae4e44bb34be9b35934bd7, type: 3}
   spawnPoint: {fileID: 1380254909}
   exitPoint: {fileID: 1990573815}
   spawnInterval: 5
+  minInterval: 3
+  maxInterval: 7
 --- !u!4 &1931304164
 Transform:
   m_ObjectHideFlags: 0
