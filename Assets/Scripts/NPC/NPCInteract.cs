@@ -3,7 +3,6 @@
 public class NPCInteract : MonoBehaviour
 {
     private NPCController npc;
-
     public bool isInStore = false;
 
     void Awake()
@@ -11,13 +10,11 @@ public class NPCInteract : MonoBehaviour
         npc = GetComponent<NPCController>();
     }
 
-    // 🎯 ใช้เช็คเปิด QTE
     public bool CanInteract()
     {
         return npc != null && npc.currentState == NPCController.NPCState.Sitting;
     }
 
-    // 🤖 Invite
     public void Interact()
     {
         if (npc == null) return;
@@ -38,7 +35,7 @@ public class NPCInteract : MonoBehaviour
         }
     }
 
-    // ❤️ QTE
+    // ⭐ แก้ตรงนี้
     public void RelationShip()
     {
         if (npc == null) return;
@@ -52,6 +49,11 @@ public class NPCInteract : MonoBehaviour
         Debug.Log("❤️ OPEN RELATIONSHIP");
 
         RelationshipManager.Instance.SetCurrentNPC(npc);
-        SceneLoader.Instance.LoadRelationshipScene();
+
+        // ❌ ลบ SceneLoader
+        // SceneLoader.Instance.LoadRelationshipScene();
+
+        // ✅ ใช้ UI แทน
+        UIManager.Instance.OpenRelationshipPanel();
     }
 }
