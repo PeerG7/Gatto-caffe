@@ -2,17 +2,17 @@
 
 public class PlayerInteract2D : MonoBehaviour
 {
-    public float range = 1.5f;
+    public float range = 1.5f; // อ้างอิงจากระยะเดิมของคุณ
 
     void Update()
     {
-        if (TimeManager.Instance.isPaused) return; // 🔥 หยุดทุก input
+        if (TimeManager.Instance.isPaused) return; // หยุดทุก input
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range);
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range); //
 
-            // 🔧 1. Repair ก่อน
+            // 🔧 1. Repair ก่อน (จากโค้ดเดิม)
             foreach (var hit in hits)
             {
                 DamageableObject obj = hit.GetComponent<DamageableObject>();
@@ -25,7 +25,7 @@ public class PlayerInteract2D : MonoBehaviour
                 }
             }
 
-            // 🤖 2. หา NPC ที่ใกล้ที่สุด
+            // 🤖 2. หา NPC ที่ใกล้ที่สุด (จากโค้ดเดิม)
             NPCInteract closestNPC = null;
             float minDist = Mathf.Infinity;
 
@@ -50,21 +50,35 @@ public class PlayerInteract2D : MonoBehaviour
                 {
                     Debug.Log("➡ Open QTE");
                     closestNPC.RelationShip();
+                    return; // เพิ่ม return เพื่อไม่ให้ทำงานทับซ้อนกัน
                 }
                 else
                 {
                     Debug.Log("➡ Invite NPC");
                     closestNPC.Interact();
+                    return; // เพิ่ม return
                 }
             }
-            else
+
+            // 🍳 3. ค้นหา Station ทำอาหาร/เครื่องดื่ม (ส่วนที่เพิ่มใหม่)
+            foreach (var hit in hits)
             {
-                Debug.Log("❌ Nothing to interact");
+                StationInteract station = hit.GetComponent<StationInteract>();
+
+                if (station != null)
+                {
+                    Debug.Log("➡ Open Cooking/Beverage Canvas");
+                    station.OpenCanvas();
+                    return; // เมื่อเปิดสเตชั่นแล้วให้จบการทำงานทันที
+                }
             }
+
+            // ถ้าไม่มีอะไรเลย
+            Debug.Log("❌ Nothing to interact"); //
         }
     }
 
-    // 🎯 Debug ระยะ
+    // Debug ระยะ (จากโค้ดเดิม)
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
