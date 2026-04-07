@@ -6,6 +6,7 @@ using System.Linq;
 public class NPCController : MonoBehaviour
 {
     private NavMeshAgent agent;
+    public float relationship = 0f; //New
 
     public DamageableObject targetObject;
     public Transform exitPoint;
@@ -23,6 +24,11 @@ public class NPCController : MonoBehaviour
         Sitting,
         GoingToDamage,
         Leaving
+    }
+    public void AddRelationship(float amount) //New
+    {
+        relationship += amount;
+        Debug.Log(name + " Relationship: " + relationship);
     }
 
     public NPCState currentState = NPCState.InQueue;

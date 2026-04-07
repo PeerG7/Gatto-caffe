@@ -3,6 +3,7 @@
 public class PlayerInteract2D : MonoBehaviour
 {
     public float range = 1.5f; // อ้างอิงจากระยะเดิมของคุณ
+    //public static CatController currentCat; // ตัวที่เลือกอยู่
 
     void Update()
     {

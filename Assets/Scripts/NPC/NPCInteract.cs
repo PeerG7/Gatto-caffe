@@ -3,6 +3,7 @@
 public class NPCInteract : MonoBehaviour
 {
     private NPCController npc;
+    public static NPCController selectedNPC;
 
     public bool isInStore = false;
 
@@ -49,9 +50,19 @@ public class NPCInteract : MonoBehaviour
             return;
         }
 
-        Debug.Log("❤️ OPEN RELATIONSHIP");
+        Debug.Log("❤️ SELECT NPC");
 
-        RelationshipManager.Instance.SetCurrentNPC(npc);
-        SceneLoader.Instance.LoadRelationshipScene();
+        selectedNPC = npc;
+
+        // ❌ ปิดของเดิม
+        // SceneLoader.Instance.LoadRelationshipScene();
+
+        // ✅ เปิด UI แทน
+        UIManager.Instance.ShowInteractionUI(npc);
+    }
+    public void OnCloseUI()
+    {
+        UIManager.Instance.HideInteractionUI();
+        NPCInteract.selectedNPC = null;
     }
 }
