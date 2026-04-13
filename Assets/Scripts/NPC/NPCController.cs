@@ -58,6 +58,20 @@ public class NPCController : MonoBehaviour
         }
         if (agent == null || !agent.isOnNavMesh) return;
 
+        if (currentState == NPCState.GoingToSeat)
+        {
+            // ถ้าเดินถึงระยะที่กำหนด (ใกล้โต๊ะ)
+            if (Vector2.Distance(transform.position, targetSeat.position) < 0.2f)
+            {
+                currentState = NPCState.Sitting;
+                CustomerTable table = targetSeat.GetComponentInParent<CustomerTable>();
+                if (table != null)
+                {
+                    table.OnCustomerSeated(this); // ตรงนี้ถูกต้องแล้ว คือการส่งตัวเองไปให้โต๊ะ
+                }
+            }
+        }
+
         // ❌ ไม่ทำอะไรตอนออก
         if (currentState == NPCState.Leaving) return;
 
@@ -80,6 +94,7 @@ public class NPCController : MonoBehaviour
             }
         }
     }
+
 
     // =====================
     // 🪑 นั่ง

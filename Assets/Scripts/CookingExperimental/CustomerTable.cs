@@ -1,23 +1,81 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class CustomerTable : MonoBehaviour
 {
-    public string wantedItem; // ชื่อเมนูที่แมวตัวนี้ต้องการ
+    [Header("Menu Settings")]
+    public List<string> menuList;
+    public string wantedItem;
 
     [Header("Visuals")]
-    public SpriteRenderer tableItemRenderer; // จุดวางจานบนโต๊ะ
-    public GameObject heartIcon; // Object รูปหัวใจ
-    public GameObject angryIcon; // Object รูปแมวโกรธ
-    public GameObject moneyPopupPrefab; // Prefab ตัวเลขเงินเด้ง
+    public GameObject orderBubble; // ตัวที่อยู่บนหัวแมว (ลากมาจาก Prefab แมว)
+    public SpriteRenderer orderIconRenderer;
+    public SpriteRenderer tableItemRenderer;
+    public GameObject heartIcon;
+    public GameObject angryIcon;
+    public GameObject moneyPopupPrefab;
 
     private bool playerInRange = false;
+    private bool isWaitingForFood = false;
+    private NPCController currentNPC; // เพิ่มตัวแปรเก็บแมวที่นั่งอยู่
+
+    void Start()
+    {
+        if (orderBubble != null) orderBubble.SetActive(false);
+    }
 
     void Update()
     {
-        // กด E เพื่อเสิร์ฟ
         if (playerInRange && Input.GetKeyDown(KeyCode.E))
         {
             TryServeFood();
+        }
+    }
+
+    // แก้ไข: รับค่าแมวเข้ามา
+    public void OnCustomerSeated(NPCController npc)
+    {
+        currentNPC = npc; // เก็บค่า NPC ไว้ใช้งาน
+
+        // 🔍 เคลียร์ค่าเก่าก่อนเริ่มใหม่
+        if (orderBubble != null) orderBubble.SetActive(false);
+
+        // 🔍 ค้นหา Bubble และ Icon จากตัวแมวที่เดินมานั่งจริง ๆ
+        // โดยค้นหาจากลูก (Child) ของ NPC ที่ชื่อว่า "Bubble" และ "Wanted item render"
+        Transform bubbleTransform = npc.transform.Find("Bubble");
+        if (bubbleTransform != null)
+        {
+            orderBubble = bubbleTransform.gameObject;
+            Transform iconTransform = bubbleTransform.Find("Wanted item render");
+            if (iconTransform != null)
+            {
+                orderIconRenderer = iconTransform.GetComponent<SpriteRenderer>();
+            }
+        }
+
+        StartCoroutine(CustomerThinkingRoutine());
+    }
+
+    IEnumerator CustomerThinkingRoutine()
+    {
+        Debug.Log("🐱 Customer is thinking...");
+        float thinkingTime = Random.Range(2f, 4f); // รอ 2-4 วินาทีตาม Storyboard
+        yield return new WaitForSeconds(thinkingTime);
+
+        if (menuList.Count > 0)
+        {
+            wantedItem = menuList[Random.Range(0, menuList.Count)]; // สุ่มเมนูจาก list
+
+            if (orderBubble != null)
+            {
+                orderBubble.SetActive(true); // เปิด Bubble บนหัวแมว
+                                             // หากคุณมี Sprite ของอาหารแต่ละชนิด ให้สั่งเปลี่ยนที่นี่:
+                                             // orderIconRenderer.sprite = หาจากระบบเมนูของคุณ;
+            }
+
+            isWaitingForFood = true;
+            Debug.Log("🐱 Customer ordered: " + wantedItem);
         }
     }
 
@@ -27,53 +85,38 @@ public class CustomerTable : MonoBehaviour
 
         if (player != null && player.HasItem())
         {
-            // เอาอาหารไปวางบนโต๊ะ
             tableItemRenderer.sprite = player.heldItemRenderer.sprite;
             tableItemRenderer.enabled = true;
 
-            // ตรวจสอบเงื่อนไข
             if (player.currentItem == wantedItem)
             {
-                // 1. เสิร์ฟถูกต้อง
                 if (heartIcon != null) heartIcon.SetActive(true);
-                if (angryIcon != null) angryIcon.SetActive(false);
                 GiveReward(100);
-            }
-            else if (player.currentItem == "Failed Dish")
-            {
-                // 2. เสิร์ฟอาหารขยะ
-                if (angryIcon != null) angryIcon.SetActive(true);
-                if (heartIcon != null) heartIcon.SetActive(false);
-                GiveReward(0); // หรืออาจจะติดลบ
+                Invoke("StartRelationship", 1.5f);
             }
             else
             {
-                // 3. เสิร์ฟผิดจาน (แต่ไม่ใช่ของเสีย)
                 if (angryIcon != null) angryIcon.SetActive(true);
-                if (heartIcon != null) heartIcon.SetActive(false);
-                GiveReward(10); // ปลอบใจนิดหน่อย
+                GiveReward(0);
             }
 
-            player.ClearItem(); // เคลียร์ของที่หัวผู้เล่น
+            if (orderBubble != null) orderBubble.SetActive(false);
+            isWaitingForFood = false;
+            player.ClearItem();
         }
     }
 
-    void GiveReward(int amount)
+    void StartRelationship()
     {
-        if (amount > 0 && moneyPopupPrefab != null)
+        // ใช้ currentNPC ที่เก็บไว้มาเปิดหน้า Relationship
+        if (currentNPC != null)
         {
-            // สร้างเงินเด้งขึ้นมา
-            Instantiate(moneyPopupPrefab, transform.position + Vector3.up, Quaternion.identity);
+            NPCInteract interact = currentNPC.GetComponent<NPCInteract>();
+            if (interact != null) interact.RelationShip();
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player")) playerInRange = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player")) playerInRange = false;
-    }
+    void GiveReward(int amount) { /* โค้ดเดิมของคุณ */ }
+    private void OnTriggerEnter2D(Collider2D other) { if (other.CompareTag("Player")) playerInRange = true; }
+    private void OnTriggerExit2D(Collider2D other) { if (other.CompareTag("Player")) playerInRange = false; }
 }

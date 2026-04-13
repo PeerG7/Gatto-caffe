@@ -4,6 +4,7 @@ public class Seat : MonoBehaviour
 {
     public bool isOccupied = false;
     public NPCController currentNPC;
+    internal Vector2 position;
 
     public bool IsAvailable()
     {
