@@ -34,7 +34,16 @@ public class NPCInteract : MonoBehaviour
         {
             Debug.Log("✅ Invite NPC");
             isInStore = true;
-            npc.GoToSeat();
+            npc.GoToTableDirectly();
+        }
+    }
+    public void GoToTableDirectly()
+    {
+        // ค้นหา NPCController ที่อยู่ในตัวแมวตัวนี้แล้วสั่งให้หาโต๊ะ
+        NPCController controller = GetComponent<NPCController>();
+        if (controller != null)
+        {
+            controller.GoToTableDirectly();
         }
     }
 

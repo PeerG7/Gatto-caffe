@@ -2,86 +2,54 @@
 
 public class PlayerInteract2D : MonoBehaviour
 {
-    public float range = 1.5f; // อ้างอิงจากระยะเดิมของคุณ
+    public float range = 3.0f;
 
     void Update()
+{
+    if (Input.GetKeyDown(KeyCode.E))
     {
-        if (TimeManager.Instance.isPaused) return; // หยุดทุก input
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range);
 
-        if (Input.GetKeyDown(KeyCode.E))
+        // 1. เช็คโต๊ะก่อน (เพื่อเสิร์ฟ)
+        foreach (var hit in hits)
         {
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range); //
-
-            // 🔧 1. Repair ก่อน (จากโค้ดเดิม)
-            foreach (var hit in hits)
+            CustomerTable table = hit.GetComponent<CustomerTable>();
+            if (table != null && table.sittingNPC != null)
             {
-                DamageableObject obj = hit.GetComponent<DamageableObject>();
-
-                if (obj != null && obj.IsBroken())
-                {
-                    Debug.Log("🔧 Repair");
-                    obj.Repair();
-                    return;
-                }
+                table.TryServeFood(); 
+                return; // ถ้าเจอโต๊ะที่มีแมว ให้เสิร์ฟแล้วจบงานทันที ไม่ต้องเช็ค NPC ต่อ
             }
+        }
 
-            // 🤖 2. หา NPC ที่ใกล้ที่สุด (จากโค้ดเดิม)
-            NPCInteract closestNPC = null;
-            float minDist = Mathf.Infinity;
-
-            foreach (var hit in hits)
-            {
-                NPCInteract npc = hit.GetComponent<NPCInteract>();
-
-                if (npc == null) continue;
-
-                float dist = Vector2.Distance(transform.position, npc.transform.position);
-
-                if (dist < minDist)
-                {
-                    minDist = dist;
-                    closestNPC = npc;
-                }
-            }
-
-            if (closestNPC != null)
-            {
-                if (closestNPC.CanInteract())
-                {
-                    Debug.Log("➡ Open QTE");
-                    closestNPC.RelationShip();
-                    return; // เพิ่ม return เพื่อไม่ให้ทำงานทับซ้อนกัน
-                }
-                else
-                {
-                    Debug.Log("➡ Invite NPC");
-                    closestNPC.Interact();
-                    return; // เพิ่ม return
-                }
-            }
-
-            // 🍳 3. ค้นหา Station ทำอาหาร/เครื่องดื่ม (ส่วนที่เพิ่มใหม่)
-            foreach (var hit in hits)
-            {
+          foreach (var hit in hits)
+           {
                 StationInteract station = hit.GetComponent<StationInteract>();
+                if (station != null) { station.OpenCanvas(); return; }
+           }
 
-                if (station != null)
-                {
-                    Debug.Log("➡ Open Cooking/Beverage Canvas");
-                    station.OpenCanvas();
-                    return; // เมื่อเปิดสเตชั่นแล้วให้จบการทำงานทันที
-                }
-            }
-
-            // ถ้าไม่มีอะไรเลย
-            Debug.Log("❌ Nothing to interact"); //
+            // 2. เช็ค NPC (เพื่อ Invite) - จะทำงานก็ต่อเมื่อไม่ได้ยืนหน้าโต๊ะที่มีแมว
+            NPCInteract closestNPC = GetClosestNPC(hits);
+        if (closestNPC != null && !closestNPC.CanInteract())
+        {
+            closestNPC.GoToTableDirectly();
+            return;
         }
     }
+}
 
-    // Debug ระยะ (จากโค้ดเดิม)
-    void OnDrawGizmosSelected()
+    private NPCInteract GetClosestNPC(Collider2D[] hits)
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, range);
+        NPCInteract closest = null;
+        float minDist = Mathf.Infinity;
+        foreach (var hit in hits)
+        {
+            NPCInteract npc = hit.GetComponent<NPCInteract>();
+            if (npc != null)
+            {
+                float dist = Vector2.Distance(transform.position, npc.transform.position);
+                if (dist < minDist) { minDist = dist; closest = npc; }
+            }
+        }
+        return closest;
     }
 }
