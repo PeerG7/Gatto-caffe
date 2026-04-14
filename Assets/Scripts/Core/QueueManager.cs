@@ -33,9 +33,9 @@ public class QueueManager : MonoBehaviour
     {
         for (int i = 0; i < queue.Count; i++)
         {
-            // เรียกฟังก์ชันใน NPCController
             if (queue[i] != null)
             {
+                // บรรทัดนี้จะทำงานได้เมื่อเพิ่มฟังก์ชันใน NPCController แล้ว
                 queue[i].SetQueueTarget(queuePoints[i]);
             }
         }
