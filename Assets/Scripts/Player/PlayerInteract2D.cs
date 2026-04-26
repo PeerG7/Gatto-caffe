@@ -10,11 +10,21 @@ public class PlayerInteract2D : MonoBehaviour
         {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range);
 
-            // 1. เช็คโต๊ะก่อน (ลำดับความสำคัญสูงสุด)
+            // 1. เช็คปลดล็อกเฟอร์นิเจอร์ก่อน
+            foreach (var hit in hits)
+            {
+                FurnitureObject furn = hit.GetComponent<FurnitureObject>();
+                if (furn != null && !furn.isUnlocked)
+                {
+                    furn.AttemptUnlock();
+                    return;
+                }
+            }
+
+            // 2. เช็คโต๊ะเพื่อเสิร์ฟอาหาร
             foreach (var hit in hits)
             {
                 CustomerTable table = hit.GetComponent<CustomerTable>();
-                // เสิร์ฟได้เมื่อมีแมว และแมวนั่งเรียบร้อยแล้ว
                 if (table != null && table.sittingNPC != null && table.sittingNPC.currentState == NPCController.NPCState.Sitting)
                 {
                     table.TryServeFood();
@@ -22,14 +32,14 @@ public class PlayerInteract2D : MonoBehaviour
                 }
             }
 
-            // 2. เช็คสถานีทำอาหาร
+            // 3. เช็คสถานีทำอาหาร
             foreach (var hit in hits)
             {
                 StationInteract station = hit.GetComponent<StationInteract>();
                 if (station != null) { station.OpenCanvas(); return; }
             }
 
-            // 3. เช็ค NPC เพื่อ Invite
+            // 4. เช็ค NPC เพื่อ Invite
             NPCInteract closestNPC = GetClosestNPC(hits);
             if (closestNPC != null && !closestNPC.CanInteract())
             {

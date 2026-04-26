@@ -67,7 +67,10 @@ public class NPCController : MonoBehaviour
         CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
         foreach (var table in allTables)
         {
-            if (!table.isOccupied)
+            FurnitureObject furniture = table.GetComponent<FurnitureObject>();
+            bool isUnlocked = (furniture == null || furniture.isUnlocked);
+
+            if (!table.isOccupied && isUnlocked)
             {
                 table.isOccupied = true;
                 table.sittingNPC = this;
@@ -88,6 +91,7 @@ public class NPCController : MonoBehaviour
             }
         }
     }
+
 
     void GenerateOrderData()
     {

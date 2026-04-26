@@ -9,6 +9,7 @@ public class CustomerTable : MonoBehaviour
     [Header("Table Status")]
     public string wantedItem;
     public NPCController sittingNPC;
+    public int dishReward = 50; // ราคาอาหารต่อจาน
 
     [Header("Visuals")]
     public SpriteRenderer tableItemRenderer;
@@ -23,11 +24,15 @@ public class CustomerTable : MonoBehaviour
         string order = wantedItem.Trim();
         string holding = player.currentItem.Trim();
 
-        Debug.Log($"[Table] Checking: '{holding}' vs '{order}'");
-
         if (holding.Equals(order, System.StringComparison.OrdinalIgnoreCase))
         {
-            Debug.Log("Serve Success!");
+            // รับเงินเมื่อเสิร์ฟถูก
+            if (CurrencyManager.Instance != null)
+                CurrencyManager.Instance.AddMoney(dishReward);
+
+            if (UINotificationManager.Instance != null)
+                UINotificationManager.Instance.ShowNotification($"เสิร์ฟสำเร็จ! ได้รับ {dishReward} บาท");
+
             if (tableItemRenderer != null)
             {
                 tableItemRenderer.sprite = player.heldItemRenderer.sprite;
