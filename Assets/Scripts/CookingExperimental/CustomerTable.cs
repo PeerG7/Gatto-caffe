@@ -31,7 +31,7 @@ public class CustomerTable : MonoBehaviour
                 CurrencyManager.Instance.AddMoney(dishReward);
 
             if (UINotificationManager.Instance != null)
-                UINotificationManager.Instance.ShowNotification($"เสิร์ฟสำเร็จ! ได้รับ {dishReward} บาท");
+                UINotificationManager.Instance.ShowNotification($" Succesful deliver $: {dishReward} ");
 
             if (tableItemRenderer != null)
             {

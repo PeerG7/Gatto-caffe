@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9f6ab1dcc7fa5bb4a85a2d2a04846355
+guid: 504921cfb1226a446a618c435ae0045b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6767270136392458867
-    second: u1f365_u1f969_0
+      213: 7788738265561233102
+    second: u1f373_u1f431_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,43 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: u1f365_u1f969_0
+      name: u1f373_u1f431_0
       rect:
         serializedVersion: 2
-        x: 13
+        x: 24
         y: 12
-        width: 506
-        height: 508
+        width: 502
+        height: 433
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d8dd73d5aa3d512a0800000000000000
-      internalID: -6767270136392458867
+      spriteID: ec6f44f9f28271c60800000000000000
+      internalID: 7788738265561233102
       vertices: []
       indices: 
       edges: []
@@ -135,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      u1f365_u1f969_0: -6767270136392458867
+      u1f373_u1f431_0: 7788738265561233102
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

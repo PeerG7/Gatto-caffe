@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a9ce3acaa366dc346bfc92bbb069df19
+guid: 0a48e0ceaf9bfa64482637226fbbe382
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5248818770230880900
-    second: pngtree-isolated-cat-on-white-background-png-image_7094927_0
+      213: 1412808500523357849
+    second: Maxwell-Cat-Expressive-Ears-Alert-Curiou-PNG_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 200
+  spritePixelsToUnits: 300
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pngtree-isolated-cat-on-white-background-png-image_7094927_0
+      name: Maxwell-Cat-Expressive-Ears-Alert-Curiou-PNG_0
       rect:
         serializedVersion: 2
-        x: 68
-        y: 22
-        width: 224
-        height: 306
+        x: 54
+        y: 44
+        width: 461
+        height: 355
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 48aa302bcdc87d840800000000000000
-      internalID: 5248818770230880900
+      spriteID: 996d85988dd4b9310800000000000000
+      internalID: 1412808500523357849
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      pngtree-isolated-cat-on-white-background-png-image_7094927_0: 5248818770230880900
+      Maxwell-Cat-Expressive-Ears-Alert-Curiou-PNG_0: 1412808500523357849
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
