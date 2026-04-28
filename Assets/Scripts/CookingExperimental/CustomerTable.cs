@@ -21,7 +21,9 @@ public class CustomerTable : MonoBehaviour
     public GameObject relationshipIcon;
     public float interactionDuration = 5.0f;
     [Range(0, 100)]
-    public int interactionChance = 50; // โอกาสเกิด Interaction (เช่น 50%)
+    public int interactionChance = 50;
+
+    private Coroutine interactionCoroutine;
 
     public void TryServeFood()
     {
@@ -33,7 +35,6 @@ public class CustomerTable : MonoBehaviour
 
         if (holding.Equals(order, System.StringComparison.OrdinalIgnoreCase))
         {
-            // 1. ปิดฟองออเดอร์ของแมว และรูปอาหารบนโต๊ะทันที
             if (sittingNPC != null && sittingNPC.orderCanvas != null)
             {
                 sittingNPC.orderCanvas.SetActive(false);
@@ -43,7 +44,6 @@ public class CustomerTable : MonoBehaviour
                 tableItemRenderer.enabled = false;
             }
 
-            // 2. ระบบเงิน
             if (CurrencyManager.Instance != null)
                 CurrencyManager.Instance.AddMoney(dishReward);
 
@@ -52,18 +52,14 @@ public class CustomerTable : MonoBehaviour
 
             player.ClearItem();
 
-            // 3. ระบบสุ่ม (RNG) ว่าจะเกิด Interaction Phase หรือไม่
             int roll = Random.Range(0, 101);
             if (roll <= interactionChance)
             {
-                // สุ่มสำเร็จ: เข้าสู่ช่วงปฏิสัมพันธ์
-                StartCoroutine(StartInteractionPhase());
+                interactionCoroutine = StartCoroutine(StartInteractionPhase());
             }
             else
             {
-                // สุ่มไม่สำเร็จ: แมวเดินออกจากร้านทันทีหลังจากกินเสร็จ
-                if (sittingNPC != null) sittingNPC.LeaveSeat();
-                ResetTable();
+                FinishServing();
             }
         }
         else
@@ -81,11 +77,46 @@ public class CustomerTable : MonoBehaviour
         if (relationshipIcon != null) relationshipIcon.SetActive(true);
         if (heartIcon != null) heartIcon.SetActive(true);
 
+        // --- เพิ่มส่วนการซูมกล้องตรงนี้ ---
+        if (CameraManager.Instance != null && sittingNPC != null)
+        {
+            CameraManager.Instance.ZoomIn(sittingNPC.transform);
+        }
+
         yield return new WaitForSeconds(interactionDuration);
+
+        EndInteraction();
+    }
+
+    public void OnHeartClicked()
+    {
+        if (interactionCoroutine != null) StopCoroutine(interactionCoroutine);
+
+        if (sittingNPC != null)
+        {
+            NPCInteract interact = sittingNPC.GetComponent<NPCInteract>();
+            if (interact != null) interact.RelationShip();
+        }
+
+        EndInteraction();
+    }
+
+    void EndInteraction()
+    {
+        // --- สั่งให้กล้องซูมออกเมื่อจบการปฏิสัมพันธ์ ---
+        if (CameraManager.Instance != null)
+        {
+            CameraManager.Instance.ZoomOut();
+        }
 
         if (relationshipIcon != null) relationshipIcon.SetActive(false);
         if (heartIcon != null) heartIcon.SetActive(false);
 
+        FinishServing();
+    }
+
+    void FinishServing()
+    {
         if (sittingNPC != null) sittingNPC.LeaveSeat();
         ResetTable();
     }

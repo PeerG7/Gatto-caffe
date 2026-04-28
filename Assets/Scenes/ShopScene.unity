@@ -1441,6 +1441,10 @@ PrefabInstance:
       propertyPath: interactionChance
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 5825165951669725367, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
     m_RemovedGameObjects: []
@@ -2126,6 +2130,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2283,6 +2288,20 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a37e57d96fadf0145b44b56e88eebd24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraManager
+  zoomSize: 3
+  smoothSpeed: 5
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -6386,6 +6405,10 @@ PrefabInstance:
       propertyPath: interactionChance
       value: 75
       objectReference: {fileID: 0}
+    - target: {fileID: 5825165951669725367, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
     m_RemovedGameObjects: []
@@ -6888,7 +6911,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4805848941703438177, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
       propertyPath: interactionChance
-      value: 25
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805848941703438177, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
+      propertyPath: interactionDuration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5825165951669725367, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -7009,6 +7040,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tables (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 387129776201575806, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3268972240486383739, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
       propertyPath: price
       value: 100
@@ -7060,6 +7095,10 @@ PrefabInstance:
     - target: {fileID: 4805848941703438177, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
       propertyPath: interactionChance
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5825165951669725367, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
