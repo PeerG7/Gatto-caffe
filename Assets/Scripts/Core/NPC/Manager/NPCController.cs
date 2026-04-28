@@ -3,12 +3,23 @@ using UnityEngine.AI;
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class NPCController : MonoBehaviour
 {
     private NavMeshAgent agent;
     public DamageableObject targetObject;
     public Transform exitPoint;
+
+    [Header("Original System References")]
+    public Transform seatPoint;          // แก้ Error: seatPoint (สำหรับ NPC เดินมานั่ง)
+    public NPCController sittingNPC;
+    public bool isOccupied = false;
+    public string wantedItem;
+
+    [Header("QTE References")]
+    public GameObject qteCanvasInPrefab; // Canvas ในตัวแมว
+    public Image qteProgressBarFill;      // Image (Filled) ในตัวแมว
 
     [Header("Patience")]
     public float maxWaitTime = 20f;

@@ -16,10 +16,24 @@ public class UINotificationManager : MonoBehaviour
 
     public void ShowNotification(string message)
     {
-        if (notificationText == null) return;
+        // 1. เปิด GameObject ของตัวเองก่อนเริ่มทำงาน (ป้องกัน Error Inactive)
+        this.gameObject.SetActive(true);
 
-        StopAllCoroutines(); // หยุดการแจ้งเตือนเก่าถ้ามี
-        StartCoroutine(DisplayRoutine(message));
+        // 2. หยุด Coroutine เก่า (ถ้ามี) เพื่อไม่ให้ข้อความทับกัน
+        StopAllCoroutines();
+
+        // 3. เริ่มรัน Coroutine ใหม่
+        StartCoroutine(NotificationSequence(message));
+    }
+
+    private IEnumerator NotificationSequence(string message)
+    {
+        // โค้ดการแสดงผลข้อความของคุณ...
+        // เช่น textDisplay.text = message;
+        yield return new WaitForSeconds(2f);
+
+        // เมื่อแสดงผลเสร็จ จะปิดตัวเองไปก็ได้ หรือจะค้างไว้ก็ได้
+        // this.gameObject.SetActive(false); 
     }
 
     IEnumerator DisplayRoutine(string message)

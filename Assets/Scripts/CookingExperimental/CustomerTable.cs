@@ -3,57 +3,49 @@ using System.Collections;
 
 public class CustomerTable : MonoBehaviour
 {
-    [Header("Bypass Seat System")]
+    [Header("Table Configuration")]
     public Transform seatPoint;
     public bool isOccupied = false;
-
-    [Header("Table Status")]
-    public string wantedItem;
     public NPCController sittingNPC;
-    public int dishReward = 50;
+    public string wantedItem;
+    public int dishReward = 100;
 
-    [Header("Visuals")]
+    [Header("Visual Elements")]
     public SpriteRenderer tableItemRenderer;
-    public GameObject heartIcon;
+    public GameObject heartIcon;         // ไอคอนหัวใจที่ลอยบนโต๊ะ (World Space)
     public GameObject angryIcon;
 
     [Header("Interaction Phase Settings")]
-    public GameObject relationshipIcon;
+    public GameObject interactionCanvas; // หน้าจอเมนูหลักที่มีปุ่ม Pet, Hug, Play (Screen Space)
     public float interactionDuration = 5.0f;
-    [Range(0, 100)]
-    public int interactionChance = 50;
+    [Range(0, 100)] public int interactionChance = 70;
 
     private Coroutine interactionCoroutine;
 
+    // --- ส่วนของการจัดการอาหาร ---
     public void TryServeFood()
     {
         PlayerInventory player = FindObjectOfType<PlayerInventory>();
         if (player == null || !player.HasItem()) return;
 
-        string order = wantedItem.Trim();
-        string holding = player.currentItem.Trim();
-
-        if (holding.Equals(order, System.StringComparison.OrdinalIgnoreCase))
+        // ตรวจสอบว่าชื่อไอเทมในตัวผู้เล่นตรงกับที่โต๊ะต้องการหรือไม่
+        if (player.currentItem.Trim().Equals(wantedItem.Trim(), System.StringComparison.OrdinalIgnoreCase))
         {
+            // ปิดออเดอร์ของ NPC
             if (sittingNPC != null && sittingNPC.orderCanvas != null)
-            {
                 sittingNPC.orderCanvas.SetActive(false);
-            }
-            if (tableItemRenderer != null)
-            {
-                tableItemRenderer.enabled = false;
-            }
 
+            if (tableItemRenderer != null)
+                tableItemRenderer.enabled = false;
+
+            // ให้เงินรางวัล
             if (CurrencyManager.Instance != null)
                 CurrencyManager.Instance.AddMoney(dishReward);
 
-            if (UINotificationManager.Instance != null)
-                UINotificationManager.Instance.ShowNotification($"+ ${dishReward}");
-
             player.ClearItem();
 
-            int roll = Random.Range(0, 101);
-            if (roll <= interactionChance)
+            // สุ่มโอกาสเกิดช่วง "ลูบแมว" (Interaction Phase)
+            if (Random.Range(0, 101) <= interactionChance)
             {
                 interactionCoroutine = StartCoroutine(StartInteractionPhase());
             }
@@ -62,73 +54,72 @@ public class CustomerTable : MonoBehaviour
                 FinishServing();
             }
         }
-        else
-        {
-            if (angryIcon != null)
-            {
-                angryIcon.SetActive(true);
-                Invoke("HideAngryIcon", 1.5f);
-            }
-        }
     }
 
     IEnumerator StartInteractionPhase()
     {
-        if (relationshipIcon != null) relationshipIcon.SetActive(true);
+        // เปิดปุ่มหัวใจบนโต๊ะให้ผู้เล่นมองเห็นและกดได้
         if (heartIcon != null) heartIcon.SetActive(true);
 
-        // --- เพิ่มส่วนการซูมกล้องตรงนี้ ---
-        if (CameraManager.Instance != null && sittingNPC != null)
-        {
-            CameraManager.Instance.ZoomIn(sittingNPC.transform);
-        }
-
+        // รอจนกว่าจะหมดเวลา ถ้าผู้เล่นไม่กด แมวจะลุกไปเอง
         yield return new WaitForSeconds(interactionDuration);
 
         EndInteraction();
     }
 
+    // --- ฟังก์ชันหลัก: เรียกใช้เมื่อผู้เล่นคลิกที่ปุ่มหัวใจบนโต๊ะ ---
     public void OnHeartClicked()
     {
-        if (interactionCoroutine != null) StopCoroutine(interactionCoroutine);
+        if (sittingNPC == null) return;
 
-        if (sittingNPC != null)
+        // 1. เปิด Manager และส่งค่า
+        if (CatSystemManager.Instance != null)
         {
-            NPCInteract interact = sittingNPC.GetComponent<NPCInteract>();
-            if (interact != null) interact.RelationShip();
+            CatSystemManager.Instance.gameObject.SetActive(true);
+            CatSystemManager.Instance.StartInteraction(this);
         }
 
-        EndInteraction();
+        // 2. จัดการ UI (เปิดปุ่มกดบนตัวแมว)
+        if (heartIcon != null) heartIcon.SetActive(false);
+        if (interactionCanvas != null) interactionCanvas.SetActive(true);
+    }
+
+    // --- ฟังก์ชันปิดระบบและรีเซ็ตค่า (เรียกจาก CatSystemManager เมื่อจบ QTE) ---
+    public void CloseInteractionUI()
+    {
+        // ปิดเมนูปุ่มกด
+        if (interactionCanvas != null) interactionCanvas.SetActive(false);
+
+        // สั่งแมวเดินออก
+        if (sittingNPC != null)
+        {
+            sittingNPC.LeaveSeat();
+            sittingNPC = null;
+        }
     }
 
     void EndInteraction()
     {
-        // --- สั่งให้กล้องซูมออกเมื่อจบการปฏิสัมพันธ์ ---
-        if (CameraManager.Instance != null)
-        {
-            CameraManager.Instance.ZoomOut();
-        }
-
-        if (relationshipIcon != null) relationshipIcon.SetActive(false);
         if (heartIcon != null) heartIcon.SetActive(false);
-
         FinishServing();
     }
 
     void FinishServing()
     {
-        if (sittingNPC != null) sittingNPC.LeaveSeat();
+        if (sittingNPC != null)
+        {
+            sittingNPC.LeaveSeat();
+        }
+
         ResetTable();
     }
 
-    void ResetTable()
+    public void ResetTable()
     {
         wantedItem = "";
-        sittingNPC = null;
+        sittingNPC = null; // เคลียร์ข้อมูลแมวตัวเก่าทิ้งเพื่อให้โต๊ะว่าง
         isOccupied = false;
         if (tableItemRenderer != null) tableItemRenderer.enabled = false;
         if (heartIcon != null) heartIcon.SetActive(false);
     }
-
-    void HideAngryIcon() => angryIcon.SetActive(false);
 }

@@ -1,41 +1,38 @@
 ﻿using UnityEngine;
+using Unity.Cinemachine; // หรือ Unity.Cinemachine สำหรับเวอร์ชันใหม่ 2023+
 
 public class CameraManager : MonoBehaviour
 {
     public static CameraManager Instance;
-    private Camera cam;
-    private float defaultSize;
-    private Vector3 defaultPos;
 
-    [Header("Zoom Settings")]
-    public float zoomSize = 3f; // ปรับค่านี้เพื่อกำหนดความใกล้
+    [Header("Cinemachine Settings")]
+    public CinemachineCamera vCam; // ลาก Virtual Camera มาใส่ที่นี่
+    public float zoomSize = 3f;
+    public float defaultSize = 5f;
     public float smoothSpeed = 5f;
-    private bool isZooming = false;
+
     private Transform targetTransform;
+    private bool isZooming = false;
 
-    void Awake()
-    {
-        if (Instance == null) Instance = this;
-        cam = GetComponent<Camera>();
-        defaultSize = cam.orthographicSize;
-        defaultPos = transform.position;
-    }
+    void Awake() => Instance = this;
 
-    void LateUpdate()
+    void Update()
     {
+        float targetSize = isZooming ? zoomSize : defaultSize;
+        // ปรับ Lens.OrthographicSize ของ Cinemachine
+        vCam.Lens.OrthographicSize = Mathf.Lerp(vCam.Lens.OrthographicSize, targetSize, Time.deltaTime * smoothSpeed);
+
         if (isZooming && targetTransform != null)
         {
-            Vector3 targetPos = new Vector3(targetTransform.position.x, targetTransform.position.y, -10f);
-            transform.position = Vector3.Lerp(transform.position, targetPos, smoothSpeed * Time.deltaTime);
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, zoomSize, smoothSpeed * Time.deltaTime);
+            // ให้กล้องติดตาม NPC
+            vCam.Follow = targetTransform;
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, defaultPos, smoothSpeed * Time.deltaTime);
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, defaultSize, smoothSpeed * Time.deltaTime);
+            vCam.Follow = null; // หรือกลับไปหา Player
         }
     }
 
-    public void ZoomIn(Transform target) { targetTransform = target; isZooming = true; }
-    public void ZoomOut() { isZooming = false; }
+    public void ZoomToNPC(Transform target) { targetTransform = target; isZooming = true; }
+    public void ResetCamera() { isZooming = false; targetTransform = null; }
 }
