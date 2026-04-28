@@ -77,6 +77,9 @@ MonoBehaviour:
   tableItemRenderer: {fileID: 7924761688268685119}
   heartIcon: {fileID: 6967551308488731786}
   angryIcon: {fileID: 8141302274863683036}
+  relationshipIcon: {fileID: 0}
+  interactionDuration: 5
+  interactionChance: 50
 --- !u!114 &3268972240486383739
 MonoBehaviour:
   m_ObjectHideFlags: 0

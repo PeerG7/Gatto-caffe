@@ -19,7 +19,7 @@ public class NPCController : MonoBehaviour
     public NPCState currentState = NPCState.InQueue;
 
     [Header("Order System")]
-    public GameObject orderCanvas;
+    public GameObject orderCanvas; // ฟองคำพูดออเดอร์
     public SpriteRenderer orderIcon;
     public RecipeSO requestedRecipe;
     public List<RecipeSO> allRecipes;
@@ -32,7 +32,7 @@ public class NPCController : MonoBehaviour
             agent.updateRotation = false;
             agent.updateUpAxis = false;
         }
-        if (orderCanvas != null) orderCanvas.SetActive(false); // ปิดรูปไว้ก่อน
+        if (orderCanvas != null) orderCanvas.SetActive(false);
     }
 
     void Update()
@@ -50,13 +50,24 @@ public class NPCController : MonoBehaviour
         if (agent == null || !agent.isOnNavMesh) return;
         if (currentState == NPCState.Leaving) return;
 
-        // เช็คว่าเดินถึงโต๊ะหรือยัง
         if (currentState == NPCState.GoingToSeat)
         {
             if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             {
                 ArriveAtSeat();
             }
+        }
+    }
+
+    // ฟังก์ชันที่ถูกเรียกโดย QueueManager เพื่อสั่งให้ NPC เดินไปตามจุดในคิว
+    public void SetQueueTarget(Transform target)
+    {
+        if (agent == null) agent = GetComponent<NavMeshAgent>();
+        if (agent != null)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(target.position);
+            currentState = NPCState.InQueue;
         }
     }
 
@@ -74,61 +85,32 @@ public class NPCController : MonoBehaviour
             {
                 table.isOccupied = true;
                 table.sittingNPC = this;
-
                 currentState = NPCState.GoingToSeat;
                 QueueManager.Instance.RemoveFromQueue(this);
-
                 agent.isStopped = false;
                 agent.SetDestination(table.seatPoint.position);
 
-                // 🚩 สุ่มออเดอร์เก็บข้อมูลทันทีตั้งแต่อยู่หน้าร้าน
                 GenerateOrderData();
-                if (requestedRecipe != null)
-                {
-                    table.wantedItem = requestedRecipe.recipeName;
-                }
+                if (requestedRecipe != null) table.wantedItem = requestedRecipe.recipeName;
                 return;
             }
         }
     }
-
 
     void GenerateOrderData()
     {
         if (allRecipes == null || allRecipes.Count == 0) return;
         int randomIndex = Random.Range(0, allRecipes.Count);
         requestedRecipe = allRecipes[randomIndex];
-
-        if (requestedRecipe != null && orderIcon != null)
-        {
-            orderIcon.sprite = requestedRecipe.finalDishSprite;
-        }
+        if (requestedRecipe != null && orderIcon != null) orderIcon.sprite = requestedRecipe.finalDishSprite;
     }
 
-    public void SetQueueTarget(Transform target)
-    {
-        // ตรวจสอบว่ามี NavMeshAgent หรือไม่ ถ้าไม่มีให้ดึงค่าใหม่
-        if (agent == null) agent = GetComponent<NavMeshAgent>();
-
-        if (agent != null)
-        {
-            agent.isStopped = false;
-            agent.SetDestination(target.position); // สั่งให้เดินไปยังจุดในคิว
-
-            // หากต้องการให้แมวอยู่ในสถานะ InQueue เมื่อเดินในคิว
-            currentState = NPCState.InQueue;
-        }
-    }
     void ArriveAtSeat()
     {
         if (currentState == NPCState.Sitting) return;
-
         currentState = NPCState.Sitting;
         agent.isStopped = true;
-
-        // 🚩 เมื่อถึงโต๊ะแล้ว ค่อยแสดงรูปอาหาร
         if (orderCanvas != null) orderCanvas.SetActive(true);
-
         StartCoroutine(SitRoutine());
     }
 
@@ -179,7 +161,7 @@ public class NPCController : MonoBehaviour
     IEnumerator DestroyWhenArrive()
     {
         yield return new WaitForSeconds(0.5f);
-        while (agent.isActiveAndEnabled && agent.isOnNavMesh)
+        while (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
         {
             if (!agent.pathPending && agent.remainingDistance <= 0.5f) break;
             yield return null;
