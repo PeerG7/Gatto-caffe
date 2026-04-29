@@ -12,14 +12,14 @@ public class NPCController : MonoBehaviour
     public Transform exitPoint;
 
     [Header("Original System References")]
-    public Transform seatPoint;          // แก้ Error: seatPoint (สำหรับ NPC เดินมานั่ง)
+    public Transform seatPoint;
     public NPCController sittingNPC;
     public bool isOccupied = false;
     public string wantedItem;
 
     [Header("QTE References")]
-    public GameObject qteCanvasInPrefab; // Canvas ในตัวแมว
-    public Image qteProgressBarFill;      // Image (Filled) ในตัวแมว
+    public GameObject qteCanvasInPrefab;
+    public Image qteProgressBarFill;
 
     [Header("Patience")]
     public float maxWaitTime = 20f;
@@ -30,7 +30,7 @@ public class NPCController : MonoBehaviour
     public NPCState currentState = NPCState.InQueue;
 
     [Header("Order System")]
-    public GameObject orderCanvas; // ฟองคำพูดออเดอร์
+    public GameObject orderCanvas;
     public SpriteRenderer orderIcon;
     public RecipeSO requestedRecipe;
     public List<RecipeSO> allRecipes;
@@ -48,14 +48,15 @@ public class NPCController : MonoBehaviour
 
     void Update()
     {
-        if (TimeManager.Instance.isPaused)
+        // 🔥 FIX: ป้องกัน NullReference จาก TimeManager
+        if (TimeManager.Instance != null && TimeManager.Instance.isPaused)
         {
             if (agent != null) agent.isStopped = true;
             return;
         }
-        else
+        else if (agent != null)
         {
-            if (agent != null) agent.isStopped = false;
+            agent.isStopped = false;
         }
 
         if (agent == null || !agent.isOnNavMesh) return;
@@ -70,7 +71,6 @@ public class NPCController : MonoBehaviour
         }
     }
 
-    // ฟังก์ชันที่ถูกเรียกโดย QueueManager เพื่อสั่งให้ NPC เดินไปตามจุดในคิว
     public void SetQueueTarget(Transform target)
     {
         if (agent == null) agent = GetComponent<NavMeshAgent>();
@@ -97,7 +97,7 @@ public class NPCController : MonoBehaviour
                 table.isOccupied = true;
                 table.sittingNPC = this;
                 currentState = NPCState.GoingToSeat;
-                QueueManager.Instance.RemoveFromQueue(this);
+                if (QueueManager.Instance != null) QueueManager.Instance.RemoveFromQueue(this);
                 agent.isStopped = false;
                 agent.SetDestination(table.seatPoint.position);
 
@@ -136,7 +136,8 @@ public class NPCController : MonoBehaviour
         waitTimer = 0f;
         while (waitTimer < maxWaitTime)
         {
-            if (!TimeManager.Instance.isPaused) waitTimer += Time.deltaTime;
+            // 🔥 FIX: เช็ค Null ก่อนเข้าถึงค่า isPaused
+            if (TimeManager.Instance != null && !TimeManager.Instance.isPaused) waitTimer += Time.deltaTime;
             yield return null;
         }
         BecomeAngry();
@@ -172,11 +173,12 @@ public class NPCController : MonoBehaviour
     IEnumerator DestroyWhenArrive()
     {
         yield return new WaitForSeconds(0.5f);
+        // รอจนกว่าจะเดินถึงจุด Exit Point
         while (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
         {
             if (!agent.pathPending && agent.remainingDistance <= 0.5f) break;
             yield return null;
         }
-        Destroy(gameObject);
+        Destroy(gameObject); // 🔥 สำคัญมาก: ต้องถูกทำลายเพื่อให้ระบบ Summary ทำงานต่อได้
     }
 }

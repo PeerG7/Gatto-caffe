@@ -40,6 +40,11 @@ public class QueueManager : MonoBehaviour
             }
         }
     }
+    public bool IsStoreEmpty()
+    {
+        // เช็คว่าไม่มี NPC ใน Queue และไม่มี NPC ที่กำลังนั่งอยู่ที่โต๊ะ (เช็คจาก CustomerTable)
+        return queue.Count == 0 && FindObjectsOfType<NPCController>().Length == 0;
+    }
 
     public NPCController GetFrontNPC()
     {

@@ -3,8 +3,8 @@
 public class FurnitureObject : MonoBehaviour
 {
     [Header("Visuals")]
-    public GameObject lockedVisual;   // เงาดำหรือผ้าคลุม
-    public GameObject unlockedVisual; // เฟอร์นิเจอร์ตัวจริง
+    public GameObject lockedVisual;
+    public GameObject unlockedVisual;
 
     [Header("Settings")]
     public int price = 200;
@@ -16,18 +16,25 @@ public class FurnitureObject : MonoBehaviour
     {
         if (isUnlocked) return;
 
-        if (CurrencyManager.Instance.TrySpendMoney(price))
+        // 🔥 FIX: เช็คก่อนว่า CurrencyManager.Instance มีตัวตนหรือไม่
+        if (CurrencyManager.Instance != null)
         {
-            isUnlocked = true;
-            UpdateVisuals();
-            if (UINotificationManager.Instance != null)
-                UINotificationManager.Instance.ShowNotification("Furniture unlock successful !");
+            if (CurrencyManager.Instance.TrySpendMoney(price))
+            {
+                isUnlocked = true;
+                UpdateVisuals();
+                if (UINotificationManager.Instance != null)
+                    UINotificationManager.Instance.ShowNotification("Furniture unlock successful!");
+            }
+            else
+            {
+                if (UINotificationManager.Instance != null)
+                    UINotificationManager.Instance.ShowNotification("Not Enough Money! Need " + price + " $");
+            }
         }
         else
         {
-            // แจ้งเตือนเมื่อเงินไม่พอ
-            if (UINotificationManager.Instance != null)
-                UINotificationManager.Instance.ShowNotification("Not Enoght Money Need " + price + " $!");
+            Debug.LogError("หา CurrencyManager ไม่เจอใน Scene! กรุณาวาง Script ไว้บน GameObject ด้วย");
         }
     }
 

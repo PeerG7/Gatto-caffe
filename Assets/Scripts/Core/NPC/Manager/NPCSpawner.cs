@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class NPCSpawner : MonoBehaviour
 {
-    public GameObject[] npcPrefabs; // มี 3 ตัว
+    public GameObject[] npcPrefabs;
     public Transform spawnPoint;
     public Transform exitPoint;
 
@@ -11,15 +11,19 @@ public class NPCSpawner : MonoBehaviour
     private float timer;
     public float minInterval = 3f;
     public float maxInterval = 7f;
-    private float currentInterval;
+
     void Start()
     {
-        SetNextInterval();
+        spawnInterval = Random.Range(minInterval, maxInterval);
     }
 
     void Update()
     {
-        if (TimeManager.Instance.isPaused) return; // 🔥 หยุด spawn
+        // 🔥 FIX: เช็ค Null ของ Manager ทั้งสองตัว
+        bool isPaused = TimeManager.Instance != null && TimeManager.Instance.isPaused;
+        bool isNotWorkTime = DayNightManager.Instance != null && !DayNightManager.Instance.isWorkTime;
+
+        if (isPaused || isNotWorkTime) return;
 
         timer += Time.deltaTime;
 
@@ -27,40 +31,27 @@ public class NPCSpawner : MonoBehaviour
         {
             SpawnNPC();
             timer = 0f;
+            spawnInterval = Random.Range(minInterval, maxInterval);
         }
-    }
-    void SetNextInterval()
-    {
-        currentInterval = Random.Range(minInterval, maxInterval);
     }
 
     void SpawnNPC()
     {
         if (npcPrefabs.Length == 0) return;
 
-        // 🎲 สุ่ม NPC
         int index = Random.Range(0, npcPrefabs.Length);
         GameObject selectedPrefab = npcPrefabs[index];
 
         GameObject npc = Instantiate(selectedPrefab, spawnPoint.position, Quaternion.identity);
-
         NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
 
-        if (agent != null)
-        {
-            agent.Warp(spawnPoint.position);
-        }
+        if (agent != null) agent.Warp(spawnPoint.position);
 
         NPCController controller = npc.GetComponent<NPCController>();
-
         if (controller != null)
         {
             controller.exitPoint = exitPoint;
-            QueueManager.Instance.AddToQueue(controller);
-        }
-        else
-        {
-            Debug.LogWarning("NPC ไม่มี NPCController!");
+            if (QueueManager.Instance != null) QueueManager.Instance.AddToQueue(controller);
         }
     }
 }

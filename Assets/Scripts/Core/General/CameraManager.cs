@@ -14,7 +14,19 @@ public class CameraManager : MonoBehaviour
     private Transform targetTransform;
     private bool isZooming = false;
 
-    void Awake() => Instance = this;
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            // Optional: DontDestroyOnLoad(gameObject); // ถ้าต้องการให้เงินติดตัวไปทุก Scene
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    
 
     void Update()
     {
