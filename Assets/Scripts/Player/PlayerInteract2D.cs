@@ -8,6 +8,8 @@ public class PlayerInteract2D : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            if (PlayerController2D.IsLocked) return;
+
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range);
 
             // 1. เช็คปลดล็อกเฟอร์นิเจอร์ก่อน
@@ -25,18 +27,25 @@ public class PlayerInteract2D : MonoBehaviour
             foreach (var hit in hits)
             {
                 CustomerTable table = hit.GetComponent<CustomerTable>();
-                if (table != null && table.sittingNPC != null && table.sittingNPC.currentState == NPCController.NPCState.Sitting)
+                if (table != null && table.sittingNPC != null &&
+                    table.sittingNPC.currentState == NPCController.NPCState.Sitting)
                 {
                     table.TryServeFood();
                     return;
                 }
             }
 
-            // 3. เช็คสถานีทำอาหาร
+            // 3. เช็คสถานีทำอาหาร / ตู้กดน้ำ
+            // lock player ทันทีที่กด E เปิด station — ไม่รอให้ station เรียก
             foreach (var hit in hits)
             {
                 StationInteract station = hit.GetComponent<StationInteract>();
-                if (station != null) { station.OpenCanvas(); return; }
+                if (station != null)
+                {
+                    PlayerController2D.IsLocked = true;
+                    station.OpenCanvas();
+                    return;
+                }
             }
 
             // 4. เช็ค NPC เพื่อ Invite
