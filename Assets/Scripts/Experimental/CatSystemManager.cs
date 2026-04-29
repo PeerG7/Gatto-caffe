@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-// ประกาศประเภทกิจกรรม QTE
 public enum QTEType { SinglePress, Hold, ButtonMash }
 
 public class CatSystemManager : MonoBehaviour
@@ -13,59 +12,86 @@ public class CatSystemManager : MonoBehaviour
 
     [Header("QTE UI (Image Fill)")]
     public GameObject qtePanel;
-    public Image qteProgressBarFill; // ใน Inspector: เปลี่ยน Image Type เป็น Filled และ Fill Method เป็น Horizontal
+    public Image qteProgressBarFill;
 
     [Header("Reputation UI (Image Fill)")]
-    public Image reputationBarFill;  // ใน Inspector: เปลี่ยน Image Type เป็น Filled
+    public Image reputationBarFill;
     private float currentReputation = 0.0f;
 
     [Header("QTE Settings")]
     public float interactionWindow = 3.0f;
     public float holdRequiredTime = 1.5f;
     public int mashRequiredClicks = 10;
+
+    // =====================================================================
+    // FIX: แทน Input.GetMouseButtonDown/GetKey ใช้ state flags เหล่านี้แทน
+    // ปุ่มบน NPC prefab จะเรียก method NotifyPress/NotifyHold/NotifyRelease
+    // ทำให้ input ถูกรับเฉพาะจากปุ่มที่ถูกต้องเท่านั้น
+    // =====================================================================
+    private bool _pressReceived = false;   // สำหรับ SinglePress และ ButtonMash (แต่ละ click)
+    private bool _holdActive = false;   // สำหรับ Hold — true ตลอดที่กดค้าง
+
+    // เรียกจาก QTEInteractButton.cs (ปุ่มบน NPC prefab) — OnPointerDown
+    public void NotifyPress()
+    {
+        if (!isInteracting) return;
+        _pressReceived = true;
+        _holdActive = true;
+    }
+
+    // เรียกจาก QTEInteractButton.cs — OnPointerUp
+    public void NotifyRelease()
+    {
+        _holdActive = false;
+    }
+    // =====================================================================
+
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else if (Instance != this) Destroy(gameObject);
+    }
+
     void Start()
     {
-        // กำหนดค่าเริ่มต้นในสคริปต์ (0.0f คือg)
         currentReputation = 0.0f;
-
-        // สั่งให้ Image Fill อัปเดตตามค่าด้านบนทันที
         UpdateReputationUI();
+        if (qtePanel != null) qtePanel.SetActive(false);
     }
 
     void UpdateReputationUI()
     {
         if (reputationBarFill != null)
-        {
-            // บรรทัดนี้จะบังคับให้ Image Fill ขยับตามค่า currentReputation (0.0 - 1.0)
             reputationBarFill.fillAmount = currentReputation;
-        }
-    }
-    void Awake()
-    {
-        if (Instance == null) Instance = this;
     }
 
-    // เริ่มระบบเมื่อมีการคลิกเลือกแมว
     public void StartInteraction(CustomerTable table)
     {
         currentTable = table;
         isInteracting = false;
         StopAllCoroutines();
+        ResetInputFlags();
 
-        // Reset แถบพลังเป็น 0 เสมอเมื่อเริ่มใหม่
         if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = 0;
         if (qtePanel != null) qtePanel.SetActive(false);
-
-        this.gameObject.SetActive(true);
     }
 
-    // เรียกจากปุ่ม Pet, Hug หรือ Play
     public void StartQTE(int typeIndex)
     {
-        if (gameObject.activeInHierarchy && !isInteracting)
+        if (!isInteracting)
         {
+            if (currentTable != null)
+                currentTable.OpenNPCInteractCanvas();
+
+            ResetInputFlags();
             StartCoroutine(RunInteractionQTE((QTEType)typeIndex));
         }
+    }
+
+    void ResetInputFlags()
+    {
+        _pressReceived = false;
+        _holdActive = false;
     }
 
     IEnumerator RunInteractionQTE(QTEType qteType)
@@ -85,18 +111,29 @@ public class CatSystemManager : MonoBehaviour
 
             switch (qteType)
             {
+                // -----------------------------------------------------------
+                // SinglePress: กดปุ่มบน NPC ครั้งเดียว ก็สำเร็จ
+                // -----------------------------------------------------------
                 case QTEType.SinglePress:
-                    // แถบวิ่งลดลงตามเวลา
-                    if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = timeLeft / interactionWindow;
-                    if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) { success = true; timeLeft = 0; }
+                    if (qteProgressBarFill != null)
+                        qteProgressBarFill.fillAmount = timeLeft / interactionWindow;
+
+                    if (_pressReceived)
+                    {
+                        success = true;
+                        timeLeft = 0;
+                    }
                     break;
 
+                // -----------------------------------------------------------
+                // Hold: กดค้างปุ่มบน NPC จนเต็ม holdRequiredTime
+                // -----------------------------------------------------------
                 case QTEType.Hold:
-                    // แถบเพิ่มขึ้นตามระยะเวลาที่กดค้าง
-                    if (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0))
+                    if (_holdActive)
                     {
                         currentHoldTime += Time.deltaTime;
-                        if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = currentHoldTime / holdRequiredTime;
+                        if (qteProgressBarFill != null)
+                            qteProgressBarFill.fillAmount = currentHoldTime / holdRequiredTime;
                         if (currentHoldTime >= holdRequiredTime) { success = true; timeLeft = 0; }
                     }
                     else
@@ -106,50 +143,62 @@ public class CatSystemManager : MonoBehaviour
                     }
                     break;
 
+                // -----------------------------------------------------------
+                // ButtonMash: รัวปุ่มบน NPC จนครบ mashRequiredClicks
+                // -----------------------------------------------------------
                 case QTEType.ButtonMash:
-                    // แถบเพิ่มขึ้นตามจำนวนครั้งที่รัว
-                    if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+                    if (_pressReceived)
                     {
                         currentClicks++;
-                        if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = (float)currentClicks / mashRequiredClicks;
+                        if (qteProgressBarFill != null)
+                            qteProgressBarFill.fillAmount = (float)currentClicks / mashRequiredClicks;
                         if (currentClicks >= mashRequiredClicks) { success = true; timeLeft = 0; }
                     }
                     break;
             }
+
+            // ล้าง _pressReceived ทุก frame หลังจากอ่านแล้ว
+            _pressReceived = false;
+
             yield return null;
         }
 
         ApplyResult(success);
 
-        // Reset ค่าเป็น 0 ทันทีหลังจบกิจกรรม เพื่อให้แมวตัวต่อไปเริ่มที่ 0
         if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = 0;
-
-        isInteracting = false;
         if (qtePanel != null) qtePanel.SetActive(false);
+        isInteracting = false;
+        ResetInputFlags();
 
-        // ปิดระบบและส่งแมวออกอัตโนมัติ
-        ForceCloseSystem();
+        if (currentTable != null)
+        {
+            CustomerTable tableToClose = currentTable;
+            currentTable = null;
+            tableToClose.CloseInteractionUI();
+        }
     }
 
     void ApplyResult(bool success)
     {
         float change = success ? 0.1f : -0.1f;
         currentReputation = Mathf.Clamp01(currentReputation + change);
-        if (reputationBarFill != null) reputationBarFill.fillAmount = currentReputation;
+        UpdateReputationUI();
     }
 
     public void ForceCloseSystem()
     {
         isInteracting = false;
         StopAllCoroutines();
+        ResetInputFlags();
 
-        // Reset ค่าอีกครั้งเพื่อความปลอดภัย
         if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = 0;
+        if (qtePanel != null) qtePanel.SetActive(false);
 
         if (currentTable != null)
         {
-            currentTable.CloseInteractionUI();
+            CustomerTable tableToClose = currentTable;
+            currentTable = null;
+            tableToClose.CloseInteractionUI();
         }
-        this.gameObject.SetActive(false);
     }
 }

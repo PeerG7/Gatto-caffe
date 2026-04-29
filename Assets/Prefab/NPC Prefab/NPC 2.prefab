@@ -360,9 +360,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCController
   targetObject: {fileID: 0}
   exitPoint: {fileID: 0}
+  seatPoint: {fileID: 0}
+  sittingNPC: {fileID: 0}
+  isOccupied: 0
+  wantedItem: 
   qteCanvasInPrefab: {fileID: 8488182783740723894}
   qteProgressBarFill: {fileID: 87000173752954484}
   maxWaitTime: 150
+  isInQTE: 0
   currentState: 0
   orderCanvas: {fileID: 1753064616803564782}
   orderIcon: {fileID: 2213043514854158762}
@@ -1309,7 +1314,7 @@ GameObject:
   - component: {fileID: 8895843197441040853}
   - component: {fileID: 3624413113876054267}
   - component: {fileID: 8315766604789406939}
-  - component: {fileID: 5159338318942447757}
+  - component: {fileID: 1734850456124298874}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1375,7 +1380,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5159338318942447757
+--- !u!114 &1734850456124298874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1384,41 +1389,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4026361487946250942}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 38fedcee8b07d0148a634c47104ea3fb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 8315766604789406939}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
+  m_EditorClassIdentifier: Assembly-CSharp::QTEInteractButton
 --- !u!1 &4165529758686354775
 GameObject:
   m_ObjectHideFlags: 0
@@ -2051,7 +2024,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7884158620045766488
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2158,7 +2131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7803514489473889555
 RectTransform:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ public class RelationshipManager : MonoBehaviour
 
     void Awake()
     {
-        Instance = this;
+        if (Instance == null) Instance = this;
     }
 
     public void SetCurrentNPC(NPCController npc)
