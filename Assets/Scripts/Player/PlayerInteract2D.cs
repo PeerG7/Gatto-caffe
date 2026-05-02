@@ -6,59 +6,53 @@ public class PlayerInteract2D : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (!Input.GetKeyDown(KeyCode.E)) return;
+        if (PlayerController2D.IsLocked) return;
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range);
+
+        // 1. ปลดล็อกเฟอร์นิเจอร์
+        foreach (var hit in hits)
         {
-            if (PlayerController2D.IsLocked) return;
+            FurnitureObject furn = hit.GetComponent<FurnitureObject>();
+            if (furn != null && !furn.isUnlocked) { furn.AttemptUnlock(); return; }
+        }
 
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range);
+        // 2. เสิร์ฟอาหารที่โต๊ะ
+        foreach (var hit in hits)
+        {
+            CustomerTable table = hit.GetComponent<CustomerTable>();
+            if (table != null && table.sittingNPC != null &&
+                table.sittingNPC.currentState == NPCController.NPCState.Sitting)
+            { table.TryServeFood(); return; }
+        }
 
-            // 1. เช็คปลดล็อกเฟอร์นิเจอร์ก่อน
-            foreach (var hit in hits)
+        // 3. เปิด Relationship Book
+        foreach (var hit in hits)
+        {
+            BookStation book = hit.GetComponent<BookStation>();
+            if (book != null) { book.OpenBook(); return; }
+        }
+
+        // 4. เปิด cooking / drink station
+        foreach (var hit in hits)
+        {
+            StationInteract station = hit.GetComponent<StationInteract>();
+            if (station != null)
             {
-                FurnitureObject furn = hit.GetComponent<FurnitureObject>();
-                if (furn != null && !furn.isUnlocked)
-                {
-                    furn.AttemptUnlock();
-                    return;
-                }
-            }
-
-            // 2. เช็คโต๊ะเพื่อเสิร์ฟอาหาร
-            foreach (var hit in hits)
-            {
-                CustomerTable table = hit.GetComponent<CustomerTable>();
-                if (table != null && table.sittingNPC != null &&
-                    table.sittingNPC.currentState == NPCController.NPCState.Sitting)
-                {
-                    table.TryServeFood();
-                    return;
-                }
-            }
-
-            // 3. เช็คสถานีทำอาหาร / ตู้กดน้ำ
-            // lock player ทันทีที่กด E เปิด station — ไม่รอให้ station เรียก
-            foreach (var hit in hits)
-            {
-                StationInteract station = hit.GetComponent<StationInteract>();
-                if (station != null)
-                {
-                    PlayerController2D.IsLocked = true;
-                    station.OpenCanvas();
-                    return;
-                }
-            }
-
-            // 4. เช็ค NPC เพื่อ Invite
-            NPCInteract closestNPC = GetClosestNPC(hits);
-            if (closestNPC != null && !closestNPC.CanInteract())
-            {
-                closestNPC.GoToTableDirectly();
+                PlayerController2D.IsLocked = true;
+                station.OpenCanvas();
                 return;
             }
         }
+
+        // 5. Invite NPC
+        NPCInteract closestNPC = GetClosestNPC(hits);
+        if (closestNPC != null && !closestNPC.CanInteract())
+            closestNPC.GoToTableDirectly();
     }
 
-    private NPCInteract GetClosestNPC(Collider2D[] hits)
+    NPCInteract GetClosestNPC(Collider2D[] hits)
     {
         NPCInteract closest = null;
         float minDist = Mathf.Infinity;

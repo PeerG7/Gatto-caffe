@@ -415,6 +415,7 @@ GameObject:
   - component: {fileID: 4791925765790317714}
   - component: {fileID: 5056497986851912248}
   - component: {fileID: 3328612327083211786}
+  - component: {fileID: 7923061962893967597}
   m_Layer: 0
   m_Name: NPC 1
   m_TagString: Untagged
@@ -655,6 +656,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCRelationship
   npcName: SHO IKEDA
   relationship: 0
+--- !u!114 &7923061962893967597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500671038587446994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8534fd6632748aa4e9a1e5fdbd4f8564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatIdentity
+  catData: {fileID: 11400000, guid: d33e67c8905f6fa4db912fdde811998a, type: 2}
 --- !u!1 &2309346486118083953
 GameObject:
   m_ObjectHideFlags: 0

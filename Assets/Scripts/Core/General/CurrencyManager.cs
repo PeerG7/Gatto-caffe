@@ -13,7 +13,11 @@ public class CurrencyManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // ← เพิ่มบรรทัดนี้
+        }
         else Destroy(gameObject);
     }
 

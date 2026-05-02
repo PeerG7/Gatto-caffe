@@ -10,41 +10,21 @@ public class CatSystemManager : MonoBehaviour
     private CustomerTable currentTable;
     private bool isInteracting = false;
 
-    [Header("QTE UI (Image Fill)")]
+    [Header("QTE UI")]
     public GameObject qtePanel;
     public Image qteProgressBarFill;
-
-    [Header("Reputation UI (Image Fill)")]
-    public Image reputationBarFill;
-    private float currentReputation = 0.0f;
 
     [Header("QTE Settings")]
     public float interactionWindow = 3.0f;
     public float holdRequiredTime = 1.5f;
     public int mashRequiredClicks = 10;
 
-    // =====================================================================
-    // FIX: แทน Input.GetMouseButtonDown/GetKey ใช้ state flags เหล่านี้แทน
-    // ปุ่มบน NPC prefab จะเรียก method NotifyPress/NotifyHold/NotifyRelease
-    // ทำให้ input ถูกรับเฉพาะจากปุ่มที่ถูกต้องเท่านั้น
-    // =====================================================================
-    private bool _pressReceived = false;   // สำหรับ SinglePress และ ButtonMash (แต่ละ click)
-    private bool _holdActive = false;   // สำหรับ Hold — true ตลอดที่กดค้าง
+    // input flags — set โดย QTEInteractButton บน NPC prefab เท่านั้น
+    private bool _pressReceived = false;
+    private bool _holdActive = false;
 
-    // เรียกจาก QTEInteractButton.cs (ปุ่มบน NPC prefab) — OnPointerDown
-    public void NotifyPress()
-    {
-        if (!isInteracting) return;
-        _pressReceived = true;
-        _holdActive = true;
-    }
-
-    // เรียกจาก QTEInteractButton.cs — OnPointerUp
-    public void NotifyRelease()
-    {
-        _holdActive = false;
-    }
-    // =====================================================================
+    public void NotifyPress() { if (isInteracting) _pressReceived = true; _holdActive = true; }
+    public void NotifyRelease() { _holdActive = false; }
 
     void Awake()
     {
@@ -54,15 +34,7 @@ public class CatSystemManager : MonoBehaviour
 
     void Start()
     {
-        currentReputation = 0.0f;
-        UpdateReputationUI();
         if (qtePanel != null) qtePanel.SetActive(false);
-    }
-
-    void UpdateReputationUI()
-    {
-        if (reputationBarFill != null)
-            reputationBarFill.fillAmount = currentReputation;
     }
 
     public void StartInteraction(CustomerTable table)
@@ -71,7 +43,6 @@ public class CatSystemManager : MonoBehaviour
         isInteracting = false;
         StopAllCoroutines();
         ResetInputFlags();
-
         if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = 0;
         if (qtePanel != null) qtePanel.SetActive(false);
     }
@@ -82,7 +53,6 @@ public class CatSystemManager : MonoBehaviour
         {
             if (currentTable != null)
                 currentTable.OpenNPCInteractCanvas();
-
             ResetInputFlags();
             StartCoroutine(RunInteractionQTE((QTEType)typeIndex));
         }
@@ -111,23 +81,12 @@ public class CatSystemManager : MonoBehaviour
 
             switch (qteType)
             {
-                // -----------------------------------------------------------
-                // SinglePress: กดปุ่มบน NPC ครั้งเดียว ก็สำเร็จ
-                // -----------------------------------------------------------
                 case QTEType.SinglePress:
                     if (qteProgressBarFill != null)
                         qteProgressBarFill.fillAmount = timeLeft / interactionWindow;
-
-                    if (_pressReceived)
-                    {
-                        success = true;
-                        timeLeft = 0;
-                    }
+                    if (_pressReceived) { success = true; timeLeft = 0; }
                     break;
 
-                // -----------------------------------------------------------
-                // Hold: กดค้างปุ่มบน NPC จนเต็ม holdRequiredTime
-                // -----------------------------------------------------------
                 case QTEType.Hold:
                     if (_holdActive)
                     {
@@ -143,9 +102,6 @@ public class CatSystemManager : MonoBehaviour
                     }
                     break;
 
-                // -----------------------------------------------------------
-                // ButtonMash: รัวปุ่มบน NPC จนครบ mashRequiredClicks
-                // -----------------------------------------------------------
                 case QTEType.ButtonMash:
                     if (_pressReceived)
                     {
@@ -157,12 +113,11 @@ public class CatSystemManager : MonoBehaviour
                     break;
             }
 
-            // ล้าง _pressReceived ทุก frame หลังจากอ่านแล้ว
             _pressReceived = false;
-
             yield return null;
         }
 
+        // ส่งผลไปยัง RelationshipManager ก่อน close UI
         ApplyResult(success);
 
         if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = 0;
@@ -180,9 +135,21 @@ public class CatSystemManager : MonoBehaviour
 
     void ApplyResult(bool success)
     {
-        float change = success ? 0.1f : -0.1f;
-        currentReputation = Mathf.Clamp01(currentReputation + change);
-        UpdateReputationUI();
+        // QTE สำเร็จ +10, ล้มเหลว -5
+        float change = success ? 10f : -5f;
+
+        if (currentTable?.sittingNPC == null) return;
+
+        // ดึง catID จาก CatRelationshipData ที่ผูกไว้บน NPC prefab
+        CatIdentity identity = currentTable.sittingNPC.GetComponent<CatIdentity>();
+        if (identity == null || identity.catData == null)
+        {
+            Debug.LogWarning("CatSystemManager: NPC ไม่มี CatIdentity component หรือไม่ได้ผูก catData");
+            return;
+        }
+
+        if (RelationshipManager.Instance != null)
+            RelationshipManager.Instance.AddRelationship(identity.CatID, change);
     }
 
     public void ForceCloseSystem()
@@ -190,7 +157,6 @@ public class CatSystemManager : MonoBehaviour
         isInteracting = false;
         StopAllCoroutines();
         ResetInputFlags();
-
         if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = 0;
         if (qtePanel != null) qtePanel.SetActive(false);
 
