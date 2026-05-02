@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerInteract2D : MonoBehaviour
 {
@@ -9,7 +10,13 @@ public class PlayerInteract2D : MonoBehaviour
         if (!Input.GetKeyDown(KeyCode.E)) return;
         if (PlayerController2D.IsLocked) return;
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range);
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.useTriggers = true;
+        filter.useLayerMask = false;
+
+        List<Collider2D> resultList = new List<Collider2D>();
+        Physics2D.OverlapCircle(transform.position, range, filter, resultList);
+        Collider2D[] hits = resultList.ToArray();
 
         // 1. ปลดล็อกเฟอร์นิเจอร์
         foreach (var hit in hits)
@@ -18,7 +25,14 @@ public class PlayerInteract2D : MonoBehaviour
             if (furn != null && !furn.isUnlocked) { furn.AttemptUnlock(); return; }
         }
 
-        // 2. เสิร์ฟอาหารที่โต๊ะ
+        // 2. ✅ ซ่อม Furniture ที่พัง
+        foreach (var hit in hits)
+        {
+            DamageableObject dmg = hit.GetComponent<DamageableObject>();
+            if (dmg != null && dmg.CanRepair()) { dmg.StartRepair(); return; }
+        }
+
+        // 3. เสิร์ฟอาหารที่โต๊ะ
         foreach (var hit in hits)
         {
             CustomerTable table = hit.GetComponent<CustomerTable>();
@@ -27,29 +41,44 @@ public class PlayerInteract2D : MonoBehaviour
             { table.TryServeFood(); return; }
         }
 
-        // 3. เปิด Relationship Book
+        // 4. เปิด Relationship Book
         foreach (var hit in hits)
         {
             BookStation book = hit.GetComponent<BookStation>();
             if (book != null) { book.OpenBook(); return; }
         }
 
-        // 4. เปิด cooking / drink station
+        // 5. เปิด cooking / drink station
         foreach (var hit in hits)
         {
             StationInteract station = hit.GetComponent<StationInteract>();
             if (station != null)
             {
-                PlayerController2D.IsLocked = true;
-                station.OpenCanvas();
-                return;
+                bool hasActiveTable = false;
+                foreach (var h in hits)
+                {
+                    CustomerTable t = h.GetComponent<CustomerTable>();
+                    if (t != null && t.sittingNPC != null &&
+                        t.sittingNPC.currentState == NPCController.NPCState.Sitting)
+                    {
+                        hasActiveTable = true;
+                        break;
+                    }
+                }
+
+                if (!hasActiveTable)
+                {
+                    PlayerController2D.IsLocked = true;
+                    station.OpenCanvas();
+                    return;
+                }
             }
         }
 
-        // 5. Invite NPC
+        // 6. Invite NPC
         NPCInteract closestNPC = GetClosestNPC(hits);
         if (closestNPC != null && !closestNPC.CanInteract())
-            closestNPC.GoToTableDirectly();
+            closestNPC.Interact();
     }
 
     NPCInteract GetClosestNPC(Collider2D[] hits)

@@ -13,6 +13,7 @@ public class QueueManager : MonoBehaviour
     {
         if (queue.Count >= queuePoints.Count)
         {
+            Debug.Log("Queue full! NPC going exit");
             npc.GoExit();
             return;
         }
@@ -29,20 +30,23 @@ public class QueueManager : MonoBehaviour
         }
     }
 
+    // ✅ เพิ่มฟังก์ชัน Reset Queue สำหรับวันใหม่
+    public void ResetQueue()
+    {
+        queue.Clear();
+    }
+
     void UpdateQueuePositions()
     {
         for (int i = 0; i < queue.Count; i++)
         {
             if (queue[i] != null)
-            {
-                // บรรทัดนี้จะทำงานได้เมื่อเพิ่มฟังก์ชันใน NPCController แล้ว
                 queue[i].SetQueueTarget(queuePoints[i]);
-            }
         }
     }
+
     public bool IsStoreEmpty()
     {
-        // เช็คว่าไม่มี NPC ใน Queue และไม่มี NPC ที่กำลังนั่งอยู่ที่โต๊ะ (เช็คจาก CustomerTable)
         return queue.Count == 0 && FindObjectsOfType<NPCController>().Length == 0;
     }
 

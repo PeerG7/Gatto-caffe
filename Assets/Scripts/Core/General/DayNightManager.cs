@@ -53,11 +53,21 @@ public class DayNightManager : MonoBehaviour
 
     void EndWorkDay()
     {
-        if (isEnding) return; // ป้องกันการเรียกซ้ำ
+        if (isEnding) return;
         isEnding = true;
         isWorkTime = false;
 
-        Debug.Log("Time is up! Waiting for customers to leave...");
+        Debug.Log("Time is up! Sending all NPCs to exit...");
+
+        // ✅ สั่งให้ NPC ทุกตัวออกจากร้าน
+        NPCController[] allNPCs = FindObjectsOfType<NPCController>();
+        foreach (var npc in allNPCs)
+        {
+            if (npc.currentState != NPCController.NPCState.Leaving)
+            {
+                npc.GoExit();
+            }
+        }
 
         if (summaryUI != null)
         {

@@ -168,7 +168,12 @@ public class NPCController : MonoBehaviour
         isAngry = true;
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
-        ChooseRandomTarget();
+
+        // ✅ 25% โอกาสทำลาย Furniture, 75% ออกเลย
+        if (Random.Range(0, 100) < 25)
+            ChooseRandomTarget();
+        else
+            GoExit();
     }
 
     void ChooseRandomTarget()
@@ -183,6 +188,8 @@ public class NPCController : MonoBehaviour
 
     public void GoExit()
     {
+        Debug.Log("GoExit called, exitPoint: " + (exitPoint == null ? "NULL" : exitPoint.name));
+        if (exitPoint == null) return;
         currentState = NPCState.Leaving;
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);

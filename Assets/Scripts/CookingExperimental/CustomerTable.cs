@@ -21,6 +21,18 @@ public class CustomerTable : MonoBehaviour
     [Range(0, 100)] public int interactionChance = 70;
 
     private Coroutine interactionCoroutine;
+    void Start()
+    {
+        // ✅ Auto ใส่ Main Camera ให้ Canvas ทุกตัวใน Table
+        Canvas[] canvases = GetComponentsInChildren<Canvas>(true);
+        foreach (Canvas c in canvases)
+        {
+            if (c.renderMode == RenderMode.WorldSpace)
+            {
+                c.worldCamera = Camera.main;
+            }
+        }
+    }
 
     public void TryServeFood()
     {
@@ -29,6 +41,9 @@ public class CustomerTable : MonoBehaviour
 
         if (player.currentItem.Trim().Equals(wantedItem.Trim(), System.StringComparison.OrdinalIgnoreCase))
         {
+            // ✅ ปลดล็อก Player เมื่อ Serve สำเร็จ
+            PlayerController2D.IsLocked = false;
+
             if (sittingNPC != null && sittingNPC.orderCanvas != null)
                 sittingNPC.orderCanvas.SetActive(false);
 
@@ -41,13 +56,9 @@ public class CustomerTable : MonoBehaviour
             player.ClearItem();
 
             if (Random.Range(0, 101) <= interactionChance)
-            {
                 interactionCoroutine = StartCoroutine(StartInteractionPhase());
-            }
             else
-            {
                 FinishServing();
-            }
         }
     }
 
@@ -60,7 +71,12 @@ public class CustomerTable : MonoBehaviour
 
     public void OnHeartClicked()
     {
-        if (sittingNPC == null) return;
+        Debug.Log("❤️ OnHeartClicked Called!"); // เพิ่มบรรทัดนี้
+        if (sittingNPC == null)
+        {
+            Debug.Log("❌ sittingNPC is null");
+            return;
+        }
 
         if (interactionCoroutine != null)
         {
@@ -73,7 +89,6 @@ public class CustomerTable : MonoBehaviour
         // บอก NPC หยุดนับ patience
         sittingNPC.isInQTE = true;
 
-        // FIX: CatSystemManager อยู่เสมอ ไม่ต้อง SetActive(true) แล้ว
         if (CatSystemManager.Instance != null)
             CatSystemManager.Instance.StartInteraction(this);
 
