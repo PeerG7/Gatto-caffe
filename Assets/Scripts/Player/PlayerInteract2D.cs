@@ -5,12 +5,31 @@ public class PlayerInteract2D : MonoBehaviour
 {
     public float range = 3.0f;
 
+    [Header("Interact Keys — เพิ่ม/ลดปุ่มได้เลยใน Inspector")]
+    public KeyCode[] interactKeys = new KeyCode[] { KeyCode.E };
+
     void Update()
     {
-        if (!Input.GetKeyDown(KeyCode.E)) return;
         if (PlayerController2D.IsLocked) return;
 
-        // ✅ กรอง Layer Player ออก ป้องกัน Player บัง Heart Icon
+        bool pressed = false;
+        foreach (KeyCode key in interactKeys)
+        {
+            if (Input.GetKeyDown(key)) { pressed = true; break; }
+        }
+
+        if (!pressed) return;
+
+        TriggerInteract();
+    }
+
+    // ✅ เรียกจาก UI Button (Mobile on-screen / Gamepad button) ได้โดยตรง
+    // ผูก OnClick ของ UI Button ไปที่ method นี้ได้เลย
+    public void TriggerInteract()
+    {
+        if (PlayerController2D.IsLocked) return;
+
+        // กรอง Layer Player ออก ป้องกัน Player บัง Heart Icon
         ContactFilter2D filter = new ContactFilter2D();
         filter.useTriggers = true;
         filter.useLayerMask = true;
@@ -34,7 +53,7 @@ public class PlayerInteract2D : MonoBehaviour
             if (dmg != null && dmg.CanRepair()) { dmg.StartRepair(); return; }
         }
 
-        // 3. กด E แทนการคลิก Heart Icon
+        // 3. กด interact แทนการคลิก Heart Icon
         foreach (var hit in hits)
         {
             CustomerTable table = hit.GetComponent<CustomerTable>();

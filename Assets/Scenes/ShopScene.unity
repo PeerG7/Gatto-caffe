@@ -301,7 +301,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1990006688}
+      - m_Target: {fileID: 620960049}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -11751,6 +11751,18 @@ PrefabInstance:
     - target: {fileID: 3289777199465367212, guid: 739e12f432990d44394a07cc89d82529, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3397465124266803378, guid: 739e12f432990d44394a07cc89d82529, type: 3}
+      propertyPath: interactKeys.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3397465124266803378, guid: 739e12f432990d44394a07cc89d82529, type: 3}
+      propertyPath: 'interactKeys.Array.data[1]'
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 3397465124266803378, guid: 739e12f432990d44394a07cc89d82529, type: 3}
+      propertyPath: 'interactKeys.Array.data[2]'
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 3922624317322399198, guid: 739e12f432990d44394a07cc89d82529, type: 3}
       propertyPath: m_LocalScale.x
