@@ -17,6 +17,7 @@ public class CustomerTable : MonoBehaviour
 
     [Header("Interaction Phase Settings")]
     public GameObject interactionCanvas;
+    public GameObject interactionButtonGroup; // ✅ ลาก button group GameObject มาใส่ตรงนี้
     public float interactionDuration = 5.0f;
     [Range(0, 100)] public int interactionChance = 70;
 
@@ -104,6 +105,9 @@ public class CustomerTable : MonoBehaviour
             CatSystemManager.Instance.StartInteraction(this);
 
         if (interactionCanvas != null) interactionCanvas.SetActive(true);
+
+        // ✅ Force เปิด button group ทุกครั้ง แม้ button ข้างในจะเคย set ปิดมันไว้
+        if (interactionButtonGroup != null) interactionButtonGroup.SetActive(true);
     }
 
     public void OpenNPCInteractCanvas()
@@ -156,5 +160,6 @@ public class CustomerTable : MonoBehaviour
         if (tableItemRenderer != null) tableItemRenderer.enabled = false;
         if (heartIcon != null) heartIcon.SetActive(false);
         if (interactionCanvas != null) interactionCanvas.SetActive(false);
+        if (interactionButtonGroup != null) interactionButtonGroup.SetActive(false);
     }
 }

@@ -34,7 +34,15 @@ public class PlayerInteract2D : MonoBehaviour
             if (dmg != null && dmg.CanRepair()) { dmg.StartRepair(); return; }
         }
 
-        // 3. เสิร์ฟอาหารที่โต๊ะ
+        // 3. กด E แทนการคลิก Heart Icon
+        foreach (var hit in hits)
+        {
+            CustomerTable table = hit.GetComponent<CustomerTable>();
+            if (table != null && table.heartIcon != null && table.heartIcon.activeSelf)
+            { table.OnHeartClicked(); return; }
+        }
+
+        // 4. เสิร์ฟอาหารที่โต๊ะ
         foreach (var hit in hits)
         {
             CustomerTable table = hit.GetComponent<CustomerTable>();
@@ -43,14 +51,14 @@ public class PlayerInteract2D : MonoBehaviour
             { table.TryServeFood(); return; }
         }
 
-        // 4. เปิด Relationship Book
+        // 5. เปิด Relationship Book
         foreach (var hit in hits)
         {
             BookStation book = hit.GetComponent<BookStation>();
             if (book != null) { book.OpenBook(); return; }
         }
 
-        // 5. เปิด cooking / drink station
+        // 6. เปิด cooking / drink station
         foreach (var hit in hits)
         {
             StationInteract station = hit.GetComponent<StationInteract>();
@@ -77,7 +85,7 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 6. Invite NPC
+        // 7. Invite NPC
         NPCInteract closestNPC = GetClosestNPC(hits);
         if (closestNPC != null && !closestNPC.CanInteract())
             closestNPC.Interact();
