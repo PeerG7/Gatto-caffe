@@ -18,8 +18,6 @@ public class NPCController : MonoBehaviour
     public string wantedItem;
 
     [Header("QTE References")]
-    // Canvas ที่อยู่บน NPC prefab (World Space / Screen Space - Camera)
-    // ใช้แสดงปุ่ม Pet / Hug / Play บนตัว NPC หลังจากผู้เล่นกด Heart Icon
     public GameObject qteCanvasInPrefab;
     public Image qteProgressBarFill;
 
@@ -28,7 +26,9 @@ public class NPCController : MonoBehaviour
     private float waitTimer = 0f;
     private bool isAngry = false;
 
-    // FIX #3: Flag ป้องกัน SitRoutine นับเวลาระหว่าง QTE กำลังทำงาน
+    // ✅ Flag ป้องกันเรียกซ้ำ
+    private bool hasArrivedAtDamageTarget = false;
+
     [HideInInspector] public bool isInQTE = false;
 
     public enum NPCState { InQueue, GoingToSeat, Sitting, GoingToDamage, Leaving }
@@ -49,7 +49,6 @@ public class NPCController : MonoBehaviour
             agent.updateUpAxis = false;
         }
         if (orderCanvas != null) orderCanvas.SetActive(false);
-        // ซ่อน QTE Canvas บน NPC ตั้งแต่ต้น
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
     }
 
@@ -71,9 +70,14 @@ public class NPCController : MonoBehaviour
         if (currentState == NPCState.GoingToSeat)
         {
             if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-            {
                 ArriveAtSeat();
-            }
+        }
+
+        // ✅ เช็ค Flag ป้องกันเรียกซ้ำ
+        if (currentState == NPCState.GoingToDamage && !hasArrivedAtDamageTarget)
+        {
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+                ArriveAtDamageTarget();
         }
     }
 
@@ -119,7 +123,8 @@ public class NPCController : MonoBehaviour
         if (allRecipes == null || allRecipes.Count == 0) return;
         int randomIndex = Random.Range(0, allRecipes.Count);
         requestedRecipe = allRecipes[randomIndex];
-        if (requestedRecipe != null && orderIcon != null) orderIcon.sprite = requestedRecipe.finalDishSprite;
+        if (requestedRecipe != null && orderIcon != null)
+            orderIcon.sprite = requestedRecipe.finalDishSprite;
     }
 
     void ArriveAtSeat()
@@ -133,11 +138,21 @@ public class NPCController : MonoBehaviour
 
     public void LeaveSeat()
     {
-        // FIX #3: ล้าง flag ก่อนออกเสมอ
         isInQTE = false;
         if (orderCanvas != null) orderCanvas.SetActive(false);
-        // FIX #1: ซ่อน QTE Canvas บน NPC ด้วยเมื่อออก
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
+
+        // ✅ Reset โต๊ะที่นั่งอยู่ก่อนออก
+        CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
+        foreach (var table in allTables)
+        {
+            if (table.sittingNPC == this)
+            {
+                table.ResetTable();
+                break;
+            }
+        }
+
         GoExit();
     }
 
@@ -146,20 +161,15 @@ public class NPCController : MonoBehaviour
         waitTimer = 0f;
         while (waitTimer < maxWaitTime)
         {
-            // FIX #3: หยุดนับเวลาเมื่อกำลัง interact (QTE active)
             bool shouldPause = isInQTE ||
                                (TimeManager.Instance != null && TimeManager.Instance.isPaused);
             if (!shouldPause)
-            {
                 waitTimer += Time.deltaTime;
-            }
             yield return null;
         }
-        // ถ้าจบ QTE แล้วยังไม่ถูกส่งออก ค่อย BecomeAngry
+
         if (currentState == NPCState.Sitting && !isInQTE)
-        {
             BecomeAngry();
-        }
     }
 
     void BecomeAngry()
@@ -169,8 +179,19 @@ public class NPCController : MonoBehaviour
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
-        // ✅ 25% โอกาสทำลาย Furniture, 75% ออกเลย
-        if (Random.Range(0, 100) < 25)
+        // ✅ Reset โต๊ะก่อนออก
+        CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
+        foreach (var table in allTables)
+        {
+            if (table.sittingNPC == this)
+            {
+                table.ResetTable();
+                break;
+            }
+        }
+
+        // 25% ทำลาย, 75% ออกเลย
+        if (Random.Range(0, 100) < 100)
             ChooseRandomTarget();
         else
             GoExit();
@@ -179,16 +200,36 @@ public class NPCController : MonoBehaviour
     void ChooseRandomTarget()
     {
         var available = DamageableObject.allObjects.Where(obj => !obj.IsBroken()).ToList();
+        Debug.Log("🎯 Available targets: " + available.Count); // เช็คว่ามี Furniture ให้ทำลายไหม
+
         if (available.Count == 0) { GoExit(); return; }
         targetObject = available[Random.Range(0, available.Count)];
         currentState = NPCState.GoingToDamage;
+        hasArrivedAtDamageTarget = false;
         agent.isStopped = false;
         agent.SetDestination(targetObject.transform.position);
+        Debug.Log("🔥 Going to damage: " + targetObject.name); // เช็คว่าเดินไปหา Target ไหม
+    }
+
+    void ArriveAtDamageTarget()
+    {
+        Debug.Log("💥 Arrived at damage target!"); // เช็คว่าถึง Target ไหม
+        hasArrivedAtDamageTarget = true;
+        if (targetObject == null) { GoExit(); return; }
+
+        agent.isStopped = true;
+        targetObject.StartDamage();
+        StartCoroutine(WaitThenExit(targetObject.damageTime));
+    }
+
+    IEnumerator WaitThenExit(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        GoExit();
     }
 
     public void GoExit()
     {
-        Debug.Log("GoExit called, exitPoint: " + (exitPoint == null ? "NULL" : exitPoint.name));
         if (exitPoint == null) return;
         currentState = NPCState.Leaving;
         if (orderCanvas != null) orderCanvas.SetActive(false);
