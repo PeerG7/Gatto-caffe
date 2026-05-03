@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurnitureObject
   lockedVisual: {fileID: 7325388003326309955}
-  unlockedVisual: {fileID: 1602826418186401231}
+  unlockedVisual: {fileID: 0}
   price: 0
   isUnlocked: 0
 --- !u!114 &5442941034467088408

@@ -3150,6 +3150,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3119554613361482602, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 519420031}
     - target: {fileID: 3268972240486383739, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
       propertyPath: price
       value: 0
@@ -4231,6 +4235,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 799571772}
   m_CullTransparentMesh: 1
+--- !u!1 &807593301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 807593303}
+  - component: {fileID: 807593302}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &807593302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807593301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89d869673e25341459579ef2d5d5c86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RaycastDebugger
+--- !u!4 &807593303
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807593301}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.51765, y: 0.96254, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &812330277
 GameObject:
   m_ObjectHideFlags: 0
@@ -4528,6 +4576,7 @@ MonoBehaviour:
   repairingObject: {fileID: 0}
   damageTime: 2
   repairTime: 5
+  isTargeted: 0
 --- !u!1 &869836548
 GameObject:
   m_ObjectHideFlags: 0
@@ -5920,9 +5969,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66c7d5f5102e71458dfe7adf2eb0962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DayNightManager
-  dayDuration: 120
+  dayDuration: 60
   isWorkTime: 1
   currentDay: 1
+  catsServedToday: 0
+  moneyEarnedToday: 0
   globalLight: {fileID: 619394801}
   dayNightGradient:
     serializedVersion: 2
@@ -6706,8 +6757,8 @@ MonoBehaviour:
   drinkName: Milk
   drinkSprite: {fileID: 21300000, guid: ffb323ea8ff1fc14cac498caed35a0be, type: 3}
   stationDrinksCanvas: {fileID: 1312205188}
---- !u!4 &1349260922 stripped
-Transform:
+--- !u!224 &1349260922 stripped
+RectTransform:
   m_CorrespondingSourceObject: {fileID: 60398549641212561, guid: 739e12f432990d44394a07cc89d82529, type: 3}
   m_PrefabInstance: {fileID: 3006079207269708537}
   m_PrefabAsset: {fileID: 0}
@@ -6960,6 +7011,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3119554613361482602, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 519420031}
     - target: {fileID: 3268972240486383739, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
       propertyPath: price
       value: 500
@@ -11232,6 +11287,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3119554613361482602, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 519420031}
     - target: {fileID: 3268972240486383739, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
       propertyPath: price
       value: 250
@@ -11649,6 +11708,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 978315700308205167, guid: 739e12f432990d44394a07cc89d82529, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2010440636030465312, guid: 739e12f432990d44394a07cc89d82529, type: 3}
       propertyPath: m_Size.x
       value: 5.34
@@ -11735,6 +11798,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4619319272915408103, guid: 739e12f432990d44394a07cc89d82529, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751500599525997434, guid: 739e12f432990d44394a07cc89d82529, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751500599525997434, guid: 739e12f432990d44394a07cc89d82529, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751500599525997434, guid: 739e12f432990d44394a07cc89d82529, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 513
+      objectReference: {fileID: 0}
+    - target: {fileID: 5970823201735842945, guid: 739e12f432990d44394a07cc89d82529, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5970823201735842945, guid: 739e12f432990d44394a07cc89d82529, type: 3}
+      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6892357196782651707, guid: 739e12f432990d44394a07cc89d82529, type: 3}
@@ -11858,6 +11941,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3119554613361482602, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 519420031}
     - target: {fileID: 3268972240486383739, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
       propertyPath: price
       value: 100
@@ -11961,3 +12048,4 @@ SceneRoots:
   - {fileID: 1546973783}
   - {fileID: 104437572}
   - {fileID: 1475066133}
+  - {fileID: 807593303}

@@ -21,16 +21,27 @@ public class CustomerTable : MonoBehaviour
     [Range(0, 100)] public int interactionChance = 70;
 
     private Coroutine interactionCoroutine;
+
+    void Awake()
+    {
+        // ✅ Set Camera ใน Awake ก่อนเลย
+        SetWorldSpaceCamera();
+    }
+
     void Start()
     {
-        // ✅ Auto ใส่ Main Camera ให้ Canvas ทุกตัวใน Table
+        // ✅ Set อีกครั้งใน Start เผื่อ Camera ยังไม่พร้อมใน Awake
+        SetWorldSpaceCamera();
+    }
+
+    void SetWorldSpaceCamera()
+    {
+        if (Camera.main == null) return;
         Canvas[] canvases = GetComponentsInChildren<Canvas>(true);
         foreach (Canvas c in canvases)
         {
             if (c.renderMode == RenderMode.WorldSpace)
-            {
                 c.worldCamera = Camera.main;
-            }
         }
     }
 
@@ -41,8 +52,14 @@ public class CustomerTable : MonoBehaviour
 
         if (player.currentItem.Trim().Equals(wantedItem.Trim(), System.StringComparison.OrdinalIgnoreCase))
         {
-            // ✅ ปลดล็อก Player เมื่อ Serve สำเร็จ
             PlayerController2D.IsLocked = false;
+
+            // ✅ นับแมวที่ Serve และเงินที่ได้วันนี้
+            if (DayNightManager.Instance != null)
+            {
+                DayNightManager.Instance.catsServedToday++;
+                DayNightManager.Instance.moneyEarnedToday += dishReward;
+            }
 
             if (sittingNPC != null && sittingNPC.orderCanvas != null)
                 sittingNPC.orderCanvas.SetActive(false);
@@ -71,12 +88,7 @@ public class CustomerTable : MonoBehaviour
 
     public void OnHeartClicked()
     {
-        Debug.Log("❤️ OnHeartClicked Called!"); // เพิ่มบรรทัดนี้
-        if (sittingNPC == null)
-        {
-            Debug.Log("❌ sittingNPC is null");
-            return;
-        }
+        if (sittingNPC == null) return;
 
         if (interactionCoroutine != null)
         {
@@ -86,17 +98,14 @@ public class CustomerTable : MonoBehaviour
 
         if (heartIcon != null) heartIcon.SetActive(false);
 
-        // บอก NPC หยุดนับ patience
         sittingNPC.isInQTE = true;
 
         if (CatSystemManager.Instance != null)
             CatSystemManager.Instance.StartInteraction(this);
 
-        // เปิดเมนูเลือก Pet/Hug/Play
         if (interactionCanvas != null) interactionCanvas.SetActive(true);
     }
 
-    // เรียกจาก CatSystemManager.StartQTE() — ปิดเมนูกลาง เปิด canvas บน NPC
     public void OpenNPCInteractCanvas()
     {
         if (interactionCanvas != null) interactionCanvas.SetActive(false);
@@ -105,7 +114,6 @@ public class CustomerTable : MonoBehaviour
             sittingNPC.qteCanvasInPrefab.SetActive(true);
     }
 
-    // เรียกจาก CatSystemManager เมื่อจบ QTE
     public void CloseInteractionUI()
     {
         if (interactionCanvas != null) interactionCanvas.SetActive(false);

@@ -10,9 +10,11 @@ public class PlayerInteract2D : MonoBehaviour
         if (!Input.GetKeyDown(KeyCode.E)) return;
         if (PlayerController2D.IsLocked) return;
 
+        // ✅ กรอง Layer Player ออก ป้องกัน Player บัง Heart Icon
         ContactFilter2D filter = new ContactFilter2D();
         filter.useTriggers = true;
-        filter.useLayerMask = false;
+        filter.useLayerMask = true;
+        filter.layerMask = ~LayerMask.GetMask("Player");
 
         List<Collider2D> resultList = new List<Collider2D>();
         Physics2D.OverlapCircle(transform.position, range, filter, resultList);
@@ -25,7 +27,7 @@ public class PlayerInteract2D : MonoBehaviour
             if (furn != null && !furn.isUnlocked) { furn.AttemptUnlock(); return; }
         }
 
-        // 2. ✅ ซ่อม Furniture ที่พัง
+        // 2. ซ่อม Furniture ที่พัง
         foreach (var hit in hits)
         {
             DamageableObject dmg = hit.GetComponent<DamageableObject>();

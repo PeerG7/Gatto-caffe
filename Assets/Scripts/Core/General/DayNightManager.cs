@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Rendering.Universal; // ต้องใช้สำหรับ Light 2D
+using UnityEngine.Rendering.Universal;
 
 public class DayNightManager : MonoBehaviour
 {
@@ -10,12 +10,16 @@ public class DayNightManager : MonoBehaviour
     public float dayDuration = 60f;
     private float timer = 0f;
     public bool isWorkTime = true;
-    private bool isEnding = false; // 🔥 ตัวแปรควบคุมการจบวัน
+    private bool isEnding = false;
     public int currentDay = 1;
 
+    // ✅ ตัวนับรายวัน
+    [HideInInspector] public int catsServedToday = 0;
+    [HideInInspector] public int moneyEarnedToday = 0;
+
     [Header("Lighting Settings")]
-    public Light2D globalLight; // ลาก Global Light 2D มาใส่ใน Inspector
-    public Gradient dayNightGradient; // ตั้งค่าสี ขาว -> ส้ม -> น้ำเงินเข้ม
+    public Light2D globalLight;
+    public Gradient dayNightGradient;
 
     [Header("References")]
     public UISummaryController summaryUI;
@@ -29,7 +33,6 @@ public class DayNightManager : MonoBehaviour
     {
         if (TimeManager.Instance != null && TimeManager.Instance.isPaused) return;
 
-        // ☀️ อัปเดตสีของแสงตามเวลาที่ผ่านไป
         UpdateLightColor();
 
         if (!isWorkTime) return;
@@ -37,9 +40,7 @@ public class DayNightManager : MonoBehaviour
         timer += Time.deltaTime;
 
         if (timer >= dayDuration)
-        {
             EndWorkDay();
-        }
     }
 
     void UpdateLightColor()
@@ -59,20 +60,17 @@ public class DayNightManager : MonoBehaviour
 
         Debug.Log("Time is up! Sending all NPCs to exit...");
 
-        // ✅ สั่งให้ NPC ทุกตัวออกจากร้าน
         NPCController[] allNPCs = FindObjectsOfType<NPCController>();
         foreach (var npc in allNPCs)
         {
             if (npc.currentState != NPCController.NPCState.Leaving)
-            {
                 npc.GoExit();
-            }
         }
 
         if (summaryUI != null)
         {
-            int earned = CurrencyManager.Instance != null ? CurrencyManager.Instance.currentMoney : 0;
-            summaryUI.StartSummarySequence(currentDay, 0, earned);
+            // ✅ ส่งเงินที่ได้เฉพาะวันนี้
+            summaryUI.StartSummarySequence(currentDay, catsServedToday, moneyEarnedToday);
         }
     }
 
@@ -81,7 +79,12 @@ public class DayNightManager : MonoBehaviour
         timer = 0;
         currentDay++;
         isWorkTime = true;
-        isEnding = false; // รีเซ็ตสถานะจบวัน
+        isEnding = false;
+
+        // ✅ Reset ตัวนับทุกวัน
+        catsServedToday = 0;
+        moneyEarnedToday = 0;
+
         UpdateLightColor();
     }
 }

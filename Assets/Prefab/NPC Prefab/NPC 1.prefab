@@ -596,7 +596,7 @@ MonoBehaviour:
   wantedItem: 
   qteCanvasInPrefab: {fileID: 1009573372126300337}
   qteProgressBarFill: {fileID: 6498774574436032742}
-  maxWaitTime: 10
+  maxWaitTime: 20
   isInQTE: 0
   currentState: 0
   orderCanvas: {fileID: 3199604121454346995}

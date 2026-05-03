@@ -12,6 +12,10 @@ public class PlayerController2D : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.useTriggers = true;
+        filter.useLayerMask = true; // ✅ เปิด Layer Filter
+        filter.layerMask = ~LayerMask.GetMask("Player"); // ✅ ไม่จับ Layer Player
     }
 
     void Update()

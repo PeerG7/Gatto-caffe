@@ -5,10 +5,10 @@ using System.Collections.Generic;
 public class DamageableObject : MonoBehaviour
 {
     [Header("State GameObjects")]
-    public GameObject normalObject;    // ✅ GameObject ปกติ
-    public GameObject damagedObject;   // ✅ GameObject กำลังโดนทำลาย
-    public GameObject brokenObject;    // ✅ GameObject พังแล้ว
-    public GameObject repairingObject; // ✅ GameObject กำลังซ่อม (optional)
+    public GameObject normalObject;
+    public GameObject damagedObject;
+    public GameObject brokenObject;
+    public GameObject repairingObject;
 
     [Header("Settings")]
     public float damageTime = 10f;
@@ -17,6 +17,9 @@ public class DamageableObject : MonoBehaviour
     private bool isBeingDamaged = false;
     private bool isBroken = false;
     private bool isRepairing = false;
+
+    // ✅ Flag ป้องกัน NPC หลายตัวเลือก Target เดียวกัน
+    public bool isTargeted = false;
 
     public static List<DamageableObject> allObjects = new List<DamageableObject>();
 
@@ -28,7 +31,6 @@ public class DamageableObject : MonoBehaviour
         SetState(normal: true, damaged: false, broken: false, repairing: false);
     }
 
-    // ✅ Helper ตั้งค่า State ทีเดียว
     void SetState(bool normal, bool damaged, bool broken, bool repairing)
     {
         if (normalObject != null) normalObject.SetActive(normal);
@@ -46,16 +48,14 @@ public class DamageableObject : MonoBehaviour
     IEnumerator DamageProcess()
     {
         isBeingDamaged = true;
-
-        // State: กำลังโดนทำลาย
         SetState(normal: false, damaged: true, broken: false, repairing: false);
 
         yield return new WaitForSeconds(damageTime);
 
-        // State: พังแล้ว
         SetState(normal: false, damaged: false, broken: true, repairing: false);
         isBroken = true;
         isBeingDamaged = false;
+        isTargeted = false; // ✅ Reset เมื่อพังแล้ว
     }
 
     public bool CanRepair()
@@ -74,7 +74,6 @@ public class DamageableObject : MonoBehaviour
         isRepairing = true;
         PlayerController2D.IsLocked = true;
 
-        // State: กำลังซ่อม
         SetState(normal: false, damaged: false, broken: false, repairing: true);
 
         if (UINotificationManager.Instance != null)
@@ -82,9 +81,9 @@ public class DamageableObject : MonoBehaviour
 
         yield return new WaitForSeconds(repairTime);
 
-        // State: ซ่อมเสร็จ กลับปกติ
         isBroken = false;
         isRepairing = false;
+        isTargeted = false;
         SetState(normal: true, damaged: false, broken: false, repairing: false);
 
         PlayerController2D.IsLocked = false;
@@ -93,17 +92,20 @@ public class DamageableObject : MonoBehaviour
             UINotificationManager.Instance.ShowNotification("Repair Complete!");
     }
 
-    // ✅ Reset กลับปกติ (เรียกตอน Next Day)
     public void ResetToNormal()
     {
         StopAllCoroutines();
         isBroken = false;
         isBeingDamaged = false;
         isRepairing = false;
+        isTargeted = false;
         SetState(normal: true, damaged: false, broken: false, repairing: false);
         PlayerController2D.IsLocked = false;
     }
 
     public bool IsBroken() => isBroken;
     public bool IsRepairing() => isRepairing;
+
+    // ✅ เช็คว่าสามารถถูก Target ได้ไหม
+    public bool IsAvailable() => !isBroken && !isTargeted && !isBeingDamaged;
 }

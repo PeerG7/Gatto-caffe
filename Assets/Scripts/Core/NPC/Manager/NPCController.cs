@@ -73,7 +73,6 @@ public class NPCController : MonoBehaviour
                 ArriveAtSeat();
         }
 
-        // ✅ เช็ค Flag ป้องกันเรียกซ้ำ
         if (currentState == NPCState.GoingToDamage && !hasArrivedAtDamageTarget)
         {
             if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
@@ -191,7 +190,7 @@ public class NPCController : MonoBehaviour
         }
 
         // 25% ทำลาย, 75% ออกเลย
-        if (Random.Range(0, 100) < 100)
+        if (Random.Range(0, 100) < 25)
             ChooseRandomTarget();
         else
             GoExit();
@@ -199,21 +198,34 @@ public class NPCController : MonoBehaviour
 
     void ChooseRandomTarget()
     {
-        var available = DamageableObject.allObjects.Where(obj => !obj.IsBroken()).ToList();
-        Debug.Log("🎯 Available targets: " + available.Count); // เช็คว่ามี Furniture ให้ทำลายไหม
+        // ✅ เช็คเฉพาะ Furniture ที่ว่างและยังไม่ถูก Target
+        var available = DamageableObject.allObjects
+            .Where(obj => obj.IsAvailable())
+            .ToList();
 
-        if (available.Count == 0) { GoExit(); return; }
+        Debug.Log("🎯 Available targets: " + available.Count);
+
+        if (available.Count == 0)
+        {
+            GoExit();
+            return;
+        }
+
         targetObject = available[Random.Range(0, available.Count)];
+
+        // ✅ จอง Target ทันที ป้องกันตัวอื่นแย่ง
+        targetObject.isTargeted = true;
+
         currentState = NPCState.GoingToDamage;
         hasArrivedAtDamageTarget = false;
         agent.isStopped = false;
         agent.SetDestination(targetObject.transform.position);
-        Debug.Log("🔥 Going to damage: " + targetObject.name); // เช็คว่าเดินไปหา Target ไหม
+
+        Debug.Log("🔥 Going to damage: " + targetObject.name);
     }
 
     void ArriveAtDamageTarget()
     {
-        Debug.Log("💥 Arrived at damage target!"); // เช็คว่าถึง Target ไหม
         hasArrivedAtDamageTarget = true;
         if (targetObject == null) { GoExit(); return; }
 
@@ -225,6 +237,11 @@ public class NPCController : MonoBehaviour
     IEnumerator WaitThenExit(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
+
+        // ✅ ปล่อย Target หลังทำลายเสร็จ
+        if (targetObject != null)
+            targetObject.isTargeted = false;
+
         GoExit();
     }
 
