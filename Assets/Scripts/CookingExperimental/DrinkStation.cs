@@ -15,6 +15,10 @@ public class DrinkStation : MonoBehaviour
 
     public GameObject stationDrinksCanvas;
 
+    [Header("SFX")]
+    public AudioSource sfxSource;        // AudioSource แยกต่างหาก (ไม่ใช่ BGM)
+    public AudioClip pourSoundClip;      // ลาก pour_water_FIX_6sec มาใส่
+
     private Coroutine fillCoroutine = null;
     private bool isProcessing = false;
 
@@ -27,7 +31,6 @@ public class DrinkStation : MonoBehaviour
         }
     }
 
-    // StationInteract หรือ E-key เรียก method นี้
     public void OpenCanvas()
     {
         if (stationDrinksCanvas != null)
@@ -36,7 +39,6 @@ public class DrinkStation : MonoBehaviour
         PlayerController2D.IsLocked = true;
     }
 
-    // ปุ่ม Close / Leave ใน canvas เรียก method นี้
     public void CloseCanvas()
     {
         if (stationDrinksCanvas != null)
@@ -49,6 +51,11 @@ public class DrinkStation : MonoBehaviour
                 StopCoroutine(fillCoroutine);
                 fillCoroutine = null;
             }
+
+            // หยุดเสียงถ้าปิด canvas กลางคัน
+            if (sfxSource != null && sfxSource.isPlaying)
+                sfxSource.Stop();
+
             ResetStation();
         }
 
@@ -58,7 +65,6 @@ public class DrinkStation : MonoBehaviour
     public void OnDrinkButtonClicked()
     {
         if (isProcessing) return;
-        // lock ซ้ำตรงนี้ด้วยเพื่อกัน edge case ที่ OpenCanvas ถูก bypass
         PlayerController2D.IsLocked = true;
         fillCoroutine = StartCoroutine(FillDrinkCoroutine());
     }
@@ -72,6 +78,14 @@ public class DrinkStation : MonoBehaviour
         {
             fillImage.gameObject.SetActive(true);
             fillImage.fillAmount = 0;
+        }
+
+        // เล่นเสียงเทน้ำพร้อมกับเริ่ม fill
+        if (sfxSource != null && pourSoundClip != null)
+        {
+            sfxSource.clip = pourSoundClip;
+            sfxSource.loop = false;
+            sfxSource.Play();
         }
 
         float elapsed = 0f;
@@ -94,7 +108,6 @@ public class DrinkStation : MonoBehaviour
         if (stationDrinksCanvas != null)
             stationDrinksCanvas.SetActive(false);
 
-        // unlock เฉพาะเมื่อ process จบสำเร็จ
         PlayerController2D.IsLocked = false;
     }
 

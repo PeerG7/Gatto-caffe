@@ -6,10 +6,31 @@ public class NPCInteract : MonoBehaviour
 
     public bool isInStore = false;
 
-    void Awake()
+// เพิ่มตัวแปรเหล่านี้ใน NPCInteract.cs
+[Header("Audio Settings")]
+public AudioSource audioSource; 
+public AudioClip meowSound;    
+
+void Awake()
+{
+    npc = GetComponent<NPCController>();
+    // ค้นหา AudioSource อัตโนมัติถ้าไม่ได้ลากใส่
+    if (audioSource == null) audioSource = GetComponent<AudioSource>();
+}
+
+// สร้าง Method ใหม่สำหรับสั่งให้แมวร้อง
+public void PlayMeow()
+{
+    if (audioSource != null && meowSound != null)
     {
-        npc = GetComponent<NPCController>();
+        audioSource.PlayOneShot(meowSound);
+        Debug.Log("Playing Meow Sound!");
     }
+    else
+    {
+        Debug.LogError("AudioSource or MeowSound is missing!");
+    }
+}
 
     // 🎯 ใช้เช็คเปิด QTE
     public bool CanInteract()
@@ -47,7 +68,7 @@ public class NPCInteract : MonoBehaviour
         }
     }
 
-    // ❤️ QTE
+// ❤️ QTE / Relationship
     public void RelationShip()
     {
         if (npc == null) return;
@@ -56,6 +77,12 @@ public class NPCInteract : MonoBehaviour
         {
             Debug.Log("❌ NPC not sitting");
             return;
+        }
+
+        // ✅ เพิ่มส่วนการเล่นเสียงตรงนี้
+        if (audioSource != null && meowSound != null)
+        {
+            audioSource.PlayOneShot(meowSound);
         }
 
         Debug.Log("❤️ OPEN RELATIONSHIP");

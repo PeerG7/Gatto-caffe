@@ -23,6 +23,10 @@ public class CookingManager : MonoBehaviour
 
     public GameObject stationCookingCanvas;
 
+    [Header("SFX")]
+    public AudioSource sfxSource;        // AudioSource แยกต่างหาก (ไม่ใช่ BGM)
+    public AudioClip cookingSoundClip;   // ลาก Deep_Frying_FIX_2_5sec มาใส่
+
     private RecipeSO currentOutput;
     private bool isFailed = false;
     private Coroutine cookCoroutine = null;
@@ -56,6 +60,10 @@ public class CookingManager : MonoBehaviour
                 StopCoroutine(cookCoroutine);
                 cookCoroutine = null;
             }
+
+            // หยุดเสียงถ้าปิด canvas กลางคัน
+            if (sfxSource != null && sfxSource.isPlaying)
+                sfxSource.Stop();
 
             isCooking = false;
             if (cookingVisuals != null) cookingVisuals.SetActive(false);
@@ -132,7 +140,6 @@ public class CookingManager : MonoBehaviour
     public void OnCookButtonClicked()
     {
         if (currentOutput == null || isCooking) return;
-        // lock ซ้ำตรงนี้ด้วยเพื่อกัน edge case ที่ OpenCanvas ถูก bypass
         PlayerController2D.IsLocked = true;
         cookCoroutine = StartCoroutine(PerformCookingCoroutine());
     }
@@ -150,6 +157,14 @@ public class CookingManager : MonoBehaviour
             cookingProgressBar.fillAmount = 0f;
         }
 
+        // เล่นเสียงทอดพร้อมกับเริ่ม cooking
+        if (sfxSource != null && cookingSoundClip != null)
+        {
+            sfxSource.clip = cookingSoundClip;
+            sfxSource.loop = false;
+            sfxSource.Play();
+        }
+
         float elapsed = 0f;
         while (elapsed < cookingDuration)
         {
@@ -161,6 +176,10 @@ public class CookingManager : MonoBehaviour
 
         cookCoroutine = null;
         isCooking = false;
+
+        // หยุดเสียงเมื่อเสร็จ (กรณี cookingDuration สั้นกว่าไฟล์เสียง)
+        if (sfxSource != null && sfxSource.isPlaying)
+            sfxSource.Stop();
 
         PlayerInventory player = FindObjectOfType<PlayerInventory>();
         if (player != null)
@@ -179,7 +198,6 @@ public class CookingManager : MonoBehaviour
         if (stationCookingCanvas != null)
             stationCookingCanvas.SetActive(false);
 
-        // unlock เฉพาะเมื่อ process จบสำเร็จ
         PlayerController2D.IsLocked = false;
     }
 

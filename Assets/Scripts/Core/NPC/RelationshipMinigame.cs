@@ -12,33 +12,38 @@ public class RelationshipMinigame : MonoBehaviour
         currentInteraction = 0; // 🔥 รีเซ็ตทุกครั้งที่เปิด
     }
 
-    public void OnClickCat()
+public void OnClickCat()
+{
+    if (currentInteraction >= maxInteraction) return;
+
+    currentInteraction++;
+    
+    // ดึง NPC ที่เรากำลังคุยด้วยจาก Manager
+    var npc = RelationshipManager.Instance.GetCurrentNPC(); 
+
+    if (npc != null)
     {
-        if (currentInteraction >= maxInteraction)
-            return;
+        // 1. เพิ่มค่าความสัมพันธ์
+        var relation = npc.GetComponent<NPCRelationship>();
+        if (relation != null) relation.relationship += relationshipGain;
 
-        currentInteraction++;
-
-        var npc = RelationshipManager.Instance.GetCurrentNPC();
-
-        if (npc != null)
+        // 2. สั่งให้แมวส่งเสียง (ต้องดึง Component NPCInteract มาสั่ง Play)
+        var interactScript = npc.GetComponent<NPCInteract>();
+        if (interactScript != null)
         {
-            // 🔥 ดึง component ความสัมพันธ์
-            var relation = npc.GetComponent<NPCRelationship>();
-
-            if (relation != null)
-            {
-                relation.relationship += relationshipGain;
-            }
-        }
-
-        Debug.Log("❤️ Relationship Increased! (" + currentInteraction + "/" + maxInteraction + ")");
-
-        if (currentInteraction >= maxInteraction)
-        {
-            Debug.Log("✅ Interaction Limit Reached");
+            interactScript.PlayMeow(); // เรียก Method ที่คุณเขียนไว้ใน NPCInteract
         }
     }
+
+
+
+    Debug.Log("❤️ Relationship Increased & Meow! (" + currentInteraction + "/" + maxInteraction + ")");
+
+    if (currentInteraction >= maxInteraction)
+    {
+        Debug.Log("✅ Interaction Limit Reached");
+    }
+}
 
     public void BackToShop()
     {
