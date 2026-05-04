@@ -25,4 +25,15 @@ public class QTEInteractButton : MonoBehaviour,
         if (CatSystemManager.Instance != null)
             CatSystemManager.Instance.NotifyRelease();
     }
+
+    // ✅ เรียก method นี้จาก CatSystemManager ตอนค่าความสัมพันธ์เพิ่มสำเร็จ
+    public static void PlayMeowOnCurrentNPC()
+    {
+        NPCController npc = RelationshipManager.Instance?.GetCurrentNPC();
+        if (npc == null) return;
+
+        NPCInteract interact = npc.GetComponent<NPCInteract>();
+        if (interact != null)
+            interact.PlayMeow();
+    }
 }

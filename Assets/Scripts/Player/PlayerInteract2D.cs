@@ -104,10 +104,17 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 7. Invite NPC
+        // 7. ✅ แก้ไข: เช็ค CanInteract() ให้ถูกต้อง
+        //    - NPC กำลังนั่ง (Sitting)  → เปิด Relationship Minigame
+        //    - NPC ยังอยู่ใน Queue      → Invite เข้าร้าน
         NPCInteract closestNPC = GetClosestNPC(hits);
-        if (closestNPC != null && !closestNPC.CanInteract())
-            closestNPC.Interact();
+        if (closestNPC != null)
+        {
+            if (closestNPC.CanInteract())   // NPCState.Sitting
+                closestNPC.RelationShip();
+            else                            // NPCState.InQueue
+                closestNPC.Interact();
+        }
     }
 
     NPCInteract GetClosestNPC(Collider2D[] hits)

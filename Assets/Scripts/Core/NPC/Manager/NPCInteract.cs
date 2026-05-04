@@ -6,39 +6,38 @@ public class NPCInteract : MonoBehaviour
 
     public bool isInStore = false;
 
-// เพิ่มตัวแปรเหล่านี้ใน NPCInteract.cs
-[Header("Audio Settings")]
-public AudioSource audioSource; 
-public AudioClip meowSound;    
+    [Header("Audio Settings")]
+    public AudioSource audioSource;
+    public AudioClip meowSound;
 
-void Awake()
-{
-    npc = GetComponent<NPCController>();
-    // ค้นหา AudioSource อัตโนมัติถ้าไม่ได้ลากใส่
-    if (audioSource == null) audioSource = GetComponent<AudioSource>();
-}
-
-// สร้าง Method ใหม่สำหรับสั่งให้แมวร้อง
-public void PlayMeow()
-{
-    if (audioSource != null && meowSound != null)
+    void Awake()
     {
-        audioSource.PlayOneShot(meowSound);
-        Debug.Log("Playing Meow Sound!");
+        npc = GetComponent<NPCController>();
+        // ค้นหา AudioSource อัตโนมัติถ้าไม่ได้ลากใส่
+        if (audioSource == null) audioSource = GetComponent<AudioSource>();
     }
-    else
-    {
-        Debug.LogError("AudioSource or MeowSound is missing!");
-    }
-}
 
-    // 🎯 ใช้เช็คเปิด QTE
+    // เล่นเสียงแมวโดยตรง (เรียกจากภายนอกได้)
+    public void PlayMeow()
+    {
+        if (audioSource != null && meowSound != null)
+        {
+            audioSource.PlayOneShot(meowSound);
+            Debug.Log("🔊 Playing Meow Sound!");
+        }
+        else
+        {
+            Debug.LogError("AudioSource or MeowSound is missing on " + gameObject.name);
+        }
+    }
+
+    // ✅ true = NPC กำลังนั่งอยู่ → พร้อมเปิด Relationship Minigame
     public bool CanInteract()
     {
         return npc != null && npc.currentState == NPCController.NPCState.Sitting;
     }
 
-    // 🤖 Invite
+    // 🤖 Invite NPC จาก Queue เข้าร้าน
     public void Interact()
     {
         if (npc == null) return;
@@ -58,9 +57,9 @@ public void PlayMeow()
             npc.GoToTableDirectly();
         }
     }
+
     public void GoToTableDirectly()
     {
-        // ค้นหา NPCController ที่อยู่ในตัวแมวตัวนี้แล้วสั่งให้หาโต๊ะ
         NPCController controller = GetComponent<NPCController>();
         if (controller != null)
         {
@@ -68,7 +67,7 @@ public void PlayMeow()
         }
     }
 
-// ❤️ QTE / Relationship
+    // ❤️ เปิด Relationship Minigame
     public void RelationShip()
     {
         if (npc == null) return;
@@ -79,13 +78,7 @@ public void PlayMeow()
             return;
         }
 
-        // ✅ เพิ่มส่วนการเล่นเสียงตรงนี้
-        if (audioSource != null && meowSound != null)
-        {
-            audioSource.PlayOneShot(meowSound);
-        }
-
-        Debug.Log("❤️ OPEN RELATIONSHIP");
+        Debug.Log("❤️ OPEN RELATIONSHIP for: " + gameObject.name);
 
         RelationshipManager.Instance.SetCurrentNPC(npc);
         SceneLoader.Instance.LoadRelationshipScene();

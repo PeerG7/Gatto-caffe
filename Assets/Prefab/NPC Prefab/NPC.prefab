@@ -624,7 +624,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCRelationship
   npcName: SHO IKEDA
-  relationship: 0
 --- !u!114 &6308279275467026503
 MonoBehaviour:
   m_ObjectHideFlags: 0

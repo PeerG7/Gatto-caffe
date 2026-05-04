@@ -38,7 +38,8 @@ public class RelationshipManager : MonoBehaviour
         foreach (var cat in allCats)
         {
             if (string.IsNullOrEmpty(cat.catID)) continue;
-            PlayerPrefs.SetFloat(REL_KEY + cat.catID, relationshipValues[cat.catID]);
+            if (relationshipValues.ContainsKey(cat.catID))
+                PlayerPrefs.SetFloat(REL_KEY + cat.catID, relationshipValues[cat.catID]);
         }
         PlayerPrefs.Save();
     }
@@ -47,7 +48,7 @@ public class RelationshipManager : MonoBehaviour
     {
         if (!relationshipValues.ContainsKey(catID))
         {
-            Debug.LogWarning($"RelationshipManager: catID '{catID}' not found.");
+            Debug.LogWarning($"RelationshipManager: catID '{catID}' not found. ตรวจสอบว่า npcName ใน NPCRelationship ตรงกับ catID ใน allCats");
             return;
         }
 
@@ -56,6 +57,8 @@ public class RelationshipManager : MonoBehaviour
 
         relationshipValues[catID] = Mathf.Clamp(relationshipValues[catID] + amount, 0f, max);
         SaveAll();
+
+        Debug.Log($"✅ [{catID}] Relationship: {relationshipValues[catID]} / {max}");
     }
 
     public float GetRelationship(string catID)

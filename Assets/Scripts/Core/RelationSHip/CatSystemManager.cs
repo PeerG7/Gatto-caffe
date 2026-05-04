@@ -140,6 +140,13 @@ public class CatSystemManager : MonoBehaviour
 
         if (currentTable?.sittingNPC == null) return;
 
+        // ✅ เล่นเสียงแมวเฉพาะตอน QTE สำเร็จ
+        if (success)
+        {
+            NPCInteract interact = currentTable.sittingNPC.GetComponent<NPCInteract>();
+            if (interact != null) interact.PlayMeow();
+        }
+
         // ดึง catID จาก CatRelationshipData ที่ผูกไว้บน NPC prefab
         CatIdentity identity = currentTable.sittingNPC.GetComponent<CatIdentity>();
         if (identity == null || identity.catData == null)
