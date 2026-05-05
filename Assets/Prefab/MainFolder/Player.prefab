@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 978315700308205167}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.791, y: -0.121, z: 0}
+  m_LocalPosition: {x: -0.07, y: 0.838, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract2D
   range: 1.5
+  interactKeys: 65000000
 --- !u!114 &7783643282895722620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,7 +365,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 192aff6b0311282468a597b8335776a1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dfc8c0a43f7bece408ae69fa7050ee40, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
