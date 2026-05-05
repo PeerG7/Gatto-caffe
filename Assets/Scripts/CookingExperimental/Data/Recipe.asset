@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbda87dc25d8d26408284c36c8144e95, type: 3}
   m_Name: Recipe
   m_EditorClassIdentifier: Assembly-CSharp::RecipeSO
-  recipeName: BreadCurry
+  recipeName: SalmonCannedSeasoning
   requiredIngredients:
-  - Meat
-  - Vegetable
-  - Bread
-  finalDishSprite: {fileID: 21300000, guid: fb7aed06092d66b46a128a6af34e060f, type: 3}
+  - Salmon
+  - Onion
+  - Tomato
+  finalDishSprite: {fileID: 21300000, guid: e3f5c181369f1e94192d25fe8d977a45, type: 3}

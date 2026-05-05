@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbda87dc25d8d26408284c36c8144e95, type: 3}
   m_Name: Recipe1
   m_EditorClassIdentifier: Assembly-CSharp::RecipeSO
-  recipeName: FishNoodle
+  recipeName: TunaGrilled
   requiredIngredients:
-  - Meat
-  - Vegetable
-  - Fish
-  finalDishSprite: {fileID: 21300000, guid: 5bae4c0f8d1251a4c955f0bdcf35274d, type: 3}
+  - Tuna
+  - Cheese
+  - Lectuce
+  finalDishSprite: {fileID: 21300000, guid: ae9cc373eba0d744299193b754956386, type: 3}
