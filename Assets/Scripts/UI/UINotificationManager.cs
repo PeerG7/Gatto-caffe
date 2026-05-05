@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using TMPro; // อย่าลืมติดตั้ง TextMeshPro
+using TMPro;
 using System.Collections;
 
 public class UINotificationManager : MonoBehaviour
@@ -16,35 +16,28 @@ public class UINotificationManager : MonoBehaviour
 
     public void ShowNotification(string message)
     {
-        // 1. เปิด GameObject ของตัวเองก่อนเริ่มทำงาน (ป้องกัน Error Inactive)
+        // ✅ เปิด GameObject ก่อน
         this.gameObject.SetActive(true);
 
-        // 2. หยุด Coroutine เก่า (ถ้ามี) เพื่อไม่ให้ข้อความทับกัน
+        // ✅ หยุด Coroutine เก่าก่อน
         StopAllCoroutines();
 
-        // 3. เริ่มรัน Coroutine ใหม่
-        StartCoroutine(NotificationSequence(message));
-    }
-
-    private IEnumerator NotificationSequence(string message)
-    {
-        // โค้ดการแสดงผลข้อความของคุณ...
-        // เช่น textDisplay.text = message;
-        yield return new WaitForSeconds(2f);
-
-        // เมื่อแสดงผลเสร็จ จะปิดตัวเองไปก็ได้ หรือจะค้างไว้ก็ได้
-        // this.gameObject.SetActive(false); 
+        // ✅ เรียก DisplayRoutine แทน NotificationSequence
+        StartCoroutine(DisplayRoutine(message));
     }
 
     IEnumerator DisplayRoutine(string message)
     {
+        if (notificationText == null) yield break;
+
+        // ✅ แสดงข้อความ
         notificationText.text = message;
         notificationText.gameObject.SetActive(true);
         notificationText.alpha = 1.0f;
 
         yield return new WaitForSeconds(displayDuration);
 
-        // ค่อยๆ จางหาย (Fade Out)
+        // ✅ ค่อยๆ จางหาย
         float elapsed = 0;
         while (elapsed < 1.0f)
         {

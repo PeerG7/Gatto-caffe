@@ -3,8 +3,10 @@
 public class PlayerController2D : MonoBehaviour
 {
     public float moveSpeed = 5f;
+    public LayerMask wallLayer;
 
     private Rigidbody2D rb;
+    private CircleCollider2D col;
     private Vector2 movement;
 
     public static bool IsLocked = false;
@@ -12,10 +14,7 @@ public class PlayerController2D : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        ContactFilter2D filter = new ContactFilter2D();
-        filter.useTriggers = true;
-        filter.useLayerMask = true; // ✅ เปิด Layer Filter
-        filter.layerMask = ~LayerMask.GetMask("Player"); // ✅ ไม่จับ Layer Player
+        col = GetComponent<CircleCollider2D>();
     }
 
     void Update()
@@ -41,6 +40,33 @@ public class PlayerController2D : MonoBehaviour
         }
 
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+
+        Vector2 newPos = rb.position;
+
+        // ✅ เช็ค X และ Y แยกกัน
+        Vector2 moveX = new Vector2(movement.x, 0) * moveSpeed * Time.fixedDeltaTime;
+        if (!IsBlocked(moveX))
+            newPos += moveX;
+
+        Vector2 moveY = new Vector2(0, movement.y) * moveSpeed * Time.fixedDeltaTime;
+        if (!IsBlocked(moveY))
+            newPos += moveY;
+
+        rb.MovePosition(newPos);
+    }
+
+    bool IsBlocked(Vector2 direction)
+    {
+        if (col == null || direction == Vector2.zero) return false;
+
+        // ✅ ใช้ CircleCast ให้ตรงกับ CircleCollider2D
+        RaycastHit2D hit = Physics2D.CircleCast(
+            rb.position + col.offset,
+            col.radius * 0.9f,
+            direction.normalized,
+            direction.magnitude + 0.05f,
+            wallLayer
+        );
+        return hit.collider != null;
     }
 }

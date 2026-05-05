@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b15c71b5ba0b3224bb1219ee6dcb976a
+guid: 2a90ea0308727e94886e291f295b9e76
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2968138505200571143
-    second: "\u0E44\u0E21\u0E48\u0E21\u0E35\u0E0A\u0E37\u0E48\u0E2D 171_20260306123312_0"
+      213: 5036098440674849279
+    second: leftFrameBottom_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\u0E44\u0E21\u0E48\u0E21\u0E35\u0E0A\u0E37\u0E48\u0E2D 171_20260306123312_0"
+      name: leftFrameBottom_0
       rect:
         serializedVersion: 2
-        x: 308
-        y: 430
-        width: 1290
-        height: 1216
+        x: 21
+        y: 0
+        width: 92
+        height: 290
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9fc6c5161cd0fc6d0800000000000000
-      internalID: -2968138505200571143
+      spriteID: ff1b25279d0d3e540800000000000000
+      internalID: 5036098440674849279
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\u0E44\u0E21\u0E48\u0E21\u0E35\u0E0A\u0E37\u0E48\u0E2D 171_20260306123312_0": -2968138505200571143
+      leftFrameBottom_0: 5036098440674849279
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

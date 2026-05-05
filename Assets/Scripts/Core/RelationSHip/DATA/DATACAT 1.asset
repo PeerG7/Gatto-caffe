@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd68240ee7bb69d4b8efe01efc6d0dcd, type: 3}
   m_Name: DATACAT 1
   m_EditorClassIdentifier: Assembly-CSharp::CatRelationshipData
-  catName: WhiteCat
-  catPortrait: {fileID: 21300000, guid: a9ce3acaa366dc346bfc92bbb069df19, type: 3}
+  catName: AlienCat
+  catPortrait: {fileID: 21300000, guid: 2194a1f5170254f42978f5e1fbb67d0c, type: 3}
   catID: AIKow
   maxRelationship: 100
