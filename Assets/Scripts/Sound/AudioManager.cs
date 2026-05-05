@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -16,6 +17,10 @@ public class AudioManager : MonoBehaviour
     [Range(0.1f, 3f)] public float fadeDuration = 1f;
     [Range(0f, 1f)]   public float maxVolume    = 1f;
 
+    [Header("Scene Names (ต้องตรงกับใน Build Settings)")]
+    public string mainMenuSceneName = "MainMenu";
+    public string gameSceneName     = "GameScene";
+
     // ── Singleton ────────────────────────────────────────
     void Awake()
     {
@@ -23,11 +28,45 @@ public class AudioManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
             Destroy(gameObject);
             return;
+        }
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // ── Auto-play เพลงตาม Scene ──────────────────────────
+    /// <summary>
+    /// เรียกอัตโนมัติทุกครั้งที่ scene โหลดเสร็จ
+    /// ครอบคลุมทั้ง: กด Play ใน Editor, กลับ Main Menu, โหลด GameScene
+    /// </summary>
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // ไม่แตะเพลงถ้าโหลดแบบ Additive (เช่น RelationshipScene)
+        if (mode == LoadSceneMode.Additive) return;
+
+        if (scene.name == mainMenuSceneName)
+        {
+            // กลับ Main Menu → เล่นเพลง Menu
+            if (audioSource.clip != menuMusic)
+                CrossfadeTo(menuMusic);
+            else if (!audioSource.isPlaying)
+                PlayMusicWithFadeIn(menuMusic);
+        }
+        else if (scene.name == gameSceneName)
+        {
+            // โหลด GameScene (รวมถึงกด Play ใน Editor ตรงๆ) → เล่นเพลง Game
+            if (audioSource.clip != gameMusic)
+                CrossfadeTo(gameMusic);
+            else if (!audioSource.isPlaying)
+                PlayMusicWithFadeIn(gameMusic);
         }
     }
 
@@ -38,8 +77,8 @@ public class AudioManager : MonoBehaviour
     {
         if (audioSource.clip == clip) return;
 
-        audioSource.clip  = clip;
-        audioSource.loop  = true;
+        audioSource.clip   = clip;
+        audioSource.loop   = true;
         audioSource.volume = maxVolume;
         audioSource.Play();
     }

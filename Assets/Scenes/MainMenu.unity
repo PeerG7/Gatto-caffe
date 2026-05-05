@@ -451,6 +451,8 @@ MonoBehaviour:
   gameMusic: {fileID: 8300000, guid: ea227e04830a83147ad0a7e93daed4f5, type: 3}
   fadeDuration: 1
   maxVolume: 1
+  mainMenuSceneName: MainMenu
+  gameSceneName: ShopScene
 --- !u!4 &1415284349
 Transform:
   m_ObjectHideFlags: 0

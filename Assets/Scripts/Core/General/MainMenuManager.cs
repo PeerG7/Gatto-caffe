@@ -14,33 +14,16 @@ public class MainMenuManager : MonoBehaviour
     public GameObject loadingScreen;
     public Image      loadingProgressBar;
 
-    // Flag ป้องกันไม่ให้ Start() เปลี่ยนเพลงหลังกด Play
-    private static bool isLoadingGame = false;
-
-    void Start()
-    {
-        if (AudioManager.instance == null) return;
-
-        if (isLoadingGame)
-        {
-            // กำลังจะไป GameScene อยู่ ไม่ต้องแตะเพลง
-            isLoadingGame = false;
-            return;
-        }
-
-        // เปิดหน้า Main Menu ครั้งแรก หรือกลับมาจากเกม → เล่นเพลง Menu
-        if (AudioManager.instance.audioSource.clip != AudioManager.instance.menuMusic)
-            AudioManager.instance.CrossfadeTo(AudioManager.instance.menuMusic);
-        else if (!AudioManager.instance.audioSource.isPlaying)
-            AudioManager.instance.PlayMusicWithFadeIn(AudioManager.instance.menuMusic);
-    }
+    // ── Start ────────────────────────────────────────────
+    // ✅ ไม่ต้องจัดการเพลงที่นี่แล้ว — AudioManager.OnSceneLoaded จัดการให้อัตโนมัติ
+    // ทุกครั้งที่ MainMenu scene โหลด AudioManager จะเล่น menuMusic เองเลย
 
     public void OnPlayPressed()
     {
-        isLoadingGame = true; // ✅ เซต Flag ก่อน Load
-
         if (AudioManager.instance != null && AudioManager.instance.gameMusic != null)
         {
+            // Crossfade ไปเพลง Game แล้วค่อย Load scene
+            // ✅ OnSceneLoaded จะ detect ว่า clip == gameMusic อยู่แล้ว → ไม่เล่นซ้ำ
             AudioManager.instance.CrossfadeTo(
                 AudioManager.instance.gameMusic,
                 onComplete: () => StartCoroutine(LoadGameAsync())

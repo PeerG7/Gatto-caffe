@@ -2,6 +2,7 @@
 using TMPro;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UISummaryController : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class UISummaryController : MonoBehaviour
 
     [Header("Settings")]
     public float fadeDuration = 1.5f;
+
+    [Header("Scene Settings")]
+    public string mainMenuSceneName = "MainMenu"; // ❗ ต้องตรงกับชื่อ scene จริง
 
     void Start()
     {
@@ -103,6 +107,7 @@ public class UISummaryController : MonoBehaviour
         }
     }
 
+    // ── ปุ่ม Next Day ─────────────────────────────────────
     public void OnNextDayButton()
     {
         StartCoroutine(NextDaySequence());
@@ -158,6 +163,36 @@ public class UISummaryController : MonoBehaviour
         foreach (var dmg in damages)
         {
             dmg.ResetToNormal();
+        }
+    }
+
+    // ── ปุ่ม Main Menu ────────────────────────────────────
+    /// <summary>
+    /// เชื่อมปุ่ม "Main Menu" ใน Inspector → OnClick() ของปุ่มนี้
+    /// Crossfade ไปเพลง Menu แล้วโหลด MainMenu scene
+    /// </summary>
+    public void OnMainMenuButton()
+    {
+        // ปิดปุ่มทันทีเพื่อกันกด 2 ครั้ง
+        if (canvasGroup != null)
+        {
+            canvasGroup.interactable  = false;
+            canvasGroup.blocksRaycasts = false;
+        }
+
+        if (AudioManager.instance != null && AudioManager.instance.menuMusic != null)
+        {
+            // Crossfade ไปเพลง Menu ก่อน แล้วค่อยโหลด scene
+            // ✅ AudioManager.OnSceneLoaded จะ detect ว่า clip == menuMusic แล้ว → ไม่เล่นซ้ำ
+            AudioManager.instance.CrossfadeTo(
+                AudioManager.instance.menuMusic,
+                onComplete: () => SceneManager.LoadScene(mainMenuSceneName)
+            );
+        }
+        else
+        {
+            // ไม่มี AudioManager → โหลด scene เลย
+            SceneManager.LoadScene(mainMenuSceneName);
         }
     }
 }
