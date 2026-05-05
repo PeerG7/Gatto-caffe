@@ -79,6 +79,7 @@ MonoBehaviour:
   heartIcon: {fileID: 5825165951669725367}
   angryIcon: {fileID: 8141302274863683036}
   interactionCanvas: {fileID: 0}
+  interactionButtonGroup: {fileID: 0}
   interactionDuration: 5
   interactionChance: 50
 --- !u!114 &3268972240486383739
@@ -169,7 +170,7 @@ Transform:
   m_GameObject: {fileID: 1760517753183088033}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.088, y: 0.033, z: 0}
+  m_LocalPosition: {x: -1.54, y: 0.033, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -224,7 +225,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: d97e0b7683c83e945a993aa72d28702d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5b09bd9be32043d458190a3bd1baad4a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -979,10 +980,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2143094716382707973, guid: b7dd2a1c0eb070e49a5e9cff7ca36938, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.557
+      objectReference: {fileID: 0}
+    - target: {fileID: 2143094716382707973, guid: b7dd2a1c0eb070e49a5e9cff7ca36938, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.032
+      objectReference: {fileID: 0}
     - target: {fileID: 2407557904808216358, guid: b7dd2a1c0eb070e49a5e9cff7ca36938, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1b0219383f3894d46b61ffa99c3b27a9, type: 3}
+      objectReference: {fileID: 21300000, guid: d4b325aeb964c384181cffec68648a06, type: 3}
     - target: {fileID: 3760928358165800475, guid: b7dd2a1c0eb070e49a5e9cff7ca36938, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ed9e460c309dc5244bf2ae091f1a6402
+guid: b8c7e3252f642d24b97733b757680e62
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7504665476910667364
-    second: "\u0E44\u0E21\u0E48\u0E21\u0E35\u0E0A\u0E37\u0E48\u0E2D 348_20260502213638_0"
+      213: 2025783234259541385
+    second: bookShelves_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 170
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\u0E44\u0E21\u0E48\u0E21\u0E35\u0E0A\u0E37\u0E48\u0E2D 348_20260502213638_0"
+      name: bookShelves_0
       rect:
         serializedVersion: 2
-        x: 308
-        y: 430
-        width: 1290
-        height: 1216
+        x: 0
+        y: 10
+        width: 516
+        height: 652
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c992a9a92821ad790800000000000000
-      internalID: -7504665476910667364
+      spriteID: 98d5bf55e170d1c10800000000000000
+      internalID: 2025783234259541385
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\u0E44\u0E21\u0E48\u0E21\u0E35\u0E0A\u0E37\u0E48\u0E2D 348_20260502213638_0": -7504665476910667364
+      bookShelves_0: 2025783234259541385
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
