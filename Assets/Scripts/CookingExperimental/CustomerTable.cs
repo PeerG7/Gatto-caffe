@@ -17,21 +17,24 @@ public class CustomerTable : MonoBehaviour
 
     [Header("Interaction Phase Settings")]
     public GameObject interactionCanvas;
-    public GameObject interactionButtonGroup; // ✅ ลาก button group GameObject มาใส่ตรงนี้
+    public GameObject interactionButtonGroup;
     public float interactionDuration = 5.0f;
     [Range(0, 100)] public int interactionChance = 70;
+
+    [Header("SFX")]
+    [Tooltip("เสียงเหรียญตอนได้รับเงิน — ถ้าไม่ใส่จะใช้ sfxCoin ของ AudioManager")]
+    public AudioClip coinSoundClip;
+    public AudioSource sfxSource;   // Optional: AudioSource เฉพาะโต๊ะนี้
 
     private Coroutine interactionCoroutine;
 
     void Awake()
     {
-        // ✅ Set Camera ใน Awake ก่อนเลย
         SetWorldSpaceCamera();
     }
 
     void Start()
     {
-        // ✅ Set อีกครั้งใน Start เผื่อ Camera ยังไม่พร้อมใน Awake
         SetWorldSpaceCamera();
     }
 
@@ -71,6 +74,9 @@ public class CustomerTable : MonoBehaviour
             if (CurrencyManager.Instance != null)
                 CurrencyManager.Instance.AddMoney(dishReward);
 
+            // ✅ เล่นเสียงเหรียญหลังได้รับเงิน
+            PlayCoinSound();
+
             player.ClearItem();
 
             if (Random.Range(0, 101) <= interactionChance)
@@ -78,6 +84,17 @@ public class CustomerTable : MonoBehaviour
             else
                 FinishServing();
         }
+    }
+
+    /// <summary>เล่นเสียงเหรียญ — ใช้ coinSoundClip ถ้ามี ไม่งั้นใช้ AudioManager.sfxCoin</summary>
+    void PlayCoinSound()
+    {
+        if (sfxSource != null && coinSoundClip != null)
+            sfxSource.PlayOneShot(coinSoundClip);
+        else if (coinSoundClip != null)
+            AudioSource.PlayClipAtPoint(coinSoundClip, transform.position);
+        else if (AudioManager.instance != null)
+            AudioManager.instance.PlayCoin();
     }
 
     IEnumerator StartInteractionPhase()
@@ -105,15 +122,12 @@ public class CustomerTable : MonoBehaviour
             CatSystemManager.Instance.StartInteraction(this);
 
         if (interactionCanvas != null) interactionCanvas.SetActive(true);
-
-        // ✅ Force เปิด button group ทุกครั้ง แม้ button ข้างในจะเคย set ปิดมันไว้
         if (interactionButtonGroup != null) interactionButtonGroup.SetActive(true);
     }
 
     public void OpenNPCInteractCanvas()
     {
         if (interactionCanvas != null) interactionCanvas.SetActive(false);
-
         if (sittingNPC != null && sittingNPC.qteCanvasInPrefab != null)
             sittingNPC.qteCanvasInPrefab.SetActive(true);
     }

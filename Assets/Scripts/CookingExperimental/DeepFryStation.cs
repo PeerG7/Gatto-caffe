@@ -5,19 +5,20 @@ using UnityEngine.UI;
 public class DeepFryStation : MonoBehaviour
 {
     [Header("UI Elements")]
-    public Image fillImage;         // Fill image showing frying progress (e.g. a golden-brown overlay)
-    public Button fryButton;        // Button the player clicks to start frying
+    public Image fillImage;
+    public Button fryButton;
 
     [Header("Settings")]
-    public float fryDuration = 4f;  // How long the frying takes (seconds)
+    public float fryDuration = 4f;
     public string foodName = "Tempura";
     public Sprite foodSprite;
 
     public GameObject stationFryCanvas;
 
     [Header("SFX")]
-    public AudioSource sfxSource;       // Separate AudioSource (not BGM)
-    public AudioClip frySoundClip;      // Drag your sizzling/frying sound clip here
+    public AudioSource sfxSource;
+    public AudioClip frySoundClip;
+    public AudioClip completeSoundClip;  // ✅ เสียงเมื่อหลอดเต็ม (override AudioManager.sfxComplete)
 
     private Coroutine fryCoroutine = null;
     private bool isProcessing = false;
@@ -35,7 +36,6 @@ public class DeepFryStation : MonoBehaviour
     {
         if (stationFryCanvas != null)
             stationFryCanvas.SetActive(true);
-
         PlayerController2D.IsLocked = true;
     }
 
@@ -52,7 +52,6 @@ public class DeepFryStation : MonoBehaviour
                 fryCoroutine = null;
             }
 
-            // Stop sizzle sound if canvas is closed mid-fry
             if (sfxSource != null && sfxSource.isPlaying)
                 sfxSource.Stop();
 
@@ -80,7 +79,6 @@ public class DeepFryStation : MonoBehaviour
             fillImage.fillAmount = 0;
         }
 
-        // Play sizzling sound as soon as frying starts
         if (sfxSource != null && frySoundClip != null)
         {
             sfxSource.clip = frySoundClip;
@@ -99,7 +97,12 @@ public class DeepFryStation : MonoBehaviour
 
         fryCoroutine = null;
 
-        // Give the fried item to the player
+        if (sfxSource != null && sfxSource.isPlaying)
+            sfxSource.Stop();
+
+        // ✅ เล่นเสียง complete เมื่อหลอดเต็ม
+        PlayCompleteSound();
+
         PlayerInventory player = FindObjectOfType<PlayerInventory>();
         if (player != null)
             player.PickUpItem(foodName, foodSprite);
@@ -110,6 +113,15 @@ public class DeepFryStation : MonoBehaviour
             stationFryCanvas.SetActive(false);
 
         PlayerController2D.IsLocked = false;
+    }
+
+    /// <summary>เล่นเสียง complete — ใช้ completeSoundClip ถ้ามี ไม่งั้นใช้ AudioManager</summary>
+    void PlayCompleteSound()
+    {
+        if (sfxSource != null && completeSoundClip != null)
+            sfxSource.PlayOneShot(completeSoundClip);
+        else if (AudioManager.instance != null)
+            AudioManager.instance.PlayComplete();
     }
 
     void ResetStation()

@@ -17,7 +17,8 @@ public class DrinkStation : MonoBehaviour
 
     [Header("SFX")]
     public AudioSource sfxSource;        // AudioSource แยกต่างหาก (ไม่ใช่ BGM)
-    public AudioClip pourSoundClip;      // ลาก pour_water_FIX_6sec มาใส่
+    public AudioClip pourSoundClip;      // เสียงเทเครื่องดื่ม
+    public AudioClip completeSoundClip;  // ✅ เสียงเมื่อเครื่องดื่มพร้อม (override AudioManager.sfxComplete)
 
     private Coroutine fillCoroutine = null;
     private bool isProcessing = false;
@@ -35,7 +36,6 @@ public class DrinkStation : MonoBehaviour
     {
         if (stationDrinksCanvas != null)
             stationDrinksCanvas.SetActive(true);
-
         PlayerController2D.IsLocked = true;
     }
 
@@ -52,7 +52,6 @@ public class DrinkStation : MonoBehaviour
                 fillCoroutine = null;
             }
 
-            // หยุดเสียงถ้าปิด canvas กลางคัน
             if (sfxSource != null && sfxSource.isPlaying)
                 sfxSource.Stop();
 
@@ -99,6 +98,12 @@ public class DrinkStation : MonoBehaviour
 
         fillCoroutine = null;
 
+        if (sfxSource != null && sfxSource.isPlaying)
+            sfxSource.Stop();
+
+        // ✅ เล่นเสียง complete เมื่อหลอดเต็ม
+        PlayCompleteSound();
+
         PlayerInventory player = FindObjectOfType<PlayerInventory>();
         if (player != null)
             player.PickUpItem(drinkName, drinkSprite);
@@ -109,6 +114,15 @@ public class DrinkStation : MonoBehaviour
             stationDrinksCanvas.SetActive(false);
 
         PlayerController2D.IsLocked = false;
+    }
+
+    /// <summary>เล่นเสียง complete — ใช้ completeSoundClip ถ้ามี ไม่งั้นใช้ AudioManager</summary>
+    void PlayCompleteSound()
+    {
+        if (sfxSource != null && completeSoundClip != null)
+            sfxSource.PlayOneShot(completeSoundClip);
+        else if (AudioManager.instance != null)
+            AudioManager.instance.PlayComplete();
     }
 
     void ResetStation()

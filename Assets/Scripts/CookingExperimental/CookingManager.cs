@@ -25,7 +25,8 @@ public class CookingManager : MonoBehaviour
 
     [Header("SFX")]
     public AudioSource sfxSource;        // AudioSource แยกต่างหาก (ไม่ใช่ BGM)
-    public AudioClip cookingSoundClip;   // ลาก Deep_Frying_FIX_2_5sec มาใส่
+    public AudioClip cookingSoundClip;   // เสียงทอด / ปรุงอาหาร
+    public AudioClip completeSoundClip;  // ✅ เสียงเมื่อทำอาหารเสร็จ (override AudioManager.sfxComplete)
 
     private RecipeSO currentOutput;
     private bool isFailed = false;
@@ -44,7 +45,6 @@ public class CookingManager : MonoBehaviour
     {
         if (stationCookingCanvas != null)
             stationCookingCanvas.SetActive(true);
-
         PlayerController2D.IsLocked = true;
     }
 
@@ -61,7 +61,6 @@ public class CookingManager : MonoBehaviour
                 cookCoroutine = null;
             }
 
-            // หยุดเสียงถ้าปิด canvas กลางคัน
             if (sfxSource != null && sfxSource.isPlaying)
                 sfxSource.Stop();
 
@@ -177,9 +176,11 @@ public class CookingManager : MonoBehaviour
         cookCoroutine = null;
         isCooking = false;
 
-        // หยุดเสียงเมื่อเสร็จ (กรณี cookingDuration สั้นกว่าไฟล์เสียง)
         if (sfxSource != null && sfxSource.isPlaying)
             sfxSource.Stop();
+
+        // ✅ เล่นเสียง complete เมื่อหลอดเต็ม
+        PlayCompleteSound();
 
         PlayerInventory player = FindObjectOfType<PlayerInventory>();
         if (player != null)
@@ -199,6 +200,15 @@ public class CookingManager : MonoBehaviour
             stationCookingCanvas.SetActive(false);
 
         PlayerController2D.IsLocked = false;
+    }
+
+    /// <summary>เล่นเสียง complete — ใช้ completeSoundClip ถ้ามี ไม่งั้นใช้ AudioManager</summary>
+    void PlayCompleteSound()
+    {
+        if (sfxSource != null && completeSoundClip != null)
+            sfxSource.PlayOneShot(completeSoundClip);
+        else if (AudioManager.instance != null)
+            AudioManager.instance.PlayComplete();
     }
 
     void ResetBoardVisuals()

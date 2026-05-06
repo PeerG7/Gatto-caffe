@@ -6,44 +6,58 @@ public class NPCInteract : MonoBehaviour
 
     public bool isInStore = false;
 
-    [Header("Audio Settings")]
+    [Header("Audio Settings (เสียงเฉพาะตัว NPC นี้ — Optional)")]
+    [Tooltip("ถ้าใส่จะใช้ AudioSource ของ NPC นี้แทน AudioManager")]
     public AudioSource audioSource;
-    public AudioClip meowSound;
+    public AudioClip meowSound;     // ✅ เสียงแมวเฉพาะตัว (override AudioManager.sfxMeow)
+    public AudioClip angrySound;    // ✅ เสียงโกรธเฉพาะตัว (override AudioManager.sfxAngry)
 
     void Awake()
     {
         npc = GetComponent<NPCController>();
-        // ค้นหา AudioSource อัตโนมัติถ้าไม่ได้ลากใส่
         if (audioSource == null) audioSource = GetComponent<AudioSource>();
     }
 
-    // เล่นเสียงแมวโดยตรง (เรียกจากภายนอกได้)
+    // ── SFX Helpers ───────────────────────────────────────
+
+    /// <summary>เล่นเสียงแมวร้อง — ใช้ AudioSource ของ NPC ถ้ามี ไม่งั้นใช้ AudioManager</summary>
     public void PlayMeow()
     {
         if (audioSource != null && meowSound != null)
-        {
             audioSource.PlayOneShot(meowSound);
-            Debug.Log("🔊 Playing Meow Sound!");
-        }
+        else if (AudioManager.instance != null)
+            AudioManager.instance.PlayMeow();
         else
-        {
-            Debug.LogError("AudioSource or MeowSound is missing on " + gameObject.name);
-        }
+            Debug.LogWarning("PlayMeow: ไม่มี AudioSource หรือ AudioManager บน " + gameObject.name);
     }
 
-    // ✅ true = NPC กำลังนั่งอยู่ → พร้อมเปิด Relationship Minigame
+    /// <summary>เล่นเสียงโกรธ — ใช้ AudioSource ของ NPC ถ้ามี ไม่งั้นใช้ AudioManager</summary>
+    public void PlayAngry()
+    {
+        if (audioSource != null && angrySound != null)
+            audioSource.PlayOneShot(angrySound);
+        else if (AudioManager.instance != null)
+            AudioManager.instance.PlayAngry();
+        else
+            Debug.LogWarning("PlayAngry: ไม่มี AudioSource หรือ AudioManager บน " + gameObject.name);
+    }
+
+    // ── State Checks ──────────────────────────────────────
+
+    /// <summary>true = NPC กำลังนั่งอยู่ → พร้อมเปิด Relationship Minigame</summary>
     public bool CanInteract()
     {
         return npc != null && npc.currentState == NPCController.NPCState.Sitting;
     }
 
-    // 🤖 Invite NPC จาก Queue เข้าร้าน
+    // ── Interactions ─────────────────────────────────────
+
+    /// <summary>Invite NPC จาก Queue เข้าร้าน + เล่นเสียงแมวร้อง</summary>
     public void Interact()
     {
         if (npc == null) return;
 
         NPCController frontNPC = QueueManager.Instance.GetFrontNPC();
-
         if (frontNPC != npc)
         {
             Debug.Log("❌ Not front of queue");
@@ -54,6 +68,10 @@ public class NPCInteract : MonoBehaviour
         {
             Debug.Log("✅ Invite NPC");
             isInStore = true;
+
+            // ✅ เล่นเสียงแมวร้องตอนถูกเรียกเข้าร้าน
+            PlayMeow();
+
             npc.GoToTableDirectly();
         }
     }
@@ -62,12 +80,10 @@ public class NPCInteract : MonoBehaviour
     {
         NPCController controller = GetComponent<NPCController>();
         if (controller != null)
-        {
             controller.GoToTableDirectly();
-        }
     }
 
-    // ❤️ เปิด Relationship Minigame
+    /// <summary>เปิด Relationship Minigame</summary>
     public void RelationShip()
     {
         if (npc == null) return;

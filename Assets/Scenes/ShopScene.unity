@@ -5092,6 +5092,7 @@ MonoBehaviour:
   stationCookingCanvas: {fileID: 1499498134}
   sfxSource: {fileID: 466208908}
   cookingSoundClip: {fileID: 8300000, guid: c0fa00eb777ffdb40b767beab1b79a72, type: 3}
+  completeSoundClip: {fileID: 0}
 --- !u!4 &466208907
 Transform:
   m_ObjectHideFlags: 0
@@ -5227,6 +5228,7 @@ MonoBehaviour:
   stationFryCanvas: {fileID: 1499498134}
   sfxSource: {fileID: 466208908}
   frySoundClip: {fileID: 8300000, guid: 71574588b8265264b9b8ba3fd3251d68, type: 3}
+  completeSoundClip: {fileID: 0}
 --- !u!1 &467111647
 GameObject:
   m_ObjectHideFlags: 0
@@ -11527,7 +11529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66c7d5f5102e71458dfe7adf2eb0962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DayNightManager
-  dayDuration: 90
+  dayDuration: 50
   isWorkTime: 1
   currentDay: 1
   catsServedToday: 0
@@ -11564,6 +11566,7 @@ MonoBehaviour:
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
   summaryUI: {fileID: 792435155}
+  endOfDayWarningTime: 10
 --- !u!114 &1106574828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13044,6 +13047,7 @@ MonoBehaviour:
   stationDrinksCanvas: {fileID: 1312205188}
   sfxSource: {fileID: 1312205194}
   pourSoundClip: {fileID: 8300000, guid: 4eb888a94d7d8c64780079e780b33dd7, type: 3}
+  completeSoundClip: {fileID: 0}
 --- !u!82 &1312205194
 AudioSource:
   m_ObjectHideFlags: 0
@@ -21870,10 +21874,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   audioSource: {fileID: 2063182144}
+  sfxSource: {fileID: 0}
   menuMusic: {fileID: 8300000, guid: f26eab0c6bcc9cd449aff658d2bb4103, type: 3}
   gameMusic: {fileID: 8300000, guid: ea227e04830a83147ad0a7e93daed4f5, type: 3}
+  sfxMeow: {fileID: 8300000, guid: dc3ae25056ac5d64a8c7bc5487f9877b, type: 3}
+  sfxAngry: {fileID: 8300000, guid: 02a7c32272c5104409a774819c78871b, type: 3}
+  sfxSitDown: {fileID: 8300000, guid: 646ac0c0bd7db6f4f8b4c7b6a89dac0e, type: 3}
+  sfxComplete: {fileID: 8300000, guid: cb3ab010ebde4474080995f671802328, type: 3}
+  sfxCoin: {fileID: 8300000, guid: 261974345d549b34aa026405a771841e, type: 3}
+  sfxEndOfDay: {fileID: 8300000, guid: b6edf39efe40d2f4d83c811eba798892, type: 3}
   fadeDuration: 1
   maxVolume: 1
+  endOfDayFadeDuration: 5
   mainMenuSceneName: MainMenu
   gameSceneName: ShopScene
 --- !u!4 &2063182146

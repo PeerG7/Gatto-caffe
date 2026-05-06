@@ -26,7 +26,6 @@ public class NPCController : MonoBehaviour
     private float waitTimer = 0f;
     private bool isAngry = false;
 
-    // ✅ Flag ป้องกันเรียกซ้ำ
     private bool hasArrivedAtDamageTarget = false;
 
     [HideInInspector] public bool isInQTE = false;
@@ -132,6 +131,11 @@ public class NPCController : MonoBehaviour
         currentState = NPCState.Sitting;
         agent.isStopped = true;
         if (orderCanvas != null) orderCanvas.SetActive(true);
+
+        // ✅ เล่นเสียงนั่งลงบนเก้าอี้
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlaySitDown();
+
         StartCoroutine(SitRoutine());
     }
 
@@ -141,7 +145,6 @@ public class NPCController : MonoBehaviour
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
-        // ✅ Reset โต๊ะที่นั่งอยู่ก่อนออก
         CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
         foreach (var table in allTables)
         {
@@ -178,7 +181,13 @@ public class NPCController : MonoBehaviour
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
-        // ✅ Reset โต๊ะก่อนออก
+        // ✅ เล่นเสียงโกรธผ่าน NPCInteract (รองรับ override เสียงเฉพาะตัว)
+        NPCInteract interact = GetComponent<NPCInteract>();
+        if (interact != null)
+            interact.PlayAngry();
+        else if (AudioManager.instance != null)
+            AudioManager.instance.PlayAngry();
+
         CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
         foreach (var table in allTables)
         {
@@ -189,7 +198,6 @@ public class NPCController : MonoBehaviour
             }
         }
 
-        // 25% ทำลาย, 75% ออกเลย
         if (Random.Range(0, 100) < 25)
             ChooseRandomTarget();
         else
@@ -198,22 +206,15 @@ public class NPCController : MonoBehaviour
 
     void ChooseRandomTarget()
     {
-        // ✅ เช็คเฉพาะ Furniture ที่ว่างและยังไม่ถูก Target
         var available = DamageableObject.allObjects
             .Where(obj => obj.IsAvailable())
             .ToList();
 
         Debug.Log("🎯 Available targets: " + available.Count);
 
-        if (available.Count == 0)
-        {
-            GoExit();
-            return;
-        }
+        if (available.Count == 0) { GoExit(); return; }
 
         targetObject = available[Random.Range(0, available.Count)];
-
-        // ✅ จอง Target ทันที ป้องกันตัวอื่นแย่ง
         targetObject.isTargeted = true;
 
         currentState = NPCState.GoingToDamage;
@@ -237,11 +238,8 @@ public class NPCController : MonoBehaviour
     IEnumerator WaitThenExit(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-
-        // ✅ ปล่อย Target หลังทำลายเสร็จ
         if (targetObject != null)
             targetObject.isTargeted = false;
-
         GoExit();
     }
 

@@ -9,13 +9,28 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Source")]
     public AudioSource audioSource;
 
+    [Header("SFX Source (แยกจาก BGM)")]
+    public AudioSource sfxSource;   // ✅ ใช้เล่น SFX ทั่วไป (สร้างอัตโนมัติถ้าไม่ใส่)
+
     [Header("Music")]
     public AudioClip menuMusic;
     public AudioClip gameMusic;
 
+    [Header("SFX Clips")]
+    public AudioClip sfxMeow;           // 1. แมวร้องตอนเรียกเข้าร้าน
+    public AudioClip sfxAngry;          // 2. แมวโกรธออกร้านโดยไม่ได้รับอาหาร
+    public AudioClip sfxSitDown;        // 3. แมวมาถึงเก้าอี้แล้วนั่งลง
+    public AudioClip sfxComplete;       // 4. หลอดอาหาร / เครื่องดื่มเต็ม
+    public AudioClip sfxCoin;           // 5. ได้รับเงินจากแมว
+    public AudioClip sfxEndOfDay;       // 6. ประกาศจบวัน
+
     [Header("Fade Settings")]
     [Range(0.1f, 3f)] public float fadeDuration = 1f;
     [Range(0f, 1f)]   public float maxVolume    = 1f;
+
+    [Header("End-of-Day Fade Settings")]
+    [Tooltip("ความนานของ BGM fade-out ตอนใกล้จบวัน (วินาที)")]
+    [Range(1f, 15f)] public float endOfDayFadeDuration = 5f;
 
     [Header("Scene Names (ต้องตรงกับใน Build Settings)")]
     public string mainMenuSceneName = "MainMenu";
@@ -29,6 +44,14 @@ public class AudioManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
+
+            // ✅ สร้าง sfxSource อัตโนมัติถ้าไม่ได้ลากใส่ใน Inspector
+            if (sfxSource == null)
+            {
+                sfxSource = gameObject.AddComponent<AudioSource>();
+                sfxSource.loop        = false;
+                sfxSource.playOnAwake = false;
+            }
         }
         else
         {
@@ -43,18 +66,12 @@ public class AudioManager : MonoBehaviour
     }
 
     // ── Auto-play เพลงตาม Scene ──────────────────────────
-    /// <summary>
-    /// เรียกอัตโนมัติทุกครั้งที่ scene โหลดเสร็จ
-    /// ครอบคลุมทั้ง: กด Play ใน Editor, กลับ Main Menu, โหลด GameScene
-    /// </summary>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // ไม่แตะเพลงถ้าโหลดแบบ Additive (เช่น RelationshipScene)
         if (mode == LoadSceneMode.Additive) return;
 
         if (scene.name == mainMenuSceneName)
         {
-            // กลับ Main Menu → เล่นเพลง Menu
             if (audioSource.clip != menuMusic)
                 CrossfadeTo(menuMusic);
             else if (!audioSource.isPlaying)
@@ -62,7 +79,6 @@ public class AudioManager : MonoBehaviour
         }
         else if (scene.name == gameSceneName)
         {
-            // โหลด GameScene (รวมถึงกด Play ใน Editor ตรงๆ) → เล่นเพลง Game
             if (audioSource.clip != gameMusic)
                 CrossfadeTo(gameMusic);
             else if (!audioSource.isPlaying)
@@ -70,20 +86,17 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // ── Public API ───────────────────────────────────────
+    // ── Public BGM API ───────────────────────────────────
 
-    /// <summary>เล่นเพลงทันที (ไม่ fade)</summary>
     public void PlayMusic(AudioClip clip)
     {
         if (audioSource.clip == clip) return;
-
         audioSource.clip   = clip;
         audioSource.loop   = true;
         audioSource.volume = maxVolume;
         audioSource.Play();
     }
 
-    /// <summary>Fade in เพลงใหม่ (หยุดเพลงเก่าก่อน)</summary>
     public void PlayMusicWithFadeIn(AudioClip clip)
     {
         if (audioSource.clip == clip && audioSource.isPlaying) return;
@@ -91,18 +104,59 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(FadeInRoutine(clip));
     }
 
-    /// <summary>Fade out เพลงเก่า → Fade in เพลงใหม่</summary>
     public void CrossfadeTo(AudioClip clip, System.Action onComplete = null)
     {
         StopAllCoroutines();
         StartCoroutine(CrossfadeRoutine(clip, onComplete));
     }
 
-    /// <summary>Fade out แล้วหยุด</summary>
     public void StopWithFadeOut(System.Action onComplete = null)
     {
         StopAllCoroutines();
         StartCoroutine(FadeOutRoutine(onComplete));
+    }
+
+    /// <summary>
+    /// เรียกเมื่อใกล้จบวัน — BGM ค่อยๆ fade out ตาม endOfDayFadeDuration
+    /// จากนั้นเล่น sfxEndOfDay อัตโนมัติ
+    /// </summary>
+    public void PlayEndOfDaySequence()
+    {
+        StopAllCoroutines();
+        StartCoroutine(EndOfDayRoutine());
+    }
+
+    /// <summary>เรียกเมื่อกด Next Day — BGM เพลงเกมกลับมา fade in</summary>
+    public void ResumeGameMusic()
+    {
+        StopAllCoroutines();
+        StartCoroutine(FadeInRoutine(gameMusic));
+    }
+
+    // ── Public SFX API ───────────────────────────────────
+
+    /// <summary>แมวร้องตอนถูกเรียกเข้าร้าน</summary>
+    public void PlayMeow()     => PlaySFX(sfxMeow);
+
+    /// <summary>แมวโกรธออกร้านโดยไม่ได้รับอาหาร</summary>
+    public void PlayAngry()    => PlaySFX(sfxAngry);
+
+    /// <summary>แมวมาถึงเก้าอี้แล้วนั่งลง</summary>
+    public void PlaySitDown()  => PlaySFX(sfxSitDown);
+
+    /// <summary>หลอดอาหาร / เครื่องดื่มเต็ม</summary>
+    public void PlayComplete() => PlaySFX(sfxComplete);
+
+    /// <summary>ได้รับเงินจากแมว</summary>
+    public void PlayCoin()     => PlaySFX(sfxCoin);
+
+    /// <summary>เสียงประกาศจบวัน</summary>
+    public void PlayEndOfDay() => PlaySFX(sfxEndOfDay);
+
+    void PlaySFX(AudioClip clip)
+    {
+        if (clip == null || sfxSource == null) return;
+        sfxSource.PlayOneShot(clip);
     }
 
     // ── Coroutines ───────────────────────────────────────
@@ -143,7 +197,6 @@ public class AudioManager : MonoBehaviour
 
     IEnumerator CrossfadeRoutine(AudioClip newClip, System.Action onComplete)
     {
-        // Fade out
         float startVolume = audioSource.volume;
         float t = 0f;
         while (t < fadeDuration)
@@ -154,7 +207,6 @@ public class AudioManager : MonoBehaviour
         }
         audioSource.Stop();
 
-        // Swap clip & fade in
         audioSource.clip   = newClip;
         audioSource.loop   = true;
         audioSource.volume = 0f;
@@ -169,5 +221,23 @@ public class AudioManager : MonoBehaviour
         }
         audioSource.volume = maxVolume;
         onComplete?.Invoke();
+    }
+
+    // ✅ Fade BGM ออกช้าๆ ด้วย endOfDayFadeDuration แล้วเล่น sfxEndOfDay
+    IEnumerator EndOfDayRoutine()
+    {
+        float startVolume = audioSource.volume;
+        float t = 0f;
+        while (t < endOfDayFadeDuration)
+        {
+            t += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(startVolume, 0f, t / endOfDayFadeDuration);
+            yield return null;
+        }
+        audioSource.volume = 0f;
+        audioSource.Stop();
+
+        // เล่นเสียงจบวัน
+        PlayEndOfDay();
     }
 }

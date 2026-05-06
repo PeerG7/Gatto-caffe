@@ -24,6 +24,11 @@ public class DayNightManager : MonoBehaviour
     [Header("References")]
     public UISummaryController summaryUI;
 
+    [Header("End-of-Day Audio Settings")]
+    [Tooltip("BGM จะเริ่ม fade out ก่อนจบวันกี่วินาที")]
+    public float endOfDayWarningTime = 10f;
+    private bool endOfDayAudioTriggered = false;
+
     void Awake()
     {
         if (Instance == null) Instance = this;
@@ -38,6 +43,15 @@ public class DayNightManager : MonoBehaviour
         if (!isWorkTime) return;
 
         timer += Time.deltaTime;
+
+        // ✅ ตรวจจับช่วงใกล้จบวัน → BGM เริ่ม fade out ช้าๆ
+        if (!endOfDayAudioTriggered && timer >= dayDuration - endOfDayWarningTime)
+        {
+            endOfDayAudioTriggered = true;
+            if (AudioManager.instance != null)
+                AudioManager.instance.PlayEndOfDaySequence();
+                // → BGM fade out ช้าๆ ตาม endOfDayFadeDuration แล้วเล่น sfxEndOfDay อัตโนมัติ
+        }
 
         if (timer >= dayDuration)
             EndWorkDay();
@@ -68,12 +82,10 @@ public class DayNightManager : MonoBehaviour
         }
 
         if (summaryUI != null)
-        {
-            // ✅ ส่งเงินที่ได้เฉพาะวันนี้
             summaryUI.StartSummarySequence(currentDay, catsServedToday, moneyEarnedToday);
-        }
     }
 
+    /// <summary>เรียกจากปุ่ม Next Day — reset วันใหม่ + เพลงเกมกลับมา</summary>
     public void ResetNewDay()
     {
         timer = 0;
@@ -81,9 +93,16 @@ public class DayNightManager : MonoBehaviour
         isWorkTime = true;
         isEnding = false;
 
+        // ✅ Reset flag เสียงจบวัน
+        endOfDayAudioTriggered = false;
+
         // ✅ Reset ตัวนับทุกวัน
         catsServedToday = 0;
         moneyEarnedToday = 0;
+
+        // ✅ BGM เพลงเกมกลับมา fade in
+        if (AudioManager.instance != null)
+            AudioManager.instance.ResumeGameMusic();
 
         UpdateLightColor();
     }
