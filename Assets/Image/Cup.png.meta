@@ -1,13 +1,19 @@
 fileFormatVersion: 2
-guid: ad65409ff16d029469377f5c96c5e28a
+guid: b82d3632ccf06ae4ba0189dd02cf3ce0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6118620133598954972
-    second: "\u0E02\u0E19\u0E21\u0E1B\u0E31\u0E07_0"
+      213: -4338928236674095663
+    second: Cup_0
   - first:
-      213: 2998226568761056419
-    second: "\u0E02\u0E19\u0E21\u0E1B\u0E31\u0E07_1"
+      213: 3147476705318918355
+    second: Cup_1
+  - first:
+      213: 6941648621150802775
+    second: Cup_2
+  - first:
+      213: 8001217152823314272
+    second: Cup_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -54,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 75
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -129,13 +135,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\u0E02\u0E19\u0E21\u0E1B\u0E31\u0E07_0"
+      name: Cup_0
       rect:
         serializedVersion: 2
-        x: 420
-        y: 46
-        width: 1467
-        height: 1258
+        x: 1235
+        y: 1973
+        width: 26
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 42af745086b461ba0800000000000000
-      internalID: -6118620133598954972
+      spriteID: 1d5e023e1c709c3c0800000000000000
+      internalID: -4338928236674095663
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\u0E02\u0E19\u0E21\u0E1B\u0E31\u0E07_1"
+      name: Cup_1
       rect:
         serializedVersion: 2
-        x: 1465
-        y: 38
-        width: 21
-        height: 21
+        x: 1150
+        y: 1943
+        width: 10
+        height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,8 +172,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3ac1423dd27db9920800000000000000
-      internalID: 2998226568761056419
+      spriteID: 3d8d95f23651eab20800000000000000
+      internalID: 3147476705318918355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cup_2
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 117
+        width: 1202
+        height: 1794
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 753164b74a0b55060800000000000000
+      internalID: 6941648621150802775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cup_3
+      rect:
+        serializedVersion: 2
+        x: 1129
+        y: 1908
+        width: 17
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 067cbc4bb980a0f60800000000000000
+      internalID: 8001217152823314272
       vertices: []
       indices: 
       edges: []
@@ -186,8 +236,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\u0E02\u0E19\u0E21\u0E1B\u0E31\u0E07_0": -6118620133598954972
-      "\u0E02\u0E19\u0E21\u0E1B\u0E31\u0E07_1": 2998226568761056419
+      Cup_0: -4338928236674095663
+      Cup_1: 3147476705318918355
+      Cup_2: 6941648621150802775
+      Cup_3: 8001217152823314272
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

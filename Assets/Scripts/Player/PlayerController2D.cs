@@ -43,7 +43,7 @@ public class PlayerController2D : MonoBehaviour
 
         Vector2 newPos = rb.position;
 
-        // ✅ เช็ค X และ Y แยกกัน
+        // เช็ค X และ Y แยกกัน
         Vector2 moveX = new Vector2(movement.x, 0) * moveSpeed * Time.fixedDeltaTime;
         if (!IsBlocked(moveX))
             newPos += moveX;
@@ -59,7 +59,6 @@ public class PlayerController2D : MonoBehaviour
     {
         if (col == null || direction == Vector2.zero) return false;
 
-        // ✅ ใช้ CircleCast ให้ตรงกับ CircleCollider2D
         RaycastHit2D hit = Physics2D.CircleCast(
             rb.position + col.offset,
             col.radius * 0.9f,
@@ -67,6 +66,14 @@ public class PlayerController2D : MonoBehaviour
             direction.magnitude + 0.05f,
             wallLayer
         );
-        return hit.collider != null;
+
+        if (hit.collider == null) return false;
+
+        // ✅ Fix: เช็คว่า wall อยู่ในทิศเดียวกับที่เดินจริงๆ ไหม
+        // ถ้า dot product <= 0 แปลว่า wall อยู่ตรงข้าม → ไม่ต้อง block
+        Vector2 toWall = (hit.point - (rb.position + col.offset)).normalized;
+        if (Vector2.Dot(direction.normalized, toWall) <= 0f) return false;
+
+        return true;
     }
 }

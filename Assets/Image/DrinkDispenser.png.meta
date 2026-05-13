@@ -1,0 +1,975 @@
+fileFormatVersion: 2
+guid: 4c085fa6e17e37d49b40d547ba089b21
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4761041521820743516
+    second: DrinkDispenser_0
+  - first:
+      213: 2818076466739639002
+    second: DrinkDispenser_1
+  - first:
+      213: 339134777221370139
+    second: DrinkDispenser_2
+  - first:
+      213: -3444931921513794937
+    second: DrinkDispenser_3
+  - first:
+      213: 257177469739229014
+    second: DrinkDispenser_4
+  - first:
+      213: 4365959779893035635
+    second: DrinkDispenser_5
+  - first:
+      213: -6299154568761376711
+    second: DrinkDispenser_6
+  - first:
+      213: 2510339638793456668
+    second: DrinkDispenser_7
+  - first:
+      213: -7100522469031761430
+    second: DrinkDispenser_8
+  - first:
+      213: 2726915911777321196
+    second: DrinkDispenser_9
+  - first:
+      213: -3623453358923942004
+    second: DrinkDispenser_10
+  - first:
+      213: 2947245084587664484
+    second: DrinkDispenser_11
+  - first:
+      213: -5667165242272532564
+    second: DrinkDispenser_12
+  - first:
+      213: 8770182176160457621
+    second: DrinkDispenser_13
+  - first:
+      213: -2887159329651947521
+    second: DrinkDispenser_14
+  - first:
+      213: -1926164829155227654
+    second: DrinkDispenser_15
+  - first:
+      213: -1521834012236809939
+    second: DrinkDispenser_16
+  - first:
+      213: -4388471324345433108
+    second: DrinkDispenser_17
+  - first:
+      213: 1564311302613264944
+    second: DrinkDispenser_18
+  - first:
+      213: -4451700089639397057
+    second: DrinkDispenser_19
+  - first:
+      213: -9124224292485761895
+    second: DrinkDispenser_20
+  - first:
+      213: -7058612476270415807
+    second: DrinkDispenser_21
+  - first:
+      213: 6121719396388605683
+    second: DrinkDispenser_22
+  - first:
+      213: 3646531846818881777
+    second: DrinkDispenser_23
+  - first:
+      213: -3465663946055073955
+    second: DrinkDispenser_24
+  - first:
+      213: -5816956740077717437
+    second: DrinkDispenser_25
+  - first:
+      213: 6660382414280660057
+    second: DrinkDispenser_26
+  - first:
+      213: -6493522957441446129
+    second: DrinkDispenser_27
+  - first:
+      213: -426911980976663299
+    second: DrinkDispenser_28
+  - first:
+      213: 3976552694306197115
+    second: DrinkDispenser_29
+  - first:
+      213: -8644015783948470553
+    second: DrinkDispenser_30
+  - first:
+      213: 7689856819593691493
+    second: DrinkDispenser_31
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 300
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: DrinkDispenser_0
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 30
+        width: 984
+        height: 2016
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c57b20df90e921240800000000000000
+      internalID: 4761041521820743516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_1
+      rect:
+        serializedVersion: 2
+        x: 1343
+        y: 1992
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad277ed9d91db1720800000000000000
+      internalID: 2818076466739639002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_2
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 1909
+        width: 37
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b11d2477849d4b400800000000000000
+      internalID: 339134777221370139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_3
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 1749
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78234ce5ba42130d0800000000000000
+      internalID: -3444931921513794937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_4
+      rect:
+        serializedVersion: 2
+        x: 542
+        y: 1508
+        width: 23
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65f5a00db8da19300800000000000000
+      internalID: 257177469739229014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_5
+      rect:
+        serializedVersion: 2
+        x: 1601
+        y: 1552
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 372ca28b941079c30800000000000000
+      internalID: 4365959779893035635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_6
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 1480
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93003b74b48e498a0800000000000000
+      internalID: -6299154568761376711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_7
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 1439
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1ccdd3e99486d220800000000000000
+      internalID: 2510339638793456668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_8
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 1025
+        width: 15
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae9aea14f60e57d90800000000000000
+      internalID: -7100522469031761430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_9
+      rect:
+        serializedVersion: 2
+        x: 1824
+        y: 978
+        width: 10
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce009dde293f7d520800000000000000
+      internalID: 2726915911777321196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_10
+      rect:
+        serializedVersion: 2
+        x: 1823
+        y: 960
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8774213e58e6bdc0800000000000000
+      internalID: -3623453358923942004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_11
+      rect:
+        serializedVersion: 2
+        x: 1825
+        y: 949
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4642ddc0ac7b6e820800000000000000
+      internalID: 2947245084587664484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_12
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 926
+        width: 11
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca7b7e2fc3f2a51b0800000000000000
+      internalID: -5667165242272532564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_13
+      rect:
+        serializedVersion: 2
+        x: 1823
+        y: 850
+        width: 11
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 593a1890932f5b970800000000000000
+      internalID: 8770182176160457621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_14
+      rect:
+        serializedVersion: 2
+        x: 1592
+        y: 778
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff70422f2efbee7d0800000000000000
+      internalID: -2887159329651947521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_15
+      rect:
+        serializedVersion: 2
+        x: 1585
+        y: 741
+        width: 10
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af70a5b0b43e445e0800000000000000
+      internalID: -1926164829155227654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_16
+      rect:
+        serializedVersion: 2
+        x: 1610
+        y: 718
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d297485670c51eae0800000000000000
+      internalID: -1521834012236809939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_17
+      rect:
+        serializedVersion: 2
+        x: 1617
+        y: 715
+        width: 9
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce30765e4940913c0800000000000000
+      internalID: -4388471324345433108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_18
+      rect:
+        serializedVersion: 2
+        x: 1621
+        y: 647
+        width: 6
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03a646677dc85b510800000000000000
+      internalID: 1564311302613264944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_19
+      rect:
+        serializedVersion: 2
+        x: 1585
+        y: 458
+        width: 11
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f391876ca526832c0800000000000000
+      internalID: -4451700089639397057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_20
+      rect:
+        serializedVersion: 2
+        x: 1603
+        y: 316
+        width: 10
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9947563295e306180800000000000000
+      internalID: -9124224292485761895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_21
+      rect:
+        serializedVersion: 2
+        x: 1611
+        y: 264
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 140f2c8d955ca0e90800000000000000
+      internalID: -7058612476270415807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_22
+      rect:
+        serializedVersion: 2
+        x: 1633
+        y: 147
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fe8c545b57b4f450800000000000000
+      internalID: 6121719396388605683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_23
+      rect:
+        serializedVersion: 2
+        x: 1599
+        y: 66
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f0e9cff4651b9230800000000000000
+      internalID: 3646531846818881777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_24
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 24
+        width: 24
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5f3280c00d77efc0800000000000000
+      internalID: -3465663946055073955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_25
+      rect:
+        serializedVersion: 2
+        x: 1556
+        y: 38
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3487ad91aa4064fa0800000000000000
+      internalID: -5816956740077717437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_26
+      rect:
+        serializedVersion: 2
+        x: 1558
+        y: 31
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 954157f748e6e6c50800000000000000
+      internalID: 6660382414280660057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_27
+      rect:
+        serializedVersion: 2
+        x: 869
+        y: 27
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0fcbdc364f52e5a0800000000000000
+      internalID: -6493522957441446129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_28
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 12
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df4178fa0dd431af0800000000000000
+      internalID: -426911980976663299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_29
+      rect:
+        serializedVersion: 2
+        x: 1323
+        y: 10
+        width: 15
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7e4eb65b9d8f2730800000000000000
+      internalID: 3976552694306197115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_30
+      rect:
+        serializedVersion: 2
+        x: 1339
+        y: 4
+        width: 54
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e6b1e441794a0880800000000000000
+      internalID: -8644015783948470553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DrinkDispenser_31
+      rect:
+        serializedVersion: 2
+        x: 1394
+        y: 5
+        width: 34
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5614f79e80cd7ba60800000000000000
+      internalID: 7689856819593691493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      DrinkDispenser_0: 4761041521820743516
+      DrinkDispenser_1: 2818076466739639002
+      DrinkDispenser_10: -3623453358923942004
+      DrinkDispenser_11: 2947245084587664484
+      DrinkDispenser_12: -5667165242272532564
+      DrinkDispenser_13: 8770182176160457621
+      DrinkDispenser_14: -2887159329651947521
+      DrinkDispenser_15: -1926164829155227654
+      DrinkDispenser_16: -1521834012236809939
+      DrinkDispenser_17: -4388471324345433108
+      DrinkDispenser_18: 1564311302613264944
+      DrinkDispenser_19: -4451700089639397057
+      DrinkDispenser_2: 339134777221370139
+      DrinkDispenser_20: -9124224292485761895
+      DrinkDispenser_21: -7058612476270415807
+      DrinkDispenser_22: 6121719396388605683
+      DrinkDispenser_23: 3646531846818881777
+      DrinkDispenser_24: -3465663946055073955
+      DrinkDispenser_25: -5816956740077717437
+      DrinkDispenser_26: 6660382414280660057
+      DrinkDispenser_27: -6493522957441446129
+      DrinkDispenser_28: -426911980976663299
+      DrinkDispenser_29: 3976552694306197115
+      DrinkDispenser_3: -3444931921513794937
+      DrinkDispenser_30: -8644015783948470553
+      DrinkDispenser_31: 7689856819593691493
+      DrinkDispenser_4: 257177469739229014
+      DrinkDispenser_5: 4365959779893035635
+      DrinkDispenser_6: -6299154568761376711
+      DrinkDispenser_7: 2510339638793456668
+      DrinkDispenser_8: -7100522469031761430
+      DrinkDispenser_9: 2726915911777321196
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

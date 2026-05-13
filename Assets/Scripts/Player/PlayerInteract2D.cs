@@ -8,28 +8,26 @@ public class PlayerInteract2D : MonoBehaviour
     [Header("Interact Keys — เพิ่ม/ลดปุ่มได้เลยใน Inspector")]
     public KeyCode[] interactKeys = new KeyCode[] { KeyCode.E };
 
+    private List<TraySlot> lastNearbyTrays = new List<TraySlot>();
+
     void Update()
     {
         if (PlayerController2D.IsLocked) return;
 
+        UpdateTrayProximityFeedback();
+
         bool pressed = false;
         foreach (KeyCode key in interactKeys)
-        {
             if (Input.GetKeyDown(key)) { pressed = true; break; }
-        }
 
         if (!pressed) return;
-
         TriggerInteract();
     }
 
-    // ✅ เรียกจาก UI Button (Mobile on-screen / Gamepad button) ได้โดยตรง
-    // ผูก OnClick ของ UI Button ไปที่ method นี้ได้เลย
     public void TriggerInteract()
     {
         if (PlayerController2D.IsLocked) return;
 
-        // กรอง Layer Player ออก ป้องกัน Player บัง Heart Icon
         ContactFilter2D filter = new ContactFilter2D();
         filter.useTriggers = true;
         filter.useLayerMask = true;
@@ -89,10 +87,7 @@ public class PlayerInteract2D : MonoBehaviour
                     CustomerTable t = h.GetComponent<CustomerTable>();
                     if (t != null && t.sittingNPC != null &&
                         t.sittingNPC.currentState == NPCController.NPCState.Sitting)
-                    {
-                        hasActiveTable = true;
-                        break;
-                    }
+                    { hasActiveTable = true; break; }
                 }
 
                 if (!hasActiveTable)
@@ -104,17 +99,66 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 7. ✅ แก้ไข: เช็ค CanInteract() ให้ถูกต้อง
-        //    - NPC กำลังนั่ง (Sitting)  → เปิด Relationship Minigame
-        //    - NPC ยังอยู่ใน Queue      → Invite เข้าร้าน
+        // 7. ✅ ทิ้งอาหารที่ Garbage Zone
+        foreach (var hit in hits)
+        {
+            GarbageZone garbage = hit.GetComponent<GarbageZone>();
+            if (garbage != null)
+            {
+                PlayerInventory player = GetComponent<PlayerInventory>();
+                garbage.TryDiscard(player);
+                return;
+            }
+        }
+
+        // 8. หยิบ/วาง/swap อาหารจาก TraySlot
+        foreach (var hit in hits)
+        {
+            TraySlot tray = hit.GetComponent<TraySlot>();
+            if (tray != null)
+            {
+                PlayerInventory player = GetComponent<PlayerInventory>();
+                tray.TryInteract(player);
+                return;
+            }
+        }
+
+        // 9. NPC interact
         NPCInteract closestNPC = GetClosestNPC(hits);
         if (closestNPC != null)
         {
-            if (closestNPC.CanInteract())   // NPCState.Sitting
+            if (closestNPC.CanInteract())
                 closestNPC.RelationShip();
-            else                            // NPCState.InQueue
+            else
                 closestNPC.Interact();
         }
+    }
+
+    void UpdateTrayProximityFeedback()
+    {
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.useTriggers = true;
+        filter.useLayerMask = true;
+        filter.layerMask = ~LayerMask.GetMask("Player");
+
+        List<Collider2D> resultList = new List<Collider2D>();
+        Physics2D.OverlapCircle(transform.position, range, filter, resultList);
+
+        List<TraySlot> currentTrays = new List<TraySlot>();
+        foreach (var col in resultList)
+        {
+            TraySlot tray = col.GetComponent<TraySlot>();
+            if (tray != null) currentTrays.Add(tray);
+        }
+
+        foreach (var tray in lastNearbyTrays)
+            if (!currentTrays.Contains(tray))
+                tray.RefreshFeedback(isPlayerNearby: false);
+
+        foreach (var tray in currentTrays)
+            tray.RefreshFeedback(isPlayerNearby: true);
+
+        lastNearbyTrays = currentTrays;
     }
 
     NPCInteract GetClosestNPC(Collider2D[] hits)

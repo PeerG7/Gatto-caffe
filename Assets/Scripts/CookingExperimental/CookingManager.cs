@@ -24,9 +24,9 @@ public class CookingManager : MonoBehaviour
     public GameObject stationCookingCanvas;
 
     [Header("SFX")]
-    public AudioSource sfxSource;        // AudioSource แยกต่างหาก (ไม่ใช่ BGM)
-    public AudioClip cookingSoundClip;   // เสียงทอด / ปรุงอาหาร
-    public AudioClip completeSoundClip;  // ✅ เสียงเมื่อทำอาหารเสร็จ (override AudioManager.sfxComplete)
+    public AudioSource sfxSource;
+    public AudioClip cookingSoundClip;
+    public AudioClip completeSoundClip;
 
     private RecipeSO currentOutput;
     private bool isFailed = false;
@@ -55,14 +55,8 @@ public class CookingManager : MonoBehaviour
 
         if (isCooking)
         {
-            if (cookCoroutine != null)
-            {
-                StopCoroutine(cookCoroutine);
-                cookCoroutine = null;
-            }
-
-            if (sfxSource != null && sfxSource.isPlaying)
-                sfxSource.Stop();
+            if (cookCoroutine != null) { StopCoroutine(cookCoroutine); cookCoroutine = null; }
+            if (sfxSource != null && sfxSource.isPlaying) sfxSource.Stop();
 
             isCooking = false;
             if (cookingVisuals != null) cookingVisuals.SetActive(false);
@@ -139,6 +133,15 @@ public class CookingManager : MonoBehaviour
     public void OnCookButtonClicked()
     {
         if (currentOutput == null || isCooking) return;
+
+        // ✅ เช็ค Tray ว่างก่อน Cook — ถ้าเต็มทุก slot ให้ block
+        if (TrayManager.instance != null && !TrayManager.instance.HasEmptySlot())
+        {
+            Debug.LogWarning("[CookingManager] Tray เต็มทุก slot! รอ player หยิบอาหารก่อน");
+            // TODO: แสดง UI แจ้งเตือน "Tray เต็ม" ให้ player รู้
+            return;
+        }
+
         PlayerController2D.IsLocked = true;
         cookCoroutine = StartCoroutine(PerformCookingCoroutine());
     }
@@ -156,7 +159,6 @@ public class CookingManager : MonoBehaviour
             cookingProgressBar.fillAmount = 0f;
         }
 
-        // เล่นเสียงทอดพร้อมกับเริ่ม cooking
         if (sfxSource != null && cookingSoundClip != null)
         {
             sfxSource.clip = cookingSoundClip;
@@ -176,19 +178,30 @@ public class CookingManager : MonoBehaviour
         cookCoroutine = null;
         isCooking = false;
 
-        if (sfxSource != null && sfxSource.isPlaying)
-            sfxSource.Stop();
-
-        // ✅ เล่นเสียง complete เมื่อหลอดเต็ม
+        if (sfxSource != null && sfxSource.isPlaying) sfxSource.Stop();
         PlayCompleteSound();
 
-        PlayerInventory player = FindObjectOfType<PlayerInventory>();
-        if (player != null)
+        // ✅ ส่งอาหารไป TrayManager แทนที่จะส่งตรงไป PlayerInventory
+        if (TrayManager.instance != null)
         {
-            player.PickUpItem(currentOutput.recipeName, currentOutput.finalDishSprite);
-            if (isFailed)
-                Debug.Log("Cooking_Failure: " + string.Join(", ", currentIngredients));
+            bool placed = TrayManager.instance.ReceiveFood(
+                currentOutput.recipeName,
+                currentOutput.finalDishSprite
+            );
+            if (!placed)
+                Debug.LogWarning("[CookingManager] วางลง Tray ไม่ได้ — Tray เต็ม");
         }
+        else
+        {
+            // Fallback: ถ้าไม่มี TrayManager ให้ส่งตรงๆ แบบเดิม
+            Debug.LogWarning("[CookingManager] ไม่พบ TrayManager — ใช้ระบบเดิม");
+            PlayerInventory player = FindObjectOfType<PlayerInventory>();
+            if (player != null)
+                player.PickUpItem(currentOutput.recipeName, currentOutput.finalDishSprite);
+        }
+
+        if (isFailed)
+            Debug.Log("Cooking_Failure: " + string.Join(", ", currentIngredients));
 
         if (cookingVisuals != null) cookingVisuals.SetActive(false);
         if (cookingProgressBar != null) cookingProgressBar.gameObject.SetActive(false);
@@ -202,7 +215,6 @@ public class CookingManager : MonoBehaviour
         PlayerController2D.IsLocked = false;
     }
 
-    /// <summary>เล่นเสียง complete — ใช้ completeSoundClip ถ้ามี ไม่งั้นใช้ AudioManager</summary>
     void PlayCompleteSound()
     {
         if (sfxSource != null && completeSoundClip != null)
@@ -214,8 +226,6 @@ public class CookingManager : MonoBehaviour
     void ResetBoardVisuals()
     {
         foreach (var slot in boardSlots)
-        {
             if (slot != null) { slot.sprite = null; slot.enabled = false; }
-        }
     }
 }

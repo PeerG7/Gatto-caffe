@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbda87dc25d8d26408284c36c8144e95, type: 3}
-  m_Name: Drink
+  m_Name: Drink 1
   m_EditorClassIdentifier: Assembly-CSharp::RecipeSO
   recipeName: Milk
   requiredIngredients:
