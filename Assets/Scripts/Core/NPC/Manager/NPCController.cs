@@ -26,6 +26,10 @@ public class NPCController : MonoBehaviour
     private float waitTimer = 0f;
     private bool isAngry = false;
 
+    [Header("Patience Bar UI")]
+    public GameObject patienceBarRoot;
+    public UnityEngine.UI.Image patienceBarFill; // Image Type = Filled, Fill Method = Radial 360
+
     [Header("Safety Timeout (ป้องกัน NPC ค้างโต๊ะ)")]
     public float absoluteMaxSitTime = 120f;
 
@@ -117,7 +121,18 @@ public class NPCController : MonoBehaviour
                 agent.SetDestination(table.seatPoint.position);
 
                 GenerateOrderData();
-                if (requestedRecipe != null) table.wantedItem = requestedRecipe.recipeName;
+
+                if (requestedRecipe != null)
+                {
+                    table.wantedItem = requestedRecipe.recipeName;
+
+                    // ✅ เซ็ต sprite ให้ tableItemRenderer ด้วย
+                    if (table.tableItemRenderer != null)
+                    {
+                        table.tableItemRenderer.sprite = requestedRecipe.finalDishSprite;
+                        table.tableItemRenderer.enabled = true;
+                    }
+                }
                 return;
             }
         }
@@ -128,6 +143,8 @@ public class NPCController : MonoBehaviour
         if (allRecipes == null || allRecipes.Count == 0) return;
         int randomIndex = Random.Range(0, allRecipes.Count);
         requestedRecipe = allRecipes[randomIndex];
+
+        // orderIcon บน NPC (ถ้ามี)
         if (requestedRecipe != null && orderIcon != null)
             orderIcon.sprite = requestedRecipe.finalDishSprite;
     }
@@ -138,6 +155,10 @@ public class NPCController : MonoBehaviour
         currentState = NPCState.Sitting;
         agent.isStopped = true;
         if (orderCanvas != null) orderCanvas.SetActive(true);
+
+        // ✅ เปิด patience bar
+        if (patienceBarRoot != null) patienceBarRoot.SetActive(true);
+        if (patienceBarFill != null) patienceBarFill.fillAmount = 1f;
 
         if (AudioManager.instance != null)
             AudioManager.instance.PlaySitDown();
@@ -151,6 +172,9 @@ public class NPCController : MonoBehaviour
         isInQTE = false;
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
+
+        // ✅ ซ่อน patience bar
+        if (patienceBarRoot != null) patienceBarRoot.SetActive(false);
 
         CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
         foreach (var table in allTables)
@@ -172,7 +196,18 @@ public class NPCController : MonoBehaviour
         {
             if (currentState != NPCState.Sitting) yield break;
             bool shouldPause = isInQTE || GameIsPaused;
-            if (!shouldPause) waitTimer += Time.deltaTime;
+            if (!shouldPause)
+            {
+                waitTimer += Time.deltaTime;
+
+                // ✅ อัปเดตวงกลม (1 = เต็ม, 0 = หมด) + เปลี่ยนสี เขียว → แดง
+                if (patienceBarFill != null)
+                {
+                    float ratio = 1f - (waitTimer / maxWaitTime);
+                    patienceBarFill.fillAmount = ratio;
+                    patienceBarFill.color = Color.Lerp(Color.red, Color.green, ratio);
+                }
+            }
             yield return null;
         }
 

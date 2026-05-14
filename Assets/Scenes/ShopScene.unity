@@ -1647,6 +1647,8 @@ MonoBehaviour:
   qteCanvasInPrefab: {fileID: 0}
   qteProgressBarFill: {fileID: 0}
   maxWaitTime: 10
+  patienceBarRoot: {fileID: 0}
+  patienceBarFill: {fileID: 0}
   absoluteMaxSitTime: 120
   isInQTE: 0
   currentState: 0
@@ -15096,7 +15098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66c7d5f5102e71458dfe7adf2eb0962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DayNightManager
-  dayDuration: 20
+  dayDuration: 60
   isWorkTime: 1
   currentDay: 1
   catsServedToday: 0
