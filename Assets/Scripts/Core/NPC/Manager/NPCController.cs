@@ -26,6 +26,9 @@ public class NPCController : MonoBehaviour
     private float waitTimer = 0f;
     private bool isAngry = false;
 
+    [Header("Safety Timeout (ป้องกัน NPC ค้างโต๊ะ)")]
+    public float absoluteMaxSitTime = 120f;
+
     private bool hasArrivedAtDamageTarget = false;
 
     [HideInInspector] public bool isInQTE = false;
@@ -38,6 +41,10 @@ public class NPCController : MonoBehaviour
     public SpriteRenderer orderIcon;
     public RecipeSO requestedRecipe;
     public List<RecipeSO> allRecipes;
+
+    // ✅ Helper — อ่าน isPaused จาก DayNightManager แทน TimeManager
+    static bool GameIsPaused =>
+        DayNightManager.Instance != null && DayNightManager.Instance.isPaused;
 
     void Awake()
     {
@@ -53,7 +60,7 @@ public class NPCController : MonoBehaviour
 
     void Update()
     {
-        if (TimeManager.Instance != null && TimeManager.Instance.isPaused)
+        if (GameIsPaused)
         {
             if (agent != null) agent.isStopped = true;
             return;
@@ -132,11 +139,11 @@ public class NPCController : MonoBehaviour
         agent.isStopped = true;
         if (orderCanvas != null) orderCanvas.SetActive(true);
 
-        // ✅ เล่นเสียงนั่งลงบนเก้าอี้
         if (AudioManager.instance != null)
             AudioManager.instance.PlaySitDown();
 
         StartCoroutine(SitRoutine());
+        StartCoroutine(AbsoluteTimeoutRoutine());
     }
 
     public void LeaveSeat()
@@ -163,15 +170,32 @@ public class NPCController : MonoBehaviour
         waitTimer = 0f;
         while (waitTimer < maxWaitTime)
         {
-            bool shouldPause = isInQTE ||
-                               (TimeManager.Instance != null && TimeManager.Instance.isPaused);
-            if (!shouldPause)
-                waitTimer += Time.deltaTime;
+            if (currentState != NPCState.Sitting) yield break;
+            bool shouldPause = isInQTE || GameIsPaused;
+            if (!shouldPause) waitTimer += Time.deltaTime;
             yield return null;
         }
 
         if (currentState == NPCState.Sitting && !isInQTE)
             BecomeAngry();
+    }
+
+    IEnumerator AbsoluteTimeoutRoutine()
+    {
+        float elapsed = 0f;
+        while (elapsed < absoluteMaxSitTime)
+        {
+            if (currentState != NPCState.Sitting) yield break;
+            if (!GameIsPaused) elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        if (currentState == NPCState.Sitting)
+        {
+            Debug.LogWarning($"⚠️ [{gameObject.name}] ค้างโต๊ะเกิน {absoluteMaxSitTime}s — บังคับออก (isInQTE={isInQTE})");
+            isInQTE = false;
+            LeaveSeat();
+        }
     }
 
     void BecomeAngry()
@@ -181,7 +205,6 @@ public class NPCController : MonoBehaviour
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
-        // ✅ เล่นเสียงโกรธผ่าน NPCInteract (รองรับ override เสียงเฉพาะตัว)
         NPCInteract interact = GetComponent<NPCInteract>();
         if (interact != null)
             interact.PlayAngry();
@@ -210,8 +233,6 @@ public class NPCController : MonoBehaviour
             .Where(obj => obj.IsAvailable())
             .ToList();
 
-        Debug.Log("🎯 Available targets: " + available.Count);
-
         if (available.Count == 0) { GoExit(); return; }
 
         targetObject = available[Random.Range(0, available.Count)];
@@ -221,8 +242,6 @@ public class NPCController : MonoBehaviour
         hasArrivedAtDamageTarget = false;
         agent.isStopped = false;
         agent.SetDestination(targetObject.transform.position);
-
-        Debug.Log("🔥 Going to damage: " + targetObject.name);
     }
 
     void ArriveAtDamageTarget()

@@ -1405,6 +1405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f74eeb388e7f634469dc76c9b099e5ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RelationshipSceneUI
+  relationshipCanvas: {fileID: 0}
 --- !u!4 &99949810
 Transform:
   m_ObjectHideFlags: 0
@@ -1646,6 +1647,7 @@ MonoBehaviour:
   qteCanvasInPrefab: {fileID: 0}
   qteProgressBarFill: {fileID: 0}
   maxWaitTime: 10
+  absoluteMaxSitTime: 120
   isInQTE: 0
   currentState: 0
   orderCanvas: {fileID: 0}
@@ -8119,7 +8121,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586436344}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -12342,6 +12344,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StationInteract
   stationCanvas: {fileID: 1499498134}
+  cookingManager: {fileID: 0}
+  drinkStation: {fileID: 0}
 --- !u!58 &869836550
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -15009,7 +15013,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1106574821}
   - component: {fileID: 1106574822}
-  - component: {fileID: 1106574823}
   - component: {fileID: 1106574825}
   - component: {fileID: 1106574826}
   - component: {fileID: 1106574827}
@@ -15050,19 +15053,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
   relationshipSceneName: 
---- !u!114 &1106574823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1106574819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f57b978933a7a834b9febcd9c046b932, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TimeManager
-  isPaused: 0
 --- !u!114 &1106574825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15106,7 +15096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66c7d5f5102e71458dfe7adf2eb0962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DayNightManager
-  dayDuration: 120
+  dayDuration: 20
   isWorkTime: 1
   currentDay: 1
   catsServedToday: 0
@@ -18638,6 +18628,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StationInteract
   stationCanvas: {fileID: 1312205188}
+  cookingManager: {fileID: 0}
+  drinkStation: {fileID: 0}
 --- !u!58 &1382784129
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -19165,7 +19157,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1393804635}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -25478,7 +25470,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1870690126}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -26871,6 +26863,7 @@ MonoBehaviour:
   - {fileID: 1500671038587446994, guid: bb1300aeb0ae4e44bb34be9b35934bd7, type: 3}
   spawnPoint: {fileID: 1380254909}
   exitPoint: {fileID: 1990573815}
+  relationshipCanvas: {fileID: 620960049}
   spawnInterval: 5
   minInterval: 5
   maxInterval: 10

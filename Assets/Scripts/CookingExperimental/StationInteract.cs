@@ -3,16 +3,34 @@
 public class StationInteract : MonoBehaviour
 {
     [Header("UI Canvas")]
-    public GameObject stationCanvas; // ลาก Canvas ทำอาหาร หรือ Canvas ตู้กดน้ำ มาใส่ที่นี่
+    public GameObject stationCanvas;
+
+    [Header("Station Manager (ผูก CookingManager หรือ DrinkStation)")]
+    public CookingManager cookingManager;
+    public DrinkStation drinkStation;
 
     public void OpenCanvas()
     {
+        // ✅ ถ้าผูก CookingManager หรือ DrinkStation ไว้ ให้เรียกผ่านตัวนั้น
+        // เพราะ OpenCanvas() ของพวกนั้นมี PauseGame() อยู่แล้ว
+        if (cookingManager != null)
+        {
+            cookingManager.OpenCanvas();
+            return;
+        }
+
+        if (drinkStation != null)
+        {
+            drinkStation.OpenCanvas();
+            return;
+        }
+
+        // Fallback: ถ้าไม่ได้ผูกอะไรไว้ ก็เปิด Canvas ตรงๆ พร้อม Pause
         if (stationCanvas != null)
         {
             stationCanvas.SetActive(true);
-
-            // (เพิ่มเติม) คุณอาจจะใส่โค้ดเพื่อหยุดการเดินของผู้เล่นตรงนี้ 
-            // เพื่อไม่ให้ผู้เล่นเดินทะลุจอขณะทำอาหาร
+            DayNightManager.Instance?.PauseGame();
+            PlayerController2D.IsLocked = true;
         }
     }
 }

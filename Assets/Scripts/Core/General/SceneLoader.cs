@@ -5,11 +5,11 @@ public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance;
 
-    [SerializeField] private string relationshipSceneName = "RelationshipScene"; // ❗ เปลี่ยนชื่อไม่มี space
+    [SerializeField] private string relationshipSceneName = "RelationshipScene";
 
     void Awake()
     {
-        relationshipSceneName = "RelationshipScene"; // 🔥 force ค่าใหม่
+        relationshipSceneName = "RelationshipScene";
 
         if (Instance == null)
         {
@@ -30,7 +30,6 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.Log("🔥 Loading Scene: " + relationshipSceneName);
             SceneManager.LoadScene(relationshipSceneName, LoadSceneMode.Additive);
-            TimeManager.Instance.PauseGame(); // 🔥 ใช้ตัวนี้แทน timeScale
         }
         else
         {
@@ -46,7 +45,6 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.Log("🧹 Unloading Scene");
             SceneManager.UnloadSceneAsync(relationshipSceneName);
-            TimeManager.Instance.ResumeGame();
         }
     }
 }
