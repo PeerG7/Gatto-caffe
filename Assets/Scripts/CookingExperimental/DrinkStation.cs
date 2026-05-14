@@ -6,17 +6,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 #endif
 
-// =====================================================================
-// DrinkStation — v2 (Keyboard + Gamepad Navigation Added)
-//
-// ของเดิม: mouse/touch ทุกอย่างทำงานปกติ
-// เพิ่มใหม่:
-//   - implement IGamepadNavigable
-//   - OpenCanvas() → RegisterActiveCanvas + SetSelectedGameObject
-//   - CloseCanvas() → UnregisterActiveCanvas
-//   - กด Escape / B button ขณะ canvas เปิด → CloseCanvas()
-//   - กด Confirm (E / A) ขณะ canvas เปิด → OnDrinkButtonClicked()
-// =====================================================================
 public class DrinkStation : MonoBehaviour, IGamepadNavigable
 {
     [Header("UI Elements")]
@@ -36,13 +25,15 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
     public AudioClip completeSoundClip;
 
 #if ENABLE_INPUT_SYSTEM
-    [Header("Gamepad Navigation (ใหม่)")]
-    [Tooltip("InputActionReference สำหรับปุ่ม Back/Cancel (B button / Escape)")]
+    [Header("Gamepad Navigation")]
     public UnityEngine.InputSystem.InputActionReference backAction;
+    public UnityEngine.InputSystem.InputActionReference confirmAction; // เพิ่มสำหรับปุ่ม E/A
 #endif
 
     private Coroutine fillCoroutine = null;
     private bool isProcessing = false;
+
+    public bool IsProcessing => isProcessing;
 
     void Start()
     {
@@ -54,85 +45,79 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
     }
 
 #if ENABLE_INPUT_SYSTEM
-    void OnEnable() { if (backAction != null) backAction.action.Enable(); }
-    void OnDisable() { if (backAction != null) backAction.action.Disable(); }
+    void OnEnable()
+    {
+        if (backAction != null) backAction.action.Enable();
+        if (confirmAction != null) confirmAction.action.Enable();
+    }
 #endif
 
     void Update()
     {
-        // ตรวจ back input เฉพาะตอน canvas เปิดและไม่ได้กำลัง process
+        // ตรวจสอบเฉพาะตอนเปิด Canvas อยู่เท่านั้น
         if (stationDrinksCanvas == null || !stationDrinksCanvas.activeSelf) return;
-        if (isProcessing) return;
 
-        bool backPressed = false;
-
-        // Legacy keyboard
-        if (Input.GetKeyDown(KeyCode.Escape)) backPressed = true;
-
+        // 1. ตรวจสอบการกดปุ่ม ปิด (Back / Escape) - ให้ปิดได้เสมอแม้กำลังเติมน้ำ
+        bool backPressed = Input.GetKeyDown(KeyCode.Escape);
 #if ENABLE_INPUT_SYSTEM
         if (!backPressed && backAction != null && backAction.action.WasPressedThisFrame())
             backPressed = true;
 #endif
+        if (backPressed)
+        {
+            CloseCanvas();
+            return;
+        }
 
-        if (backPressed) CloseCanvas();
+        // 2. ตรวจสอบการกดปุ่ม เริ่ม (Confirm / E) - ทำงานเฉพาะตอนที่ยังไม่ได้เติมน้ำ
+        if (!isProcessing)
+        {
+            bool confirmPressed = Input.GetKeyDown(KeyCode.E);
+#if ENABLE_INPUT_SYSTEM
+            if (!confirmPressed && confirmAction != null && confirmAction.action.WasPressedThisFrame())
+                confirmPressed = true;
+#endif
+            if (confirmPressed) OnDrinkButtonClicked();
+        }
     }
 
-    // ── IGamepadNavigable ──────────────────────────────────────────
-    public void OnConfirm()
-    {
-        if (!isProcessing) OnDrinkButtonClicked();
-    }
-
+    // ── IGamepadNavigable (เผื่อไว้สำหรับระบบจัดการรวม) ──────────
+    public void OnConfirm() { if (!isProcessing) OnDrinkButtonClicked(); }
     public void OnBack() => CloseCanvas();
+    public void OnNavigate(Vector2 direction) { }
 
-    public void OnNavigate(Vector2 direction) { /* single-button canvas ไม่ต้องการ navigate */ }
-
-    // ── OpenCanvas / CloseCanvas ───────────────────────────────────
+    // ── ระบบเปิด/ปิด ──────────────────────────────────────────
     public void OpenCanvas()
     {
-        if (stationDrinksCanvas != null)
-            stationDrinksCanvas.SetActive(true);
-
+        if (stationDrinksCanvas != null) stationDrinksCanvas.SetActive(true);
         PlayerController2D.IsLocked = true;
-
-        // ✅ register ให้ PlayerInteract2D รู้ว่า canvas นี้กำลังเปิดอยู่
         PlayerInteract2D.RegisterActiveCanvas(this);
 
-        // ✅ focus ที่ drinkButton ทันทีเมื่อเปิด
         if (EventSystem.current != null && drinkButton != null)
             EventSystem.current.SetSelectedGameObject(drinkButton.gameObject);
     }
 
     public void CloseCanvas()
     {
-        if (stationDrinksCanvas != null)
-            stationDrinksCanvas.SetActive(false);
-
-        // ✅ unregister
-        PlayerInteract2D.UnregisterActiveCanvas(this);
-
-        if (isProcessing)
+        // หยุด Coroutine และเสียงทันทีถ้ามีการปิดหน้าจอ
+        if (fillCoroutine != null)
         {
-            if (fillCoroutine != null)
-            {
-                StopCoroutine(fillCoroutine);
-                fillCoroutine = null;
-            }
-
-            if (sfxSource != null && sfxSource.isPlaying)
-                sfxSource.Stop();
-
-            ResetStation();
+            StopCoroutine(fillCoroutine);
+            fillCoroutine = null;
         }
+        if (sfxSource != null && sfxSource.isPlaying) sfxSource.Stop();
 
+        if (stationDrinksCanvas != null) stationDrinksCanvas.SetActive(false);
+
+        ResetStation();
+        PlayerInteract2D.UnregisterActiveCanvas(this);
         PlayerController2D.IsLocked = false;
     }
 
-    // ── ของเดิมทั้งหมด (ไม่มีการแก้ไข) ───────────────────────────
+    // ── ระบบการเติมน้ำ (เหมือน DeepFry แต่ใช้ E) ──────────────────
     public void OnDrinkButtonClicked()
     {
         if (isProcessing) return;
-        PlayerController2D.IsLocked = true;
         fillCoroutine = StartCoroutine(FillDrinkCoroutine());
     }
 
@@ -163,26 +148,14 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
             yield return null;
         }
 
-        fillCoroutine = null;
-
-        if (sfxSource != null && sfxSource.isPlaying)
-            sfxSource.Stop();
-
+        if (sfxSource != null && sfxSource.isPlaying) sfxSource.Stop();
         PlayCompleteSound();
 
         PlayerInventory player = FindObjectOfType<PlayerInventory>();
-        if (player != null)
-            player.PickUpItem(drinkName, drinkSprite);
+        if (player != null) player.PickUpItem(drinkName, drinkSprite);
 
-        ResetStation();
-
-        if (stationDrinksCanvas != null)
-            stationDrinksCanvas.SetActive(false);
-
-        // ✅ unregister เมื่อ canvas ปิดหลัง fill เสร็จ
-        PlayerInteract2D.UnregisterActiveCanvas(this);
-
-        PlayerController2D.IsLocked = false;
+        // เมื่อเสร็จแล้วให้ปิดหน้าจออัตโนมัติ
+        CloseCanvas();
     }
 
     void PlayCompleteSound()
