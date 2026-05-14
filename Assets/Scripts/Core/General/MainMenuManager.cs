@@ -43,6 +43,20 @@ public class MainMenuManager : MonoBehaviour
         Application.Quit();
 #endif
     }
+    public void OnBackToMainMenuPressed()
+    {
+        if (AudioManager.instance != null && AudioManager.instance.menuMusic != null)
+        {
+            AudioManager.instance.CrossfadeTo(
+                AudioManager.instance.menuMusic,
+                onComplete: () => SceneManager.LoadScene(0) // MainMenu scene index
+            );
+        }
+        else
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
 
     IEnumerator LoadGameAsync()
     {
