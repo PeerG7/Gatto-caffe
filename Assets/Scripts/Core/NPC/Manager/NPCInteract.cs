@@ -6,6 +6,10 @@ public class NPCInteract : MonoBehaviour
 
     public bool isInStore = false;
 
+    [Header("Relationship Canvas")]
+    [Tooltip("ลาก RelationshipCanvas (GameObject ใน Scene) มาใส่ตรงนี้ทุก NPC Prefab")]
+    public GameObject relationshipCanvas;
+
     [Header("Audio Settings (เสียงเฉพาะตัว NPC นี้ — Optional)")]
     [Tooltip("ถ้าใส่จะใช้ AudioSource ของ NPC นี้แทน AudioManager")]
     public AudioSource audioSource;
@@ -83,20 +87,32 @@ public class NPCInteract : MonoBehaviour
             controller.GoToTableDirectly();
     }
 
-    /// <summary>เปิด Relationship Minigame</summary>
+    /// <summary>เปิด Relationship Canvas (ไม่ใช้ SceneLoader แล้ว)</summary>
     public void RelationShip()
     {
         if (npc == null) return;
 
+        // ✅ Guard: NPC ต้องนั่งอยู่ก่อนเท่านั้น
         if (npc.currentState != NPCController.NPCState.Sitting)
         {
-            Debug.Log("❌ NPC not sitting");
+            Debug.Log("❌ NPC not sitting — state: " + npc.currentState);
             return;
         }
 
         Debug.Log("❤️ OPEN RELATIONSHIP for: " + gameObject.name);
 
         RelationshipManager.Instance.SetCurrentNPC(npc);
-        SceneLoader.Instance.LoadRelationshipScene();
+
+        // ✅ เปิด Canvas แทน LoadScene
+        if (relationshipCanvas != null)
+        {
+            relationshipCanvas.SetActive(true);
+            TimeManager.Instance.PauseGame();
+        }
+        else
+        {
+            Debug.LogError("❌ relationshipCanvas is NULL บน " + gameObject.name +
+                           " — กรุณาลาก RelationshipCanvas มาใส่ใน Inspector");
+        }
     }
 }

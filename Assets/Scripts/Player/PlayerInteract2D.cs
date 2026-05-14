@@ -92,7 +92,6 @@ public class PlayerInteract2D : MonoBehaviour
         TriggerInteract();
     }
 
-    // TriggerInteract — ของเดิมทั้งหมด ไม่มีการแก้ไข
     public void TriggerInteract()
     {
         if (PlayerController2D.IsLocked) return;
@@ -193,6 +192,8 @@ public class PlayerInteract2D : MonoBehaviour
         }
 
         // 9. NPC interact
+        // ✅ แก้ Race Condition: เช็ค CanInteract() ก่อนเรียก RelationShip()
+        //    ป้องกันกรณี NPC ยังเดินมาไม่ถึงโต๊ะ / ยังไม่ Sit เสร็จ
         NPCInteract closestNPC = GetClosestNPC(hits);
         if (closestNPC != null)
         {
