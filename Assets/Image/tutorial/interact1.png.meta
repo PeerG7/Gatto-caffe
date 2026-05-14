@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 738331f444d91ca4bbc9b61a2e646317
+guid: 13d76f71e073cd34eaa5a65df9a56ef7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2353571312451627304
-    second: Book_0
+      213: -3633408817781431020
+    second: interact1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Book_0
+      name: interact1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 23
-        width: 1913
-        height: 1036
+        y: 0
+        width: 1920
+        height: 1080
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 829aa3093a099a020800000000000000
-      internalID: 2353571312451627304
+      spriteID: 415ad5c4ee9839dc0800000000000000
+      internalID: -3633408817781431020
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Book_0: 2353571312451627304
+      interact1_0: -3633408817781431020
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
