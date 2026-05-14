@@ -9456,7 +9456,7 @@ MonoBehaviour:
   fadeDuration: 1.5
   mainMenuSceneName: MainMenu
   maxDays: 3
-  endingSceneName: MainMenu
+  endingSceneName: Ending
   nextDayButton: {fileID: 1895734963}
   nextDayButtonText: {fileID: 1453338561}
   labelNextDay: Next Day
