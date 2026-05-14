@@ -770,7 +770,7 @@ GameObject:
   - component: {fileID: 38831945}
   - component: {fileID: 38831944}
   m_Layer: 0
-  m_Name: Meat
+  m_Name: Tuna
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -809,6 +809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IngredientButton
   ingredientName: Tuna
   ingredientSprite: {fileID: 21300000, guid: eb6cc52e9191fcc4bb458382b68be872, type: 3}
+  hotkeySlotIndex: 4
 --- !u!114 &38831945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1943,6 +1944,7 @@ GameObject:
   - component: {fileID: 122512690}
   - component: {fileID: 122512689}
   - component: {fileID: 122512688}
+  - component: {fileID: 122512691}
   m_Layer: 5
   m_Name: Button (Legacy) (2)
   m_TagString: Untagged
@@ -2075,6 +2077,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122512686}
   m_CullTransparentMesh: 1
+--- !u!114 &122512691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122512686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38fedcee8b07d0148a634c47104ea3fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QTEInteractButton
+  mode: 1
+  choiceIndex: 2
+  qteKey: 32
+  qteAction: {fileID: -2654672004362973399, guid: 1ec89c8190a1f644796c1e984cf92f33, type: 3}
 --- !u!1 &175987500
 GameObject:
   m_ObjectHideFlags: 0
@@ -2723,6 +2741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IngredientButton
   ingredientName: Lectuce
   ingredientSprite: {fileID: 21300000, guid: 3910b3f0e8eb01e498e5745ff5d091a1, type: 3}
+  hotkeySlotIndex: 0
 --- !u!114 &222624590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3813,6 +3832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IngredientButton
   ingredientName: Tomato
   ingredientSprite: {fileID: 21300000, guid: 72b3a1edc9dd33a4ea4f6a5da04ef547, type: 3}
+  hotkeySlotIndex: 2
 --- !u!114 &289002291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4885,6 +4905,10 @@ PrefabInstance:
       propertyPath: slotIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -1335086703623774435, guid: bd5279869a4ca554898d4bcabc527d80, type: 3}
+      propertyPath: feedbackUI
+      value: 
+      objectReference: {fileID: 1006375202}
     - target: {fileID: 919422827561980744, guid: bd5279869a4ca554898d4bcabc527d80, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.65312624
@@ -5491,6 +5515,8 @@ MonoBehaviour:
   cookingProgressBar: {fileID: 1705110942}
   cookingDuration: 3
   stationCookingCanvas: {fileID: 1499498134}
+  deepFryStation: {fileID: 466208909}
+  deepFryButton: {fileID: 1694182690}
   sfxSource: {fileID: 466208908}
   cookingSoundClip: {fileID: 8300000, guid: c0fa00eb777ffdb40b767beab1b79a72, type: 3}
   completeSoundClip: {fileID: 0}
@@ -5629,11 +5655,9 @@ MonoBehaviour:
   fryDuration: 5
   foodName: Tempura
   foodSprite: {fileID: 21300000, guid: 4c149a5652f10fd47b53db856f79353e, type: 3}
-  stationFryCanvas: {fileID: 1499498134}
   sfxSource: {fileID: 466208908}
   frySoundClip: {fileID: 8300000, guid: 71574588b8265264b9b8ba3fd3251d68, type: 3}
   completeSoundClip: {fileID: 0}
-  backAction: {fileID: 5317567377745415392, guid: 1ec89c8190a1f644796c1e984cf92f33, type: 3}
 --- !u!114 &466208910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5703,6 +5727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IngredientButton
   ingredientName: Onion
   ingredientSprite: {fileID: 21300000, guid: 4777df51798f6ea409b30c8f514c7205, type: 3}
+  hotkeySlotIndex: 1
 --- !u!114 &467111650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5838,6 +5863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IngredientButton
   ingredientName: Cheese
   ingredientSprite: {fileID: 21300000, guid: d4b99a512ab409341ac96abc565034bc, type: 3}
+  hotkeySlotIndex: 5
 --- !u!114 &469687353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8339,6 +8365,7 @@ GameObject:
   - component: {fileID: 712174511}
   - component: {fileID: 712174510}
   - component: {fileID: 712174509}
+  - component: {fileID: 712174512}
   m_Layer: 5
   m_Name: Button (Legacy) (1)
   m_TagString: Untagged
@@ -8471,6 +8498,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 712174507}
   m_CullTransparentMesh: 1
+--- !u!114 &712174512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712174507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38fedcee8b07d0148a634c47104ea3fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QTEInteractButton
+  mode: 1
+  choiceIndex: 1
+  qteKey: 32
+  qteAction: {fileID: -2654672004362973399, guid: 1ec89c8190a1f644796c1e984cf92f33, type: 3}
 --- !u!1 &717800626
 GameObject:
   m_ObjectHideFlags: 0
@@ -8674,6 +8717,10 @@ PrefabInstance:
       propertyPath: slotIndex
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: -1335086703623774435, guid: bd5279869a4ca554898d4bcabc527d80, type: 3}
+      propertyPath: feedbackUI
+      value: 
+      objectReference: {fileID: 319148973}
     - target: {fileID: 919422827561980744, guid: bd5279869a4ca554898d4bcabc527d80, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.9589243
@@ -11688,13 +11735,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 469687351}
-  - {fileID: 38831943}
-  - {fileID: 1876184580}
-  - {fileID: 467111648}
   - {fileID: 222624588}
+  - {fileID: 467111648}
   - {fileID: 289002289}
   - {fileID: 1760322228}
+  - {fileID: 38831943}
+  - {fileID: 469687351}
+  - {fileID: 1876184580}
   m_Father: {fileID: 1499498135}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -14469,6 +14516,7 @@ MonoBehaviour:
   sfxSource: {fileID: 1312205194}
   pourSoundClip: {fileID: 8300000, guid: 4eb888a94d7d8c64780079e780b33dd7, type: 3}
   completeSoundClip: {fileID: 0}
+  backAction: {fileID: 5317567377745415392, guid: 1ec89c8190a1f644796c1e984cf92f33, type: 3}
 --- !u!82 &1312205194
 AudioSource:
   m_ObjectHideFlags: 0
@@ -14608,6 +14656,7 @@ Transform:
   - {fileID: 2098977363}
   - {fileID: 272414309}
   - {fileID: 686240466}
+  - {fileID: 1808071366}
   - {fileID: 611050622}
   - {fileID: 1261770019}
   m_Father: {fileID: 0}
@@ -18676,6 +18725,7 @@ GameObject:
   - component: {fileID: 1533021539}
   - component: {fileID: 1533021538}
   - component: {fileID: 1533021537}
+  - component: {fileID: 1533021540}
   m_Layer: 5
   m_Name: Button (Legacy)
   m_TagString: Untagged
@@ -18808,6 +18858,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1533021535}
   m_CullTransparentMesh: 1
+--- !u!114 &1533021540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533021535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38fedcee8b07d0148a634c47104ea3fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QTEInteractButton
+  mode: 1
+  choiceIndex: 0
+  qteKey: 32
+  qteAction: {fileID: -2654672004362973399, guid: 1ec89c8190a1f644796c1e984cf92f33, type: 3}
 --- !u!1 &1546973782
 GameObject:
   m_ObjectHideFlags: 0
@@ -19422,7 +19488,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608871900}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -20692,6 +20758,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IngredientButton
   ingredientName: Salmon
   ingredientSprite: {fileID: 21300000, guid: 1457b205996f4324697c933b38f76789, type: 3}
+  hotkeySlotIndex: 3
 --- !u!114 &1760322230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21356,6 +21423,84 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1808071365
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1808071366}
+  - component: {fileID: 1808071367}
+  m_Layer: 10
+  m_Name: BlockTable (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1808071366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808071365}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.06, y: 6.35, z: 0}
+  m_LocalScale: {x: 0.12736194, y: 0.13535155, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1327114485}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1808071367
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808071365}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 1.5158992, y: -0.10190964}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 26.09517, y: 0.7961807}
+  m_EdgeRadius: 0
 --- !u!1 &1810608272
 GameObject:
   m_ObjectHideFlags: 0
@@ -21994,6 +22139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IngredientButton
   ingredientName: Bread
   ingredientSprite: {fileID: 21300000, guid: ad65409ff16d029469377f5c96c5e28a, type: 3}
+  hotkeySlotIndex: 6
 --- !u!114 &1876184582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25312,6 +25458,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1627364612}
     m_Modifications:
+    - target: {fileID: -1335086703623774435, guid: bd5279869a4ca554898d4bcabc527d80, type: 3}
+      propertyPath: feedbackUI
+      value: 
+      objectReference: {fileID: 1303401682}
     - target: {fileID: 919422827561980744, guid: bd5279869a4ca554898d4bcabc527d80, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.49

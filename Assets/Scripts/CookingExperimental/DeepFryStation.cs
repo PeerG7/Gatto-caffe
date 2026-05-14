@@ -7,17 +7,22 @@ using UnityEngine.InputSystem;
 #endif
 
 // =====================================================================
-// DeepFryStation — v2 (Gamepad Canvas Navigation Added)
+// DeepFryStation — v3 (Shared Canvas with CookingManager)
 //
-// ของเดิม: mouse/touch ทุกอย่างทำงานปกติ
-// เพิ่มใหม่:
-//   - implement IGamepadNavigable
-//   - OpenCanvas() register / CloseCanvas() unregister
-//   - กด B / Escape เพื่อปิด canvas
-//   - กด Confirm (E / A) ขณะ canvas เปิด → เรียก OnFryButtonClicked()
-//   - ตั้ง initial focus ที่ fryButton เมื่อ canvas เปิด
+// เปลี่ยนจากเดิม:
+//   - ไม่ manage OpenCanvas / CloseCanvas เองอีกต่อไป
+//     เพราะ canvas เดียวกับ CookingManager — CookingManager จัดการแทน
+//   - OnFryButtonClicked() ยัง public อยู่ — CookingManager เรียกผ่าน hotkey F
+//   - mouse click บน deepfry button ยังทำงานปกติ
+//   - FryCoroutine ทำงานอิสระ ไม่ยุ่งกับ PlayerController2D.IsLocked
+//     เพราะ CookingManager เป็นคนล็อกอยู่แล้ว
+//
+// Setup ใน Inspector:
+//   - ลาก DeepFryStation component นี้ไปผูกกับ CookingManager.deepFryStation
+//   - ลาก fryButton ไปผูกกับ CookingManager.deepFryButton ด้วย
+//     เพื่อให้ CookingManager ตรวจ interactable ก่อนกด F
 // =====================================================================
-public class DeepFryStation : MonoBehaviour, IGamepadNavigable
+public class DeepFryStation : MonoBehaviour
 {
     [Header("UI Elements")]
     public Image fillImage;
@@ -28,18 +33,10 @@ public class DeepFryStation : MonoBehaviour, IGamepadNavigable
     public string foodName = "Tempura";
     public Sprite foodSprite;
 
-    public GameObject stationFryCanvas;
-
     [Header("SFX")]
     public AudioSource sfxSource;
     public AudioClip frySoundClip;
     public AudioClip completeSoundClip;
-
-#if ENABLE_INPUT_SYSTEM
-    [Header("Gamepad Navigation (ใหม่)")]
-    [Tooltip("InputActionReference สำหรับปุ่ม Back/Cancel (B button / Escape)")]
-    public UnityEngine.InputSystem.InputActionReference backAction;
-#endif
 
     private Coroutine fryCoroutine = null;
     private bool isProcessing = false;
@@ -53,73 +50,16 @@ public class DeepFryStation : MonoBehaviour, IGamepadNavigable
         }
     }
 
-#if ENABLE_INPUT_SYSTEM
-    void OnEnable() { if (backAction != null) backAction.action.Enable(); }
-    void OnDisable() { if (backAction != null) backAction.action.Disable(); }
-#endif
+    // ── ยังคง OpenCanvas / CloseCanvas ไว้เผื่อใช้แบบ standalone ──
+    // ถ้า DeepFryStation อยู่ใน canvas เดียวกับ CookingManager
+    // ไม่จำเป็นต้องเรียก method เหล่านี้ — CookingManager จัดการแทน
+    public void OpenCanvas() { /* จัดการโดย CookingManager */ }
+    public void CloseCanvas() { /* จัดการโดย CookingManager */ }
 
-    void Update()
-    {
-        if (stationFryCanvas == null || !stationFryCanvas.activeSelf) return;
-        if (isProcessing) return;
-
-        bool backPressed = false;
-        if (Input.GetKeyDown(KeyCode.Escape)) backPressed = true;
-
-#if ENABLE_INPUT_SYSTEM
-        if (!backPressed && backAction != null && backAction.action.WasPressedThisFrame())
-            backPressed = true;
-#endif
-
-        if (backPressed) CloseCanvas();
-    }
-
-    // ── IGamepadNavigable ──────────────────────────────────────────
-    public void OnConfirm()
-    {
-        if (!isProcessing) OnFryButtonClicked();
-    }
-
-    public void OnBack() => CloseCanvas();
-
-    public void OnNavigate(Vector2 direction) { /* EventSystem จัดการให้ */ }
-
-    // ── OpenCanvas / CloseCanvas ───────────────────────────────────
-    public void OpenCanvas()
-    {
-        if (stationFryCanvas != null)
-            stationFryCanvas.SetActive(true);
-
-        PlayerController2D.IsLocked = true;
-        PlayerInteract2D.RegisterActiveCanvas(this);
-
-        // ✅ focus ที่ fryButton ทันทีเมื่อเปิด
-        if (EventSystem.current != null && fryButton != null)
-            EventSystem.current.SetSelectedGameObject(fryButton.gameObject);
-    }
-
-    public void CloseCanvas()
-    {
-        if (stationFryCanvas != null)
-            stationFryCanvas.SetActive(false);
-
-        PlayerInteract2D.UnregisterActiveCanvas(this);
-
-        if (isProcessing)
-        {
-            if (fryCoroutine != null) { StopCoroutine(fryCoroutine); fryCoroutine = null; }
-            if (sfxSource != null && sfxSource.isPlaying) sfxSource.Stop();
-            ResetStation();
-        }
-
-        PlayerController2D.IsLocked = false;
-    }
-
-    // ── ของเดิมทั้งหมด (ไม่มีการแก้ไข) ───────────────────────────
+    // ── OnFryButtonClicked: เรียกได้จากทั้ง mouse click และ hotkey F ─
     public void OnFryButtonClicked()
     {
         if (isProcessing) return;
-        PlayerController2D.IsLocked = true;
         fryCoroutine = StartCoroutine(FryCoroutine());
     }
 
@@ -162,12 +102,6 @@ public class DeepFryStation : MonoBehaviour, IGamepadNavigable
             player.PickUpItem(foodName, foodSprite);
 
         ResetStation();
-
-        if (stationFryCanvas != null)
-            stationFryCanvas.SetActive(false);
-
-        PlayerInteract2D.UnregisterActiveCanvas(this);
-        PlayerController2D.IsLocked = false;
     }
 
     void PlayCompleteSound()
@@ -188,4 +122,7 @@ public class DeepFryStation : MonoBehaviour, IGamepadNavigable
             fillImage.gameObject.SetActive(false);
         }
     }
+
+    // ── helper สำหรับ CookingManager ตรวจสอบสถานะ ─────────────────
+    public bool IsProcessing => isProcessing;
 }

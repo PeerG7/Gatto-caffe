@@ -1,33 +1,47 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+// =====================================================================
+// IngredientButton — v3 (7 Slots, 0-based index 0-6)
+//
+// ของเดิม: mouse click ยังทำงานปกติ
+// เพิ่มใหม่:
+//   - hotkeySlotIndex 0-6 (0 = key 1, ... 6 = key 7)
+//   - RegisterIngredientButton() แจ้ง CookingManager ตอน Start()
+//   - TriggerIngredient() public method สำหรับ hotkey
+// =====================================================================
 public class IngredientButton : MonoBehaviour
 {
     [Header("Ingredient Data")]
-    public string ingredientName; // ใส่ชื่อ เช่น Meat, Veggie
-    public Sprite ingredientSprite; // ลากรูปวัตถุดิบมาใส่ตรงนี้
+    public string ingredientName;
+    public Sprite ingredientSprite;
+
+    [Header("Hotkey Slot (ใหม่)")]
+    [Tooltip("ตำแหน่งปุ่มใน canvas 0-6 (0 = กด 1, 1 = กด 2, ... 6 = กด 7)")]
+    [Range(0, 6)]
+    public int hotkeySlotIndex = 0;
 
     private CookingManager cookingManager;
 
     void Start()
     {
-        // 1. ค้นหา CookingManager ในฉากอัตโนมัติ
         cookingManager = FindObjectOfType<CookingManager>();
 
-        // 2. สั่งให้ปุ่ม UI ผูกการทำงานกับฟังก์ชัน OnClick เมื่อเริ่มเกม
         Button btn = GetComponent<Button>();
         if (btn != null)
-        {
             btn.onClick.AddListener(OnClick);
-        }
+
+        if (cookingManager != null)
+            cookingManager.RegisterIngredientButton(this, hotkeySlotIndex);
+        else
+            Debug.LogWarning($"[IngredientButton] '{ingredientName}' ไม่พบ CookingManager ใน scene");
     }
 
-    void OnClick()
+    void OnClick() => TriggerIngredient();
+
+    public void TriggerIngredient()
     {
         if (cookingManager != null)
-        {
-            // ส่งข้อมูลชื่อและรูปภาพไปให้ CookingManager
             cookingManager.AddIngredient(ingredientName, ingredientSprite);
-        }
     }
 }

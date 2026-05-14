@@ -1,8 +1,23 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
-public class DrinkStation : MonoBehaviour
+// =====================================================================
+// DrinkStation — v2 (Keyboard + Gamepad Navigation Added)
+//
+// ของเดิม: mouse/touch ทุกอย่างทำงานปกติ
+// เพิ่มใหม่:
+//   - implement IGamepadNavigable
+//   - OpenCanvas() → RegisterActiveCanvas + SetSelectedGameObject
+//   - CloseCanvas() → UnregisterActiveCanvas
+//   - กด Escape / B button ขณะ canvas เปิด → CloseCanvas()
+//   - กด Confirm (E / A) ขณะ canvas เปิด → OnDrinkButtonClicked()
+// =====================================================================
+public class DrinkStation : MonoBehaviour, IGamepadNavigable
 {
     [Header("UI Elements")]
     public Image fillImage;
@@ -16,9 +31,15 @@ public class DrinkStation : MonoBehaviour
     public GameObject stationDrinksCanvas;
 
     [Header("SFX")]
-    public AudioSource sfxSource;        // AudioSource แยกต่างหาก (ไม่ใช่ BGM)
-    public AudioClip pourSoundClip;      // เสียงเทเครื่องดื่ม
-    public AudioClip completeSoundClip;  // ✅ เสียงเมื่อเครื่องดื่มพร้อม (override AudioManager.sfxComplete)
+    public AudioSource sfxSource;
+    public AudioClip pourSoundClip;
+    public AudioClip completeSoundClip;
+
+#if ENABLE_INPUT_SYSTEM
+    [Header("Gamepad Navigation (ใหม่)")]
+    [Tooltip("InputActionReference สำหรับปุ่ม Back/Cancel (B button / Escape)")]
+    public UnityEngine.InputSystem.InputActionReference backAction;
+#endif
 
     private Coroutine fillCoroutine = null;
     private bool isProcessing = false;
@@ -32,17 +53,63 @@ public class DrinkStation : MonoBehaviour
         }
     }
 
+#if ENABLE_INPUT_SYSTEM
+    void OnEnable() { if (backAction != null) backAction.action.Enable(); }
+    void OnDisable() { if (backAction != null) backAction.action.Disable(); }
+#endif
+
+    void Update()
+    {
+        // ตรวจ back input เฉพาะตอน canvas เปิดและไม่ได้กำลัง process
+        if (stationDrinksCanvas == null || !stationDrinksCanvas.activeSelf) return;
+        if (isProcessing) return;
+
+        bool backPressed = false;
+
+        // Legacy keyboard
+        if (Input.GetKeyDown(KeyCode.Escape)) backPressed = true;
+
+#if ENABLE_INPUT_SYSTEM
+        if (!backPressed && backAction != null && backAction.action.WasPressedThisFrame())
+            backPressed = true;
+#endif
+
+        if (backPressed) CloseCanvas();
+    }
+
+    // ── IGamepadNavigable ──────────────────────────────────────────
+    public void OnConfirm()
+    {
+        if (!isProcessing) OnDrinkButtonClicked();
+    }
+
+    public void OnBack() => CloseCanvas();
+
+    public void OnNavigate(Vector2 direction) { /* single-button canvas ไม่ต้องการ navigate */ }
+
+    // ── OpenCanvas / CloseCanvas ───────────────────────────────────
     public void OpenCanvas()
     {
         if (stationDrinksCanvas != null)
             stationDrinksCanvas.SetActive(true);
+
         PlayerController2D.IsLocked = true;
+
+        // ✅ register ให้ PlayerInteract2D รู้ว่า canvas นี้กำลังเปิดอยู่
+        PlayerInteract2D.RegisterActiveCanvas(this);
+
+        // ✅ focus ที่ drinkButton ทันทีเมื่อเปิด
+        if (EventSystem.current != null && drinkButton != null)
+            EventSystem.current.SetSelectedGameObject(drinkButton.gameObject);
     }
 
     public void CloseCanvas()
     {
         if (stationDrinksCanvas != null)
             stationDrinksCanvas.SetActive(false);
+
+        // ✅ unregister
+        PlayerInteract2D.UnregisterActiveCanvas(this);
 
         if (isProcessing)
         {
@@ -61,6 +128,7 @@ public class DrinkStation : MonoBehaviour
         PlayerController2D.IsLocked = false;
     }
 
+    // ── ของเดิมทั้งหมด (ไม่มีการแก้ไข) ───────────────────────────
     public void OnDrinkButtonClicked()
     {
         if (isProcessing) return;
@@ -79,7 +147,6 @@ public class DrinkStation : MonoBehaviour
             fillImage.fillAmount = 0;
         }
 
-        // เล่นเสียงเทน้ำพร้อมกับเริ่ม fill
         if (sfxSource != null && pourSoundClip != null)
         {
             sfxSource.clip = pourSoundClip;
@@ -101,7 +168,6 @@ public class DrinkStation : MonoBehaviour
         if (sfxSource != null && sfxSource.isPlaying)
             sfxSource.Stop();
 
-        // ✅ เล่นเสียง complete เมื่อหลอดเต็ม
         PlayCompleteSound();
 
         PlayerInventory player = FindObjectOfType<PlayerInventory>();
@@ -113,10 +179,12 @@ public class DrinkStation : MonoBehaviour
         if (stationDrinksCanvas != null)
             stationDrinksCanvas.SetActive(false);
 
+        // ✅ unregister เมื่อ canvas ปิดหลัง fill เสร็จ
+        PlayerInteract2D.UnregisterActiveCanvas(this);
+
         PlayerController2D.IsLocked = false;
     }
 
-    /// <summary>เล่นเสียง complete — ใช้ completeSoundClip ถ้ามี ไม่งั้นใช้ AudioManager</summary>
     void PlayCompleteSound()
     {
         if (sfxSource != null && completeSoundClip != null)
