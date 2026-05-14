@@ -32,17 +32,16 @@ public class RelationshipUI : MonoBehaviour
 
         RelationshipManager.Instance?.ClearNPC();
 
-        yield return new WaitForSeconds(0.3f);  // FadeOut เดิม
+        yield return new WaitForSeconds(0.3f);
 
-        // ✅ ปิด Canvas แทน SceneLoader
         if (relationshipCanvas != null)
             relationshipCanvas.SetActive(false);
         else
-            gameObject.SetActive(false); // fallback: ปิด GameObject ที่ script นี้ติดอยู่
+            gameObject.SetActive(false);
 
-        // ✅ Resume เวลา
-        DayNightManager.Instance?.ResumeGame();
+        // ✅ ForceResume แทน ResumeGame เพื่อ reset pauseCount เป็น 0 ทันที
+        DayNightManager.Instance?.ForceResume();
 
-        isEnding = false; // reset เผื่อเปิดใหม่ในรอบถัดไป
+        isEnding = false;
     }
 }

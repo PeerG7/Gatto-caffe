@@ -90,8 +90,10 @@ public class NPCInteract : MonoBehaviour
         if (relationshipCanvas != null)
         {
             relationshipCanvas.SetActive(true);
-            // ✅ PauseGame() — จะ resume เมื่อ RelationshipUI.FinishInteraction() ถูกเรียก
-            DayNightManager.Instance?.PauseGame();
+
+            // ✅ Pause เฉพาะตอนที่ยังไม่ได้ pause อยู่
+            if (DayNightManager.Instance != null && !DayNightManager.Instance.isPaused)
+                DayNightManager.Instance.PauseGame();
         }
         else
         {

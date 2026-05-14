@@ -194,9 +194,13 @@ public class PlayerInteract2D : MonoBehaviour
         // 9. NPC interact
         // ✅ แก้ Race Condition: เช็ค CanInteract() ก่อนเรียก RelationShip()
         //    ป้องกันกรณี NPC ยังเดินมาไม่ถึงโต๊ะ / ยังไม่ Sit เสร็จ
+        // ✅ ถ้าถืออาหารอยู่ ไม่ต้อง interact NPC — ให้ไป serve ที่โต๊ะแทน
         NPCInteract closestNPC = GetClosestNPC(hits);
         if (closestNPC != null)
         {
+            PlayerInventory playerInv = GetComponent<PlayerInventory>();
+            if (playerInv != null && playerInv.HasItem()) return;
+
             if (closestNPC.CanInteract())
                 closestNPC.RelationShip();
             else
