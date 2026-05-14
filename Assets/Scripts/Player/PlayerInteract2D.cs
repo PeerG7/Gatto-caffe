@@ -198,13 +198,19 @@ public class PlayerInteract2D : MonoBehaviour
         NPCInteract closestNPC = GetClosestNPC(hits);
         if (closestNPC != null)
         {
-            PlayerInventory playerInv = GetComponent<PlayerInventory>();
-            if (playerInv != null && playerInv.HasItem()) return;
-
             if (closestNPC.CanInteract())
+            {
+                // ✅ ถ้าถืออาหารอยู่ ข้าม RelationShip() — ให้ TryServeFood() จัดการแทน
+                PlayerInventory playerInv = GetComponent<PlayerInventory>();
+                if (playerInv != null && playerInv.HasItem()) return;
+
                 closestNPC.RelationShip();
+            }
             else
+            {
+                // ชวน NPC เข้าร้าน — ทำได้เสมอไม่ว่าจะถืออะไรอยู่
                 closestNPC.Interact();
+            }
         }
     }
 
