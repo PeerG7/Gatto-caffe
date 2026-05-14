@@ -4,6 +4,17 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+// =====================================================================
+// UISummaryController — v2 (3-Day Session Limit Added)
+//
+// ของเดิม: fade sequence, Next Day, Main Menu ทำงานปกติ
+// เพิ่มใหม่:
+//   - maxDays: จำนวนวันสูงสุด (default 3)
+//   - ถ้า day >= maxDays → ปุ่ม Next Day เปลี่ยนเป็น "Game End"
+//     แล้ว route ไป ending scene แทน ResetNewDay()
+//   - endingSceneName: ชื่อ scene สำหรับ ending
+//   - nextDayButtonText / endGameButtonText: เปลี่ยน label ปุ่มอัตโนมัติ
+// =====================================================================
 public class UISummaryController : MonoBehaviour
 {
     [Header("UI Components")]
@@ -18,20 +29,45 @@ public class UISummaryController : MonoBehaviour
     public float fadeDuration = 1.5f;
 
     [Header("Scene Settings")]
-    public string mainMenuSceneName = "MainMenu"; // ❗ ต้องตรงกับชื่อ scene จริง
+    public string mainMenuSceneName = "MainMenu";
+
+    // ── ใหม่: 3-Day Session ───────────────────────────────────────
+    [Header("Day Session Settings (ใหม่)")]
+    [Tooltip("จำนวนวันสูงสุดก่อนจบเกม — default 3")]
+    public int maxDays = 3;
+
+    [Tooltip("ชื่อ scene ที่จะโหลดเมื่อครบ maxDays")]
+    public string endingSceneName = "Ending";
+
+    [Tooltip("ปุ่ม Next Day — script จะเปลี่ยน label ให้อัตโนมัติ")]
+    public Button nextDayButton;
+
+    [Tooltip("Text บน nextDayButton — ลาก TMP_Text ของปุ่มมาใส่")]
+    public TextMeshProUGUI nextDayButtonText;
+
+    public string labelNextDay = "Next Day";
+    public string labelEndGame = "See Ending";
+
+    // ── ใหม่: track current day ───────────────────────────────────
+    private int _currentDay = 1;
+    private bool _isLastDay = false;
 
     void Start()
     {
-        // ✅ ปิด SummaryCanvas ตั้งแต่ต้น
         if (summaryCanvas != null) summaryCanvas.SetActive(false);
-
-        // ✅ ปิด BlackOverlay ตั้งแต่ต้น
         if (blackOverlay != null) blackOverlay.gameObject.SetActive(false);
     }
 
     public void StartSummarySequence(int day, int served, int earnings)
     {
+        _currentDay = day;
+        _isLastDay = day >= maxDays;
+
         summaryCanvas.SetActive(true);
+
+        // ✅ ใหม่: ปรับ label ปุ่ม Next Day ตามวัน
+        if (nextDayButtonText != null)
+            nextDayButtonText.text = _isLastDay ? labelEndGame : labelNextDay;
 
         if (canvasGroup != null)
         {
@@ -61,7 +97,7 @@ public class UISummaryController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
-        // 2. เปิด BlackOverlay แล้ว Fade มืด
+        // 2. Fade มืด
         if (blackOverlay != null)
         {
             blackOverlay.gameObject.SetActive(true);
@@ -84,12 +120,16 @@ public class UISummaryController : MonoBehaviour
             yield return null;
         }
 
-        // 3. Set ข้อมูลตอนหน้าจอมืดสนิท
+        // 3. Set ข้อมูล
         if (dayText != null) dayText.text = "Day " + day + " Finished!";
         if (servedText != null) servedText.text = "Cats Served: " + served;
         if (earningsText != null) earningsText.text = "Total Earnings: " + earnings + " $";
 
-        // 4. Fade ตัวหนังสือขึ้นมา
+        // ✅ ใหม่: แสดง "Final Day!" ถ้าเป็นวันสุดท้าย
+        if (_isLastDay && dayText != null)
+            dayText.text = "Day " + day + " — Final Day!";
+
+        // 4. Fade ตัวหนังสือขึ้น
         timer = 0;
         while (timer < fadeDuration)
         {
@@ -107,15 +147,26 @@ public class UISummaryController : MonoBehaviour
         }
     }
 
-    // ── ปุ่ม Next Day ─────────────────────────────────────
+    // ── ปุ่ม Next Day / End Game ───────────────────────────────────
     public void OnNextDayButton()
     {
-        StartCoroutine(NextDaySequence());
+        if (_isLastDay)
+            StartCoroutine(EndGameSequence());
+        else
+            StartCoroutine(NextDaySequence());
     }
 
-    private IEnumerator NextDaySequence()
+    // ── ใหม่: End Game sequence ────────────────────────────────────
+    private IEnumerator EndGameSequence()
     {
-        // 1. Fade ทุกอย่างออก
+        // lock ปุ่ม
+        if (canvasGroup != null)
+        {
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
+
+        // Fade ออก
         float timer = 0;
         while (timer < fadeDuration)
         {
@@ -131,11 +182,41 @@ public class UISummaryController : MonoBehaviour
             yield return null;
         }
 
-        // 2. ปิด BlackOverlay และ SummaryCanvas
+        // ✅ Crossfade เพลงแล้วโหลด ending scene
+        if (AudioManager.instance != null && AudioManager.instance.menuMusic != null)
+        {
+            AudioManager.instance.CrossfadeTo(
+                AudioManager.instance.menuMusic,
+                onComplete: () => SceneManager.LoadScene(endingSceneName)
+            );
+        }
+        else
+        {
+            SceneManager.LoadScene(endingSceneName);
+        }
+    }
+
+    // ── ของเดิม: Next Day sequence ────────────────────────────────
+    private IEnumerator NextDaySequence()
+    {
+        float timer = 0;
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+            float alpha = Mathf.Lerp(1, 0, timer / fadeDuration);
+            if (canvasGroup != null) canvasGroup.alpha = alpha;
+            if (blackOverlay != null)
+            {
+                Color c = blackOverlay.color;
+                c.a = alpha;
+                blackOverlay.color = c;
+            }
+            yield return null;
+        }
+
         if (blackOverlay != null) blackOverlay.gameObject.SetActive(false);
         if (summaryCanvas != null) summaryCanvas.SetActive(false);
 
-        // 3. Reset CanvasGroup
         if (canvasGroup != null)
         {
             canvasGroup.alpha = 0;
@@ -143,47 +224,29 @@ public class UISummaryController : MonoBehaviour
             canvasGroup.blocksRaycasts = false;
         }
 
-        // 4. ✅ ปลดล็อก Player
         PlayerController2D.IsLocked = false;
 
-        // 5. ✅ Reset โต๊ะทุกตัว
         CustomerTable[] tables = FindObjectsOfType<CustomerTable>();
-        foreach (var table in tables)
-        {
-            table.ResetTable();
-        }
+        foreach (var table in tables) table.ResetTable();
 
-        // 6. ✅ Clear Queue
         if (QueueManager.Instance != null) QueueManager.Instance.ResetQueue();
-
-        // 7. ✅ Reset วันใหม่
         if (DayNightManager.Instance != null) DayNightManager.Instance.ResetNewDay();
 
         DamageableObject[] damages = FindObjectsOfType<DamageableObject>();
-        foreach (var dmg in damages)
-        {
-            dmg.ResetToNormal();
-        }
+        foreach (var dmg in damages) dmg.ResetToNormal();
     }
 
-    // ── ปุ่ม Main Menu ────────────────────────────────────
-    /// <summary>
-    /// เชื่อมปุ่ม "Main Menu" ใน Inspector → OnClick() ของปุ่มนี้
-    /// Crossfade ไปเพลง Menu แล้วโหลด MainMenu scene
-    /// </summary>
+    // ── ของเดิม: Main Menu ────────────────────────────────────────
     public void OnMainMenuButton()
     {
-        // ปิดปุ่มทันทีเพื่อกันกด 2 ครั้ง
         if (canvasGroup != null)
         {
-            canvasGroup.interactable  = false;
+            canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
         }
 
         if (AudioManager.instance != null && AudioManager.instance.menuMusic != null)
         {
-            // Crossfade ไปเพลง Menu ก่อน แล้วค่อยโหลด scene
-            // ✅ AudioManager.OnSceneLoaded จะ detect ว่า clip == menuMusic แล้ว → ไม่เล่นซ้ำ
             AudioManager.instance.CrossfadeTo(
                 AudioManager.instance.menuMusic,
                 onComplete: () => SceneManager.LoadScene(mainMenuSceneName)
@@ -191,7 +254,6 @@ public class UISummaryController : MonoBehaviour
         }
         else
         {
-            // ไม่มี AudioManager → โหลด scene เลย
             SceneManager.LoadScene(mainMenuSceneName);
         }
     }

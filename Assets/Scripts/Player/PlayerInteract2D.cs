@@ -1,14 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
+// =====================================================================
+// PlayerInteract2D — v2 (Keyboard + Gamepad Added)
+//
+// ของเดิม: mouse click / KeyCode.E ยังทำงานได้ปกติ
+// เพิ่มใหม่: รองรับ Unity New Input System
+//   - ถ้า project ใช้ New Input System → ผูก PlayerInput component
+//     บน Player แล้ว assign interactAction ใน Inspector
+//   - ถ้ายังใช้ Legacy Input → interactAction ว่างไว้ได้ ระบบเดิมทำงาน
+//
+// Setup (New Input System):
+//   1. Player prefab → Add Component → PlayerInput
+//   2. สร้าง InputActionAsset: Actions > Gameplay > Interact
+//      Binding: Keyboard/E, Gamepad/Button South (A/Cross)
+//   3. ลาก Action Reference มาใส่ช่อง "Interact Action" ใน Inspector
+// =====================================================================
 public class PlayerInteract2D : MonoBehaviour
 {
     public float range = 3.0f;
 
-    [Header("Interact Keys — เพิ่ม/ลดปุ่มได้เลยใน Inspector")]
+    [Header("Legacy Interact Keys (ยังใช้งานได้ปกติ)")]
     public KeyCode[] interactKeys = new KeyCode[] { KeyCode.E };
 
+#if ENABLE_INPUT_SYSTEM
+    [Header("New Input System (optional — ถ้าใช้ New Input System)")]
+    [Tooltip("ลาก InputActionReference จาก InputActionAsset มาใส่ตรงนี้")]
+    public UnityEngine.InputSystem.InputActionReference interactAction;
+#endif
+
     private List<TraySlot> lastNearbyTrays = new List<TraySlot>();
+
+    // ── Canvas navigation support ──────────────────────────────────
+    // script อื่นสามารถ register/unregister canvas ที่กำลัง active อยู่
+    // เพื่อให้ PlayerInteract2D หยุดส่ง interact ผ่าน world space
+    private static IGamepadNavigable activeCanvas = null;
+    public static void RegisterActiveCanvas(IGamepadNavigable canvas) => activeCanvas = canvas;
+    public static void UnregisterActiveCanvas(IGamepadNavigable canvas)
+    { if (activeCanvas == canvas) activeCanvas = null; }
+
+#if ENABLE_INPUT_SYSTEM
+    void OnEnable()
+    {
+        if (interactAction != null)
+            interactAction.action.Enable();
+    }
+
+    void OnDisable()
+    {
+        if (interactAction != null)
+            interactAction.action.Disable();
+    }
+#endif
 
     void Update()
     {
@@ -17,13 +63,36 @@ public class PlayerInteract2D : MonoBehaviour
         UpdateTrayProximityFeedback();
 
         bool pressed = false;
+
+        // ── Legacy KeyCode (เดิม) ──────────────────────────────────
         foreach (KeyCode key in interactKeys)
+        {
             if (Input.GetKeyDown(key)) { pressed = true; break; }
+        }
+
+#if ENABLE_INPUT_SYSTEM
+        // ── New Input System (ใหม่) ────────────────────────────────
+        // รับ gamepad South button (A/Cross) หรือ keyboard ที่ bind ไว้
+        if (!pressed && interactAction != null)
+        {
+            if (interactAction.action.WasPressedThisFrame())
+                pressed = true;
+        }
+#endif
 
         if (!pressed) return;
+
+        // ถ้ามี canvas ที่ active อยู่ ส่ง confirm ไปที่ canvas แทน
+        if (activeCanvas != null)
+        {
+            activeCanvas.OnConfirm();
+            return;
+        }
+
         TriggerInteract();
     }
 
+    // TriggerInteract — ของเดิมทั้งหมด ไม่มีการแก้ไข
     public void TriggerInteract()
     {
         if (PlayerController2D.IsLocked) return;
@@ -99,7 +168,7 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 7. ✅ ทิ้งอาหารที่ Garbage Zone
+        // 7. ทิ้งอาหารที่ Garbage Zone
         foreach (var hit in hits)
         {
             GarbageZone garbage = hit.GetComponent<GarbageZone>();

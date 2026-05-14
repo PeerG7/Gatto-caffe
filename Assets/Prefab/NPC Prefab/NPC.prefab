@@ -611,6 +611,7 @@ MonoBehaviour:
   isInStore: 0
   audioSource: {fileID: 6497061395474776479}
   meowSound: {fileID: 8300000, guid: 17a286c32f2c35e4b827c417a1624287, type: 3}
+  angrySound: {fileID: 0}
 --- !u!114 &3328612327083211786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1539,6 +1540,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38fedcee8b07d0148a634c47104ea3fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QTEInteractButton
+  qteKey: 32
+  qteAction: {fileID: 1781555164194001046, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!1 &4859648973077382904
 GameObject:
   m_ObjectHideFlags: 0

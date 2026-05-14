@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd68240ee7bb69d4b8efe01efc6d0dcd, type: 3}
   m_Name: DATACAT 2
   m_EditorClassIdentifier: Assembly-CSharp::CatRelationshipData
-  catName: Cat5
+  catName: Som
   catPortrait: {fileID: 21300000, guid: 690389cbb31bd294096070fe51a39a66, type: 3}
   catID: AISom
   maxRelationship: 100

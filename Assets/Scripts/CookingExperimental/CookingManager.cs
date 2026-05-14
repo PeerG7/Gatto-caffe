@@ -2,8 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
-public class CookingManager : MonoBehaviour
+// =====================================================================
+// CookingManager — v2 (Gamepad Canvas Navigation Added)
+//
+// ของเดิม: mouse click / IngredientButton ยังทำงานปกติ
+// เพิ่มใหม่:
+//   - implement IGamepadNavigable → PlayerInteract2D รู้ว่า canvas เปิดอยู่
+//   - OpenCanvas() register / CloseCanvas() unregister
+//   - กด B / Escape เพื่อปิด canvas ได้
+//   - EventSystem.SetSelectedGameObject ตั้ง focus อัตโนมัติตอนเปิด
+//
+// Setup ใน Inspector (เพิ่มจากเดิม):
+//   - firstSelectedButton: ลาก button แรกใน canvas มาใส่
+//     (ปกติคือ ingredient ตัวแรก หรือ cook button)
+//   - backAction (optional): InputActionReference สำหรับปุ่ม B/Escape
+// =====================================================================
+public class CookingManager : MonoBehaviour, IGamepadNavigable
 {
     [Header("Recipe Data")]
     public List<RecipeSO> allRecipes;
@@ -28,6 +47,16 @@ public class CookingManager : MonoBehaviour
     public AudioClip cookingSoundClip;
     public AudioClip completeSoundClip;
 
+    // ── Gamepad / Keyboard Navigation (ใหม่) ──────────────────────
+    [Header("Gamepad Navigation (ใหม่)")]
+    [Tooltip("ปุ่มแรกที่ควร focus เมื่อ canvas เปิด — ลาก ingredient button แรกมาใส่")]
+    public GameObject firstSelectedButton;
+
+#if ENABLE_INPUT_SYSTEM
+    [Tooltip("InputActionReference สำหรับปุ่ม Back/Cancel (B button / Escape)")]
+    public UnityEngine.InputSystem.InputActionReference backAction;
+#endif
+
     private RecipeSO currentOutput;
     private bool isFailed = false;
     private Coroutine cookCoroutine = null;
@@ -41,17 +70,68 @@ public class CookingManager : MonoBehaviour
         if (cookingProgressBar != null) cookingProgressBar.gameObject.SetActive(false);
     }
 
+#if ENABLE_INPUT_SYSTEM
+    void OnEnable() { if (backAction != null) backAction.action.Enable(); }
+    void OnDisable() { if (backAction != null) backAction.action.Disable(); }
+#endif
+
+    void Update()
+    {
+        // ── ตรวจ Back input ขณะ canvas เปิดอยู่ ──────────────────
+        if (stationCookingCanvas == null || !stationCookingCanvas.activeSelf) return;
+        if (isCooking) return; // ห้ามปิดขณะกำลัง cook
+
+        bool backPressed = false;
+
+        // Legacy
+        if (Input.GetKeyDown(KeyCode.Escape)) backPressed = true;
+
+#if ENABLE_INPUT_SYSTEM
+        if (!backPressed && backAction != null && backAction.action.WasPressedThisFrame())
+            backPressed = true;
+#endif
+
+        if (backPressed) CloseCanvas();
+    }
+
+    // ── IGamepadNavigable ──────────────────────────────────────────
+    public void OnConfirm()
+    {
+        // confirm ขณะ canvas เปิด → กด cook ถ้า interactable
+        if (cookButton != null && cookButton.interactable && !isCooking)
+            OnCookButtonClicked();
+    }
+
+    public void OnBack() => CloseCanvas();
+
+    public void OnNavigate(Vector2 direction)
+    {
+        // EventSystem จัดการ navigation ระหว่างปุ่มให้อัตโนมัติ
+        // ไม่ต้องทำอะไรเพิ่ม — ใส่ไว้เพื่อ satisfy interface
+    }
+
+    // ── OpenCanvas / CloseCanvas ───────────────────────────────────
     public void OpenCanvas()
     {
         if (stationCookingCanvas != null)
             stationCookingCanvas.SetActive(true);
+
         PlayerController2D.IsLocked = true;
+
+        // ✅ ใหม่: register เพื่อให้ PlayerInteract2D รู้ว่า canvas เปิดอยู่
+        PlayerInteract2D.RegisterActiveCanvas(this);
+
+        // ✅ ใหม่: ตั้ง initial focus ให้ gamepad/keyboard navigate ได้ทันที
+        SetInitialFocus();
     }
 
     public void CloseCanvas()
     {
         if (stationCookingCanvas != null)
             stationCookingCanvas.SetActive(false);
+
+        // ✅ ใหม่: unregister
+        PlayerInteract2D.UnregisterActiveCanvas(this);
 
         if (isCooking)
         {
@@ -74,6 +154,20 @@ public class CookingManager : MonoBehaviour
         PlayerController2D.IsLocked = false;
     }
 
+    void SetInitialFocus()
+    {
+        if (EventSystem.current == null) return;
+
+        // ใช้ firstSelectedButton ถ้ามี ไม่งั้น fallback ไปที่ cookButton
+        GameObject target = firstSelectedButton != null
+            ? firstSelectedButton
+            : (cookButton != null ? cookButton.gameObject : null);
+
+        if (target != null)
+            EventSystem.current.SetSelectedGameObject(target);
+    }
+
+    // ── ของเดิมทั้งหมด (ไม่มีการแก้ไข) ───────────────────────────
     public void AddIngredient(string ingredientName, Sprite ingredientSprite)
     {
         if (isCooking) return;
@@ -134,11 +228,9 @@ public class CookingManager : MonoBehaviour
     {
         if (currentOutput == null || isCooking) return;
 
-        // ✅ เช็ค Tray ว่างก่อน Cook — ถ้าเต็มทุก slot ให้ block
         if (TrayManager.instance != null && !TrayManager.instance.HasEmptySlot())
         {
             Debug.LogWarning("[CookingManager] Tray เต็มทุก slot! รอ player หยิบอาหารก่อน");
-            // TODO: แสดง UI แจ้งเตือน "Tray เต็ม" ให้ player รู้
             return;
         }
 
@@ -181,7 +273,6 @@ public class CookingManager : MonoBehaviour
         if (sfxSource != null && sfxSource.isPlaying) sfxSource.Stop();
         PlayCompleteSound();
 
-        // ✅ ส่งอาหารไป TrayManager แทนที่จะส่งตรงไป PlayerInventory
         if (TrayManager.instance != null)
         {
             bool placed = TrayManager.instance.ReceiveFood(
@@ -193,7 +284,6 @@ public class CookingManager : MonoBehaviour
         }
         else
         {
-            // Fallback: ถ้าไม่มี TrayManager ให้ส่งตรงๆ แบบเดิม
             Debug.LogWarning("[CookingManager] ไม่พบ TrayManager — ใช้ระบบเดิม");
             PlayerInventory player = FindObjectOfType<PlayerInventory>();
             if (player != null)
@@ -211,6 +301,9 @@ public class CookingManager : MonoBehaviour
 
         if (stationCookingCanvas != null)
             stationCookingCanvas.SetActive(false);
+
+        // ✅ unregister เมื่อ canvas ปิดหลัง cook เสร็จ
+        PlayerInteract2D.UnregisterActiveCanvas(this);
 
         PlayerController2D.IsLocked = false;
     }
