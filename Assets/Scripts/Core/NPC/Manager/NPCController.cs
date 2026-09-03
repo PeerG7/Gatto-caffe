@@ -33,6 +33,12 @@ public class NPCController : MonoBehaviour
     [Header("Safety Timeout (ป้องกัน NPC ค้างโต๊ะ)")]
     public float absoluteMaxSitTime = 120f;
 
+    [Header("VIP Settings")]
+    [Tooltip("ติ๊กไว้บน Prefab แมว VIP (สีพิเศษ) — หรือให้ NPCSpawner เซ็ตให้อัตโนมัติตอน Spawn")]
+    public bool isVIP = false;
+    [Tooltip("ตัวคูณเงินรางวัลเมื่อ Serve แมว VIP สำเร็จ เช่น 2 = ได้เงิน 2 เท่า")]
+    public float vipMoneyMultiplier = 2f;
+
     private bool hasArrivedAtDamageTarget = false;
 
     [HideInInspector] public bool isInQTE = false;
@@ -133,6 +139,9 @@ public class NPCController : MonoBehaviour
                         table.tableItemRenderer.enabled = true;
                     }
                 }
+
+                // ✅ แสดง Badge บอกว่าโต๊ะนี้มีลูกค้า VIP
+                table.SetVIPVisual(isVIP);
                 return;
             }
         }

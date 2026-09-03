@@ -1650,6 +1650,8 @@ MonoBehaviour:
   patienceBarRoot: {fileID: 0}
   patienceBarFill: {fileID: 0}
   absoluteMaxSitTime: 120
+  isVIP: 0
+  vipMoneyMultiplier: 2
   isInQTE: 0
   currentState: 0
   orderCanvas: {fileID: 0}
@@ -11971,7 +11973,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurnitureObject
   lockedVisual: {fileID: 644358186074361364, guid: 9cd707458cdeed34e87e38473e515909, type: 3}
-  unlockedVisual: {fileID: 644358186074361364, guid: f2ea98751f780a541b5ff0e65d2f91bc, type: 3}
+  skins: []
+  currentSkinIndex: 0
   price: 300
   isUnlocked: 0
 --- !u!114 &825621558
@@ -26865,6 +26868,8 @@ MonoBehaviour:
   - {fileID: 1500671038587446994, guid: bb1300aeb0ae4e44bb34be9b35934bd7, type: 3}
   spawnPoint: {fileID: 1380254909}
   exitPoint: {fileID: 1990573815}
+  vipNpcPrefabs: []
+  vipSpawnChance: 10
   relationshipCanvas: {fileID: 620960049}
   spawnInterval: 5
   minInterval: 5
@@ -29411,6 +29416,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3268972240486383739, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
       propertyPath: isUnlocked
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268972240486383739, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}
+      propertyPath: skins.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3760928358165800475, guid: 00d1919d35e2a5b46ace2a7b82a54cc5, type: 3}

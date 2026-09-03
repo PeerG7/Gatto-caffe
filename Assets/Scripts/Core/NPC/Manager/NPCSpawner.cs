@@ -7,6 +7,13 @@ public class NPCSpawner : MonoBehaviour
     public Transform spawnPoint;
     public Transform exitPoint;
 
+    [Header("VIP Cat Settings")]
+    [Tooltip("Prefab แมว VIP (สีพิเศษ) แยกจากแมวธรรมดา — ถ้าไม่ใส่ ระบบจะไม่มีแมว VIP spawn เลย")]
+    public GameObject[] vipNpcPrefabs;
+    [Range(0, 100)]
+    [Tooltip("โอกาส % ที่จะ Spawn แมว VIP แทนแมวธรรมดาในแต่ละรอบ")]
+    public int vipSpawnChance = 10;
+
     [Header("Scene References — Inject to NPC after Spawn")]
     [Tooltip("ลาก RelationshipCanvas (GameObject ใน Scene) มาใส่ตรงนี้ที่ NPCSpawner แทน")]
     public GameObject relationshipCanvas;
@@ -42,8 +49,22 @@ public class NPCSpawner : MonoBehaviour
     {
         if (npcPrefabs.Length == 0) return;
 
-        int index = Random.Range(0, npcPrefabs.Length);
-        GameObject npc = Instantiate(npcPrefabs[index], spawnPoint.position, Quaternion.identity);
+        // ✅ สุ่มว่ารอบนี้จะเป็นแมว VIP หรือแมวธรรมดา
+        bool spawnVIP = vipNpcPrefabs.Length > 0 && Random.Range(0, 100) < vipSpawnChance;
+
+        GameObject prefabToSpawn;
+        if (spawnVIP)
+        {
+            int vipIndex = Random.Range(0, vipNpcPrefabs.Length);
+            prefabToSpawn = vipNpcPrefabs[vipIndex];
+        }
+        else
+        {
+            int index = Random.Range(0, npcPrefabs.Length);
+            prefabToSpawn = npcPrefabs[index];
+        }
+
+        GameObject npc = Instantiate(prefabToSpawn, spawnPoint.position, Quaternion.identity);
 
         NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
         if (agent != null) agent.Warp(spawnPoint.position);
@@ -52,6 +73,10 @@ public class NPCSpawner : MonoBehaviour
         if (controller != null)
         {
             controller.exitPoint = exitPoint;
+
+            // ✅ บังคับ flag ให้แน่ใจว่าเป็น VIP แม้ Prefab จะลืมติ๊ก isVIP ไว้
+            if (spawnVIP) controller.isVIP = true;
+
             if (QueueManager.Instance != null) QueueManager.Instance.AddToQueue(controller);
         }
 

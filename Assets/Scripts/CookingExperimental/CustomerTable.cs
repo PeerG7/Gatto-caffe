@@ -15,6 +15,10 @@ public class CustomerTable : MonoBehaviour
     public GameObject heartIcon;
     public GameObject angryIcon;
 
+    [Header("VIP Visual")]
+    [Tooltip("ไอคอน/ป้าย VIP ที่จะโชว์เมื่อลูกค้าที่นั่งโต๊ะนี้เป็นแมว VIP")]
+    public GameObject vipBadgeIcon;
+
     [Header("Interaction Phase Settings")]
     public GameObject interactionCanvas;
     public GameObject interactionButtonGroup;
@@ -58,11 +62,16 @@ public class CustomerTable : MonoBehaviour
         {
             PlayerController2D.IsLocked = false;
 
+            // ✅ ถ้าเป็นแมว VIP ให้เงินมากขึ้นตาม vipMoneyMultiplier
+            int finalReward = dishReward;
+            if (sittingNPC != null && sittingNPC.isVIP)
+                finalReward = Mathf.RoundToInt(dishReward * sittingNPC.vipMoneyMultiplier);
+
             // ✅ นับแมวที่ Serve และเงินที่ได้วันนี้
             if (DayNightManager.Instance != null)
             {
                 DayNightManager.Instance.catsServedToday++;
-                DayNightManager.Instance.moneyEarnedToday += dishReward;
+                DayNightManager.Instance.moneyEarnedToday += finalReward;
             }
 
             if (sittingNPC != null && sittingNPC.orderCanvas != null)
@@ -72,7 +81,7 @@ public class CustomerTable : MonoBehaviour
                 tableItemRenderer.enabled = false;
 
             if (CurrencyManager.Instance != null)
-                CurrencyManager.Instance.AddMoney(dishReward);
+                CurrencyManager.Instance.AddMoney(finalReward);
 
             // ✅ เล่นเสียงเหรียญหลังได้รับเงิน
             PlayCoinSound();
@@ -175,5 +184,12 @@ public class CustomerTable : MonoBehaviour
         if (heartIcon != null) heartIcon.SetActive(false);
         if (interactionCanvas != null) interactionCanvas.SetActive(false);
         if (interactionButtonGroup != null) interactionButtonGroup.SetActive(false);
+        SetVIPVisual(false);
+    }
+
+    /// <summary>เปิด/ปิด Badge บอกว่าโต๊ะนี้มีลูกค้า VIP นั่งอยู่</summary>
+    public void SetVIPVisual(bool isVIP)
+    {
+        if (vipBadgeIcon != null) vipBadgeIcon.SetActive(isVIP);
     }
 }
