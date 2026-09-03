@@ -26863,12 +26863,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCSpawner
   npcPrefabs:
-  - {fileID: 1500671038587446994, guid: 674566b583f6fde4bb238e43d4da9724, type: 3}
   - {fileID: 1500671038587446994, guid: ab45d17f33b4ffb4da2fd10426c28e2d, type: 3}
   - {fileID: 1500671038587446994, guid: bb1300aeb0ae4e44bb34be9b35934bd7, type: 3}
   spawnPoint: {fileID: 1380254909}
   exitPoint: {fileID: 1990573815}
-  vipNpcPrefabs: []
+  vipNpcPrefabs:
+  - {fileID: 1500671038587446994, guid: 674566b583f6fde4bb238e43d4da9724, type: 3}
   vipSpawnChance: 10
   relationshipCanvas: {fileID: 620960049}
   spawnInterval: 5

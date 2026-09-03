@@ -280,7 +280,7 @@ GameObject:
   - component: {fileID: 6308279275467026503}
   - component: {fileID: 6497061395474776479}
   m_Layer: 0
-  m_Name: NPC
+  m_Name: NPC_VIP1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
