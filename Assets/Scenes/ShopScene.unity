@@ -26686,7 +26686,7 @@ MonoBehaviour:
   exitPoint: {fileID: 1990573815}
   vipNpcPrefabs:
   - {fileID: 1500671038587446994, guid: 674566b583f6fde4bb238e43d4da9724, type: 3}
-  vipSpawnChance: 10
+  vipSpawnChance: 0
   relationshipCanvas: {fileID: 620960049}
   spawnInterval: 5
   minInterval: 5
