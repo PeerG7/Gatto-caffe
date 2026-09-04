@@ -1,29 +1,34 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 public class FurnitureObject : MonoBehaviour
 {
-    [Header("Visuals - Locked State")]
+    [Header("Visuals - Table")]
+    [Tooltip("เงาที่เห็นตอนยังไม่ปลดล็อก")]
     public GameObject lockedVisual;
+    [Tooltip("โต๊ะไม้ — โผล่มาแทนเงาทันทีที่ปลดล็อก (ซื้อครั้งแรก)")]
+    public GameObject woodVisual;
+    [Tooltip("โต๊ะหินอ่อน — โผล่มาแทนโต๊ะไม้หลัง Upgrade สำเร็จ")]
+    public GameObject marbleVisual;
 
-    [Header("Skins")]
-    [Tooltip("รายการ Skin ทั้งหมดของโต๊ะนี้ — Skin ตัวแรก (index 0) จะถือว่าปลดล็อกให้ฟรีเสมอ (Default Skin)")]
-    public List<FurnitureSkin> skins = new List<FurnitureSkin>();
-    public int currentSkinIndex = 0;
+    [Header("Visuals - Chair (Optional)")]
+    [Tooltip("เก้าอี้ลายไม้ — คู่กับ woodVisual (ถ้าไม่มีเก้าอี้แยก ปล่อยว่างไว้ได้)")]
+    public GameObject woodChairVisual;
+    [Tooltip("เก้าอี้ลายหินอ่อน — คู่กับ marbleVisual (ถ้าไม่มีเก้าอี้แยก ปล่อยว่างไว้ได้)")]
+    public GameObject marbleChairVisual;
 
-    [Header("Settings")]
-    [Tooltip("ราคาปลดล็อกโต๊ะตัวนี้ครั้งแรก")]
+    [Header("Unlock Settings (เงา -> โต๊ะไม้)")]
     public int price = 200;
     public bool isUnlocked = false;
 
-    void Start()
-    {
-        // Skin แรกถือเป็น Default ที่ปลดล็อกอยู่แล้วเสมอ
-        if (skins.Count > 0) skins[0].isUnlocked = true;
-        UpdateVisuals();
-    }
+    [Header("Upgrade Settings (โต๊ะไม้ -> โต๊ะหินอ่อน)")]
+    public int upgradePrice = 500;
+    public bool isUpgraded = false;
+    [Tooltip("เมื่อ Upgrade เป็นโต๊ะหินอ่อนสำเร็จ จะเพิ่มโอกาส Spawn แมว VIP ทั้งร้านขึ้นกี่ % (บวกเข้ากับ vipSpawnChance ของ NPCSpawner)")]
+    public int vipChanceBonusOnUpgrade = 15;
 
-    /// <summary>ปลดล็อกตัวโต๊ะ (เหมือนของเดิม)</summary>
+    void Start() => UpdateVisuals();
+
+    /// <summary>เงา -> โต๊ะไม้ (ปลดล็อกครั้งแรก)</summary>
     public void AttemptUnlock()
     {
         if (isUnlocked) return;
@@ -50,76 +55,53 @@ public class FurnitureObject : MonoBehaviour
         }
     }
 
-    /// <summary>ซื้อปลดล็อก Skin ตาม index (ต้องปลดล็อกโต๊ะก่อน)</summary>
-    public bool AttemptUnlockSkin(int index)
+    /// <summary>โต๊ะไม้ -> โต๊ะหินอ่อน (ต้องปลดล็อกโต๊ะไม้ก่อน) — สำเร็จแล้วเพิ่มโอกาส Spawn แมว VIP ทั้งร้าน</summary>
+    public void AttemptUpgrade()
     {
         if (!isUnlocked)
         {
             if (UINotificationManager.Instance != null)
-                UINotificationManager.Instance.ShowNotification("กรุณาปลดล็อกโต๊ะนี้ก่อน");
-            return false;
+                UINotificationManager.Instance.ShowNotification("ต้องซื้อโต๊ะนี้ก่อนถึงจะ Upgrade ได้");
+            return;
         }
 
-        if (index < 0 || index >= skins.Count) return false;
-
-        FurnitureSkin skin = skins[index];
-        if (skin.isUnlocked) return true; // ปลดล็อกแล้ว
+        if (isUpgraded) return; // Upgrade ไปแล้ว
 
         if (CurrencyManager.Instance == null)
         {
-            Debug.LogError("หา CurrencyManager ไม่เจอใน Scene!");
-            return false;
+            Debug.LogError("หา CurrencyManager ไม่เจอใน Scene! กรุณาวาง Script ไว้บน GameObject ด้วย");
+            return;
         }
 
-        if (CurrencyManager.Instance.TrySpendMoney(skin.unlockPrice))
+        if (CurrencyManager.Instance.TrySpendMoney(upgradePrice))
         {
-            skin.isUnlocked = true;
+            isUpgraded = true;
+            UpdateVisuals();
+
+            // ✅ Upgrade โต๊ะสำเร็จ -> เพิ่มโอกาส Spawn แมว VIP ทั้งร้าน
+            if (NPCSpawner.Instance != null)
+                NPCSpawner.Instance.IncreaseVIPChance(vipChanceBonusOnUpgrade);
+            else
+                Debug.LogWarning("หา NPCSpawner.Instance ไม่เจอ — โอกาส VIP จะไม่ถูกเพิ่ม");
+
             if (UINotificationManager.Instance != null)
-                UINotificationManager.Instance.ShowNotification("Unlocked skin: " + skin.skinName);
-            return true;
+                UINotificationManager.Instance.ShowNotification("Upgrade to Marble Table successful!");
         }
         else
         {
             if (UINotificationManager.Instance != null)
-                UINotificationManager.Instance.ShowNotification("Not Enough Money! Need " + skin.unlockPrice + " $");
-            return false;
+                UINotificationManager.Instance.ShowNotification("Not Enough Money! Need " + upgradePrice + " $");
         }
-    }
-
-    /// <summary>สลับไปใช้ Skin ตาม index (ต้องปลดล็อก Skin นั้นแล้ว)</summary>
-    public void SelectSkin(int index)
-    {
-        if (!isUnlocked) return;
-        if (index < 0 || index >= skins.Count) return;
-        if (!skins[index].isUnlocked)
-        {
-            if (UINotificationManager.Instance != null)
-                UINotificationManager.Instance.ShowNotification("Skin นี้ยังไม่ได้ปลดล็อก");
-            return;
-        }
-
-        currentSkinIndex = index;
-        UpdateVisuals();
     }
 
     void UpdateVisuals()
     {
         if (lockedVisual != null) lockedVisual.SetActive(!isUnlocked);
+        if (woodVisual != null) woodVisual.SetActive(isUnlocked && !isUpgraded);
+        if (marbleVisual != null) marbleVisual.SetActive(isUnlocked && isUpgraded);
 
-        for (int i = 0; i < skins.Count; i++)
-        {
-            if (skins[i].visual != null)
-                skins[i].visual.SetActive(isUnlocked && i == currentSkinIndex);
-        }
+        // ✅ เก้าอี้เปลี่ยนลายไปพร้อมกับโต๊ะ (ถ้ามีลากไว้)
+        if (woodChairVisual != null) woodChairVisual.SetActive(isUnlocked && !isUpgraded);
+        if (marbleChairVisual != null) marbleChairVisual.SetActive(isUnlocked && isUpgraded);
     }
-}
-
-[System.Serializable]
-public class FurnitureSkin
-{
-    public string skinName = "Default";
-    public GameObject visual;
-    [Tooltip("ราคาปลดล็อก Skin นี้ (Skin index 0 ไม่ต้องจ่ายเพราะปลดล็อกให้ฟรี)")]
-    public int unlockPrice = 0;
-    [HideInInspector] public bool isUnlocked = false;
 }

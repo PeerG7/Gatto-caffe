@@ -105,7 +105,7 @@ public class PlayerInteract2D : MonoBehaviour
         Physics2D.OverlapCircle(transform.position, range, filter, resultList);
         Collider2D[] hits = resultList.ToArray();
 
-        // 1. ปลดล็อกเฟอร์นิเจอร์
+        // 1. ปลดล็อกเฟอร์นิเจอร์ (ยังเป็นเงาอยู่) — priority สูงสุดเสมอ
         foreach (var hit in hits)
         {
             FurnitureObject furn = hit.GetComponent<FurnitureObject>();
@@ -205,11 +205,26 @@ public class PlayerInteract2D : MonoBehaviour
                 if (playerInv != null && playerInv.HasItem()) return;
 
                 closestNPC.RelationShip();
+                return;
             }
             else
             {
                 // ชวน NPC เข้าร้าน — ทำได้เสมอไม่ว่าจะถืออะไรอยู่
                 closestNPC.Interact();
+                return;
+            }
+        }
+
+        // 10. อัปเกรดเฟอร์นิเจอร์ (ไม้ -> หินอ่อน) — priority ต่ำสุด
+        //     ทำงานเฉพาะตอนไม่มี action อื่นให้ทำแล้วเท่านั้น (เช็คหัวใจ/เสิร์ฟ/คุยกับแมวผ่านหมดแล้วด้านบน)
+        //     ดังนั้นแม้มีลูกค้านั่งอยู่ก็ยัง Upgrade ได้ ตราบใดที่ไม่ได้ไปชนกับ action ที่ต้องทำจริงๆ ก่อน
+        foreach (var hit in hits)
+        {
+            FurnitureObject furn = hit.GetComponent<FurnitureObject>();
+            if (furn != null && furn.isUnlocked && !furn.isUpgraded)
+            {
+                furn.AttemptUpgrade();
+                return;
             }
         }
     }

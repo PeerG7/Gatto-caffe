@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 2fdf3bad6235dc445bc88c538e9a9f7c
+guid: 88176b10be016e146bba92a97504c43a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6692664271385197728
-    second: "\u0E40\u0E14\u0E34\u0E19\u0E02\u0E49\u0E32\u0E07-Sheet_0"
-  - first:
-      213: 8682019842354744382
-    second: "\u0E40\u0E14\u0E34\u0E19\u0E02\u0E49\u0E32\u0E07-Sheet_1"
+      213: -6139019727932233013
+    second: ChatGPT_Image_Sep_4_2026_01_16_34_PM_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -129,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\u0E40\u0E14\u0E34\u0E19\u0E02\u0E49\u0E32\u0E07-Sheet_0"
+      name: ChatGPT_Image_Sep_4_2026_01_16_34_PM_0
       rect:
         serializedVersion: 2
-        x: 399
-        y: 637
-        width: 1275
-        height: 1043
+        x: 0
+        y: 0
+        width: 1205
+        height: 1278
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,30 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 063032fed41ee13a0800000000000000
-      internalID: -6692664271385197728
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\u0E40\u0E14\u0E34\u0E19\u0E02\u0E49\u0E32\u0E07-Sheet_1"
-      rect:
-        serializedVersion: 2
-        x: 2456
-        y: 634
-        width: 1266
-        height: 1046
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e3c827c1c0bbc7870800000000000000
-      internalID: 8682019842354744382
+      spriteID: bcaeb775512ddcaa0800000000000000
+      internalID: -6139019727932233013
       vertices: []
       indices: 
       edges: []
@@ -186,8 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\u0E40\u0E14\u0E34\u0E19\u0E02\u0E49\u0E32\u0E07-Sheet_0": -6692664271385197728
-      "\u0E40\u0E14\u0E34\u0E19\u0E02\u0E49\u0E32\u0E07-Sheet_1": 8682019842354744382
+      ChatGPT_Image_Sep_4_2026_01_16_34_PM_0: -6139019727932233013
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

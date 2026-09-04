@@ -3,6 +3,8 @@ using UnityEngine.AI;
 
 public class NPCSpawner : MonoBehaviour
 {
+    public static NPCSpawner Instance;
+
     public GameObject[] npcPrefabs;
     public Transform spawnPoint;
     public Transform exitPoint;
@@ -22,6 +24,11 @@ public class NPCSpawner : MonoBehaviour
     private float timer;
     public float minInterval = 3f;
     public float maxInterval = 7f;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -89,5 +96,12 @@ public class NPCSpawner : MonoBehaviour
             else
                 Debug.LogWarning("⚠️ NPCSpawner: relationshipCanvas ยังไม่ได้ assign — กรุณาลากมาใส่ใน Inspector");
         }
+    }
+
+    /// <summary>เรียกจาก FurnitureObject เมื่อ Upgrade โต๊ะเป็นหินอ่อนสำเร็จ — เพิ่มโอกาส Spawn แมว VIP ทั้งร้าน</summary>
+    public void IncreaseVIPChance(int amount)
+    {
+        vipSpawnChance = Mathf.Clamp(vipSpawnChance + amount, 0, 100);
+        Debug.Log($"✅ Marble Table Upgrade! VIP Spawn Chance เพิ่มขึ้นเป็น {vipSpawnChance}%");
     }
 }
