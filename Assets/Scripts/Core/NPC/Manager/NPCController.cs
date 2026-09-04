@@ -46,6 +46,24 @@ public class NPCController : MonoBehaviour
     public RecipeSO requestedRecipe;
     public List<RecipeSO> allRecipes;
 
+    [Header("Animation")]
+    public Animator animator;
+    public SpriteRenderer bodySpriteRenderer; // sprite that gets flipped for left/right walk
+    [Tooltip("How long the NPC idles after arriving at the seat, before the sitting animation kicks in.")]
+    public float idleBeforeSitDuration = 0.4f;
+    [Range(0f, 1f)]
+    [Tooltip("When remaining patience ratio drops to/below this, switch to the sitting-angry animation (visual warning) even though the NPC hasn't actually left yet.")]
+    public float angryPatienceRatioThreshold = 0.25f;
+    [Tooltip("Below this speed, the NPC is considered stopped and plays Idle.")]
+    public float moveAnimThreshold = 0.05f;
+
+    // Idle=0, WalkSide=1, WalkUp=2, Sit=3, SitAngry=4 — set up your Animator Controller
+    // with an int parameter "AnimState" and Any State -> State transitions on these values.
+    private enum AnimState { Idle, WalkSide, WalkUp, Sit, SitAngry }
+    private AnimState currentAnim = AnimState.Idle;
+    private static readonly int AnimStateHash = Animator.StringToHash("AnimState");
+    private bool isSittingAngryAnim = false;
+
     // ✅ Helper — อ่าน isPaused จาก DayNightManager แทน TimeManager
     static bool GameIsPaused =>
         DayNightManager.Instance != null && DayNightManager.Instance.isPaused;
@@ -60,6 +78,9 @@ public class NPCController : MonoBehaviour
         }
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
+
+        if (animator == null) animator = GetComponentInChildren<Animator>();
+        if (bodySpriteRenderer == null) bodySpriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     void Update()
@@ -75,6 +96,9 @@ public class NPCController : MonoBehaviour
         }
 
         if (agent == null || !agent.isOnNavMesh) return;
+
+        UpdateMovementAnimation();
+
         if (currentState == NPCState.Leaving) return;
 
         if (currentState == NPCState.GoingToSeat)
@@ -89,6 +113,45 @@ public class NPCController : MonoBehaviour
                 ArriveAtDamageTarget();
         }
     }
+
+    // ------------------- ANIMATION -------------------
+
+    void UpdateMovementAnimation()
+    {
+        // Sitting has its own dedicated animation handling (see EnterSeatRoutine / SitRoutine).
+        if (currentState == NPCState.Sitting) return;
+
+        Vector3 vel = agent.velocity;
+
+        if (vel.sqrMagnitude < moveAnimThreshold * moveAnimThreshold)
+        {
+            SetAnimState(AnimState.Idle);
+            return;
+        }
+
+        // Assumes a top-down layout where +Y on the NavMesh plane is "up" on screen
+        // (matches updateUpAxis = false above). Flip this check if your world differs.
+        if (vel.y > 0.1f && Mathf.Abs(vel.y) >= Mathf.Abs(vel.x))
+        {
+            SetAnimState(AnimState.WalkUp);
+        }
+        else
+        {
+            SetAnimState(AnimState.WalkSide);
+            if (bodySpriteRenderer != null && Mathf.Abs(vel.x) > 0.01f)
+                bodySpriteRenderer.flipX = vel.x < 0f;
+        }
+    }
+
+    void SetAnimState(AnimState state)
+    {
+        if (currentAnim == state) return;
+        currentAnim = state;
+        if (animator != null)
+            animator.SetInteger(AnimStateHash, (int)state);
+    }
+
+    // ---------------------------------------------------
 
     public void SetQueueTarget(Transform target)
     {
@@ -154,6 +217,22 @@ public class NPCController : MonoBehaviour
         if (currentState == NPCState.Sitting) return;
         currentState = NPCState.Sitting;
         agent.isStopped = true;
+
+        StartCoroutine(EnterSeatRoutine());
+    }
+
+    IEnumerator EnterSeatRoutine()
+    {
+        // brief idle beat between arriving and actually sitting down
+        SetAnimState(AnimState.Idle);
+        if (idleBeforeSitDuration > 0f)
+            yield return new WaitForSeconds(idleBeforeSitDuration);
+
+        if (currentState != NPCState.Sitting) yield break; // may have been forced off already
+
+        isSittingAngryAnim = false;
+        SetAnimState(AnimState.Sit);
+
         if (orderCanvas != null) orderCanvas.SetActive(true);
 
         // ✅ เปิด patience bar
@@ -170,6 +249,7 @@ public class NPCController : MonoBehaviour
     public void LeaveSeat()
     {
         isInQTE = false;
+        isSittingAngryAnim = false;
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
@@ -201,11 +281,23 @@ public class NPCController : MonoBehaviour
                 waitTimer += Time.deltaTime;
 
                 // ✅ อัปเดตวงกลม (1 = เต็ม, 0 = หมด) + เปลี่ยนสี เขียว → แดง
+                float ratio = 1f - (waitTimer / maxWaitTime);
                 if (patienceBarFill != null)
                 {
-                    float ratio = 1f - (waitTimer / maxWaitTime);
                     patienceBarFill.fillAmount = ratio;
                     patienceBarFill.color = Color.Lerp(Color.red, Color.green, ratio);
+                }
+
+                if (!isSittingAngryAnim && ratio <= angryPatienceRatioThreshold)
+                {
+                    isSittingAngryAnim = true;
+                    SetAnimState(AnimState.SitAngry);
+                }
+                else if (isSittingAngryAnim && ratio > angryPatienceRatioThreshold)
+                {
+                    // patience recovered in time (e.g. served just before the cutoff)
+                    isSittingAngryAnim = false;
+                    SetAnimState(AnimState.Sit);
                 }
             }
             yield return null;
@@ -301,6 +393,7 @@ public class NPCController : MonoBehaviour
     {
         if (exitPoint == null) return;
         currentState = NPCState.Leaving;
+        isSittingAngryAnim = false;
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
         agent.isStopped = false;
