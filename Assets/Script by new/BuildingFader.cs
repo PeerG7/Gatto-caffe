@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class BuildingFader : MonoBehaviour
 {
-    [Header("ใส่รูปกำแพง/หลังคาที่ต้องการให้จาง (กี่ชิ้นก็ได้)")]
+    [Header("ใส่รูปกำแพง/หลังคาที่ต้องการให้จาง (กี่ชิ้นก็ไดE")]
     public List<SpriteRenderer> wallsToFade = new List<SpriteRenderer>();
 
-    [Header("ระดับความจาง (0 = หายไปเลย, 0.2 = โปร่งใสลางๆ)")]
+    [Header("ระดับความจาง (0 = หายไปเลย, 0.2 = โปร่งใสลางE")]
     [Range(0f, 1f)]
     public float transparentAlpha = 0f;
 
@@ -17,7 +17,7 @@ public class BuildingFader : MonoBehaviour
 
     void Update()
     {
-        // ค่อยๆ ปรับค่าความโปร่งใส (Alpha) ของกำแพงทุกชิ้นในลิสต์
+        // ค่อยEปรับค่าความโปร่งใส (Alpha) ของกำแพงทุกชิ้นในลิสตE
         foreach (var wall in wallsToFade)
         {
             if (wall != null)
