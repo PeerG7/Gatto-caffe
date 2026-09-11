@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 65a34e74462a5d14999e0d140dc53b38
+guid: 93421245c01fc544fb4c758ea94a3b37
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2702397679431274049
-    second: BG_R-Ground_0
+      213: -7597156304095614685
+    second: NEWLeftFrameTop_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BG_R-Ground_0
+      name: NEWLeftFrameTop_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 19
         y: 0
-        width: 3196
-        height: 2160
+        width: 94
+        height: 735
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fb1b8a3e0a72f7ad0800000000000000
-      internalID: -2702397679431274049
+      spriteID: 329e247c79a719690800000000000000
+      internalID: -7597156304095614685
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BG_R-Ground_0: -2702397679431274049
+      NEWLeftFrameTop_0: -7597156304095614685
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
