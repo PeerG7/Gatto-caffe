@@ -57,9 +57,30 @@ public class DayNightManager : MonoBehaviour
     [Header("References")]
     public UISummaryController summaryUI;
 
+    // ── ใหม่: event สำหรับ sunrise transition ─────────────────────
+    // ยิงตอน ResetNewDay() ทำงาน — ให้ UI ฟังแล้วเล่น night → sunrise → day
+    public event System.Action OnNewDayStarted;
+
     [Header("End-of-Day Audio Settings")]
     public float endOfDayWarningTime = 10f;
     private bool endOfDayAudioTriggered = false;
+
+    // ── ใหม่: Day/Night Icon Gauge (0-1) ──────────────────────────
+    // 1 = เต็ม (day icon ปิด night icon ไว้ทั้งหมด)
+    // ค่อยๆลดลงเหลือ 0 ระหว่าง warning window แล้วเผย night icon
+    public float DayIconFillAmount
+    {
+        get
+        {
+            if (!isWorkTime) return 0f;
+
+            float warningStart = dayDuration - endOfDayWarningTime;
+            if (timer <= warningStart) return 1f;
+
+            float t = (timer - warningStart) / endOfDayWarningTime;
+            return Mathf.Clamp01(1f - t);
+        }
+    }
 
     void Awake()
     {
@@ -128,5 +149,8 @@ public class DayNightManager : MonoBehaviour
             AudioManager.instance.ResumeGameMusic();
 
         UpdateLightColor();
+
+        // ✅ ใหม่: บอก UI ให้เล่น sunrise transition
+        OnNewDayStarted?.Invoke();
     }
 }
