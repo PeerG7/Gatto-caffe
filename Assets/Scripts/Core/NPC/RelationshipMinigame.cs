@@ -1,5 +1,15 @@
 ﻿using UnityEngine;
 
+// =====================================================================
+// RelationshipMinigame — v2 (Player Lock Fix)
+//
+// บั๊กที่แก้: BackToShop() ปิดฉาก RelationshipScene (ผ่าน SceneLoader) แต่ไม่เคย
+//   ปลด PlayerController2D.IsLocked หรือ ForceResume() DayNightManager เลย
+//   ทำให้ Player ค้างขยับไม่ได้ตลอดไปหลังจบ minigame ความสัมพันธ์
+//   (ต้นทางล็อกอยู่ที่ NPCInteract.RelationShip() ตอนเปิด relationshipCanvas
+//    แต่ RelationshipMinigame อยู่คนละฉากที่โหลดแบบ Additive ผ่าน SceneLoader
+//    จึงไม่มีทางรับรู้/ปลดล็อกให้กันเองถ้าไม่เขียนตรงๆ ตรงนี้)
+// =====================================================================
 public class RelationshipMinigame : MonoBehaviour
 {
     public int maxInteraction = 3;
@@ -58,5 +68,11 @@ public class RelationshipMinigame : MonoBehaviour
 
         RelationshipManager.Instance.ClearNPC();
         SceneLoader.Instance.CloseRelationshipScene();
+
+        // ✅ Fix บั๊ก: ปลดล็อก Player + resume เกม ให้คู่กับตอนที่
+        //    NPCInteract.RelationShip() ล็อกไว้ตอนเปิด relationshipCanvas
+        //    (จุดนี้เป็นคนละฉากกับ RelationshipUI จึงต้องปลดเองตรงๆ ที่นี่)
+        DayNightManager.Instance?.ForceResume();
+        PlayerController2D.IsLocked = false;
     }
 }

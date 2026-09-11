@@ -63,6 +63,13 @@ public class NPCController : MonoBehaviour
     [Tooltip("Below this speed, the NPC is considered stopped and plays Idle.")]
     public float moveAnimThreshold = 0.05f;
 
+    // ── ใหม่: Interaction Zone (แยกจากที่นั่งกินข้าว) ──────────────
+    [HideInInspector] public InteractionZone currentZone;
+    private bool isMovingToInteraction = false;
+    private bool isReturningFromInteraction = false;
+    private System.Action onArrivedAtInteractionZone;
+    private System.Action onReturnedToSeat;
+
     // Idle=0, WalkSide=1, WalkUp=2, Sit=3, SitAngry=4 — set up your Animator Controller
     // with an int parameter "AnimState" and Any State -> State transitions on these values.
     private enum AnimState { Idle, WalkSide, WalkUp, Sit, SitAngry }
@@ -107,6 +114,36 @@ public class NPCController : MonoBehaviour
 
         if (currentState == NPCState.Leaving) return;
 
+        // ── ใหม่: กำลังเดินไป/กลับจาก Interaction Zone ──────────────
+        // เช็คก่อน GoingToSeat/GoingToDamage เพราะ currentState ยังเป็น Sitting อยู่
+        // ระหว่างเดินไป/กลับ (ไม่เปลี่ยน state เพื่อไม่ให้ patience/QTE logic เดิมพัง)
+        if (isMovingToInteraction || isReturningFromInteraction)
+        {
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                agent.isStopped = true;
+
+                if (isMovingToInteraction)
+                {
+                    isMovingToInteraction = false;
+                    var cb = onArrivedAtInteractionZone;
+                    onArrivedAtInteractionZone = null;
+                    cb?.Invoke();
+                }
+                else
+                {
+                    isReturningFromInteraction = false;
+                    if (currentState == NPCState.Sitting)
+                        SetAnimState(isSittingAngryAnim ? AnimState.SitAngry : AnimState.Sit);
+
+                    var cb = onReturnedToSeat;
+                    onReturnedToSeat = null;
+                    cb?.Invoke();
+                }
+            }
+            return;
+        }
+
         if (currentState == NPCState.GoingToSeat)
         {
             if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
@@ -124,8 +161,10 @@ public class NPCController : MonoBehaviour
 
     void UpdateMovementAnimation()
     {
-        // Sitting has its own dedicated animation handling (see EnterSeatRoutine / SitRoutine).
-        if (currentState == NPCState.Sitting) return;
+        // Sitting has its own dedicated animation handling (see EnterSeatRoutine / SitRoutine),
+        // ยกเว้นตอนกำลังเดินไป/กลับจาก Interaction Zone ซึ่งต้องเล่นอนิเมชันเดินตามปกติ
+        if (currentState == NPCState.Sitting && !isMovingToInteraction && !isReturningFromInteraction)
+            return;
 
         Vector3 vel = agent.velocity;
 
@@ -255,6 +294,40 @@ public class NPCController : MonoBehaviour
         StartCoroutine(AbsoluteTimeoutRoutine());
     }
 
+    // ── ใหม่: เดินไปโซน Interaction (ขอจากส่วนกลางผ่าน InteractionZoneManager) ──
+    // onArrived จะถูกเรียกตอนแมวเดินไปถึงโซนแล้วเท่านั้น (ไม่ใช่ตอนขอจองสำเร็จ)
+    public void GoToInteractionZone(System.Action onArrived)
+    {
+        // ✅ Fix: ซ่อน patience bar (วงกลมนับเวลาใต้ตัวแมว) ตอนเริ่มเดินไปโซน Interaction
+        //    เพราะ ณ จุดนี้ Serve อาหารเสร็จแล้วเสมอ (ไม่ต้องรอ order อีกต่อไป)
+        //    เดิม patienceBarRoot ถูกปิดแค่ตอน LeaveSeat() เท่านั้น ทำให้วงกลมค้างโชว์
+        //    อยู่ตลอดช่วงเดินไปโซน/ทำ QTE แม้ waitTimer จะหยุดนับถูกต้องแล้วก็ตาม
+        if (patienceBarRoot != null) patienceBarRoot.SetActive(false);
+
+        if (agent == null)
+        {
+            onArrived?.Invoke();
+            return;
+        }
+
+        if (InteractionZoneManager.Instance == null)
+        {
+            // ไม่มี Manager ในซีน — fallback: ทำ Interaction ที่จุดเดิมเลยกันเกมค้าง
+            Debug.LogWarning("[NPCController] ไม่พบ InteractionZoneManager.Instance — ข้ามการเดินไปโซน");
+            onArrived?.Invoke();
+            return;
+        }
+
+        InteractionZoneManager.Instance.RequestZone(this, zone =>
+        {
+            currentZone = zone;
+            onArrivedAtInteractionZone = onArrived;
+            isMovingToInteraction = true;
+            agent.isStopped = false;
+            agent.SetDestination(zone.point.position);
+        });
+    }
+
     public void LeaveSeat()
     {
         isInQTE = false;
@@ -300,13 +373,15 @@ public class NPCController : MonoBehaviour
                 if (!isSittingAngryAnim && ratio <= angryPatienceRatioThreshold)
                 {
                     isSittingAngryAnim = true;
-                    SetAnimState(AnimState.SitAngry);
+                    if (!isMovingToInteraction && !isReturningFromInteraction)
+                        SetAnimState(AnimState.SitAngry);
                 }
                 else if (isSittingAngryAnim && ratio > angryPatienceRatioThreshold)
                 {
                     // patience recovered in time (e.g. served just before the cutoff)
                     isSittingAngryAnim = false;
-                    SetAnimState(AnimState.Sit);
+                    if (!isMovingToInteraction && !isReturningFromInteraction)
+                        SetAnimState(AnimState.Sit);
                 }
             }
             yield return null;
@@ -401,6 +476,21 @@ public class NPCController : MonoBehaviour
     public void GoExit()
     {
         if (exitPoint == null) return;
+
+        // ── ใหม่: เคลียร์สถานะ Interaction Zone ให้หมด ไม่ว่าจะกำลังเดินอยู่/
+        //    ใช้งานอยู่/หรือรอคิวอยู่ — กันโซนค้าง "ถูกจอง" ตลอดไปถ้า NPC โดนบังคับออก
+        isMovingToInteraction = false;
+        isReturningFromInteraction = false;
+        onArrivedAtInteractionZone = null;
+        onReturnedToSeat = null;
+        if (currentZone != null)
+        {
+            currentZone.Release();
+            currentZone = null;
+        }
+        if (InteractionZoneManager.Instance != null)
+            InteractionZoneManager.Instance.CancelRequest(this);
+
         currentState = NPCState.Leaving;
         isSittingAngryAnim = false;
         if (orderCanvas != null) orderCanvas.SetActive(false);

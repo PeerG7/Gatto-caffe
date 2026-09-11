@@ -113,6 +113,8 @@ public class CustomerTable : MonoBehaviour
         EndInteraction();
     }
 
+    // ── แก้: ไม่เปิด Canvas ทันทีอีกต่อไป — สั่งให้ NPC เดินไป InteractionZone
+    //    ก่อน แล้วค่อยเปิด UI ตอนไปถึงจริง (ผ่าน callback HandleNPCArrivedAtZone) ──
     public void OnHeartClicked()
     {
         if (sittingNPC == null) return;
@@ -126,6 +128,20 @@ public class CustomerTable : MonoBehaviour
         if (heartIcon != null) heartIcon.SetActive(false);
 
         sittingNPC.isInQTE = true;
+
+        // ⚠️ ไม่ล็อก Player ตรงนี้ — Heart Icon QTE (ผ่าน CatSystemManager) ไม่ได้เรียก
+        // DayNightManager.PauseGame() เกมส่วนอื่นทั้งร้านยังทำงานปกติ ผู้เล่นต้องเดิน
+        // ไปเสิร์ฟ/จัดการโต๊ะอื่นต่อได้ระหว่างแมวตัวนี้ไปทำ QTE ที่โซนแยก
+        // (การล็อก Player จริงๆ ต้องทำเฉพาะตอนเปิด Relationship Book ที่ pause ทั้งเกม
+        //  ดูใน NPCInteract.RelationShip() / RelationshipSceneUI.cs แทน)
+
+        sittingNPC.GoToInteractionZone(HandleNPCArrivedAtZone);
+    }
+
+    void HandleNPCArrivedAtZone()
+    {
+        // เผื่อระหว่างเดินไปโซน sittingNPC ถูกเคลียร์ไปแล้ว (เช่นโดน reset ตารางกลางทาง)
+        if (sittingNPC == null) return;
 
         if (CatSystemManager.Instance != null)
             CatSystemManager.Instance.StartInteraction(this);
@@ -141,6 +157,7 @@ public class CustomerTable : MonoBehaviour
             sittingNPC.qteCanvasInPrefab.SetActive(true);
     }
 
+    // ── แก้: จบ Interaction แล้วให้ NPC เดินกลับที่นั่งก่อน ค่อย LeaveSeat() ──
     public void CloseInteractionUI()
     {
         if (interactionCanvas != null) interactionCanvas.SetActive(false);
@@ -151,7 +168,21 @@ public class CustomerTable : MonoBehaviour
                 sittingNPC.qteCanvasInPrefab.SetActive(false);
 
             sittingNPC.isInQTE = false;
-            sittingNPC.LeaveSeat();
+
+            // ⚠️ ไม่แตะ PlayerController2D.IsLocked ตรงนี้ — Heart Icon QTE ไม่เคยล็อก
+            // Player ไว้ตั้งแต่แรก (ดูเหตุผลใน OnHeartClicked ด้านบน) การ set false ที่นี่
+            // อาจไปปลดล็อกการล็อกที่มาจากฟีเจอร์อื่นโดยไม่ตั้งใจ (เช่น station canvas)
+
+            NPCController npc = sittingNPC;
+
+            // ✅ แก้: ให้แมวออกจากร้าน "ตรงจาก Interaction Zone" เลย
+            //    ไม่ต้องเดินกลับที่นั่งเดิมก่อน — กัน race condition ที่โต๊ะถูกปลดล็อก
+            //    (ResetTable() ด้านล่าง) ให้ลูกค้าใหม่จองซ้อนได้ ทั้งที่แมวตัวเก่ายัง
+            //    เดินกลับไม่ถึงที่นั่ง (เห็นแมว 2 ตัวทับกันที่โต๊ะเดียวกันชั่วขณะ)
+            //    GoExit() จัดการ release currentZone / CancelRequest / ซ่อน canvas
+            //    ให้ครบอยู่แล้วในตัวมันเอง ไม่ต้องผ่าน LeaveSeat() อีกที
+            npc.GoExit();
+
             sittingNPC = null;
         }
 

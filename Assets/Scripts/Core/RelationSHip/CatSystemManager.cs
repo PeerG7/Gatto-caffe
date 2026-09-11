@@ -4,6 +4,18 @@ using System.Collections;
 
 public enum QTEType { SinglePress, Hold, ButtonMash }
 
+// =====================================================================
+// CatSystemManager — v2 (Player Lock Fix)
+//
+// บั๊กที่แก้: ทั้ง RunInteractionQTE() (ตอน QTE จบตามปกติ) และ ForceCloseSystem()
+//   (ตอนกด ExitButton ปิดกลางทาง) มี DayNightManager.ForceResume() เป็น safety-net
+//   อยู่แล้ว แต่ไม่เคยปลด PlayerController2D.IsLocked เลย
+//
+//   ต้นทางที่ล็อกคือ NPCInteract.RelationShip() ตอนเปิด relationshipCanvas
+//   (Debug.Log "❤️ OPEN RELATIONSHIP for: ..." + PlayerController2D.IsLocked = true)
+//   แต่ทั้งสองจุดปิดในไฟล์นี้ไม่เคยปลดกลับ ทำให้ Player ค้างขยับไม่ได้ตลอดไป
+//   แม้เกมจะไม่ได้ Pause แล้วก็ตาม (isPaused = False, IsLocked = True ค้าง)
+// =====================================================================
 public class CatSystemManager : MonoBehaviour
 {
     public static CatSystemManager Instance;
@@ -125,6 +137,16 @@ public class CatSystemManager : MonoBehaviour
         isInteracting = false;
         ResetInputFlags();
 
+        // ✅ Safety-net: บังคับรีเซ็ต pause กลับเป็น 0 ทุกครั้งที่ QTE จบ
+        // กันกรณีมีจุดอื่น (เช่น QTEInteractButton ตอนกด Mash/Hold) เรียก PauseGame()
+        // ไว้แล้วลืม/พลาดเรียก ResumeGame() คืนให้ครบ ทำให้เกมค้าง Pause ค้างตลอดไป
+        // ใช้ pattern เดียวกับ RelationshipSceneUI.FinishRoutine()
+        DayNightManager.Instance?.ForceResume();
+
+        // ✅ Fix บั๊ก: ปลดล็อก Player คู่กับตอนที่ NPCInteract.RelationShip()
+        //    ล็อกไว้ตอนเปิด relationshipCanvas — จุดนี้ไม่เคยปลดมาก่อนเลย
+        PlayerController2D.IsLocked = false;
+
         if (currentTable != null)
         {
             CustomerTable tableToClose = currentTable;
@@ -166,6 +188,14 @@ public class CatSystemManager : MonoBehaviour
         ResetInputFlags();
         if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = 0;
         if (qtePanel != null) qtePanel.SetActive(false);
+
+        // ✅ Safety-net เดียวกับตอน QTE จบปกติ — กันเกมค้าง Pause ถ้าถูกบังคับปิดกลางทาง
+        DayNightManager.Instance?.ForceResume();
+
+        // ✅ Fix บั๊ก: ปลดล็อก Player — นี่คือจุดที่ ExitButton (GroupOfInteraction/QTEPanel)
+        //    เรียกใช้จริง ก่อนหน้านี้ไม่เคยปลด IsLocked เลย ทำให้ Player ค้างขยับไม่ได้
+        //    ทั้งที่เกม resume ปกติแล้ว (isPaused = False, IsLocked = True ค้าง)
+        PlayerController2D.IsLocked = false;
 
         if (currentTable != null)
         {

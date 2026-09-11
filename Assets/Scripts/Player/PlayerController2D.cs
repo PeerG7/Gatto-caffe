@@ -1,5 +1,13 @@
 ﻿using UnityEngine;
 
+// =====================================================================
+// PlayerController2D — v2 (Pause Fail-safe)
+//
+// เพิ่มใหม่: นอกจากเช็ค IsLocked (static bool ที่สคริปต์อื่นต้อง set เอง)
+//   ตอนนี้เช็ค DayNightManager.Instance.isPaused ตรงๆ เพิ่มอีกชั้นด้วย
+//   เพื่อป้องกันบั๊ก "Player เดินได้ตอนเกม Pause" ในอนาคต เผื่อมีจุดใหม่ๆ
+//   ที่ Pause เกมแล้วลืม set IsLocked = true
+// =====================================================================
 public class PlayerController2D : MonoBehaviour
 {
     public float moveSpeed = 5f;
@@ -11,6 +19,11 @@ public class PlayerController2D : MonoBehaviour
 
     public static bool IsLocked = false;
 
+    // ✅ ใหม่: fail-safe — ล็อก Player อัตโนมัติทุกครั้งที่เกมถูก Pause จริงๆ
+    //    ไม่ว่าจุดที่สั่ง Pause จะลืม set IsLocked หรือไม่ก็ตาม
+    private static bool IsGamePaused =>
+        DayNightManager.Instance != null && DayNightManager.Instance.isPaused;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -19,7 +32,7 @@ public class PlayerController2D : MonoBehaviour
 
     void Update()
     {
-        if (IsLocked)
+        if (IsLocked || IsGamePaused)
         {
             movement = Vector2.zero;
             return;
@@ -32,7 +45,7 @@ public class PlayerController2D : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (IsLocked)
+        if (IsLocked || IsGamePaused)
         {
             rb.linearVelocity = Vector2.zero;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
