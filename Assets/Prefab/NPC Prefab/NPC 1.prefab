@@ -493,7 +493,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: -1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 2685b486bab44b847a91bfb8a60c18c9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -602,6 +602,8 @@ MonoBehaviour:
   patienceBarRoot: {fileID: 4241566288457050748}
   patienceBarFill: {fileID: 3528519239816353484}
   absoluteMaxSitTime: 120
+  isVIP: 0
+  vipMoneyMultiplier: 2
   isInQTE: 0
   currentState: 0
   orderCanvas: {fileID: 7662468265771373201}
@@ -617,6 +619,7 @@ MonoBehaviour:
   idleBeforeSitDuration: 0.4
   angryPatienceRatioThreshold: 0.25
   moveAnimThreshold: 0.05
+  currentZone: {fileID: 0}
 --- !u!195 &4791925765790317714
 NavMeshAgent:
   m_ObjectHideFlags: 0
