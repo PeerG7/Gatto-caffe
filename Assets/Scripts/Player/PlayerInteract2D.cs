@@ -119,15 +119,10 @@ public class PlayerInteract2D : MonoBehaviour
             if (dmg != null && dmg.CanRepair()) { dmg.StartRepair(); return; }
         }
 
-        // 3. กด interact แทนการคลิก Heart Icon
-        foreach (var hit in hits)
-        {
-            CustomerTable table = hit.GetComponent<CustomerTable>();
-            if (table != null && table.heartIcon != null && table.heartIcon.activeSelf)
-            { table.OnHeartClicked(); return; }
-        }
-
-        // 4. เสิร์ฟอาหารที่โต๊ะ
+        // 3. เสิร์ฟอาหารที่โต๊ะ
+        //    (เดิมมีข้อ "กด interact แทนการคลิก Heart Icon" อยู่ก่อนหน้านี้ — เอาออกแล้ว
+        //     เพราะ Heart Icon ถูกลบออกจากระบบทั้งหมด แมวเดินไป Interaction Zone
+        //     ทันทีหลัง Serve เสร็จโดยอัตโนมัติ ไม่ต้องรอผู้เล่นกด E ที่โต๊ะอีกต่อไป)
         foreach (var hit in hits)
         {
             CustomerTable table = hit.GetComponent<CustomerTable>();
@@ -136,14 +131,14 @@ public class PlayerInteract2D : MonoBehaviour
             { table.TryServeFood(); return; }
         }
 
-        // 5. เปิด Relationship Book
+        // 4. เปิด Relationship Book
         foreach (var hit in hits)
         {
             BookStation book = hit.GetComponent<BookStation>();
             if (book != null) { book.OpenBook(); return; }
         }
 
-        // 6. เปิด cooking / drink station
+        // 5. เปิด cooking / drink station
         foreach (var hit in hits)
         {
             StationInteract station = hit.GetComponent<StationInteract>();
@@ -167,7 +162,7 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 7. ทิ้งอาหารที่ Garbage Zone
+        // 6. ทิ้งอาหารที่ Garbage Zone
         foreach (var hit in hits)
         {
             GarbageZone garbage = hit.GetComponent<GarbageZone>();
@@ -179,7 +174,7 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 8. หยิบ/วาง/swap อาหารจาก TraySlot
+        // 7. หยิบ/วาง/swap อาหารจาก TraySlot
         foreach (var hit in hits)
         {
             TraySlot tray = hit.GetComponent<TraySlot>();
@@ -187,6 +182,20 @@ public class PlayerInteract2D : MonoBehaviour
             {
                 PlayerInventory player = GetComponent<PlayerInventory>();
                 tray.TryInteract(player);
+                return;
+            }
+        }
+
+        // 8. อัปเกรดเฟอร์นิเจอร์ (ไม้ -> หินอ่อน)
+        //    ย้ายมาไว้ก่อน NPC interact เพื่อกันไม่ให้กด E ใกล้แมวที่นั่งอยู่
+        //    ไปโดน RelationShip() (คุยกับแมว) โดยไม่ตั้งใจตอนแค่จะ Upgrade โต๊ะ
+        //    ซึ่งเป็นสาเหตุของบั๊กเกมค้างที่ RelationShip() ไปเปิด Canvas ที่มีปัญหา
+        foreach (var hit in hits)
+        {
+            FurnitureObject furn = hit.GetComponent<FurnitureObject>();
+            if (furn != null && furn.isUnlocked && !furn.isUpgraded)
+            {
+                furn.AttemptUpgrade();
                 return;
             }
         }
@@ -211,19 +220,6 @@ public class PlayerInteract2D : MonoBehaviour
             {
                 // ชวน NPC เข้าร้าน — ทำได้เสมอไม่ว่าจะถืออะไรอยู่
                 closestNPC.Interact();
-                return;
-            }
-        }
-
-        // 10. อัปเกรดเฟอร์นิเจอร์ (ไม้ -> หินอ่อน) — priority ต่ำสุด
-        //     ทำงานเฉพาะตอนไม่มี action อื่นให้ทำแล้วเท่านั้น (เช็คหัวใจ/เสิร์ฟ/คุยกับแมวผ่านหมดแล้วด้านบน)
-        //     ดังนั้นแม้มีลูกค้านั่งอยู่ก็ยัง Upgrade ได้ ตราบใดที่ไม่ได้ไปชนกับ action ที่ต้องทำจริงๆ ก่อน
-        foreach (var hit in hits)
-        {
-            FurnitureObject furn = hit.GetComponent<FurnitureObject>();
-            if (furn != null && furn.isUnlocked && !furn.isUpgraded)
-            {
-                furn.AttemptUpgrade();
                 return;
             }
         }

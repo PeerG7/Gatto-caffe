@@ -5,21 +5,20 @@ using System.Collections;
 public enum QTEType { SinglePress, Hold, ButtonMash }
 
 // =====================================================================
-// CatSystemManager — v2 (Player Lock Fix)
+// CatSystemManager — v3 (Interaction Zone — ทำงานกับ NPCController ตรงๆ)
 //
-// บั๊กที่แก้: ทั้ง RunInteractionQTE() (ตอน QTE จบตามปกติ) และ ForceCloseSystem()
-//   (ตอนกด ExitButton ปิดกลางทาง) มี DayNightManager.ForceResume() เป็น safety-net
-//   อยู่แล้ว แต่ไม่เคยปลด PlayerController2D.IsLocked เลย
+// เปลี่ยนจาก v2: ของเดิมผูกกับ CustomerTable (currentTable) เพราะ Interaction
+//   เกิดที่โต๊ะ ตอนนี้ Interaction ย้ายไปเกิดที่ InteractionZone แทน (แยกจากโต๊ะ
+//   เด็ดขาด โต๊ะถูกปลดว่างไปตั้งแต่ก่อนแมวเดินมาถึงโซนแล้ว) จึงอ้างอิง NPCController
+//   (currentNPC) โดยตรงแทนที่จะอ้อมผ่านโต๊ะ
 //
-//   ต้นทางที่ล็อกคือ NPCInteract.RelationShip() ตอนเปิด relationshipCanvas
-//   (Debug.Log "❤️ OPEN RELATIONSHIP for: ..." + PlayerController2D.IsLocked = true)
-//   แต่ทั้งสองจุดปิดในไฟล์นี้ไม่เคยปลดกลับ ทำให้ Player ค้างขยับไม่ได้ตลอดไป
-//   แม้เกมจะไม่ได้ Pause แล้วก็ตาม (isPaused = False, IsLocked = True ค้าง)
+// Safety-net เดิม (ForceResume / IsLocked ปลดล็อก) ยังเก็บไว้เหมือนเดิมทั้งหมด
+// เผื่อมีจุดอื่นเรียก PauseGame()/Lock ไว้แล้วลืมปลด
 // =====================================================================
 public class CatSystemManager : MonoBehaviour
 {
     public static CatSystemManager Instance;
-    private CustomerTable currentTable;
+    private NPCController currentNPC;
     private bool isInteracting = false;
 
     [Header("QTE UI")]
@@ -49,9 +48,10 @@ public class CatSystemManager : MonoBehaviour
         if (qtePanel != null) qtePanel.SetActive(false);
     }
 
-    public void StartInteraction(CustomerTable table)
+    /// <summary>เรียกจาก NPCController ตอนไปถึง InteractionZone แล้ว (แทนที่การเรียกจาก CustomerTable เดิม)</summary>
+    public void StartInteraction(NPCController npc)
     {
-        currentTable = table;
+        currentNPC = npc;
         isInteracting = false;
         StopAllCoroutines();
         ResetInputFlags();
@@ -63,8 +63,8 @@ public class CatSystemManager : MonoBehaviour
     {
         if (!isInteracting)
         {
-            if (currentTable != null)
-                currentTable.OpenNPCInteractCanvas();
+            if (currentNPC != null)
+                currentNPC.OpenQTECanvas();
             ResetInputFlags();
             StartCoroutine(RunInteractionQTE((QTEType)typeIndex));
         }
@@ -140,18 +140,16 @@ public class CatSystemManager : MonoBehaviour
         // ✅ Safety-net: บังคับรีเซ็ต pause กลับเป็น 0 ทุกครั้งที่ QTE จบ
         // กันกรณีมีจุดอื่น (เช่น QTEInteractButton ตอนกด Mash/Hold) เรียก PauseGame()
         // ไว้แล้วลืม/พลาดเรียก ResumeGame() คืนให้ครบ ทำให้เกมค้าง Pause ค้างตลอดไป
-        // ใช้ pattern เดียวกับ RelationshipSceneUI.FinishRoutine()
         DayNightManager.Instance?.ForceResume();
 
-        // ✅ Fix บั๊ก: ปลดล็อก Player คู่กับตอนที่ NPCInteract.RelationShip()
-        //    ล็อกไว้ตอนเปิด relationshipCanvas — จุดนี้ไม่เคยปลดมาก่อนเลย
+        // ✅ ปลดล็อก Player คู่กับตอนที่ NPCInteract.RelationShip() ล็อกไว้ตอนเปิด relationshipCanvas
         PlayerController2D.IsLocked = false;
 
-        if (currentTable != null)
+        if (currentNPC != null)
         {
-            CustomerTable tableToClose = currentTable;
-            currentTable = null;
-            tableToClose.CloseInteractionUI();
+            NPCController npcToClose = currentNPC;
+            currentNPC = null;
+            npcToClose.FinishInteractionAtZone();
         }
     }
 
@@ -160,17 +158,17 @@ public class CatSystemManager : MonoBehaviour
         // QTE สำเร็จ +10, ล้มเหลว -5
         float change = success ? 10f : -5f;
 
-        if (currentTable?.sittingNPC == null) return;
+        if (currentNPC == null) return;
 
         // ✅ เล่นเสียงแมวเฉพาะตอน QTE สำเร็จ
         if (success)
         {
-            NPCInteract interact = currentTable.sittingNPC.GetComponent<NPCInteract>();
+            NPCInteract interact = currentNPC.GetComponent<NPCInteract>();
             if (interact != null) interact.PlayMeow();
         }
 
         // ดึง catID จาก CatRelationshipData ที่ผูกไว้บน NPC prefab
-        CatIdentity identity = currentTable.sittingNPC.GetComponent<CatIdentity>();
+        CatIdentity identity = currentNPC.GetComponent<CatIdentity>();
         if (identity == null || identity.catData == null)
         {
             Debug.LogWarning("CatSystemManager: NPC ไม่มี CatIdentity component หรือไม่ได้ผูก catData");
@@ -192,16 +190,14 @@ public class CatSystemManager : MonoBehaviour
         // ✅ Safety-net เดียวกับตอน QTE จบปกติ — กันเกมค้าง Pause ถ้าถูกบังคับปิดกลางทาง
         DayNightManager.Instance?.ForceResume();
 
-        // ✅ Fix บั๊ก: ปลดล็อก Player — นี่คือจุดที่ ExitButton (GroupOfInteraction/QTEPanel)
-        //    เรียกใช้จริง ก่อนหน้านี้ไม่เคยปลด IsLocked เลย ทำให้ Player ค้างขยับไม่ได้
-        //    ทั้งที่เกม resume ปกติแล้ว (isPaused = False, IsLocked = True ค้าง)
+        // ✅ ปลดล็อก Player — จุดที่ ExitButton (GroupOfInteraction/QTEPanel) เรียกใช้จริง
         PlayerController2D.IsLocked = false;
 
-        if (currentTable != null)
+        if (currentNPC != null)
         {
-            CustomerTable tableToClose = currentTable;
-            currentTable = null;
-            tableToClose.CloseInteractionUI();
+            NPCController npcToClose = currentNPC;
+            currentNPC = null;
+            npcToClose.FinishInteractionAtZone();
         }
     }
 }

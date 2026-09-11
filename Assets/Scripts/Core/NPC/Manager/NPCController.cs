@@ -43,7 +43,11 @@ public class NPCController : MonoBehaviour
 
     [HideInInspector] public bool isInQTE = false;
 
-    public enum NPCState { InQueue, GoingToSeat, Sitting, GoingToDamage, Leaving }
+    // ── ใหม่: เพิ่ม GoingToInteractionZone / AtInteractionZone แยกจาก Sitting โดยเด็ดขาด
+    //    เพื่อให้ patience/QTE logic เดิมที่ผูกกับ Sitting หยุดทำงานอัตโนมัติทันทีที่
+    //    ออกจาก Sitting (ผ่าน guard `if (currentState != NPCState.Sitting) yield break;`
+    //    ที่มีอยู่แล้วใน SitRoutine/AbsoluteTimeoutRoutine) โดยไม่ต้องใช้ flag แยกอีกต่อไป
+    public enum NPCState { InQueue, GoingToSeat, Sitting, GoingToInteractionZone, AtInteractionZone, GoingToDamage, Leaving }
     public NPCState currentState = NPCState.InQueue;
 
     [Header("Order System")]
@@ -63,12 +67,17 @@ public class NPCController : MonoBehaviour
     [Tooltip("Below this speed, the NPC is considered stopped and plays Idle.")]
     public float moveAnimThreshold = 0.05f;
 
-    // ── ใหม่: Interaction Zone (แยกจากที่นั่งกินข้าว) ──────────────
+    // ── ใหม่: Interaction Zone (แยกจากที่นั่งกินข้าวโดยเด็ดขาด — ไม่มีการเดินกลับมานั่งอีก) ──
     [HideInInspector] public InteractionZone currentZone;
-    private bool isMovingToInteraction = false;
-    private bool isReturningFromInteraction = false;
     private System.Action onArrivedAtInteractionZone;
-    private System.Action onReturnedToSeat;
+
+    [Header("Interaction UI (ที่ Interaction Zone — ย้ายมาจากโต๊ะ ไม่มี Heart Icon แล้ว)")]
+    [Tooltip("แผงเลือกประเภท QTE (Single/Hold/Mash) — เปิดอัตโนมัติทันทีที่ไปถึงโซน ไม่ต้องรอกด Heart")]
+    public GameObject interactionCanvas;
+    public GameObject interactionButtonGroup;
+    [Tooltip("ถ้าผู้เล่นไม่เลือกประเภท QTE ภายในเวลานี้ (วินาที) จะยกเลิกแล้วให้แมวออกจากร้านไปเลย")]
+    public float interactionChoiceTimeout = 5f;
+    private Coroutine interactionTimeoutCoroutine;
 
     // Idle=0, WalkSide=1, WalkUp=2, Sit=3, SitAngry=4 — set up your Animator Controller
     // with an int parameter "AnimState" and Any State -> State transitions on these values.
@@ -91,9 +100,34 @@ public class NPCController : MonoBehaviour
         }
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
+        if (interactionCanvas != null) interactionCanvas.SetActive(false);
+        if (interactionButtonGroup != null) interactionButtonGroup.SetActive(false);
 
         if (animator == null) animator = GetComponentInChildren<Animator>();
         if (bodySpriteRenderer == null) bodySpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        // ✅ Fix: Canvas ที่ย้ายมาอยู่บน NPC (interactionCanvas, qteCanvasInPrefab, orderCanvas)
+        //    ถ้าเป็น World Space ต้องเซ็ต worldCamera เอง ไม่งั้นกดปุ่มไม่ติดเลย
+        //    (ของเดิมสมัยอยู่บน CustomerTable มี SetWorldSpaceCamera() ทำให้อยู่แล้ว
+        //     แต่ NPCController ไม่เคยมี — เพิ่มให้ตรงนี้แทน)
+        SetWorldSpaceCamera();
+    }
+
+    void Start()
+    {
+        // เผื่อ Camera.main ยังไม่พร้อมตอน Awake (เช่น NPC ถูก Spawn ก่อนกล้องตั้งค่าเสร็จ)
+        SetWorldSpaceCamera();
+    }
+
+    void SetWorldSpaceCamera()
+    {
+        if (Camera.main == null) return;
+        Canvas[] canvases = GetComponentsInChildren<Canvas>(true);
+        foreach (Canvas c in canvases)
+        {
+            if (c.renderMode == RenderMode.WorldSpace)
+                c.worldCamera = Camera.main;
+        }
     }
 
     void Update()
@@ -114,40 +148,17 @@ public class NPCController : MonoBehaviour
 
         if (currentState == NPCState.Leaving) return;
 
-        // ── ใหม่: กำลังเดินไป/กลับจาก Interaction Zone ──────────────
-        // เช็คก่อน GoingToSeat/GoingToDamage เพราะ currentState ยังเป็น Sitting อยู่
-        // ระหว่างเดินไป/กลับ (ไม่เปลี่ยน state เพื่อไม่ให้ patience/QTE logic เดิมพัง)
-        if (isMovingToInteraction || isReturningFromInteraction)
-        {
-            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-            {
-                agent.isStopped = true;
-
-                if (isMovingToInteraction)
-                {
-                    isMovingToInteraction = false;
-                    var cb = onArrivedAtInteractionZone;
-                    onArrivedAtInteractionZone = null;
-                    cb?.Invoke();
-                }
-                else
-                {
-                    isReturningFromInteraction = false;
-                    if (currentState == NPCState.Sitting)
-                        SetAnimState(isSittingAngryAnim ? AnimState.SitAngry : AnimState.Sit);
-
-                    var cb = onReturnedToSeat;
-                    onReturnedToSeat = null;
-                    cb?.Invoke();
-                }
-            }
-            return;
-        }
-
         if (currentState == NPCState.GoingToSeat)
         {
             if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
                 ArriveAtSeat();
+        }
+
+        // ── ใหม่: เดินไป Interaction Zone (ทางเดียว ไม่มีเดินกลับ) ──────────
+        if (currentState == NPCState.GoingToInteractionZone)
+        {
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+                ArriveAtInteractionZone();
         }
 
         if (currentState == NPCState.GoingToDamage && !hasArrivedAtDamageTarget)
@@ -161,9 +172,8 @@ public class NPCController : MonoBehaviour
 
     void UpdateMovementAnimation()
     {
-        // Sitting has its own dedicated animation handling (see EnterSeatRoutine / SitRoutine),
-        // ยกเว้นตอนกำลังเดินไป/กลับจาก Interaction Zone ซึ่งต้องเล่นอนิเมชันเดินตามปกติ
-        if (currentState == NPCState.Sitting && !isMovingToInteraction && !isReturningFromInteraction)
+        // Sitting และ AtInteractionZone มีอนิเมชันนิ่ง/QTE ของตัวเอง ไม่ต้องเล่น walk anim ทับ
+        if (currentState == NPCState.Sitting || currentState == NPCState.AtInteractionZone)
             return;
 
         Vector3 vel = agent.velocity;
@@ -294,16 +304,40 @@ public class NPCController : MonoBehaviour
         StartCoroutine(AbsoluteTimeoutRoutine());
     }
 
-    // ── ใหม่: เดินไปโซน Interaction (ขอจากส่วนกลางผ่าน InteractionZoneManager) ──
-    // onArrived จะถูกเรียกตอนแมวเดินไปถึงโซนแล้วเท่านั้น (ไม่ใช่ตอนขอจองสำเร็จ)
-    public void GoToInteractionZone(System.Action onArrived)
+    /// <summary>
+    /// เรียกจาก CustomerTable.TryServeFood() ทันทีหลังเสิร์ฟสำเร็จ
+    /// ✅ ปลดโต๊ะให้ว่างทันที ไม่ว่าแมวจะไป Interaction Zone ต่อหรือออกจากร้านเลยก็ตาม
+    ///    ทำให้แมวตัวอื่นเดินเข้ามานั่งแทนได้ทันที ไม่ต้องรอแมวตัวนี้ทำอะไรเสร็จก่อน
+    /// </summary>
+    public void FinishServingAndProceed(bool willInteract)
     {
-        // ✅ Fix: ซ่อน patience bar (วงกลมนับเวลาใต้ตัวแมว) ตอนเริ่มเดินไปโซน Interaction
-        //    เพราะ ณ จุดนี้ Serve อาหารเสร็จแล้วเสมอ (ไม่ต้องรอ order อีกต่อไป)
-        //    เดิม patienceBarRoot ถูกปิดแค่ตอน LeaveSeat() เท่านั้น ทำให้วงกลมค้างโชว์
-        //    อยู่ตลอดช่วงเดินไปโซน/ทำ QTE แม้ waitTimer จะหยุดนับถูกต้องแล้วก็ตาม
+        isInQTE = false;
+        isSittingAngryAnim = false;
+        if (orderCanvas != null) orderCanvas.SetActive(false);
+        if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
         if (patienceBarRoot != null) patienceBarRoot.SetActive(false);
 
+        // ✅ ปลดโต๊ะทันที — ไม่รอจนกว่า Interaction ที่ Zone จะจบ
+        CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
+        foreach (var table in allTables)
+        {
+            if (table.sittingNPC == this)
+            {
+                table.ResetTable();
+                break;
+            }
+        }
+
+        if (willInteract)
+            GoToInteractionZone(ArriveAtInteractionZone);
+        else
+            GoExit();
+    }
+
+    // ── ใหม่: เดินไปโซน Interaction (ขอจากส่วนกลางผ่าน InteractionZoneManager) ──
+    // ทางเดียว ไม่มีเดินกลับมาที่โต๊ะอีก — จบที่โซนแล้วออกจากร้านเลย
+    void GoToInteractionZone(System.Action onArrived)
+    {
         if (agent == null)
         {
             onArrived?.Invoke();
@@ -312,9 +346,9 @@ public class NPCController : MonoBehaviour
 
         if (InteractionZoneManager.Instance == null)
         {
-            // ไม่มี Manager ในซีน — fallback: ทำ Interaction ที่จุดเดิมเลยกันเกมค้าง
+            // ไม่มี Manager ในซีน — fallback: ออกจากร้านเลยกันเกมค้าง
             Debug.LogWarning("[NPCController] ไม่พบ InteractionZoneManager.Instance — ข้ามการเดินไปโซน");
-            onArrived?.Invoke();
+            GoExit();
             return;
         }
 
@@ -322,10 +356,82 @@ public class NPCController : MonoBehaviour
         {
             currentZone = zone;
             onArrivedAtInteractionZone = onArrived;
-            isMovingToInteraction = true;
+            currentState = NPCState.GoingToInteractionZone;
             agent.isStopped = false;
             agent.SetDestination(zone.point.position);
         });
+    }
+
+    void ArriveAtInteractionZone()
+    {
+        if (currentState == NPCState.AtInteractionZone) return;
+        currentState = NPCState.AtInteractionZone;
+        agent.isStopped = true;
+        SetAnimState(AnimState.Sit);
+
+        var cb = onArrivedAtInteractionZone;
+        onArrivedAtInteractionZone = null;
+        cb?.Invoke();
+
+        // ✅ ไม่มี Heart Icon แล้ว — เปิดเมนูเลือก QTE ให้อัตโนมัติทันทีที่ถึงโซน
+        if (CatSystemManager.Instance != null)
+            CatSystemManager.Instance.StartInteraction(this);
+
+        if (interactionCanvas != null) interactionCanvas.SetActive(true);
+        if (interactionButtonGroup != null) interactionButtonGroup.SetActive(true);
+
+        interactionTimeoutCoroutine = StartCoroutine(InteractionChoiceTimeoutRoutine());
+    }
+
+    IEnumerator InteractionChoiceTimeoutRoutine()
+    {
+        float elapsed = 0f;
+        while (elapsed < interactionChoiceTimeout)
+        {
+            if (currentState != NPCState.AtInteractionZone) yield break; // เริ่มเล่น QTE ไปแล้ว หรือถูกบังคับออกไปแล้ว
+            if (!GameIsPaused) elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // ผู้เล่นไม่เลือกประเภท QTE ทันเวลา — ยกเลิกแล้วให้ออกจากร้านไปเลย
+        if (currentState == NPCState.AtInteractionZone)
+            FinishInteractionAtZone();
+    }
+
+    /// <summary>เปิด QTE Canvas จริง — เรียกจาก CatSystemManager ตอนผู้เล่นเลือกประเภทแล้ว</summary>
+    public void OpenQTECanvas()
+    {
+        if (interactionTimeoutCoroutine != null)
+        {
+            StopCoroutine(interactionTimeoutCoroutine);
+            interactionTimeoutCoroutine = null;
+        }
+
+        if (interactionCanvas != null) interactionCanvas.SetActive(false);
+        if (interactionButtonGroup != null) interactionButtonGroup.SetActive(false);
+        if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(true);
+    }
+
+    /// <summary>จบ Interaction ที่โซน — ปล่อยโซนคืนแล้วออกจากร้าน (ไม่เดินกลับโต๊ะ)</summary>
+    public void FinishInteractionAtZone()
+    {
+        if (interactionTimeoutCoroutine != null)
+        {
+            StopCoroutine(interactionTimeoutCoroutine);
+            interactionTimeoutCoroutine = null;
+        }
+
+        if (interactionCanvas != null) interactionCanvas.SetActive(false);
+        if (interactionButtonGroup != null) interactionButtonGroup.SetActive(false);
+        if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
+
+        if (currentZone != null)
+        {
+            currentZone.Release();
+            currentZone = null;
+        }
+
+        GoExit();
     }
 
     public void LeaveSeat()
@@ -373,15 +479,13 @@ public class NPCController : MonoBehaviour
                 if (!isSittingAngryAnim && ratio <= angryPatienceRatioThreshold)
                 {
                     isSittingAngryAnim = true;
-                    if (!isMovingToInteraction && !isReturningFromInteraction)
-                        SetAnimState(AnimState.SitAngry);
+                    SetAnimState(AnimState.SitAngry);
                 }
                 else if (isSittingAngryAnim && ratio > angryPatienceRatioThreshold)
                 {
                     // patience recovered in time (e.g. served just before the cutoff)
                     isSittingAngryAnim = false;
-                    if (!isMovingToInteraction && !isReturningFromInteraction)
-                        SetAnimState(AnimState.Sit);
+                    SetAnimState(AnimState.Sit);
                 }
             }
             yield return null;
@@ -477,12 +581,14 @@ public class NPCController : MonoBehaviour
     {
         if (exitPoint == null) return;
 
-        // ── ใหม่: เคลียร์สถานะ Interaction Zone ให้หมด ไม่ว่าจะกำลังเดินอยู่/
-        //    ใช้งานอยู่/หรือรอคิวอยู่ — กันโซนค้าง "ถูกจอง" ตลอดไปถ้า NPC โดนบังคับออก
-        isMovingToInteraction = false;
-        isReturningFromInteraction = false;
+        // ── เคลียร์สถานะ Interaction Zone ให้หมด ไม่ว่าจะกำลังเดินอยู่/ใช้งานอยู่/
+        //    หรือรอคิวอยู่ — กันโซนค้าง "ถูกจอง" ตลอดไปถ้า NPC โดนบังคับออกกลางทาง
+        if (interactionTimeoutCoroutine != null)
+        {
+            StopCoroutine(interactionTimeoutCoroutine);
+            interactionTimeoutCoroutine = null;
+        }
         onArrivedAtInteractionZone = null;
-        onReturnedToSeat = null;
         if (currentZone != null)
         {
             currentZone.Release();
@@ -495,6 +601,8 @@ public class NPCController : MonoBehaviour
         isSittingAngryAnim = false;
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
+        if (interactionCanvas != null) interactionCanvas.SetActive(false);
+        if (interactionButtonGroup != null) interactionButtonGroup.SetActive(false);
         agent.isStopped = false;
         agent.SetDestination(exitPoint.position);
         StartCoroutine(DestroyWhenArrive());
