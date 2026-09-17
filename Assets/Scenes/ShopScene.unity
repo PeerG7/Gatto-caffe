@@ -251,7 +251,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.90025926}
   m_AnchorMax: {x: 0.41320837, y: 1}
-  m_AnchoredPosition: {x: 1358.8225, y: -57.3}
+  m_AnchoredPosition: {x: -69.50366, y: -57.299988}
   m_SizeDelta: {x: -555.4072, y: -41.9172}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &12836732
@@ -545,7 +545,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 722.3262, y: 376.6278}
+  m_AnchoredPosition: {x: -706, y: 376.6278}
   m_SizeDelta: {x: 442.0362, y: 292.8473}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &14844267
@@ -1199,6 +1199,8 @@ MonoBehaviour:
   angryPatienceRatioThreshold: 0.25
   moveAnimThreshold: 0.05
   currentZone: {fileID: 0}
+  waitForPlayerTimeout: 15
+  interactionChoiceTimeout: 5
 --- !u!4 &104696173
 Transform:
   m_ObjectHideFlags: 0
@@ -6691,7 +6693,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -1428.3262, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &235221133
@@ -11038,7 +11040,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 459, y: 193.12}
+  m_AnchoredPosition: {x: -720, y: 180}
   m_SizeDelta: {x: 374.27, y: 74.173}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670603337
@@ -12445,7 +12447,9 @@ MonoBehaviour:
   sunriseEnd: 11
   dayStart: 12
   dayEnd: 17
+  sunsetStart: 17
   sunsetEnd: 19
+  nightStart: 20
   nightFullHour: 20
 --- !u!114 &792435157
 MonoBehaviour:
@@ -13716,7 +13720,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.90025926}
   m_AnchorMax: {x: 0.41320837, y: 1}
-  m_AnchoredPosition: {x: 1358.8225, y: -139.7}
+  m_AnchoredPosition: {x: -69.50366, y: -139.70001}
   m_SizeDelta: {x: -555.4072, y: -41.9172}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &913163337
@@ -15600,6 +15604,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CatSystemManager
   qtePanel: {fileID: 620960049}
   qteProgressBarFill: {fileID: 1192717894}
+  interactionButtonGroup: {fileID: 0}
   interactionWindow: 3
   holdRequiredTime: 1.5
   mashRequiredClicks: 10
@@ -17050,7 +17055,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.90025926}
   m_AnchorMax: {x: 0.41320837, y: 1}
-  m_AnchoredPosition: {x: 1358.8225, y: -178.08643}
+  m_AnchoredPosition: {x: -69.50366, y: -178.08643}
   m_SizeDelta: {x: -555.4072, y: -41.9172}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1353073465
