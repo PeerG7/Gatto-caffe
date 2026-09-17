@@ -65,6 +65,58 @@ public class DayNightManager : MonoBehaviour
     public float endOfDayWarningTime = 10f;
     private bool endOfDayAudioTriggered = false;
 
+    // ── ใหม่: In-Game Clock (แปลง timer จริง -> เวลาในเกม) ─────────
+    [Header("In-Game Clock Settings")]
+    [Tooltip("ชั่วโมงเริ่มต้นของวัน (24hr) เช่น 8 = 8 โมงเช้า — ตอน timer = 0")]
+    public int gameOpenHour = 8;
+    [Tooltip("ชั่วโมงสิ้นสุดของวัน (24hr) เช่น 22 = 4 ทุ่ม — ตอน timer = dayDuration")]
+    public int gameCloseHour = 22;
+
+    // ── ใหม่: ชื่อวันในสัปดาห์ — Day 1 = จันทร์เสมอ แล้ววนทุก 7 วัน ──
+    private static readonly string[] WeekdayAbbrev =
+        { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
+
+    /// <summary>ชื่อวันย่อ (MON/TUE/...) ของ currentDay ปัจจุบัน — Day 1 = จันทร์เสมอ</summary>
+    public string CurrentWeekdayAbbrev
+    {
+        get
+        {
+            int index = (currentDay - 1) % 7;
+            if (index < 0) index += 7; // กันเผื่อ currentDay ผิดปกติเป็นค่าติดลบ
+            return WeekdayAbbrev[index];
+        }
+    }
+
+    /// <summary>ชั่วโมงปัจจุบันแบบทศนิยม (เช่น 9.5 = 9:30) ตาม gameOpenHour/gameCloseHour ที่ตั้งไว้ — ใช้ภายในร่วมกันทั้ง label และไอคอน</summary>
+    private float ComputeCurrentHourFloat()
+    {
+        float ratio = dayDuration > 0f ? Mathf.Clamp01(timer / dayDuration) : 0f;
+        float totalGameHours = gameCloseHour - gameOpenHour;
+        return gameOpenHour + ratio * totalGameHours;
+    }
+
+    /// <summary>ชั่วโมงปัจจุบันแบบทศนิยม (0-24) — ให้ UI อื่น (เช่น DayNightIconUI) เอาไปคำนวณเองได้</summary>
+    public float GetCurrentGameHour24() => ComputeCurrentHourFloat();
+
+    /// <summary>
+    /// แปลง timer (0 → dayDuration วินาทีจริง) เป็นข้อความเวลาในเกมแบบ 12 ชม.
+    /// เช่น "8:00 AM" → "10:00 PM" ตาม gameOpenHour/gameCloseHour ที่ตั้งไว้
+    /// </summary>
+    public string GetCurrentClockLabel()
+    {
+        float currentHourFloat = ComputeCurrentHourFloat();
+
+        int hour24 = Mathf.FloorToInt(currentHourFloat) % 24;
+        if (hour24 < 0) hour24 += 24;
+        int minute = Mathf.FloorToInt((currentHourFloat - Mathf.Floor(currentHourFloat)) * 60f);
+
+        bool isAM = hour24 < 12;
+        int hour12 = hour24 % 12;
+        if (hour12 == 0) hour12 = 12;
+
+        return $"{hour12}:{minute:00} {(isAM ? "AM" : "PM")}";
+    }
+
     // ── ใหม่: Day/Night Icon Gauge (0-1) ──────────────────────────
     // 1 = เต็ม (day icon ปิด night icon ไว้ทั้งหมด)
     // ค่อยๆลดลงเหลือ 0 ระหว่าง warning window แล้วเผย night icon
