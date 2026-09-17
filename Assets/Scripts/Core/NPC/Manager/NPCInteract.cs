@@ -46,6 +46,19 @@ public class NPCInteract : MonoBehaviour
         return npc != null && npc.currentState == NPCController.NPCState.Sitting;
     }
 
+    /// <summary>เช็คว่าแมวตัวนี้กำลังยืนรออยู่ที่ Interaction Zone (รอผู้เล่นกด E) หรือไม่</summary>
+    public bool CanRequestZoneInteraction()
+    {
+        return npc != null && npc.CanRequestInteractionChoice();
+    }
+
+    /// <summary>เรียกจาก PlayerInteract2D ตอนกด E ใกล้แมวที่ยืนรออยู่ที่ Zone — เปิดเมนูเลือก QTE</summary>
+    public void RequestZoneInteraction()
+    {
+        if (npc == null) return;
+        npc.RequestInteractionChoice();
+    }
+
     public void Interact()
     {
         if (npc == null) return;

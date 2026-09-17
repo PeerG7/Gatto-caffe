@@ -464,6 +464,8 @@ MonoBehaviour:
   patienceBarRoot: {fileID: 8747681826876789345}
   patienceBarFill: {fileID: 3996312268597964124}
   absoluteMaxSitTime: 120
+  isVIP: 0
+  vipMoneyMultiplier: 2
   isInQTE: 0
   currentState: 0
   orderCanvas: {fileID: 1944499645809837282}
@@ -479,6 +481,9 @@ MonoBehaviour:
   idleBeforeSitDuration: 0.4
   angryPatienceRatioThreshold: 0.25
   moveAnimThreshold: 0.05
+  currentZone: {fileID: 0}
+  waitForPlayerTimeout: 15
+  interactionChoiceTimeout: 60
 --- !u!195 &4791925765790317714
 NavMeshAgent:
   m_ObjectHideFlags: 0

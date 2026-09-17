@@ -64,9 +64,24 @@ public class InteractionZoneManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ✅ ใหม่: ขอจองโซนแบบ "ทันทีเท่านั้น" — ไม่เข้าคิวรอ
+    /// มีว่าง -> จองให้แล้ว return zone นั้น
+    /// ไม่มีว่าง -> return null ทันที (ให้ฝั่งผู้เรียกตัดสินใจเอง เช่น ให้แมวออกจากร้านไปเลย)
+    /// </summary>
+    public InteractionZone TryOccupyZoneImmediate(NPCController npc)
+    {
+        InteractionZone zone = GetAvailableZone();
+        if (zone == null) return null;
+
+        zone.Occupy(npc);
+        return zone;
+    }
+
+    /// <summary>
     /// ขอใช้โซน Interaction ให้ NPC ตัวหนึ่ง
     /// มีว่าง -> เรียก callback ทันที
     /// ไม่มีว่าง -> เข้าคิว รอจนกว่าจะมีโซนว่าง แล้วค่อยเรียก callback ทีหลัง
+    /// (ตอนนี้ NPCController ไม่ได้ใช้เมธอดนี้แล้ว — เก็บไว้เผื่อระบบอื่นที่ต้องการคิวจริงๆ)
     /// </summary>
     public void RequestZone(NPCController npc, System.Action<InteractionZone> onZoneReady)
     {
