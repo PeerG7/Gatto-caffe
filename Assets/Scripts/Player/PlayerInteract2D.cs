@@ -186,16 +186,15 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 8. อัปเกรดเฟอร์นิเจอร์ (ไม้ -> หินอ่อน)
-        //    ย้ายมาไว้ก่อน NPC interact เพื่อกันไม่ให้กด E ใกล้แมวที่นั่งอยู่
-        //    ไปโดน RelationShip() (คุยกับแมว) โดยไม่ตั้งใจตอนแค่จะ Upgrade โต๊ะ
-        //    ซึ่งเป็นสาเหตุของบั๊กเกมค้างที่ RelationShip() ไปเปิด Canvas ที่มีปัญหา
+        // 8. เปิดคอมพิวเตอร์ Upgrade โต๊ะ
+        //    (ของเดิมกด E ที่ตัวโต๊ะโดยตรงเพื่อ Upgrade — ย้ายมาเป็นกด E ที่คอมพิวเตอร์แทน
+        //    เลือกโต๊ะจากรายชื่อในหน้าจอแทนการเดินไปกดที่ตัวโต๊ะทีละตัว)
         foreach (var hit in hits)
         {
-            FurnitureObject furn = hit.GetComponent<FurnitureObject>();
-            if (furn != null && furn.isUnlocked && !furn.isUpgraded)
+            UpgradeComputer computer = hit.GetComponent<UpgradeComputer>();
+            if (computer != null)
             {
-                furn.AttemptUpgrade();
+                computer.OpenComputer();
                 return;
             }
         }

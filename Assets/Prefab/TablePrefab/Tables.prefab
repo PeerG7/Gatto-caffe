@@ -79,12 +79,8 @@ MonoBehaviour:
   wantedItem: 
   dishReward: 50
   tableItemRenderer: {fileID: 7924761688268685119}
-  heartIcon: {fileID: 5825165951669725367}
   angryIcon: {fileID: 8141302274863683036}
   vipBadgeIcon: {fileID: 0}
-  interactionCanvas: {fileID: 0}
-  interactionButtonGroup: {fileID: 0}
-  interactionDuration: 5
   interactionChance: 50
   coinSoundClip: {fileID: 0}
   sfxSource: {fileID: 0}
@@ -102,14 +98,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FurnitureObject
   lockedVisual: {fileID: 1847037055303643658}
   woodVisual: {fileID: 6906256137987257166}
-  marbleVisual: {fileID: 6630114871177243193}
   woodChairVisual: {fileID: 1760517753183088033}
-  marbleChairVisual: {fileID: 8053392638483980652}
   price: 200
   isUnlocked: 0
   upgradePrice: 50
   isUpgraded: 0
   vipChanceBonusOnUpgrade: 15
+  marbleSkins:
+  - skinName: Marble
+    tableVisual: {fileID: 0}
+    chairVisual: {fileID: 0}
+    unlockPrice: 200
+    isUnlocked: 0
+  currentMarbleSkinIndex: 0
 --- !u!61 &1892044533809279172
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1246,11 +1247,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7dd2a1c0eb070e49a5e9cff7ca36938, type: 3}
---- !u!1 &6630114871177243193 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 387129776201575806, guid: b7dd2a1c0eb070e49a5e9cff7ca36938, type: 3}
-  m_PrefabInstance: {fileID: 6439507697618732871}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7884741129921306972 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3760928358165800475, guid: b7dd2a1c0eb070e49a5e9cff7ca36938, type: 3}

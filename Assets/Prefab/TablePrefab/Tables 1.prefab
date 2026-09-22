@@ -77,12 +77,8 @@ MonoBehaviour:
   wantedItem: 
   dishReward: 50
   tableItemRenderer: {fileID: 7924761688268685119}
-  heartIcon: {fileID: 5825165951669725367}
   angryIcon: {fileID: 8141302274863683036}
   vipBadgeIcon: {fileID: 0}
-  interactionCanvas: {fileID: 0}
-  interactionButtonGroup: {fileID: 0}
-  interactionDuration: 5
   interactionChance: 50
   coinSoundClip: {fileID: 0}
   sfxSource: {fileID: 0}
@@ -100,14 +96,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FurnitureObject
   lockedVisual: {fileID: 1847037055303643658}
   woodVisual: {fileID: 0}
-  marbleVisual: {fileID: 0}
   woodChairVisual: {fileID: 0}
-  marbleChairVisual: {fileID: 0}
   price: 200
   isUnlocked: 1
   upgradePrice: 500
   isUpgraded: 0
   vipChanceBonusOnUpgrade: 15
+  marbleSkins: []
+  currentMarbleSkinIndex: 0
 --- !u!61 &1892044533809279172
 BoxCollider2D:
   m_ObjectHideFlags: 0
