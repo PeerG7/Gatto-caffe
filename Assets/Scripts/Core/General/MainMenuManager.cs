@@ -6,24 +6,63 @@ using UnityEngine.UI;
 public class MainMenuManager : MonoBehaviour
 {
     [Header("Scene Settings")]
-    public string gameSceneName  = "GameScene";
-    public int    gameSceneIndex = 1;
-    public bool   loadByName     = true;
+    public string gameSceneName = "GameScene";
+    public int gameSceneIndex = 1;
+    public bool loadByName = true;
 
     [Header("Loading Screen")]
     public GameObject loadingScreen;
-    public Image      loadingProgressBar;
+    public Image loadingProgressBar;
 
-    // ── Start ────────────────────────────────────────────
-    // ✅ ไม่ต้องจัดการเพลงที่นี่แล้ว — AudioManager.OnSceneLoaded จัดการให้อัตโนมัติ
-    // ทุกครั้งที่ MainMenu scene โหลด AudioManager จะเล่น menuMusic เองเลย
+    [Header("Cat Relationship Data (สำหรับสั่ง New Game)")]
+    [Tooltip("ลาก ScriptableObject CatData ของแมวทุกตัวในเกมมาใส่ เพื่อให้รู้ Key ที่ต้องรีเซ็ตตอนกด New Game")]
+    public System.Collections.Generic.List<CatRelationshipData> allCats;
+
+    /// <summary>
+    /// ผูกปุ่ม New Game บน UI เข้ากับฟังก์ชันนี้
+    /// </summary>
+    public void OnNewGamePressed()
+    {
+        ResetAllRelationshipData();
+        OnPlayPressed();
+    }
+
+    /// <summary>
+    /// ฟังก์ชันลบค่า Relationship Progression ใน PlayerPrefs ของแมวทุกตัว
+    /// </summary>
+    private void ResetAllRelationshipData()
+    {
+        // 1. ถ้า RelationshipManager มีอยู่ในฉาก ให้เรียกใช้ ResetAllRelationships() โดยตรง
+        if (RelationshipManager.Instance != null)
+        {
+            RelationshipManager.Instance.ResetAllRelationships();
+            return;
+        }
+
+        // 2. ถ้าอยู่หน้า MainMenu (ยังไม่มี RelationshipManager) ให้ทำการลบ PlayerPrefs ตาม catID
+        if (allCats != null && allCats.Count > 0)
+        {
+            foreach (var cat in allCats)
+            {
+                if (cat != null && !string.IsNullOrEmpty(cat.catID))
+                {
+                    PlayerPrefs.DeleteKey("rel_" + cat.catID);
+                }
+            }
+            PlayerPrefs.Save();
+            Debug.Log("✅ [MainMenu] Reset Relationship Progression เรียบร้อยแล้ว");
+        }
+        else
+        {
+            // Fallback: หากไม่ได้ใส่ allCats ใน Inspector
+            Debug.LogWarning("⚠️ [MainMenu] ไม่พบรายการ allCats! แนะนำให้ลาก CatData ใส่ใน Inspector ของ MainMenuManager");
+        }
+    }
 
     public void OnPlayPressed()
     {
         if (AudioManager.instance != null && AudioManager.instance.gameMusic != null)
         {
-            // Crossfade ไปเพลง Game แล้วค่อย Load scene
-            // ✅ OnSceneLoaded จะ detect ว่า clip == gameMusic อยู่แล้ว → ไม่เล่นซ้ำ
             AudioManager.instance.CrossfadeTo(
                 AudioManager.instance.gameMusic,
                 onComplete: () => StartCoroutine(LoadGameAsync())
@@ -43,13 +82,14 @@ public class MainMenuManager : MonoBehaviour
         Application.Quit();
 #endif
     }
+
     public void OnBackToMainMenuPressed()
     {
         if (AudioManager.instance != null && AudioManager.instance.menuMusic != null)
         {
             AudioManager.instance.CrossfadeTo(
                 AudioManager.instance.menuMusic,
-                onComplete: () => SceneManager.LoadScene(0) // MainMenu scene index
+                onComplete: () => SceneManager.LoadScene(0)
             );
         }
         else
