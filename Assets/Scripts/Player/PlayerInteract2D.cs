@@ -201,23 +201,35 @@ public class PlayerInteract2D : MonoBehaviour
         }
 
         // 9. NPC interact
-        // ✅ แก้ Race Condition: เช็ค CanInteract() ก่อนเรียก RelationShip()
-        //    ป้องกันกรณี NPC ยังเดินมาไม่ถึงโต๊ะ / ยังไม่ Sit เสร็จ
-        // ✅ ถ้าถืออาหารอยู่ ไม่ต้อง interact NPC — ให้ไป serve ที่โต๊ะแทน
+        // ✅ ให้ความสำคัญกับแมวที่ยืนรออยู่ที่โซนก่อนเสมอ (ไม่สนว่าใครใกล้กว่า)
+        NPCInteract zoneWaitingNPC = null;
+        float minZoneDist = Mathf.Infinity;
+        foreach (var hit in hits)
+        {
+            NPCInteract n = hit.GetComponent<NPCInteract>();
+            if (n != null && n.CanRequestZoneInteraction())
+            {
+                float d = Vector2.Distance(transform.position, n.transform.position);
+                if (d < minZoneDist)
+                {
+                    minZoneDist = d;
+                    zoneWaitingNPC = n;
+                }
+            }
+        }
+
+        if (zoneWaitingNPC != null)
+        {
+            zoneWaitingNPC.RequestZoneInteraction();
+            return;
+        }
+
+        // ถ้าไม่มีแมวรอที่โซน ค่อยมาดูแมวตัวที่ใกล้ที่สุด
         NPCInteract closestNPC = GetClosestNPC(hits);
         if (closestNPC != null)
         {
-            // ✅ ใหม่: แมวยืนรออยู่ที่ Interaction Zone (ไม่มี Heart Icon แล้ว)
-            //    ต้องกด E ใกล้ๆ ก่อนถึงจะเปิดเมนูเลือก QTE — ไม่เปิดเองอัตโนมัติ
-            if (closestNPC.CanRequestZoneInteraction())
-            {
-                closestNPC.RequestZoneInteraction();
-                return;
-            }
-
             if (closestNPC.CanInteract())
             {
-                // ✅ ถ้าถืออาหารอยู่ ข้าม RelationShip() — ให้ TryServeFood() จัดการแทน
                 PlayerInventory playerInv = GetComponent<PlayerInventory>();
                 if (playerInv != null && playerInv.HasItem()) return;
 
@@ -226,7 +238,6 @@ public class PlayerInteract2D : MonoBehaviour
             }
             else
             {
-                // ชวน NPC เข้าร้าน — ทำได้เสมอไม่ว่าจะถืออะไรอยู่
                 closestNPC.Interact();
                 return;
             }

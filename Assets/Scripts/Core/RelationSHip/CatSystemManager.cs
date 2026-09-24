@@ -63,18 +63,29 @@ public class CatSystemManager : MonoBehaviour
         if (qtePanel != null) qtePanel.SetActive(false);
     }
 
-    /// <summary>เปิดแผงเลือกประเภท QTE (ButtonGroup ตัวกลาง) ให้ NPC ตัวนี้ — เรียกจาก NPCController ตอนถึง Zone</summary>
+    /// <summary>เปิดแผงเลือกประเภท QTE (ButtonGroup ตัวกลาง) ให้ NPC ตัวนี้</summary>
     public void ShowInteractionChoice(NPCController npc)
     {
         StartInteraction(npc);
-        if (qtePanel != null) qtePanel.SetActive(true);
-        if (interactionButtonGroup != null) interactionButtonGroup.SetActive(true);
+
+        // 1. เปิด Panel หลัก (รวมปุ่ม Exit)
+        if (qtePanel != null)
+            qtePanel.SetActive(true);
+
+        // 2. เปิดแถบตัวเลือกปุ่ม 3 ปุ่มทางขวา
+        if (interactionButtonGroup != null)
+        {
+            interactionButtonGroup.SetActive(true);
+            // ดันขึ้นมาหน้าสุด กันโดน UI ชิ้นอื่นบัง
+            interactionButtonGroup.transform.SetAsLastSibling();
+        }
     }
 
-    /// <summary>ปิดแผงเลือกประเภท QTE — เรียกตอนเลือกประเภทแล้ว หรือ timeout/ยกเลิก</summary>
+    /// <summary>ปิดแผงเลือกประเภท QTE</summary>
     public void HideInteractionChoice()
     {
-        if (interactionButtonGroup != null) interactionButtonGroup.SetActive(false);
+        if (interactionButtonGroup != null)
+            interactionButtonGroup.SetActive(false);
     }
 
     public void StartQTE(int typeIndex)
