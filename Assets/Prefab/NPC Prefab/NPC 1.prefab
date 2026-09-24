@@ -599,6 +599,7 @@ MonoBehaviour:
   qteCanvasInPrefab: {fileID: 1009573372126300337}
   qteProgressBarFill: {fileID: 6498774574436032742}
   maxWaitTime: 20
+  maxBonusWaitTime: 15
   patienceBarRoot: {fileID: 4241566288457050748}
   patienceBarFill: {fileID: 3528519239816353484}
   absoluteMaxSitTime: 120
@@ -620,6 +621,8 @@ MonoBehaviour:
   angryPatienceRatioThreshold: 0.25
   moveAnimThreshold: 0.05
   currentZone: {fileID: 0}
+  waitForPlayerTimeout: 15
+  interactionChoiceTimeout: 5
 --- !u!195 &4791925765790317714
 NavMeshAgent:
   m_ObjectHideFlags: 0

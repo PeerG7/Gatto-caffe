@@ -5,28 +5,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 #endif
 
-// =====================================================================
-// QTEInteractButton — v3 (Interact Choice Hotkeys + QTE Input)
-//
-// script นี้ทำงาน 2 หน้าที่ในหนึ่งเดียว:
-//
-// [หน้าที่ 1] เลือก QTE Type (ใส่บน 3 ปุ่มใน interactionCanvas)
-//   - ตั้ง mode = InteractChoice
-//   - ตั้ง choiceIndex: 0 = กด 1, 1 = กด 2, 2 = กด 3
-//   - กด keyboard 1/2/3 → เรียก StartQTE(choiceIndex) อัตโนมัติ
-//   - mouse click ยังทำงานปกติผ่าน Button component เดิม
-//
-// [หน้าที่ 2] QTE Input (ใส่บนปุ่มใน qteCanvasInPrefab)
-//   - ตั้ง mode = QTEInput
-//   - กด Space / A button → NotifyPress / NotifyRelease
-//   - IPointerDownHandler / IPointerUpHandler ยังทำงานปกติ
-//
-// Setup ใน Inspector:
-//   interactionCanvas ปุ่ม 1: mode = InteractChoice, choiceIndex = 0
-//   interactionCanvas ปุ่ม 2: mode = InteractChoice, choiceIndex = 1
-//   interactionCanvas ปุ่ม 3: mode = InteractChoice, choiceIndex = 2
-//   qteCanvasInPrefab ปุ่ม:   mode = QTEInput
-// =====================================================================
 public class QTEInteractButton : MonoBehaviour,
     IPointerDownHandler,
     IPointerUpHandler
@@ -52,17 +30,12 @@ public class QTEInteractButton : MonoBehaviour,
     public UnityEngine.InputSystem.InputActionReference qteAction;
 #endif
 
-    // ── hotkeys สำหรับ InteractChoice ─────────────────────────────
     private static readonly KeyCode[] _choiceHotkeys = {
         KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3
     };
 
-    // ── track hold state ───────────────────────────────────────────
     private bool isHoldingViaKey = false;
 
-    // ── ตัวติดตาม active choice buttons ───────────────────────────
-    // เก็บ list ของ InteractChoice buttons ที่ active อยู่
-    // เพื่อให้แต่ละตัว listen hotkey ได้โดยไม่ต้องมี manager กลาง
     private static List<QTEInteractButton> _activeChoiceButtons = new List<QTEInteractButton>();
 
 #if ENABLE_INPUT_SYSTEM
@@ -99,10 +72,8 @@ public class QTEInteractButton : MonoBehaviour,
             HandleQTEInput();
     }
 
-    // ── InteractChoice: กด 1/2/3 เลือก QTE type ──────────────────
     void HandleChoiceHotkey()
     {
-        // ตรวจแค่ปุ่มที่ตรงกับ choiceIndex ของตัวเอง
         if (choiceIndex < _choiceHotkeys.Length)
         {
             if (Input.GetKeyDown(_choiceHotkeys[choiceIndex]))
@@ -112,15 +83,12 @@ public class QTEInteractButton : MonoBehaviour,
 
     void FireChoice()
     {
-        // เรียก StartQTE โดยตรง — ไม่ต้องผ่าน mouse click
         if (CatSystemManager.Instance != null)
             CatSystemManager.Instance.StartQTE(choiceIndex);
     }
 
-    // ── QTEInput: กด/ปล่อย Space สำหรับ QTE ─────────────────────
     void HandleQTEInput()
     {
-        // Legacy KeyCode
         if (Input.GetKeyDown(qteKey))
         {
             isHoldingViaKey = true;
@@ -148,13 +116,12 @@ public class QTEInteractButton : MonoBehaviour,
 #endif
     }
 
-    // ── IPointerDownHandler / IPointerUpHandler (ของเดิม) ─────────
     public void OnPointerDown(PointerEventData eventData)
     {
         if (mode == ButtonMode.QTEInput)
             SendPress();
         else
-            FireChoice(); // กด mouse บน choice button
+            FireChoice();
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -163,7 +130,6 @@ public class QTEInteractButton : MonoBehaviour,
             SendRelease();
     }
 
-    // ── helpers ────────────────────────────────────────────────────
     void SendPress()
     {
         if (CatSystemManager.Instance != null)
@@ -176,7 +142,6 @@ public class QTEInteractButton : MonoBehaviour,
             CatSystemManager.Instance.NotifyRelease();
     }
 
-    // ── static helper (ของเดิม) ────────────────────────────────────
     public static void PlayMeowOnCurrentNPC()
     {
         NPCController npc = RelationshipManager.Instance?.GetCurrentNPC();

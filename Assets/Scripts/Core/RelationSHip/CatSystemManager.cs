@@ -6,14 +6,6 @@ public enum QTEType { SinglePress, Hold, ButtonMash }
 
 // =====================================================================
 // CatSystemManager — v3 (Interaction Zone — ทำงานกับ NPCController ตรงๆ)
-//
-// เปลี่ยนจาก v2: ของเดิมผูกกับ CustomerTable (currentTable) เพราะ Interaction
-//   เกิดที่โต๊ะ ตอนนี้ Interaction ย้ายไปเกิดที่ InteractionZone แทน (แยกจากโต๊ะ
-//   เด็ดขาด โต๊ะถูกปลดว่างไปตั้งแต่ก่อนแมวเดินมาถึงโซนแล้ว) จึงอ้างอิง NPCController
-//   (currentNPC) โดยตรงแทนที่จะอ้อมผ่านโต๊ะ
-//
-// Safety-net เดิม (ForceResume / IsLocked ปลดล็อก) ยังเก็บไว้เหมือนเดิมทั้งหมด
-// เผื่อมีจุดอื่นเรียก PauseGame()/Lock ไว้แล้วลืมปลด
 // =====================================================================
 public class CatSystemManager : MonoBehaviour
 {
@@ -52,7 +44,7 @@ public class CatSystemManager : MonoBehaviour
         if (qtePanel != null) qtePanel.SetActive(false);
     }
 
-    /// <summary>เรียกจาก NPCController ตอนไปถึง InteractionZone แล้ว (แทนที่การเรียกจาก CustomerTable เดิม)</summary>
+    /// <summary>เรียกจาก NPCController ตอนไปถึง InteractionZone แล้ว</summary>
     public void StartInteraction(NPCController npc)
     {
         currentNPC = npc;
@@ -68,15 +60,12 @@ public class CatSystemManager : MonoBehaviour
     {
         StartInteraction(npc);
 
-        // 1. เปิด Panel หลัก (รวมปุ่ม Exit)
         if (qtePanel != null)
             qtePanel.SetActive(true);
 
-        // 2. เปิดแถบตัวเลือกปุ่ม 3 ปุ่มทางขวา
         if (interactionButtonGroup != null)
         {
             interactionButtonGroup.SetActive(true);
-            // ดันขึ้นมาหน้าสุด กันโดน UI ชิ้นอื่นบัง
             interactionButtonGroup.transform.SetAsLastSibling();
         }
     }
@@ -159,7 +148,7 @@ public class CatSystemManager : MonoBehaviour
             yield return null;
         }
 
-        // ส่งผลไปยัง RelationshipManager ก่อน close UI
+        // ส่งผลไปยัง RelationshipManager
         ApplyResult(success);
 
         if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = 0;
@@ -168,37 +157,39 @@ public class CatSystemManager : MonoBehaviour
         isInteracting = false;
         ResetInputFlags();
 
-        // ✅ Safety-net: บังคับรีเซ็ต pause กลับเป็น 0 ทุกครั้งที่ QTE จบ
-        // กันกรณีมีจุดอื่น (เช่น QTEInteractButton ตอนกด Mash/Hold) เรียก PauseGame()
-        // ไว้แล้วลืม/พลาดเรียก ResumeGame() คืนให้ครบ ทำให้เกมค้าง Pause ค้างตลอดไป
         DayNightManager.Instance?.ForceResume();
-
-        // ✅ ปลดล็อก Player คู่กับตอนที่ NPCInteract.RelationShip() ล็อกไว้ตอนเปิด relationshipCanvas
         PlayerController2D.IsLocked = false;
 
         if (currentNPC != null)
         {
             NPCController npcToClose = currentNPC;
             currentNPC = null;
-            npcToClose.FinishInteractionAtZone();
+
+            if (success)
+            {
+                // เล่น Animation Perform ตามประเภท QTE (0 = Perform1, 1 = Perform2, 2 = Perform3)
+                npcToClose.PlayPerformAndExit((int)qteType);
+            }
+            else
+            {
+                // ถ้า QTE ล้มเหลว ให้เดินออกจากร้านทันที
+                npcToClose.FinishInteractionAtZone();
+            }
         }
     }
 
     void ApplyResult(bool success)
     {
-        // QTE สำเร็จ +10, ล้มเหลว -5
         float change = success ? 10f : -5f;
 
         if (currentNPC == null) return;
 
-        // ✅ เล่นเสียงแมวเฉพาะตอน QTE สำเร็จ
         if (success)
         {
             NPCInteract interact = currentNPC.GetComponent<NPCInteract>();
             if (interact != null) interact.PlayMeow();
         }
 
-        // ดึง catID จาก CatRelationshipData ที่ผูกไว้บน NPC prefab
         CatIdentity identity = currentNPC.GetComponent<CatIdentity>();
         if (identity == null || identity.catData == null)
         {
@@ -219,10 +210,7 @@ public class CatSystemManager : MonoBehaviour
         if (qtePanel != null) qtePanel.SetActive(false);
         HideInteractionChoice();
 
-        // ✅ Safety-net เดียวกับตอน QTE จบปกติ — กันเกมค้าง Pause ถ้าถูกบังคับปิดกลางทาง
         DayNightManager.Instance?.ForceResume();
-
-        // ✅ ปลดล็อก Player — จุดที่ ExitButton (GroupOfInteraction/QTEPanel) เรียกใช้จริง
         PlayerController2D.IsLocked = false;
 
         if (currentNPC != null)

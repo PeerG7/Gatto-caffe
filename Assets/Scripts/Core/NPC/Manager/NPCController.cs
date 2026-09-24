@@ -24,31 +24,29 @@ public class NPCController : MonoBehaviour
     [Header("Patience Settings")]
     [Tooltip("เวลารอพื้นฐานเมื่อ Relationship = 0")]
     public float maxWaitTime = 20f;
-    [Tooltip("เวลาที่จะบวกเพิ่มสูงสุดเมื่อ Relationship เต็ม 100% (เช่น เต็มจะรอรวมเป็น maxWaitTime + maxBonusWaitTime)")]
+    [Tooltip("เวลาที่จะบวกเพิ่มสูงสุดเมื่อ Relationship เต็ม 100%")]
     public float maxBonusWaitTime = 15f;
 
-    private float actualWaitTime = 20f; // เวลาที่คำนวณได้จริงสำหรับแมวตัวนี้
+    private float actualWaitTime = 20f;
     private float waitTimer = 0f;
     private bool isAngry = false;
 
     [Header("Patience Bar UI")]
     public GameObject patienceBarRoot;
-    public UnityEngine.UI.Image patienceBarFill; // Image Type = Filled, Fill Method = Radial 360
+    public UnityEngine.UI.Image patienceBarFill;
 
     [Header("Safety Timeout (ป้องกัน NPC ค้างโต๊ะ)")]
     public float absoluteMaxSitTime = 120f;
 
     [Header("VIP Settings")]
-    [Tooltip("ติ๊กไว้บน Prefab แมว VIP (สีพิเศษ) — หรือให้ NPCSpawner เซ็ตให้อัตโนมัติตอน Spawn")]
     public bool isVIP = false;
-    [Tooltip("ตัวคูณเงินรางวัลเมื่อ Serve แมว VIP สำเร็จ เช่น 2 = ได้เงิน 2 เท่า")]
     public float vipMoneyMultiplier = 2f;
 
     private bool hasArrivedAtDamageTarget = false;
 
     [HideInInspector] public bool isInQTE = false;
 
-    public enum NPCState { InQueue, GoingToSeat, Sitting, GoingToInteractionZone, AtInteractionZone, GoingToDamage, Leaving }
+    public enum NPCState { InQueue, GoingToSeat, Sitting, GoingToInteractionZone, AtInteractionZone, GoingToDamage, Leaving, Performing }
     public NPCState currentState = NPCState.InQueue;
 
     [Header("Order System")]
@@ -60,28 +58,30 @@ public class NPCController : MonoBehaviour
     [Header("Animation")]
     public Animator animator;
     public SpriteRenderer bodySpriteRenderer;
-    [Tooltip("How long the NPC idles after arriving at the seat, before the sitting animation kicks in.")]
     public float idleBeforeSitDuration = 0.4f;
     [Range(0f, 1f)]
-    [Tooltip("When remaining patience ratio drops to/below this, switch to the sitting-angry animation (visual warning) even though the NPC hasn't actually left yet.")]
     public float angryPatienceRatioThreshold = 0.25f;
-    [Tooltip("Below this speed, the NPC is considered stopped and plays Idle.")]
     public float moveAnimThreshold = 0.05f;
+
+    [Header("Perform Animation Settings")]
+    [Tooltip("Fallback duration if Animator component is missing or clip length cannot be read.")]
+    public float fallbackPerformDuration = 2.26f;
 
     [HideInInspector] public InteractionZone currentZone;
     private System.Action onArrivedAtInteractionZone;
 
     [Header("Interaction Timeout")]
-    [Tooltip("ถ้าผู้เล่นไม่มากด Interact (E) ภายในเวลานี้ (วินาที) หลังไปถึงโซน จะยกเลิกแล้วออกจากร้านไปเลย")]
     public float waitForPlayerTimeout = 15f;
-    [Tooltip("หลังผู้เล่นกด Interact แล้ว ถ้าไม่เลือกประเภท QTE ภายในเวลานี้ (วินาที) จะยกเลิกแล้วออกจากร้านไปเลย")]
     public float interactionChoiceTimeout = 5f;
     private Coroutine interactionTimeoutCoroutine;
 
-    private enum AnimState { Idle, WalkSide, WalkUp, Sit, SitAngry }
+    private enum AnimState { Idle, WalkSide, WalkUp, Sit, SitAngry, Perform1, Perform2, Perform3 }
     private AnimState currentAnim = AnimState.Idle;
     private static readonly int AnimStateHash = Animator.StringToHash("AnimState");
     private bool isSittingAngryAnim = false;
+
+    // Safety lock during performance
+    private bool isPerforming = false;
 
     static bool GameIsPaused =>
         DayNightManager.Instance != null && DayNightManager.Instance.isPaused;
@@ -128,14 +128,17 @@ public class NPCController : MonoBehaviour
         }
         else if (agent != null)
         {
-            agent.isStopped = false;
+            if (currentState != NPCState.Performing && currentState != NPCState.Sitting && currentState != NPCState.AtInteractionZone)
+            {
+                agent.isStopped = false;
+            }
         }
 
         if (agent == null || !agent.isOnNavMesh) return;
 
         UpdateMovementAnimation();
 
-        if (currentState == NPCState.Leaving) return;
+        if (currentState == NPCState.Leaving || currentState == NPCState.Performing) return;
 
         if (currentState == NPCState.GoingToSeat)
         {
@@ -158,35 +161,91 @@ public class NPCController : MonoBehaviour
 
     void UpdateMovementAnimation()
     {
-        if (currentState == NPCState.Sitting || currentState == NPCState.AtInteractionZone)
+        if (currentState == NPCState.Sitting || currentState == NPCState.AtInteractionZone || currentState == NPCState.Performing)
             return;
+
+        // Check if Animator component is currently stuck playing a performance state
+        bool isStuckInPerform = false;
+        if (animator != null)
+        {
+            AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+            if (info.IsName("Perform1") || info.IsName("Perform2") || info.IsName("Perform3") ||
+                info.IsName("Perform_1") || info.IsName("Perform_2") || info.IsName("Perform_3"))
+            {
+                isStuckInPerform = true;
+            }
+        }
 
         Vector3 vel = agent.velocity;
 
         if (vel.sqrMagnitude < moveAnimThreshold * moveAnimThreshold)
         {
-            SetAnimState(AnimState.Idle);
+            if (currentState != NPCState.Leaving)
+            {
+                SetAnimState(AnimState.Idle, isStuckInPerform);
+            }
             return;
         }
 
         if (vel.y > 0.1f && Mathf.Abs(vel.y) >= Mathf.Abs(vel.x))
         {
-            SetAnimState(AnimState.WalkUp);
+            SetAnimState(AnimState.WalkUp, isStuckInPerform);
         }
         else
         {
-            SetAnimState(AnimState.WalkSide);
+            SetAnimState(AnimState.WalkSide, isStuckInPerform);
             if (bodySpriteRenderer != null && Mathf.Abs(vel.x) > 0.01f)
                 bodySpriteRenderer.flipX = vel.x < 0f;
         }
     }
 
-    void SetAnimState(AnimState state)
+    void SetAnimState(AnimState state, bool force = false)
     {
-        if (currentAnim == state) return;
+        if (!force && currentAnim == state) return;
         currentAnim = state;
+
         if (animator != null)
+        {
             animator.SetInteger(AnimStateHash, (int)state);
+
+            // 1. Try exact enum name
+            string enumName = state.ToString();
+            int primaryHash = Animator.StringToHash(enumName);
+
+            if (animator.HasState(0, primaryHash))
+            {
+                animator.Play(primaryHash, 0, 0f);
+            }
+            else
+            {
+                // 2. Try alternate common naming formats (e.g. Walk_Side, Perform_1)
+                string altName = enumName switch
+                {
+                    "WalkSide" => "Walk_Side",
+                    "WalkUp" => "Walk_Up",
+                    "SitAngry" => "Sit_Angry",
+                    "Perform1" => "Perform_1",
+                    "Perform2" => "Perform_2",
+                    "Perform3" => "Perform_3",
+                    _ => enumName
+                };
+
+                int altHash = Animator.StringToHash(altName);
+                if (animator.HasState(0, altHash))
+                {
+                    animator.Play(altHash, 0, 0f);
+                }
+                else if (state == AnimState.WalkSide || state == AnimState.WalkUp)
+                {
+                    // 3. Fallback for walking state
+                    int genericWalkHash = Animator.StringToHash("Walk");
+                    if (animator.HasState(0, genericWalkHash))
+                    {
+                        animator.Play(genericWalkHash, 0, 0f);
+                    }
+                }
+            }
+        }
     }
 
     public void SetQueueTarget(Transform target)
@@ -406,8 +465,97 @@ public class NPCController : MonoBehaviour
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(true);
     }
 
+    public void PlayPerformAndExit(int performIndex = 0, float customDuration = -1f)
+    {
+        StartCoroutine(PerformAnimationRoutine(performIndex, customDuration));
+    }
+
+    private IEnumerator PerformAnimationRoutine(int performIndex, float durationOverride)
+    {
+        if (isPerforming) yield break;
+        isPerforming = true;
+
+        if (interactionTimeoutCoroutine != null)
+        {
+            StopCoroutine(interactionTimeoutCoroutine);
+            interactionTimeoutCoroutine = null;
+        }
+
+        currentState = NPCState.Performing;
+
+        // Freeze physical position completely
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            agent.ResetPath();
+        }
+
+        if (currentZone != null && currentZone.point != null)
+        {
+            transform.position = currentZone.point.position;
+        }
+
+        if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
+        CatSystemManager.Instance?.HideInteractionChoice();
+
+        AnimState targetState = performIndex switch
+        {
+            1 => AnimState.Perform2,
+            2 => AnimState.Perform3,
+            _ => AnimState.Perform1
+        };
+
+        SetAnimState(targetState, true);
+
+        float clipDuration = durationOverride > 0f ? durationOverride : fallbackPerformDuration;
+
+        if (animator != null)
+        {
+            string targetStateName = targetState.ToString();
+
+            // Wait until Animator enters the perform state
+            float safetyWait = 0f;
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName(targetStateName) && safetyWait < 0.5f)
+            {
+                safetyWait += Time.deltaTime;
+                yield return null;
+            }
+
+            if (durationOverride <= 0f && animator.GetCurrentAnimatorStateInfo(0).IsName(targetStateName))
+            {
+                float detectedLen = animator.GetCurrentAnimatorStateInfo(0).length;
+                if (detectedLen > 0.1f) clipDuration = detectedLen;
+            }
+        }
+
+        // Wait stationary for exact animation duration (2.26s)
+        float timer = 0f;
+        while (timer < clipDuration)
+        {
+            if (!GameIsPaused)
+            {
+                timer += Time.deltaTime;
+                if (agent != null && agent.isOnNavMesh)
+                {
+                    agent.isStopped = true;
+                    agent.velocity = Vector3.zero;
+                }
+            }
+            yield return null;
+        }
+
+        // Release perform lock and reset cached animation state
+        isPerforming = false;
+        currentAnim = (AnimState)(-1);
+
+        FinishInteractionAtZone();
+    }
+
     public void FinishInteractionAtZone()
     {
+        if (isPerforming) return;
+
         if (interactionTimeoutCoroutine != null)
         {
             StopCoroutine(interactionTimeoutCoroutine);
@@ -452,7 +600,6 @@ public class NPCController : MonoBehaviour
     {
         waitTimer = 0f;
 
-        // 🌟 ใหม่: คำนวณเวลารอแบบ Dynamic ตามระดับ Relationship
         float currentRelRatio = GetCurrentCatRelationshipRatio();
         actualWaitTime = maxWaitTime + (maxBonusWaitTime * currentRelRatio);
 
@@ -489,14 +636,10 @@ public class NPCController : MonoBehaviour
             BecomeAngry();
     }
 
-    /// <summary>
-    /// Helper คำนวณ Ratio (0.0 ถึง 1.0) ของ Relationship แมวตัวนี้
-    /// </summary>
     private float GetCurrentCatRelationshipRatio()
     {
         if (RelationshipManager.Instance == null) return 0f;
 
-        // ดึง catID จาก CatIdentity หรือ NPCRelationship ที่ติดอยู่กับตัวแมว
         string catID = "";
         CatIdentity identity = GetComponent<CatIdentity>();
         if (identity != null)
@@ -511,7 +654,6 @@ public class NPCController : MonoBehaviour
 
         if (string.IsNullOrEmpty(catID)) return 0f;
 
-        // ดึงข้อมูล Max Relationship จาก RelationshipManager
         CatRelationshipData data = RelationshipManager.Instance.allCats.Find(c => c.catID == catID);
         float maxRel = data != null ? data.maxRelationship : 100f;
         float currentRel = RelationshipManager.Instance.GetRelationship(catID);
@@ -603,6 +745,7 @@ public class NPCController : MonoBehaviour
 
     public void GoExit()
     {
+        if (isPerforming) return;
         if (exitPoint == null) return;
 
         if (interactionTimeoutCoroutine != null)
@@ -624,8 +767,26 @@ public class NPCController : MonoBehaviour
         isSittingAngryAnim = false;
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
-        agent.isStopped = false;
-        agent.SetDestination(exitPoint.position);
+
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(exitPoint.position);
+        }
+
+        // Set direction and force transition into Walk state
+        Vector3 dir = (exitPoint.position - transform.position).normalized;
+        if (Mathf.Abs(dir.y) > Mathf.Abs(dir.x) && dir.y > 0.1f)
+        {
+            SetAnimState(AnimState.WalkUp, true);
+        }
+        else
+        {
+            SetAnimState(AnimState.WalkSide, true);
+            if (bodySpriteRenderer != null && Mathf.Abs(dir.x) > 0.01f)
+                bodySpriteRenderer.flipX = dir.x < 0f;
+        }
+
         StartCoroutine(DestroyWhenArrive());
     }
 
