@@ -1,186 +1,253 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+#if TMPro
+using TMPro;
+#endif
 
 /// <summary>
-/// UpgradeComputer — กด E ที่คอมพิวเตอร์เพื่อเปิดหน้าจอ
-/// เลื่อนดูโต๊ะทีละตัว (ปุ่มซ้าย/ขวา) แล้ว Upgrade หรือเปลี่ยน Skin ได้
-/// ปุ่มเปลี่ยน Skin จะโชว์ก็ต่อเมื่อโต๊ะตัวที่กำลังดูอยู่ Upgrade แล้วเท่านั้น
+/// UpgradeComputer — ระบบคอมพิวเตอร์จัดการร้าน
+/// - ปุ่ม Upgrade All: ตรวจสอบและอัปเกรดโต๊ะทั้งหมดที่พร้อมอัปเกรดพร้อมกันในคลิกเดียว
+/// - ปุ่ม Skin: ปลดล็อกและเปลี่ยน Skin ให้โต๊ะที่ผ่านการอัปเกรดแล้วทุกตัวพร้อมกัน
 /// </summary>
 public class UpgradeComputer : MonoBehaviour
 {
-    [Header("Canvas")]
+    [Header("Canvas & Windows")]
+    [Tooltip("Panel หรือ Canvas หน้าจอคอมพิวเตอร์")]
     public GameObject computerCanvas;
+    [Tooltip("ปุ่มกากบาท หรือปุ่มสำหรับปิดหน้าจอคอม")]
+    public Button closeButton;
 
-    [Header("Table Carousel (ปุ่มซ้าย/ขวา + ชื่อโต๊ะ)")]
-    public Text tableNameLabel;
-    public Image tablePreviewIcon; // optional — โชว์รูปตัวอย่างโต๊ะปัจจุบัน
-    public Button prevTableButton;
-    public Button nextTableButton;
+    [Header("Upgrade All Section")]
+    [Tooltip("ปุ่มสำหรับกด Upgrade โต๊ะทั้งหมดพร้อมกัน")]
+    public Button upgradeAllButton;
+    [Tooltip("Text แสดงสถานะ เช่น จำนวนโต๊ะที่พร้อมอัปเกรด และราคารวม")]
+    public Text upgradeAllStatusLabel;
 
-    [Header("Upgrade Section (โชว์เมื่อโต๊ะยังไม่ Upgrade)")]
-    public GameObject upgradeSection;
-    public Text upgradePriceLabel;
-    public Button upgradeButton;
-
-    [Header("Skin Section (โชว์เฉพาะโต๊ะที่ Upgrade แล้วเท่านั้น)")]
+    [Header("Skin Section")]
+    [Tooltip("Panel แสดงส่วนเลือก Skin (จะซ่อนถ้ายังไม่มีโต๊ะไหนอัปเกรดเลย)")]
     public GameObject skinSection;
-    [Tooltip("ปุ่มเลือก Skin เรียงลำดับให้ตรงกับ marbleSkins ของโต๊ะแต่ละตัว")]
+    [Tooltip("รายการปุ่ม Skin เรียงลำดับตาม Index (0, 1, 2...)")]
     public List<SkinButtonUI> skinButtons = new List<SkinButtonUI>();
 
-    [Header("Data")]
-    [Tooltip("ปล่อยว่างไว้ได้ ถ้าปล่อยว่างจะหาโต๊ะทั้งหมดในซีนให้อัตโนมัติตอนเปิดหน้าจอ")]
+    [Header("Data / Furniture List")]
+    [Tooltip("หากปล่อยว่าง ระบบจะค้นหา FurnitureObject ในฉากทั้งหมดให้อัตโนมัติ")]
     public List<FurnitureObject> tables = new List<FurnitureObject>();
-    private int currentTableIndex = 0;
-
-    FurnitureObject CurrentTable =>
-        (tables != null && tables.Count > 0 && currentTableIndex >= 0 && currentTableIndex < tables.Count)
-            ? tables[currentTableIndex] : null;
 
     void Awake()
     {
-        if (computerCanvas != null) computerCanvas.SetActive(false);
+        // ปิดหน้าจอคอมไว้ก่อนตอนเริ่มเกม
+        if (computerCanvas != null)
+            computerCanvas.SetActive(false);
 
-        if (prevTableButton != null) prevTableButton.onClick.AddListener(PrevTable);
-        if (nextTableButton != null) nextTableButton.onClick.AddListener(NextTable);
-        if (upgradeButton != null) upgradeButton.onClick.AddListener(OnUpgradeClicked);
+        // ผูก Event ปุ่มกดหลัก
+        if (upgradeAllButton != null)
+            upgradeAllButton.onClick.AddListener(OnUpgradeAllClicked);
+
+        if (closeButton != null)
+            closeButton.onClick.AddListener(CloseComputer);
+
+        // ผูก Listener ให้กับปุ่ม Skin ทั้งหมดตาม Index อัตโนมัติ
+        for (int i = 0; i < skinButtons.Count; i++)
+        {
+            int index = i; // Local copy เพื่อป้องกัน Closure capture ใน Loop
+            if (skinButtons[i] != null && skinButtons[i].button != null)
+            {
+                skinButtons[i].button.onClick.AddListener(() => OnSkinButtonClicked(index));
+            }
+        }
     }
 
-    /// <summary>เรียกจาก PlayerInteract2D ตอนกด E ที่คอมพิวเตอร์</summary>
+    /// <summary>
+    /// เรียกใช้งานจาก PlayerInteract2D เมื่อผู้เล่นกด E ที่คอมพิวเตอร์
+    /// </summary>
     public void OpenComputer()
     {
+        // หากไม่มีการระบุรายการโต๊ะไว้ใน Inspector ให้สแกนหาโต๊ะทั้งหมดใน Scene
         if (tables == null || tables.Count == 0)
-            tables = new List<FurnitureObject>(FindObjectsOfType<FurnitureObject>());
-
-        if (tables.Count == 0)
         {
-            if (UINotificationManager.Instance != null)
-                UINotificationManager.Instance.ShowNotification("ยังไม่มีโต๊ะในร้านเลย");
-            return;
+            tables = new List<FurnitureObject>(FindObjectsOfType<FurnitureObject>());
         }
 
-        currentTableIndex = Mathf.Clamp(currentTableIndex, 0, tables.Count - 1);
+        if (computerCanvas != null)
+            computerCanvas.SetActive(true);
 
-        if (computerCanvas != null) computerCanvas.SetActive(true);
         PlayerController2D.IsLocked = true;
 
         RefreshUI();
     }
 
-    /// <summary>ผูกกับปุ่ม Close/Exit บนหน้าจอคอมพิวเตอร์</summary>
+    /// <summary>
+    /// ปิดหน้าต่างคอมพิวเตอร์และปลดล็อกการควบคุมของผู้เล่น
+    /// </summary>
     public void CloseComputer()
     {
-        if (computerCanvas != null) computerCanvas.SetActive(false);
+        if (computerCanvas != null)
+            computerCanvas.SetActive(false);
+
         PlayerController2D.IsLocked = false;
     }
 
-    void PrevTable()
+    /// <summary>
+    /// ทำการ Upgrade โต๊ะทุกตัวที่ปลดล็อกแล้วและยังไม่ได้อัปเกรดพร้อมกัน
+    /// </summary>
+    public void OnUpgradeAllClicked()
     {
         if (tables == null || tables.Count == 0) return;
-        currentTableIndex = (currentTableIndex - 1 + tables.Count) % tables.Count;
+
+        int upgradedCount = 0;
+        foreach (var table in tables)
+        {
+            if (table == null) continue;
+
+            // ตรวจสอบว่าโต๊ะถูกปลดล็อกแล้ว และยังไม่ได้อัปเกรด
+            if (table.isUnlocked && !table.isUpgraded)
+            {
+                table.AttemptUpgrade();
+                if (table.isUpgraded)
+                    upgradedCount++;
+            }
+        }
+
+        if (upgradedCount == 0 && UINotificationManager.Instance != null)
+        {
+            UINotificationManager.Instance.ShowNotification("ไม่มีโต๊ะที่พร้อม Upgrade ตอนนี้ (เงินไม่พอ หรือ Upgrade ครบแล้ว)");
+        }
+
         RefreshUI();
     }
 
-    void NextTable()
-    {
-        if (tables == null || tables.Count == 0) return;
-        currentTableIndex = (currentTableIndex + 1) % tables.Count;
-        RefreshUI();
-    }
-
-    void OnUpgradeClicked()
-    {
-        FurnitureObject table = CurrentTable;
-        if (table == null) return;
-
-        table.AttemptUpgrade();
-        RefreshUI();
-    }
-
-    /// <summary>ผูกกับ OnClick ของปุ่ม Skin แต่ละอันใน Inspector โดยใส่ index ให้ตรงกับ skinButtons</summary>
+    /// <summary>
+    /// เปลี่ยน Skin ของโต๊ะที่ Upgrade แล้วทั้งหมดพร้อมกัน
+    /// </summary>
     public void OnSkinButtonClicked(int skinIndex)
     {
-        FurnitureObject table = CurrentTable;
-        if (table == null) return;
-        if (skinIndex < 0 || skinIndex >= table.marbleSkins.Count) return;
+        if (tables == null || tables.Count == 0) return;
 
-        MarbleSkin skin = table.marbleSkins[skinIndex];
-
-        if (!skin.isUnlocked)
+        int appliedCount = 0;
+        foreach (var table in tables)
         {
-            bool success = table.AttemptUnlockMarbleSkin(skinIndex);
-            if (success) table.SelectMarbleSkin(skinIndex);
+            if (table == null || !table.isUpgraded) continue;
+            if (table.marbleSkins == null || skinIndex < 0 || skinIndex >= table.marbleSkins.Count) continue;
+
+            MarbleSkin skin = table.marbleSkins[skinIndex];
+            if (!skin.isUnlocked)
+            {
+                // ถ้าสกินยังไม่ปลดล็อก ให้พยายามปลดล็อกก่อน
+                bool success = table.AttemptUnlockMarbleSkin(skinIndex);
+                if (success)
+                {
+                    table.SelectMarbleSkin(skinIndex);
+                    appliedCount++;
+                }
+            }
+            else
+            {
+                table.SelectMarbleSkin(skinIndex);
+                appliedCount++;
+            }
         }
-        else
+
+        if (appliedCount == 0 && UINotificationManager.Instance != null)
         {
-            table.SelectMarbleSkin(skinIndex);
+            UINotificationManager.Instance.ShowNotification("ยังไม่มีโต๊ะที่ Upgrade แล้วเลย ต้อง Upgrade ก่อนถึงจะเปลี่ยน Skin ได้");
         }
 
         RefreshUI();
     }
 
-    /// <summary>อัปเดตหน้าจอทั้งหมดให้ตรงกับโต๊ะที่กำลังดูอยู่</summary>
-    void RefreshUI()
+    /// <summary>
+    /// อัปเดตการแสดงผลของ UI ทั้งหมด
+    /// </summary>
+    public void RefreshUI()
     {
-        FurnitureObject table = CurrentTable;
-        if (table == null) return;
+        if (tables == null) return;
 
-        if (tableNameLabel != null) tableNameLabel.text = table.gameObject.name;
+        // 1. คำนวณจำนวนโต๊ะที่รออัปเกรดและราคารวม
+        int pendingCount = 0;
+        int totalPrice = 0;
+        foreach (var t in tables)
+        {
+            if (t != null && t.isUnlocked && !t.isUpgraded)
+            {
+                pendingCount++;
+                totalPrice += t.upgradePrice;
+            }
+        }
 
-        // ── Upgrade Section: โชว์เฉพาะตอนยังไม่ Upgrade ──────────────
-        bool showUpgrade = table.isUnlocked && !table.isUpgraded;
-        if (upgradeSection != null) upgradeSection.SetActive(showUpgrade);
-        if (upgradePriceLabel != null) upgradePriceLabel.text = table.upgradePrice + " $";
+        if (upgradeAllStatusLabel != null)
+        {
+            upgradeAllStatusLabel.text = pendingCount > 0
+                ? $"Upgrade ทั้งหมด ({pendingCount} โต๊ะ) — {totalPrice} $"
+                : "Upgrade ครบทุกโต๊ะแล้ว";
+        }
 
-        // ── Skin Section: โชว์เฉพาะตอน Upgrade แล้วเท่านั้น ──────────
-        bool showSkins = table.isUnlocked && table.isUpgraded;
-        if (skinSection != null) skinSection.SetActive(showSkins);
+        if (upgradeAllButton != null)
+        {
+            upgradeAllButton.interactable = (pendingCount > 0);
+        }
+
+        // 2. แสดงผลส่วนของ Skin
+        // อ้างอิงจากโต๊ะตัวแรกที่อัปเกรดแล้ว
+        FurnitureObject reference = tables.Find(t => t != null && t.isUpgraded && t.marbleSkins != null && t.marbleSkins.Count > 0);
+        bool hasUpgradedTable = (reference != null);
+
+        if (skinSection != null)
+            skinSection.SetActive(hasUpgradedTable);
 
         for (int i = 0; i < skinButtons.Count; i++)
         {
-            if (!showSkins || i >= table.marbleSkins.Count)
+            if (skinButtons[i] == null) continue;
+
+            if (!hasUpgradedTable || i >= reference.marbleSkins.Count)
             {
                 skinButtons[i].SetVisible(false);
                 continue;
             }
 
             skinButtons[i].SetVisible(true);
-            bool isSelected = table.currentMarbleSkinIndex == i;
-            skinButtons[i].UpdateVisual(table.marbleSkins[i], isSelected);
+            bool isSelected = reference.currentMarbleSkinIndex == i;
+            skinButtons[i].UpdateVisual(reference.marbleSkins[i], isSelected);
         }
     }
 }
 
 /// <summary>
-/// ปุ่มเดียวสำหรับ 1 Marble Skin — ลาก Reference ของ Component บนปุ่มมาใส่ให้ครบ
-/// (ถ้าโปรเจกต์ใช้ TextMeshPro ให้เปลี่ยน Text เป็น TMPro.TMP_Text ทั้งหมดในไฟล์นี้)
+/// โครงสร้างข้อมูล UI สำหรับปุ่มเลือกแต่ละ Skin
 /// </summary>
 [System.Serializable]
 public class SkinButtonUI
 {
-    public GameObject rootObject;   // ตัว GameObject ของปุ่มทั้งอัน (สำหรับซ่อน/โชว์)
-    public Button button;
-    public Text nameLabel;
-    public Text priceLabel;
-    public GameObject selectedHighlight;
+    public GameObject rootObject;      // วัตถุของปุ่มทั้งหมด (ใช้สำหรับซ่อน/แสดง)
+    public Button button;              // Component ปุ่มสำหรับคลิก
+    public Text nameLabel;             // ข้อความแสดงชื่อสกิน
+    public Text priceLabel;            // ข้อความแสดงราคา/สถานะการเลือก
+    public GameObject selectedHighlight; // ภาพกรอบที่แสดงเมื่อกำลังใช้งานสกินนี้อยู่
 
     public void SetVisible(bool visible)
     {
-        if (rootObject != null) rootObject.SetActive(visible);
+        if (rootObject != null)
+            rootObject.SetActive(visible);
     }
 
     public void UpdateVisual(MarbleSkin skin, bool isSelected)
     {
-        if (nameLabel != null) nameLabel.text = skin.skinName;
+        if (nameLabel != null)
+            nameLabel.text = skin.skinName;
 
         if (priceLabel != null)
         {
             if (!skin.isUnlocked)
+            {
                 priceLabel.text = skin.unlockPrice + " $";
+            }
             else
+            {
                 priceLabel.text = isSelected ? "กำลังใช้อยู่" : "เลือกใช้";
+            }
         }
 
-        if (selectedHighlight != null) selectedHighlight.SetActive(isSelected);
+        if (selectedHighlight != null)
+            selectedHighlight.SetActive(isSelected);
     }
 }
