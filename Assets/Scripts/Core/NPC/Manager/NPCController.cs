@@ -164,7 +164,7 @@ public class NPCController : MonoBehaviour
         if (currentState == NPCState.Sitting || currentState == NPCState.AtInteractionZone || currentState == NPCState.Performing)
             return;
 
-        // Check if Animator component is currently stuck playing a performance state
+        // Force state reset if Animator got stuck in a performance clip while moving
         bool isStuckInPerform = false;
         if (animator != null)
         {
@@ -218,7 +218,7 @@ public class NPCController : MonoBehaviour
             }
             else
             {
-                // 2. Try alternate common naming formats (e.g. Walk_Side, Perform_1)
+                // 2. Try alternate naming conventions (e.g. Walk_Side, Perform_1)
                 string altName = enumName switch
                 {
                     "WalkSide" => "Walk_Side",
@@ -237,7 +237,7 @@ public class NPCController : MonoBehaviour
                 }
                 else if (state == AnimState.WalkSide || state == AnimState.WalkUp)
                 {
-                    // 3. Fallback for walking state
+                    // 3. Fallback for walking animation
                     int genericWalkHash = Animator.StringToHash("Walk");
                     if (animator.HasState(0, genericWalkHash))
                     {
@@ -463,6 +463,9 @@ public class NPCController : MonoBehaviour
         }
 
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(true);
+
+        // Zoom camera in to center between Player and NPC
+        QTEZoomController.Instance?.ZoomInToQTE(transform);
     }
 
     public void PlayPerformAndExit(int performIndex = 0, float customDuration = -1f)
@@ -483,7 +486,7 @@ public class NPCController : MonoBehaviour
 
         currentState = NPCState.Performing;
 
-        // Freeze physical position completely
+        // Freeze physical movement position
         if (agent != null && agent.isOnNavMesh)
         {
             agent.isStopped = true;
@@ -514,7 +517,7 @@ public class NPCController : MonoBehaviour
         {
             string targetStateName = targetState.ToString();
 
-            // Wait until Animator enters the perform state
+            // Wait until Animator state machine switches to perform state
             float safetyWait = 0f;
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName(targetStateName) && safetyWait < 0.5f)
             {
@@ -522,6 +525,7 @@ public class NPCController : MonoBehaviour
                 yield return null;
             }
 
+            // Read duration directly from Animator state clip
             if (durationOverride <= 0f && animator.GetCurrentAnimatorStateInfo(0).IsName(targetStateName))
             {
                 float detectedLen = animator.GetCurrentAnimatorStateInfo(0).length;
@@ -529,7 +533,7 @@ public class NPCController : MonoBehaviour
             }
         }
 
-        // Wait stationary for exact animation duration (2.26s)
+        // Wait stationary for exact animation duration
         float timer = 0f;
         while (timer < clipDuration)
         {
@@ -545,7 +549,7 @@ public class NPCController : MonoBehaviour
             yield return null;
         }
 
-        // Release perform lock and reset cached animation state
+        // Un-lock perform lock and reset cached animation state
         isPerforming = false;
         currentAnim = (AnimState)(-1);
 
@@ -564,6 +568,9 @@ public class NPCController : MonoBehaviour
 
         CatSystemManager.Instance?.HideInteractionChoice();
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
+
+        // Zoom camera back out to default gameplay camera
+        QTEZoomController.Instance?.ZoomOutToGameplay();
 
         if (currentZone != null)
         {
@@ -763,6 +770,9 @@ public class NPCController : MonoBehaviour
             InteractionZoneManager.Instance.CancelRequest(this);
         CatSystemManager.Instance?.HideInteractionChoice();
 
+        // Safety check to reset camera zoom if NPC leaves prematurely
+        QTEZoomController.Instance?.ZoomOutToGameplay();
+
         currentState = NPCState.Leaving;
         isSittingAngryAnim = false;
         if (orderCanvas != null) orderCanvas.SetActive(false);
@@ -774,7 +784,6 @@ public class NPCController : MonoBehaviour
             agent.SetDestination(exitPoint.position);
         }
 
-        // Set direction and force transition into Walk state
         Vector3 dir = (exitPoint.position - transform.position).normalized;
         if (Mathf.Abs(dir.y) > Mathf.Abs(dir.x) && dir.y > 0.1f)
         {
