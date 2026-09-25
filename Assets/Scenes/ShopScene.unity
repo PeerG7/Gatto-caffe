@@ -390,7 +390,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -995, y: -677}
+  m_AnchoredPosition: {x: -995, y: -270}
   m_SizeDelta: {x: 720.4583, y: 135.0859}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &13556764
@@ -1460,7 +1460,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1084.8799, y: -645.01}
+  m_AnchoredPosition: {x: 866, y: -694}
   m_SizeDelta: {x: 460.3392, y: 347.3417}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &122512688
@@ -9541,7 +9541,7 @@ SpriteRenderer:
   m_SortingOrder: -2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 2614144009142200583, guid: 1efb5ad33ad7cba40900ebece04e4c51, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.6433297, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -11426,7 +11426,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 617.06995, y: -586.9101}
+  m_AnchoredPosition: {x: -96, y: -672}
   m_SizeDelta: {x: 481.2184, y: 342.4128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &712174509
@@ -19919,7 +19919,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 208, y: -591.81}
+  m_AnchoredPosition: {x: -974, y: -670}
   m_SizeDelta: {x: 244.9634, y: 189.7415}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1533021537
@@ -24159,7 +24159,7 @@ MonoBehaviour:
   exitPoint: {fileID: 1990573815}
   vipNpcPrefabs:
   - {fileID: 1500671038587446994, guid: 674566b583f6fde4bb238e43d4da9724, type: 3}
-  vipSpawnChance: 50
+  vipSpawnChance: 0
   relationshipCanvas: {fileID: 620960049}
   spawnInterval: 5
   minInterval: 5
