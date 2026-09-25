@@ -461,6 +461,7 @@ MonoBehaviour:
   qteCanvasInPrefab: {fileID: 2416233485390160750}
   qteProgressBarFill: {fileID: 6144329926809504204}
   maxWaitTime: 20
+  maxBonusWaitTime: 15
   patienceBarRoot: {fileID: 8747681826876789345}
   patienceBarFill: {fileID: 3996312268597964124}
   absoluteMaxSitTime: 120
@@ -481,7 +482,10 @@ MonoBehaviour:
   idleBeforeSitDuration: 0.4
   angryPatienceRatioThreshold: 0.25
   moveAnimThreshold: 0.05
+  fallbackPerformDuration: 2.26
   currentZone: {fileID: 0}
+  waitForPlayerTimeout: 15
+  interactionChoiceTimeout: 5
 --- !u!195 &4791925765790317714
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -654,7 +658,7 @@ Animator:
   m_GameObject: {fileID: 1500671038587446994}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fbf3b8a0094e6a64ab72dfa0d7477882, type: 2}
+  m_Controller: {fileID: 9100000, guid: ea9615b6505c63743badffb6bc8a7353, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
