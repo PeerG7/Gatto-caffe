@@ -15,6 +15,14 @@ public class NPCInteract : MonoBehaviour
     public AudioClip meowSound;
     public AudioClip angrySound;
 
+    [Header("VIP Sounds (Optional — สำหรับแมว VIP เช่น Alien ที่มีเสียงเฉพาะตัว)")]
+    [Tooltip("cat_happy_alien เป็นต้น — ถ้าไม่ใส่ จะใช้เสียง default จาก AudioManager แทน")]
+    public AudioClip happySound;
+    [Tooltip("cat_sad_new_alien เป็นต้น")]
+    public AudioClip sadSound;
+    [Tooltip("cat_wants_food_alien เป็นต้น")]
+    public AudioClip wantsFoodSound;
+
     void Awake()
     {
         npc = GetComponent<NPCController>();
@@ -39,6 +47,39 @@ public class NPCInteract : MonoBehaviour
             AudioManager.instance.PlayAngry();
         else
             Debug.LogWarning("PlayAngry: ไม่มี AudioSource หรือ AudioManager บน " + gameObject.name);
+    }
+
+    /// <summary>แมวมีความสุข (ได้รับอาหาร/เครื่องดื่มถูกใจ) — VIP ใช้เสียงตัวเอง ถ้าไม่มีก็ใช้ default</summary>
+    public void PlayHappy()
+    {
+        if (audioSource != null && happySound != null)
+            audioSource.PlayOneShot(happySound);
+        else if (AudioManager.instance != null)
+            AudioManager.instance.Cathappy();
+        else
+            Debug.LogWarning("PlayHappy: ไม่มี AudioSource หรือ AudioManager บน " + gameObject.name);
+    }
+
+    /// <summary>แมวไม่พอใจ (ได้รับอาหาร/เครื่องดื่มผิด) — VIP ใช้เสียงตัวเอง ถ้าไม่มีก็ใช้ default</summary>
+    public void PlaySad()
+    {
+        if (audioSource != null && sadSound != null)
+            audioSource.PlayOneShot(sadSound);
+        else if (AudioManager.instance != null)
+            AudioManager.instance.Catsad();
+        else
+            Debug.LogWarning("PlaySad: ไม่มี AudioSource หรือ AudioManager บน " + gameObject.name);
+    }
+
+    /// <summary>แมวส่งสัญญาณต้องการอาหาร — VIP ใช้เสียงตัวเอง ถ้าไม่มีก็ใช้ default</summary>
+    public void PlayWantsFood()
+    {
+        if (audioSource != null && wantsFoodSound != null)
+            audioSource.PlayOneShot(wantsFoodSound);
+        else if (AudioManager.instance != null)
+            AudioManager.instance.PlayWantsFood();
+        else
+            Debug.LogWarning("PlayWantsFood: ไม่มี AudioSource หรือ AudioManager บน " + gameObject.name);
     }
 
     public bool CanInteract()

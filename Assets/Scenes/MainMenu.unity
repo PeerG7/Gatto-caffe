@@ -693,11 +693,14 @@ MonoBehaviour:
   menuMusic: {fileID: 8300000, guid: f26eab0c6bcc9cd449aff658d2bb4103, type: 3}
   gameMusic: {fileID: 8300000, guid: ea227e04830a83147ad0a7e93daed4f5, type: 3}
   sfxMeow: {fileID: 8300000, guid: dc3ae25056ac5d64a8c7bc5487f9877b, type: 3}
-  sfxAngry: {fileID: 8300000, guid: 02a7c32272c5104409a774819c78871b, type: 3}
+  sfxAngry: {fileID: 8300000, guid: 0489b5016d5455b44bcd74e308949bc9, type: 3}
   sfxSitDown: {fileID: 8300000, guid: 646ac0c0bd7db6f4f8b4c7b6a89dac0e, type: 3}
-  sfxComplete: {fileID: 8300000, guid: cb3ab010ebde4474080995f671802328, type: 3}
+  sfxComplete: {fileID: 8300000, guid: 1f0492c95348685468f3e911068d4065, type: 3}
   sfxCoin: {fileID: 8300000, guid: 261974345d549b34aa026405a771841e, type: 3}
-  sfxEndOfDay: {fileID: 8300000, guid: b6edf39efe40d2f4d83c811eba798892, type: 3}
+  sfxEndOfDay: {fileID: 8300000, guid: 95ee43bed39010f4c8f7f391b09a74f6, type: 3}
+  sfxCathappy: {fileID: 8300000, guid: a95029b5943c56b448f20d5ee860edcc, type: 3}
+  sfxCatsad: {fileID: 8300000, guid: 719c9e1ff80e9b243ba4a850085dd7e3, type: 3}
+  sfxWantsFood: {fileID: 8300000, guid: 6558546061a46b549ba92e27190d7f5f, type: 3}
   fadeDuration: 1
   maxVolume: 1
   endOfDayFadeDuration: 5
