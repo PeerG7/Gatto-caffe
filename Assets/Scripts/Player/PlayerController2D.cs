@@ -19,8 +19,7 @@ public class PlayerController2D : MonoBehaviour
 
     public static bool IsLocked = false;
 
-    // ✅ ใหม่: fail-safe — ล็อก Player อัตโนมัติทุกครั้งที่เกมถูก Pause จริงๆ
-    //    ไม่ว่าจุดที่สั่ง Pause จะลืม set IsLocked หรือไม่ก็ตาม
+    // Fail-safe: เช็คว่าเกม Pause อยู่หรือไม่
     private static bool IsGamePaused =>
         DayNightManager.Instance != null && DayNightManager.Instance.isPaused;
 
@@ -32,6 +31,7 @@ public class PlayerController2D : MonoBehaviour
 
     void Update()
     {
+        // หากล็อกหรือ Pause ให้ล้างค่าทิศทางการเดิน
         if (IsLocked || IsGamePaused)
         {
             movement = Vector2.zero;
@@ -52,6 +52,7 @@ public class PlayerController2D : MonoBehaviour
             return;
         }
 
+        // ปลดล็อก FreezePosition เพื่อให้ Player กลับมาเคลื่อนที่ได้ตามปกติ
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         Vector2 newPos = rb.position;
@@ -82,11 +83,15 @@ public class PlayerController2D : MonoBehaviour
 
         if (hit.collider == null) return false;
 
-        // ✅ Fix: เช็คว่า wall อยู่ในทิศเดียวกับที่เดินจริงๆ ไหม
-        // ถ้า dot product <= 0 แปลว่า wall อยู่ตรงข้าม → ไม่ต้อง block
         Vector2 toWall = (hit.point - (rb.position + col.offset)).normalized;
         if (Vector2.Dot(direction.normalized, toWall) <= 0f) return false;
 
         return true;
+    }
+
+    // ฟังก์ชันสำหรับเรียกเปิด/ปิดการล็อก Player จากสคริปต์อื่น
+    public static void SetLock(bool locked)
+    {
+        IsLocked = locked;
     }
 }

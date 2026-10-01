@@ -242,6 +242,11 @@ public class PlayerInteract2D : MonoBehaviour
                 return;
             }
         }
+        foreach (var hit in hits)
+        {
+            ComputerStation comp = hit.GetComponent<ComputerStation>();
+            if (comp != null) { comp.OpenComputerShop(); return; }
+        }
     }
 
     void UpdateTrayProximityFeedback()
