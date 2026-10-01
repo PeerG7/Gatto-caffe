@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
 // =====================================================================
-// PlayerController2D — v2 (Pause Fail-safe)
+// PlayerController2D — v4 (Clean Fix)
 //
-// เพิ่มใหม่: นอกจากเช็ค IsLocked (static bool ที่สคริปต์อื่นต้อง set เอง)
-//   ตอนนี้เช็ค DayNightManager.Instance.isPaused ตรงๆ เพิ่มอีกชั้นด้วย
-//   เพื่อป้องกันบั๊ก "Player เดินได้ตอนเกม Pause" ในอนาคต เผื่อมีจุดใหม่ๆ
-//   ที่ Pause เกมแล้วลืม set IsLocked = true
+// animState Values:
+// 0 = Idle
+// 1 = Walk (Horizontal / Downward)
+// 2 = Walk Up (Upward)
 // =====================================================================
 public class PlayerController2D : MonoBehaviour
 {
@@ -15,12 +15,13 @@ public class PlayerController2D : MonoBehaviour
 
     private Rigidbody2D rb;
     private CircleCollider2D col;
+    private Animator anim;
+    private SpriteRenderer spriteRenderer;
     private Vector2 movement;
 
     public static bool IsLocked = false;
 
-    // ✅ ใหม่: fail-safe — ล็อก Player อัตโนมัติทุกครั้งที่เกมถูก Pause จริงๆ
-    //    ไม่ว่าจุดที่สั่ง Pause จะลืม set IsLocked หรือไม่ก็ตาม
+    // fail-safe — ล็อก Player อัตโนมัติทุกครั้งที่เกมถูก Pause
     private static bool IsGamePaused =>
         DayNightManager.Instance != null && DayNightManager.Instance.isPaused;
 
@@ -28,6 +29,10 @@ public class PlayerController2D : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<CircleCollider2D>();
+
+        // Look in child objects (e.g., Player > ChildSprite)
+        anim = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     void Update()
@@ -35,12 +40,43 @@ public class PlayerController2D : MonoBehaviour
         if (IsLocked || IsGamePaused)
         {
             movement = Vector2.zero;
+            UpdateAnimation();
             return;
         }
 
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
         movement = movement.normalized;
+
+        UpdateAnimation();
+    }
+
+    void UpdateAnimation()
+    {
+        if (anim == null) return;
+
+        int animState = 0; // Default: Idle (0)
+
+        if (movement.sqrMagnitude > 0.01f)
+        {
+            // Walk Up takes precedence when moving upwards
+            if (movement.y > 0.1f)
+            {
+                animState = 2; // Walk Up
+            }
+            else
+            {
+                animState = 1; // Walk (Side / Down)
+            }
+
+            // Flip sprite horizontally when moving left
+            if (spriteRenderer != null && movement.x != 0)
+            {
+                spriteRenderer.flipX = movement.x < 0;
+            }
+        }
+
+        anim.SetInteger("animState", animState);
     }
 
     void FixedUpdate()
@@ -82,8 +118,6 @@ public class PlayerController2D : MonoBehaviour
 
         if (hit.collider == null) return false;
 
-        // ✅ Fix: เช็คว่า wall อยู่ในทิศเดียวกับที่เดินจริงๆ ไหม
-        // ถ้า dot product <= 0 แปลว่า wall อยู่ตรงข้าม → ไม่ต้อง block
         Vector2 toWall = (hit.point - (rb.position + col.offset)).normalized;
         if (Vector2.Dot(direction.normalized, toWall) <= 0f) return false;
 
