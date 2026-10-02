@@ -523,8 +523,11 @@ MonoBehaviour:
   isInStore: 0
   relationshipCanvas: {fileID: 0}
   audioSource: {fileID: 6497061395474776479}
-  meowSound: {fileID: 8300000, guid: 17a286c32f2c35e4b827c417a1624287, type: 3}
-  angrySound: {fileID: 0}
+  meowSound: {fileID: 8300000, guid: cc1f3b7223122ac4fa94ffd9d3bd1d63, type: 3}
+  angrySound: {fileID: 8300000, guid: 580984971e6676e47bb2e39dfe112119, type: 3}
+  happySound: {fileID: 8300000, guid: 533b6f4a9bffff9489fcda444069077c, type: 3}
+  sadSound: {fileID: 8300000, guid: 4218879a787c8e04b92e122e37453185, type: 3}
+  wantsFoodSound: {fileID: 8300000, guid: 6413ba3098b98034eacb805ce27b3612, type: 3}
 --- !u!114 &3328612327083211786
 MonoBehaviour:
   m_ObjectHideFlags: 0

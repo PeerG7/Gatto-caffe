@@ -23,10 +23,13 @@ public class AudioManager : MonoBehaviour
     public AudioClip sfxComplete;       // 4. หลอดอาหาร / เครื่องดื่มเต็ม
     public AudioClip sfxCoin;           // 5. ได้รับเงินจากแมว
     public AudioClip sfxEndOfDay;       // 6. ประกาศจบวัน
+    public AudioClip sfxCathappy;
+    public AudioClip sfxCatsad;
+    public AudioClip sfxWantsFood;      // 7. แมวต้องการอาหาร (default — แมวทั่วไป)
 
     [Header("Fade Settings")]
     [Range(0.1f, 3f)] public float fadeDuration = 1f;
-    [Range(0f, 1f)]   public float maxVolume    = 1f;
+    [Range(0f, 1f)] public float maxVolume = 1f;
 
     [Header("End-of-Day Fade Settings")]
     [Tooltip("ความนานของ BGM fade-out ตอนใกล้จบวัน (วินาที)")]
@@ -34,7 +37,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("Scene Names (ต้องตรงกับใน Build Settings)")]
     public string mainMenuSceneName = "MainMenu";
-    public string gameSceneName     = "GameScene";
+    public string gameSceneName = "GameScene";
 
     // ── Singleton ────────────────────────────────────────
     void Awake()
@@ -49,7 +52,7 @@ public class AudioManager : MonoBehaviour
             if (sfxSource == null)
             {
                 sfxSource = gameObject.AddComponent<AudioSource>();
-                sfxSource.loop        = false;
+                sfxSource.loop = false;
                 sfxSource.playOnAwake = false;
             }
         }
@@ -91,8 +94,8 @@ public class AudioManager : MonoBehaviour
     public void PlayMusic(AudioClip clip)
     {
         if (audioSource.clip == clip) return;
-        audioSource.clip   = clip;
-        audioSource.loop   = true;
+        audioSource.clip = clip;
+        audioSource.loop = true;
         audioSource.volume = maxVolume;
         audioSource.Play();
     }
@@ -136,22 +139,31 @@ public class AudioManager : MonoBehaviour
     // ── Public SFX API ───────────────────────────────────
 
     /// <summary>แมวร้องตอนถูกเรียกเข้าร้าน</summary>
-    public void PlayMeow()     => PlaySFX(sfxMeow);
+    public void PlayMeow() => PlaySFX(sfxMeow);
 
     /// <summary>แมวโกรธออกร้านโดยไม่ได้รับอาหาร</summary>
-    public void PlayAngry()    => PlaySFX(sfxAngry);
+    public void PlayAngry() => PlaySFX(sfxAngry);
 
     /// <summary>แมวมาถึงเก้าอี้แล้วนั่งลง</summary>
-    public void PlaySitDown()  => PlaySFX(sfxSitDown);
+    public void PlaySitDown() => PlaySFX(sfxSitDown);
 
     /// <summary>หลอดอาหาร / เครื่องดื่มเต็ม</summary>
     public void PlayComplete() => PlaySFX(sfxComplete);
 
     /// <summary>ได้รับเงินจากแมว</summary>
-    public void PlayCoin()     => PlaySFX(sfxCoin);
+    public void PlayCoin() => PlaySFX(sfxCoin);
 
     /// <summary>เสียงประกาศจบวัน</summary>
     public void PlayEndOfDay() => PlaySFX(sfxEndOfDay);
+
+    /// <summary>หลังแมวได้อาหาร</summary>
+    public void Cathappy() => PlaySFX(sfxCathappy);
+
+    /// <summary>หลังแมวไม่ได้อาหาร</summary>
+    public void Catsad() => PlaySFX(sfxCatsad);
+
+    /// <summary>แมว (ทั่วไป) ต้องการอาหาร — ใช้เป็นค่า default เวลา NPC ตัวใดไม่ได้ตั้งเสียงเฉพาะตัวไว้</summary>
+    public void PlayWantsFood() => PlaySFX(sfxWantsFood);
 
     void PlaySFX(AudioClip clip)
     {
@@ -163,8 +175,8 @@ public class AudioManager : MonoBehaviour
 
     IEnumerator FadeInRoutine(AudioClip clip)
     {
-        audioSource.clip   = clip;
-        audioSource.loop   = true;
+        audioSource.clip = clip;
+        audioSource.loop = true;
         audioSource.volume = 0f;
         audioSource.Play();
 
@@ -207,8 +219,8 @@ public class AudioManager : MonoBehaviour
         }
         audioSource.Stop();
 
-        audioSource.clip   = newClip;
-        audioSource.loop   = true;
+        audioSource.clip = newClip;
+        audioSource.loop = true;
         audioSource.volume = 0f;
         audioSource.Play();
 

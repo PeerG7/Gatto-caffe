@@ -335,6 +335,13 @@ public class NPCController : MonoBehaviour
         if (AudioManager.instance != null)
             AudioManager.instance.PlaySitDown();
 
+        // ✅ แมวส่งสัญญาณอยากได้อาหาร — VIP จะใช้เสียงเฉพาะตัว (ถ้าตั้งไว้บน NPCInteract) ไม่งั้น fallback ไปเสียง default
+        NPCInteract interactWantsFood = GetComponent<NPCInteract>();
+        if (interactWantsFood != null)
+            interactWantsFood.PlayWantsFood();
+        else if (AudioManager.instance != null)
+            AudioManager.instance.PlayWantsFood();
+
         StartCoroutine(SitRoutine());
         StartCoroutine(AbsoluteTimeoutRoutine());
     }
@@ -693,11 +700,20 @@ public class NPCController : MonoBehaviour
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
+        // ✅ สุ่มว่าจะร้อง Angry หรือ Sad (50/50) ตอนไม่ได้รับอาหาร
         NPCInteract interact = GetComponent<NPCInteract>();
+        bool playSad = Random.Range(0, 100) < 50;
+
         if (interact != null)
-            interact.PlayAngry();
+        {
+            if (playSad) interact.PlaySad();
+            else interact.PlayAngry();
+        }
         else if (AudioManager.instance != null)
-            AudioManager.instance.PlayAngry();
+        {
+            if (playSad) AudioManager.instance.Catsad();
+            else AudioManager.instance.PlayAngry();
+        }
 
         CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
         foreach (var table in allTables)
