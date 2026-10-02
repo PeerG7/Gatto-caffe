@@ -2,43 +2,43 @@ using UnityEngine;
 
 public class BoatMovingLoop : MonoBehaviour
 {
-    [Header("การแล่นข้ามจอ (ซ้ายไปขวา)")]
-    public float moveSpeed = 2f;         // ความเร็วในการแล่น
-    public float distanceToTravel = 30f; // ระยะทางที่ให้แล่นไปทางขวาก่อนจะวนกลับมาที่เดิม
+    [Header("Movement (Left to Right)")]
+    public float moveSpeed = 2f;         // Speed of movement
+    public float distanceToTravel = 30f; // Distance before looping back to start
 
-    [Header("การกระเพื่อมและโคลงเคลง")]
-    public float waveSpeed = 2f;         // ความเร็วคลื่น
-    public float waveHeight = 0.15f;     // ความสูงการลอยขึ้น-ลง
-    public float tiltAngle = 3f;         // มุมเอียงโคลงไปมา
+    [Header("Wave Bobbing and Tilting")]
+    public float waveSpeed = 2f;         // Wave frequency/speed
+    public float waveHeight = 0.15f;     // Vertical bobbing height
+    public float tiltAngle = 3f;         // Tilting angle range
 
     private float initialX;
     private float initialY;
 
     void Start()
     {
-        // บันทึกตำแหน่งจุดเริ่มต้นตามที่คุณวางไว้ใน Scene ทันที
+        // Cache the initial starting position from the scene
         initialX = transform.position.x;
         initialY = transform.position.y;
     }
 
     void Update()
     {
-        // 1. ขยับไปทางขวาเรื่อยๆ
+        // 1. Move to the right
         float currentX = transform.position.x + (moveSpeed * Time.deltaTime);
 
-        // ถ้าแล่นไปไกลเกินระยะทางที่กำหนด ให้วนกลับมาจุดตั้งต้นเดิม
+        // Reset to initial position once distance threshold is reached
         if (currentX > initialX + distanceToTravel)
         {
             currentX = initialX;
         }
 
-        // 2. คำนวณคลื่นน้ำ
+        // 2. Calculate vertical wave movement
         float newY = initialY + (Mathf.Sin(Time.time * waveSpeed) * waveHeight);
 
-        // อัปเดตพิกัด
+        // Update position
         transform.position = new Vector3(currentX, newY, transform.position.z);
 
-        // 3. เอียงเรือ
+        // 3. Apply tilt rotation
         float angle = Mathf.Sin(Time.time * (waveSpeed * 0.8f)) * tiltAngle;
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }

@@ -1,0 +1,1855 @@
+fileFormatVersion: 2
+guid: 9db6914cd3cc52b4487bb82277b78f6c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2232085570720476944
+    second: animWaterSheet_0
+  - first:
+      213: -4532393935202048578
+    second: animWaterSheet_1
+  - first:
+      213: 2724635504262463496
+    second: animWaterSheet_2
+  - first:
+      213: -8883596582531820086
+    second: animWaterSheet_3
+  - first:
+      213: -7346232695069357852
+    second: animWaterSheet_4
+  - first:
+      213: 3570290286245265628
+    second: animWaterSheet_5
+  - first:
+      213: -5655855384734909062
+    second: animWaterSheet_6
+  - first:
+      213: -7926704933706376452
+    second: animWaterSheet_7
+  - first:
+      213: -8773666001239420729
+    second: animWaterSheet_8
+  - first:
+      213: -4823722033415817790
+    second: animWaterSheet_9
+  - first:
+      213: -8106989089938811909
+    second: animWaterSheet_10
+  - first:
+      213: -4167179285198048141
+    second: animWaterSheet_11
+  - first:
+      213: -3994419682900283182
+    second: animWaterSheet_12
+  - first:
+      213: -7121376536069530011
+    second: animWaterSheet_13
+  - first:
+      213: -3827415549929289781
+    second: animWaterSheet_14
+  - first:
+      213: -1147000083815184795
+    second: animWaterSheet_15
+  - first:
+      213: -3089806684784932864
+    second: animWaterSheet_16
+  - first:
+      213: 2289874992078407011
+    second: animWaterSheet_17
+  - first:
+      213: -7651547119172342031
+    second: animWaterSheet_18
+  - first:
+      213: 3713034564890623289
+    second: animWaterSheet_19
+  - first:
+      213: -4500996528041675371
+    second: animWaterSheet_20
+  - first:
+      213: -1822509846863231987
+    second: animWaterSheet_21
+  - first:
+      213: 4985587852879435087
+    second: animWaterSheet_22
+  - first:
+      213: -6932726185709858814
+    second: animWaterSheet_23
+  - first:
+      213: 4530971717312668208
+    second: animWaterSheet_24
+  - first:
+      213: -6101777922297896886
+    second: animWaterSheet_25
+  - first:
+      213: 5680802022569169471
+    second: animWaterSheet_26
+  - first:
+      213: 4310852907757396450
+    second: animWaterSheet_27
+  - first:
+      213: 2052670079961716772
+    second: animWaterSheet_28
+  - first:
+      213: 4873279790016290472
+    second: animWaterSheet_29
+  - first:
+      213: -8224009973610430638
+    second: animWaterSheet_30
+  - first:
+      213: 5732108245361298
+    second: animWaterSheet_31
+  - first:
+      213: -3365928059091380600
+    second: animWaterSheet_32
+  - first:
+      213: 5664974259524311272
+    second: animWaterSheet_33
+  - first:
+      213: 7981144892914324339
+    second: animWaterSheet_34
+  - first:
+      213: 5869003770624473508
+    second: animWaterSheet_35
+  - first:
+      213: -6834537013916723330
+    second: animWaterSheet_36
+  - first:
+      213: -8810602851496299350
+    second: animWaterSheet_37
+  - first:
+      213: 8729206142151756690
+    second: animWaterSheet_38
+  - first:
+      213: 7383636766382422389
+    second: animWaterSheet_39
+  - first:
+      213: 25139732272322018
+    second: animWaterSheet_40
+  - first:
+      213: 7424363899747597924
+    second: animWaterSheet_41
+  - first:
+      213: 6367468030693412413
+    second: animWaterSheet_42
+  - first:
+      213: 1775618770751419155
+    second: animWaterSheet_43
+  - first:
+      213: 274157241501494454
+    second: animWaterSheet_44
+  - first:
+      213: -4391855487024007702
+    second: animWaterSheet_45
+  - first:
+      213: 110917275187634679
+    second: animWaterSheet_46
+  - first:
+      213: 3654238498495588438
+    second: animWaterSheet_47
+  - first:
+      213: -1516453434241869588
+    second: animWaterSheet_48
+  - first:
+      213: -8215778683196600412
+    second: animWaterSheet_49
+  - first:
+      213: -7172639268072226606
+    second: animWaterSheet_50
+  - first:
+      213: -6446508172248309216
+    second: animWaterSheet_51
+  - first:
+      213: 7263865958203247990
+    second: animWaterSheet_52
+  - first:
+      213: -6565885492851417606
+    second: animWaterSheet_53
+  - first:
+      213: -8680208022549234045
+    second: animWaterSheet_54
+  - first:
+      213: -2395826198432172081
+    second: animWaterSheet_55
+  - first:
+      213: 895443868392806234
+    second: animWaterSheet_56
+  - first:
+      213: 6416941400895714907
+    second: animWaterSheet_57
+  - first:
+      213: 2244675104919722458
+    second: animWaterSheet_58
+  - first:
+      213: 5118436384832287500
+    second: animWaterSheet_59
+  - first:
+      213: -4317346223072334707
+    second: animWaterSheet_60
+  - first:
+      213: -4755582340637596375
+    second: animWaterSheet_61
+  - first:
+      213: 6015808801862246394
+    second: animWaterSheet_62
+  - first:
+      213: -5132226959429983645
+    second: animWaterSheet_63
+  - first:
+      213: -8976555899164423159
+    second: animWaterSheet_64
+  - first:
+      213: -7554646376142379402
+    second: animWaterSheet_65
+  - first:
+      213: 3308471943706868448
+    second: animWaterSheet_66
+  - first:
+      213: -1872503529289090501
+    second: animWaterSheet_67
+  - first:
+      213: -2923653946030396787
+    second: animWaterSheet_68
+  - first:
+      213: -8397078996067971600
+    second: animWaterSheet_69
+  - first:
+      213: -3003091507407883359
+    second: animWaterSheet_70
+  - first:
+      213: 6270140510640216491
+    second: animWaterSheet_71
+  - first:
+      213: -419091777991830479
+    second: animWaterSheet_72
+  - first:
+      213: -301457227489432310
+    second: animWaterSheet_73
+  - first:
+      213: 9210116168723274141
+    second: animWaterSheet_74
+  - first:
+      213: 4879658498636362779
+    second: animWaterSheet_75
+  - first:
+      213: -3427665979012523645
+    second: animWaterSheet_76
+  - first:
+      213: 1605775537628838244
+    second: animWaterSheet_77
+  - first:
+      213: 1303021271192922317
+    second: animWaterSheet_78
+  - first:
+      213: 3285293812297052289
+    second: animWaterSheet_79
+  - first:
+      213: -1395015526897067813
+    second: animWaterSheet_80
+  - first:
+      213: -8705853025966855258
+    second: animWaterSheet_81
+  - first:
+      213: -1206912960988665133
+    second: animWaterSheet_82
+  - first:
+      213: -6514612145718080130
+    second: animWaterSheet_83
+  - first:
+      213: 538257427948328853
+    second: animWaterSheet_84
+  - first:
+      213: -6054679704779556883
+    second: animWaterSheet_85
+  - first:
+      213: -4537541549645826531
+    second: animWaterSheet_86
+  - first:
+      213: 7942581640407736298
+    second: animWaterSheet_87
+  - first:
+      213: 7154325686457186967
+    second: animWaterSheet_88
+  - first:
+      213: 1506713808950475284
+    second: animWaterSheet_89
+  - first:
+      213: 6743070705301958536
+    second: animWaterSheet_90
+  - first:
+      213: 3708578182782446049
+    second: animWaterSheet_91
+  - first:
+      213: 9025820766270794232
+    second: animWaterSheet_92
+  - first:
+      213: 4514662788285200933
+    second: animWaterSheet_93
+  - first:
+      213: -8066838510543087154
+    second: animWaterSheet_94
+  - first:
+      213: 3513215784697938478
+    second: animWaterSheet_95
+  - first:
+      213: -7484223654627579342
+    second: animWaterSheet_96
+  - first:
+      213: 1335384664563596950
+    second: animWaterSheet_97
+  - first:
+      213: -405332616758283829
+    second: animWaterSheet_98
+  - first:
+      213: 6748653269826730015
+    second: animWaterSheet_99
+  - first:
+      213: 6264497803807252560
+    second: animWaterSheet_100
+  - first:
+      213: -9196766966195401340
+    second: animWaterSheet_101
+  - first:
+      213: 2603531013975190538
+    second: animWaterSheet_102
+  - first:
+      213: -3141382047120145350
+    second: animWaterSheet_103
+  - first:
+      213: -4310020572683906500
+    second: animWaterSheet_104
+  - first:
+      213: 8773079163319751231
+    second: animWaterSheet_105
+  - first:
+      213: -4463097721308139669
+    second: animWaterSheet_106
+  - first:
+      213: 4319280900974968454
+    second: animWaterSheet_107
+  - first:
+      213: -2526223370473601960
+    second: animWaterSheet_108
+  - first:
+      213: -3404252141343342749
+    second: animWaterSheet_109
+  - first:
+      213: 5254664650716865464
+    second: animWaterSheet_110
+  - first:
+      213: 6437861065455476948
+    second: animWaterSheet_111
+  - first:
+      213: -6448218224508690978
+    second: animWaterSheet_112
+  - first:
+      213: -2331070162156223311
+    second: animWaterSheet_113
+  - first:
+      213: -3953317014382017400
+    second: animWaterSheet_114
+  - first:
+      213: 679442851099070989
+    second: animWaterSheet_115
+  - first:
+      213: 3603666297584736065
+    second: animWaterSheet_116
+  - first:
+      213: 7329559517118343049
+    second: animWaterSheet_117
+  - first:
+      213: -8949764287553253495
+    second: animWaterSheet_118
+  - first:
+      213: -1839644103651419920
+    second: animWaterSheet_119
+  - first:
+      213: 6078544035590697693
+    second: animWaterSheet_120
+  - first:
+      213: 2476934733751385025
+    second: animWaterSheet_121
+  - first:
+      213: -7357750229724969309
+    second: animWaterSheet_122
+  - first:
+      213: -3745464631900067015
+    second: animWaterSheet_123
+  - first:
+      213: 6427612405471094257
+    second: animWaterSheet_124
+  - first:
+      213: -6350049004342849944
+    second: animWaterSheet_125
+  - first:
+      213: 2105372666023115236
+    second: animWaterSheet_126
+  - first:
+      213: -6854734870463782308
+    second: animWaterSheet_127
+  - first:
+      213: 523560948636690093
+    second: animWaterSheet_128
+  - first:
+      213: 185530924346136125
+    second: animWaterSheet_129
+  - first:
+      213: 6778870471161171117
+    second: animWaterSheet_130
+  - first:
+      213: -4372977114038240017
+    second: animWaterSheet_131
+  - first:
+      213: 1315631841366195980
+    second: animWaterSheet_132
+  - first:
+      213: -6913999524218612140
+    second: animWaterSheet_133
+  - first:
+      213: 6886420213504816513
+    second: animWaterSheet_134
+  - first:
+      213: -1943484824283879552
+    second: animWaterSheet_135
+  - first:
+      213: -306891244534521504
+    second: animWaterSheet_136
+  - first:
+      213: 5635419112362484760
+    second: animWaterSheet_137
+  - first:
+      213: -334148986937956062
+    second: animWaterSheet_138
+  - first:
+      213: 1950991280501301410
+    second: animWaterSheet_139
+  - first:
+      213: -6541314382083922993
+    second: animWaterSheet_140
+  - first:
+      213: -1566873835524461868
+    second: animWaterSheet_141
+  - first:
+      213: 8970573576600291761
+    second: animWaterSheet_142
+  - first:
+      213: -3043602723424775672
+    second: animWaterSheet_143
+  - first:
+      213: 2744231467250415555
+    second: animWaterSheet_144
+  - first:
+      213: 3754541515174524381
+    second: animWaterSheet_145
+  - first:
+      213: -4262496534905652041
+    second: animWaterSheet_146
+  - first:
+      213: -4129962383597920229
+    second: animWaterSheet_147
+  - first:
+      213: -3030409948372143398
+    second: animWaterSheet_148
+  - first:
+      213: -9121729655959798063
+    second: animWaterSheet_149
+  - first:
+      213: 3216173358106251667
+    second: animWaterSheet_150
+  - first:
+      213: 6483159815942140421
+    second: animWaterSheet_151
+  - first:
+      213: -991568547568383532
+    second: animWaterSheet_152
+  - first:
+      213: -1089570548070889820
+    second: animWaterSheet_153
+  - first:
+      213: 6979906074494870637
+    second: animWaterSheet_154
+  - first:
+      213: -3597930502903725494
+    second: animWaterSheet_155
+  - first:
+      213: 535900713016480184
+    second: animWaterSheet_156
+  - first:
+      213: -5121959950853817114
+    second: animWaterSheet_157
+  - first:
+      213: -3838040477284594861
+    second: animWaterSheet_158
+  - first:
+      213: -509386978025948178
+    second: animWaterSheet_159
+  - first:
+      213: 5471671090630175739
+    second: animWaterSheet_160
+  - first:
+      213: -7334936312260300159
+    second: animWaterSheet_161
+  - first:
+      213: 9096190219898435973
+    second: animWaterSheet_162
+  - first:
+      213: -9091319497998695621
+    second: animWaterSheet_163
+  - first:
+      213: 1743060862342981551
+    second: animWaterSheet_164
+  - first:
+      213: 7510041141214096528
+    second: animWaterSheet_165
+  - first:
+      213: 3318903525630945230
+    second: animWaterSheet_166
+  - first:
+      213: -8434376304252511057
+    second: animWaterSheet_167
+  - first:
+      213: -5830627088802693361
+    second: animWaterSheet_168
+  - first:
+      213: 4300055006561189289
+    second: animWaterSheet_169
+  - first:
+      213: -2301505835841884269
+    second: animWaterSheet_170
+  - first:
+      213: 2143842736969955673
+    second: animWaterSheet_171
+  - first:
+      213: 6756031062006250630
+    second: animWaterSheet_172
+  - first:
+      213: 100710387650454372
+    second: animWaterSheet_173
+  - first:
+      213: 4386936488444319090
+    second: animWaterSheet_174
+  - first:
+      213: 129407268571526702
+    second: animWaterSheet_175
+  - first:
+      213: -949818065287522636
+    second: animWaterSheet_176
+  - first:
+      213: 2046270844204693172
+    second: animWaterSheet_177
+  - first:
+      213: -2219822902032437935
+    second: animWaterSheet_178
+  - first:
+      213: 2519291317828967757
+    second: animWaterSheet_179
+  - first:
+      213: 2962788073532934599
+    second: animWaterSheet_180
+  - first:
+      213: -7433083814108667393
+    second: animWaterSheet_181
+  - first:
+      213: 3621445310232072260
+    second: animWaterSheet_182
+  - first:
+      213: 3424019548615061311
+    second: animWaterSheet_183
+  - first:
+      213: 2087071854872079893
+    second: animWaterSheet_184
+  - first:
+      213: -8732238327565071559
+    second: animWaterSheet_185
+  - first:
+      213: -7639611859506813869
+    second: animWaterSheet_186
+  - first:
+      213: 2307402001331569265
+    second: animWaterSheet_187
+  - first:
+      213: -9168572049811177348
+    second: animWaterSheet_188
+  - first:
+      213: 782218178259673881
+    second: animWaterSheet_189
+  - first:
+      213: -7688599088620510169
+    second: animWaterSheet_190
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 135
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: animWaterSheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1215
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f05ee0eff90601e0800000000000000
+      internalID: -2232085570720476944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_1
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 1215
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb5a526cab3b911c0800000000000000
+      internalID: -4532393935202048578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_2
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 1215
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8004bfd2e89dfc520800000000000000
+      internalID: 2724635504262463496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_3
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 1215
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac5115ab9ff17b480800000000000000
+      internalID: -8883596582531820086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_4
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 1215
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e8c70d2940fc0a90800000000000000
+      internalID: -7346232695069357852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_5
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 1215
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd04da069183c8130800000000000000
+      internalID: 3570290286245265628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1080
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7d35eb5e7d5281b0800000000000000
+      internalID: -5655855384734909062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_7
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 1080
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfa581b3cdfaef190800000000000000
+      internalID: -7926704933706376452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_8
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 1080
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c0d33ab14dad3680800000000000000
+      internalID: -8773666001239420729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_9
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 1080
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c576072e52be0db0800000000000000
+      internalID: -4823722033415817790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_10
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 1080
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf3da3810603e7f80800000000000000
+      internalID: -8106989089938811909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_11
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 1080
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 374776ec4843b26c0800000000000000
+      internalID: -4167179285198048141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 945
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d076e43678f098c0800000000000000
+      internalID: -3994419682900283182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_13
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 945
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56e16c765c9cb2d90800000000000000
+      internalID: -7121376536069530011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_14
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 945
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc788aaf5d942eac0800000000000000
+      internalID: -3827415549929289781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_15
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 945
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5664ad630890510f0800000000000000
+      internalID: -1147000083815184795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_16
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 945
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00844c0d03dce15d0800000000000000
+      internalID: -3089806684784932864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_17
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 945
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36542ea4c2547cf10800000000000000
+      internalID: 2289874992078407011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 810
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fea19b4f6e30d590800000000000000
+      internalID: -7651547119172342031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_19
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 810
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93d7d07a349578330800000000000000
+      internalID: 3713034564890623289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_20
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 810
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5953fca418f3981c0800000000000000
+      internalID: -4500996528041675371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_21
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 810
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d04c01a43f425b6e0800000000000000
+      internalID: -1822509846863231987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_22
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 810
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f459167ccbd503540800000000000000
+      internalID: 4985587852879435087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_23
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 810
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20017b7e3420acf90800000000000000
+      internalID: -6932726185709858814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 675
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03263c155ce31ee30800000000000000
+      internalID: 4530971717312668208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_25
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 675
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a40ec1bee41225ba0800000000000000
+      internalID: -6101777922297896886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_26
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 675
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f325e82675346de40800000000000000
+      internalID: 5680802022569169471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_27
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 675
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e1e6d531e933db30800000000000000
+      internalID: 4310852907757396450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_28
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 675
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 428d03def8c8c7c10800000000000000
+      internalID: 2052670079961716772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_29
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 675
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8aed207362e51a340800000000000000
+      internalID: 4873279790016290472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 540
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25f3ead60827edd80800000000000000
+      internalID: -8224009973610430638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_31
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 540
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29267c3725d541000800000000000000
+      internalID: 5732108245361298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_32
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 540
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88696528342d941d0800000000000000
+      internalID: -3365928059091380600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_33
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 540
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e89da023180e9e40800000000000000
+      internalID: 5664974259524311272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_34
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 405
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 373d4138ef8b2ce60800000000000000
+      internalID: 7981144892914324339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_35
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 405
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a9ff7585d3e27150800000000000000
+      internalID: 5869003770624473508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_36
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 405
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e771c39fbc8d621a0800000000000000
+      internalID: -6834537013916723330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_37
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 405
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa4f48b13637ab580800000000000000
+      internalID: -8810602851496299350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_38
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 270
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29b0d1aacbe542970800000000000000
+      internalID: 8729206142151756690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_39
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 270
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 579fcb2d482f77660800000000000000
+      internalID: 7383636766382422389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_40
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 270
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e517db0470595000800000000000000
+      internalID: 25139732272322018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_41
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 270
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46e70bf71a3a80760800000000000000
+      internalID: 7424363899747597924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_42
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 135
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3e0328007acd5850800000000000000
+      internalID: 6367468030693412413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_43
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 135
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31377274dd344a810800000000000000
+      internalID: 1775618770751419155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_44
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 135
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bc2c400f800ec300800000000000000
+      internalID: 274157241501494454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_45
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 135
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae5751f14befc03c0800000000000000
+      internalID: -4391855487024007702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_46
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f163039cae0a8100800000000000000
+      internalID: 110917275187634679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_47
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 0
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 658e26bad8676b230800000000000000
+      internalID: 3654238498495588438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_48
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 0
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce89795d2a974fae0800000000000000
+      internalID: -1516453434241869588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: animWaterSheet_49
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 0
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4af07d211d0bbfd80800000000000000
+      internalID: -8215778683196600412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: a5f5ee94bbba37047a7c9ea16522d64a
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":135.0,"y":135.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      animWaterSheet_0: -2232085570720476944
+      animWaterSheet_1: -4532393935202048578
+      animWaterSheet_10: -8106989089938811909
+      animWaterSheet_11: -4167179285198048141
+      animWaterSheet_12: -3994419682900283182
+      animWaterSheet_13: -7121376536069530011
+      animWaterSheet_14: -3827415549929289781
+      animWaterSheet_15: -1147000083815184795
+      animWaterSheet_16: -3089806684784932864
+      animWaterSheet_17: 2289874992078407011
+      animWaterSheet_18: -7651547119172342031
+      animWaterSheet_19: 3713034564890623289
+      animWaterSheet_2: 2724635504262463496
+      animWaterSheet_20: -4500996528041675371
+      animWaterSheet_21: -1822509846863231987
+      animWaterSheet_22: 4985587852879435087
+      animWaterSheet_23: -6932726185709858814
+      animWaterSheet_24: 4530971717312668208
+      animWaterSheet_25: -6101777922297896886
+      animWaterSheet_26: 5680802022569169471
+      animWaterSheet_27: 4310852907757396450
+      animWaterSheet_28: 2052670079961716772
+      animWaterSheet_29: 4873279790016290472
+      animWaterSheet_3: -8883596582531820086
+      animWaterSheet_30: -8224009973610430638
+      animWaterSheet_31: 5732108245361298
+      animWaterSheet_32: -3365928059091380600
+      animWaterSheet_33: 5664974259524311272
+      animWaterSheet_34: 7981144892914324339
+      animWaterSheet_35: 5869003770624473508
+      animWaterSheet_36: -6834537013916723330
+      animWaterSheet_37: -8810602851496299350
+      animWaterSheet_38: 8729206142151756690
+      animWaterSheet_39: 7383636766382422389
+      animWaterSheet_4: -7346232695069357852
+      animWaterSheet_40: 25139732272322018
+      animWaterSheet_41: 7424363899747597924
+      animWaterSheet_42: 6367468030693412413
+      animWaterSheet_43: 1775618770751419155
+      animWaterSheet_44: 274157241501494454
+      animWaterSheet_45: -4391855487024007702
+      animWaterSheet_46: 110917275187634679
+      animWaterSheet_47: 3654238498495588438
+      animWaterSheet_48: -1516453434241869588
+      animWaterSheet_49: -8215778683196600412
+      animWaterSheet_5: 3570290286245265628
+      animWaterSheet_6: -5655855384734909062
+      animWaterSheet_7: -7926704933706376452
+      animWaterSheet_8: -8773666001239420729
+      animWaterSheet_9: -4823722033415817790
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
