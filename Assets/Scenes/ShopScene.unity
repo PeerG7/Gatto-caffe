@@ -10419,6 +10419,7 @@ GameObject:
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
   - component: {fileID: 519420034}
+  - component: {fileID: 519420035}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -10592,6 +10593,28 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &519420035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4705e4318c79f8741946fbda511128e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraController2D
+  cameraFollowTarget: {fileID: 542110778}
+  playerTarget: {fileID: 3006079207269708545}
+  followSpeed: 5
+  panSpeed: 1
+  enableBounds: 1
+  minX: -10
+  maxX: 10
+  minY: -10
+  maxY: 10
+  qteZoomController: {fileID: 1871788071}
 --- !u!1 &534551505
 GameObject:
   m_ObjectHideFlags: 0
