@@ -34296,6 +34296,10 @@ MonoBehaviour:
   - {fileID: 865024780}
   - {fileID: 1666877587}
   - {fileID: 1261957207}
+  - {fileID: 2030446967}
+  - {fileID: 1909631096}
+  - {fileID: 734170193}
+  - {fileID: 1301712670}
   turnOnHour: 11
   turnOffHour: 6
   fadeDuration: 2.5
@@ -36388,6 +36392,9 @@ MonoBehaviour:
   sfxComplete: {fileID: 8300000, guid: cb3ab010ebde4474080995f671802328, type: 3}
   sfxCoin: {fileID: 8300000, guid: 261974345d549b34aa026405a771841e, type: 3}
   sfxEndOfDay: {fileID: 8300000, guid: b6edf39efe40d2f4d83c811eba798892, type: 3}
+  sfxCathappy: {fileID: 0}
+  sfxCatsad: {fileID: 0}
+  sfxWantsFood: {fileID: 0}
   fadeDuration: 1
   maxVolume: 1
   endOfDayFadeDuration: 5
