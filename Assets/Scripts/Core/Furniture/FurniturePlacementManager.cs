@@ -20,6 +20,9 @@ public class FurniturePlacementManager : MonoBehaviour
     private bool isBuildMode = false;
     private bool isValid = false;
 
+    // ตัวแปรสำหรับรองรับระบบคลิกเลือกย้าย/เก็บ
+    private FurnitureObject selectedFurniture;
+
     void Awake() => Instance = this;
 
     void Update()
@@ -61,7 +64,7 @@ public class FurniturePlacementManager : MonoBehaviour
             }
         }
 
-        // ✅ ยกเลิกการวางด้วยการกด ESC เท่านั้น (เอาคลิกขวาออก เพื่อให้คลิกขวาลากเลื่อนกล้องได้)
+        // ยกเลิกการวางด้วย ESC
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Cancel();
@@ -80,7 +83,7 @@ public class FurniturePlacementManager : MonoBehaviour
         currentPrefab = prefab;
         isBuildMode = true;
 
-        // ✅ เปิด Pan Mode และ Lock Player ไว้ต่อเนื่องขณะอยู่ในโหมดวาง
+        // เปิด Pan Mode และ Lock Player ไว้ต่อเนื่องขณะอยู่ในโหมดวาง
         PlayerController2D.SetLock(true);
         CameraController2D.SetPanMode(true);
 
@@ -118,8 +121,9 @@ public class FurniturePlacementManager : MonoBehaviour
         if (currentGhost != null) Destroy(currentGhost);
         currentGhost = null;
         isBuildMode = false;
+        selectedFurniture = null;
 
-        // ✅ คืนค่ากล้องกลับไปตาม Player และปลดล็อกเมื่อวางเสร็จ/ยกเลิกวาง
+        // คืนค่ากล้องกลับไปตาม Player และปลดล็อกเมื่อวางเสร็จ/ยกเลิกวาง
         PlayerController2D.SetLock(false);
         CameraController2D.SetPanMode(false);
     }
@@ -128,5 +132,46 @@ public class FurniturePlacementManager : MonoBehaviour
     {
         var surface = FindObjectOfType<NavMeshSurface>();
         if (surface != null) surface.BuildNavMesh();
+    }
+
+    // ==========================================
+    // ระบบเลือก/ย้าย/เก็บ เฟอร์นิเจอร์ที่เพิ่มเข้ามา
+    // ==========================================
+
+    /// <summary>เรียกเมื่อคลิกเลือกเฟอร์นิเจอร์บนพื้นขณะอยู่ในโหมด Pan</summary>
+    public void SelectPlacedFurniture(FurnitureObject furniture)
+    {
+        if (isBuildMode) return; // ไม่ทำงานถ้าระบบกำลังอยู่ในโหมดเสก Ghost วางของอยู่
+
+        selectedFurniture = furniture;
+        Debug.Log($"เลือกเฟอร์นิเจอร์: {furniture.furnitureID}");
+    }
+
+    /// <summary>ย้ายเฟอร์นิเจอร์ชิ้นที่เลือก (ลบตัวเก่า แล้วเข้าโหมดวางทันที)</summary>
+    public void MoveSelectedFurniture()
+    {
+        if (selectedFurniture == null) return;
+
+        GameObject prefabToMove = selectedFurniture.furniturePrefab != null ? selectedFurniture.furniturePrefab : selectedFurniture.gameObject;
+
+        // ลบชิ้นเดิมออกจาก Scene แล้ว Rebake NavMesh
+        Destroy(selectedFurniture.gameObject);
+        selectedFurniture = null;
+        RebakeNavMesh();
+
+        // เข้าสู่โหมดวางด้วย Prefab ชิ้นเดิม
+        StartPlacement(prefabToMove);
+    }
+
+    /// <summary>เก็บเฟอร์นิเจอร์ชิ้นที่เลือกลบทิ้งออกจาก Scene</summary>
+    public void StoreSelectedFurniture()
+    {
+        if (selectedFurniture == null) return;
+
+        Debug.Log($"เก็บ {selectedFurniture.furnitureID} เรียบร้อยแล้ว");
+
+        Destroy(selectedFurniture.gameObject);
+        selectedFurniture = null;
+        RebakeNavMesh();
     }
 }

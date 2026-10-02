@@ -11,9 +11,13 @@ public class NPCController : MonoBehaviour
     public DamageableObject targetObject;
     public Transform exitPoint;
 
+    [Header("Group & Table References")]
+    [HideInInspector] public CustomerTable assignedTable;
+    [HideInInspector] public bool hasBeenServed = false;
+    [HideInInspector] public string groupID = "";
+
     [Header("Original System References")]
     public Transform seatPoint;
-    public NPCController sittingNPC;
     public bool isOccupied = false;
     public string wantedItem;
 
@@ -80,7 +84,6 @@ public class NPCController : MonoBehaviour
     private static readonly int AnimStateHash = Animator.StringToHash("AnimState");
     private bool isSittingAngryAnim = false;
 
-    // Safety lock during performance
     private bool isPerforming = false;
 
     static bool GameIsPaused =>
@@ -164,7 +167,6 @@ public class NPCController : MonoBehaviour
         if (currentState == NPCState.Sitting || currentState == NPCState.AtInteractionZone || currentState == NPCState.Performing)
             return;
 
-        // Force state reset if Animator got stuck in a performance clip while moving
         bool isStuckInPerform = false;
         if (animator != null)
         {
@@ -208,7 +210,6 @@ public class NPCController : MonoBehaviour
         {
             animator.SetInteger(AnimStateHash, (int)state);
 
-            // 1. Try exact enum name
             string enumName = state.ToString();
             int primaryHash = Animator.StringToHash(enumName);
 
@@ -218,7 +219,6 @@ public class NPCController : MonoBehaviour
             }
             else
             {
-                // 2. Try alternate naming conventions (e.g. Walk_Side, Perform_1)
                 string altName = enumName switch
                 {
                     "WalkSide" => "Walk_Side",
@@ -237,7 +237,6 @@ public class NPCController : MonoBehaviour
                 }
                 else if (state == AnimState.WalkSide || state == AnimState.WalkUp)
                 {
-                    // 3. Fallback for walking animation
                     int genericWalkHash = Animator.StringToHash("Walk");
                     if (animator.HasState(0, genericWalkHash))
                     {
@@ -269,25 +268,32 @@ public class NPCController : MonoBehaviour
             FurnitureObject furniture = table.GetComponent<FurnitureObject>();
             bool isUnlocked = (furniture == null || furniture.isUnlocked);
 
-            if (!table.isOccupied && isUnlocked)
+            Transform seat = table.GetAvailableSeat();
+
+            if (seat != null && isUnlocked)
             {
-                table.isOccupied = true;
-                table.sittingNPC = this;
+                table.AssignNPCToTable(this);
+                seatPoint = seat;
                 currentState = NPCState.GoingToSeat;
+
                 if (QueueManager.Instance != null) QueueManager.Instance.RemoveFromQueue(this);
+
                 agent.isStopped = false;
-                agent.SetDestination(table.seatPoint.position);
+                agent.SetDestination(seatPoint.position);
 
-                GenerateOrderData();
-
-                if (requestedRecipe != null)
+                if (string.IsNullOrEmpty(table.wantedItem))
                 {
-                    table.wantedItem = requestedRecipe.recipeName;
+                    GenerateOrderData();
 
-                    if (table.tableItemRenderer != null)
+                    if (requestedRecipe != null)
                     {
-                        table.tableItemRenderer.sprite = requestedRecipe.finalDishSprite;
-                        table.tableItemRenderer.enabled = true;
+                        table.wantedItem = requestedRecipe.recipeName;
+
+                        if (table.tableItemRenderer != null)
+                        {
+                            table.tableItemRenderer.sprite = requestedRecipe.finalDishSprite;
+                            table.tableItemRenderer.enabled = true;
+                        }
                     }
                 }
 
@@ -305,6 +311,60 @@ public class NPCController : MonoBehaviour
 
         if (requestedRecipe != null && orderIcon != null)
             orderIcon.sprite = requestedRecipe.finalDishSprite;
+    }
+
+    // 🟢 ฟังก์ชันสำหรับเปิด UI อาหารแบบสมบูรณ์ (เรียกใช้ได้จากทุก Script)
+    public void SetupOrderUI()
+    {
+        if (requestedRecipe == null)
+        {
+            GenerateOrderData();
+        }
+
+        if (orderCanvas != null)
+        {
+            orderCanvas.SetActive(true);
+        }
+
+        if (orderIcon != null && requestedRecipe != null)
+        {
+            orderIcon.sprite = requestedRecipe.finalDishSprite;
+        }
+    }
+
+    // 🟢 ฟังก์ชันรองรับการถูกจับ/ลากมาวางที่โต๊ะโดยตรง
+    public void ForceSitAtTable(CustomerTable table, Transform seat)
+    {
+        if (QueueManager.Instance != null) QueueManager.Instance.RemoveFromQueue(this);
+
+        assignedTable = table;
+        seatPoint = seat;
+
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+            agent.Warp(seat.position);
+        }
+        else
+        {
+            transform.position = seat.position;
+        }
+
+        currentState = NPCState.Sitting;
+        isSittingAngryAnim = false;
+        SetAnimState(AnimState.Sit);
+
+        SetupOrderUI();
+
+        if (patienceBarRoot != null) patienceBarRoot.SetActive(true);
+        if (patienceBarFill != null) patienceBarFill.fillAmount = 1f;
+
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlaySitDown();
+
+        StopAllCoroutines();
+        StartCoroutine(SitRoutine());
+        StartCoroutine(AbsoluteTimeoutRoutine());
     }
 
     void ArriveAtSeat()
@@ -327,7 +387,8 @@ public class NPCController : MonoBehaviour
         isSittingAngryAnim = false;
         SetAnimState(AnimState.Sit);
 
-        if (orderCanvas != null) orderCanvas.SetActive(true);
+        // เรียกเปิด UI อาหาร
+        SetupOrderUI();
 
         if (patienceBarRoot != null) patienceBarRoot.SetActive(true);
         if (patienceBarFill != null) patienceBarFill.fillAmount = 1f;
@@ -346,16 +407,6 @@ public class NPCController : MonoBehaviour
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
         if (patienceBarRoot != null) patienceBarRoot.SetActive(false);
-
-        CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
-        foreach (var table in allTables)
-        {
-            if (table.sittingNPC == this)
-            {
-                table.ResetTable();
-                break;
-            }
-        }
 
         if (willInteract)
             GoToInteractionZone(ArriveAtInteractionZone);
@@ -381,7 +432,6 @@ public class NPCController : MonoBehaviour
         InteractionZone zone = InteractionZoneManager.Instance.TryOccupyZoneImmediate(this);
         if (zone == null)
         {
-            Debug.Log($"[{gameObject.name}] Interaction Zone เต็ม — ออกจากร้านเลย ไม่รอคิว");
             GoExit();
             return;
         }
@@ -456,6 +506,8 @@ public class NPCController : MonoBehaviour
 
     public void OpenQTECanvas()
     {
+        if (currentState != NPCState.AtInteractionZone) return;
+
         if (interactionTimeoutCoroutine != null)
         {
             StopCoroutine(interactionTimeoutCoroutine);
@@ -464,7 +516,6 @@ public class NPCController : MonoBehaviour
 
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(true);
 
-        // Zoom camera in to center between Player and NPC
         QTEZoomController.Instance?.ZoomInToQTE(transform);
     }
 
@@ -486,7 +537,6 @@ public class NPCController : MonoBehaviour
 
         currentState = NPCState.Performing;
 
-        // Freeze physical movement position
         if (agent != null && agent.isOnNavMesh)
         {
             agent.isStopped = true;
@@ -517,7 +567,6 @@ public class NPCController : MonoBehaviour
         {
             string targetStateName = targetState.ToString();
 
-            // Wait until Animator state machine switches to perform state
             float safetyWait = 0f;
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName(targetStateName) && safetyWait < 0.5f)
             {
@@ -525,7 +574,6 @@ public class NPCController : MonoBehaviour
                 yield return null;
             }
 
-            // Read duration directly from Animator state clip
             if (durationOverride <= 0f && animator.GetCurrentAnimatorStateInfo(0).IsName(targetStateName))
             {
                 float detectedLen = animator.GetCurrentAnimatorStateInfo(0).length;
@@ -533,7 +581,6 @@ public class NPCController : MonoBehaviour
             }
         }
 
-        // Wait stationary for exact animation duration
         float timer = 0f;
         while (timer < clipDuration)
         {
@@ -549,7 +596,6 @@ public class NPCController : MonoBehaviour
             yield return null;
         }
 
-        // Un-lock perform lock and reset cached animation state
         isPerforming = false;
         currentAnim = (AnimState)(-1);
 
@@ -569,7 +615,6 @@ public class NPCController : MonoBehaviour
         CatSystemManager.Instance?.HideInteractionChoice();
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
-        // Zoom camera back out to default gameplay camera
         QTEZoomController.Instance?.ZoomOutToGameplay();
 
         if (currentZone != null)
@@ -590,14 +635,9 @@ public class NPCController : MonoBehaviour
 
         if (patienceBarRoot != null) patienceBarRoot.SetActive(false);
 
-        CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
-        foreach (var table in allTables)
+        if (assignedTable != null)
         {
-            if (table.sittingNPC == this)
-            {
-                table.ResetTable();
-                break;
-            }
+            assignedTable.RemoveNPCFromTable(this);
         }
 
         GoExit();
@@ -641,6 +681,26 @@ public class NPCController : MonoBehaviour
 
         if (currentState == NPCState.Sitting && !isInQTE)
             BecomeAngry();
+    }
+
+    public void AddExtraPatience(float bonusTime)
+    {
+        if (currentState != NPCState.Sitting) return;
+
+        waitTimer = Mathf.Max(0f, waitTimer - bonusTime);
+
+        if (patienceBarFill != null && actualWaitTime > 0f)
+        {
+            float ratio = 1f - (waitTimer / actualWaitTime);
+            patienceBarFill.fillAmount = ratio;
+            patienceBarFill.color = Color.Lerp(Color.red, Color.green, ratio);
+
+            if (isSittingAngryAnim && ratio > angryPatienceRatioThreshold)
+            {
+                isSittingAngryAnim = false;
+                SetAnimState(AnimState.Sit);
+            }
+        }
     }
 
     private float GetCurrentCatRelationshipRatio()
@@ -699,14 +759,9 @@ public class NPCController : MonoBehaviour
         else if (AudioManager.instance != null)
             AudioManager.instance.PlayAngry();
 
-        CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
-        foreach (var table in allTables)
+        if (assignedTable != null)
         {
-            if (table.sittingNPC == this)
-            {
-                table.ResetTable();
-                break;
-            }
+            assignedTable.RemoveNPCFromTable(this);
         }
 
         if (Random.Range(0, 100) < 25)
@@ -770,7 +825,6 @@ public class NPCController : MonoBehaviour
             InteractionZoneManager.Instance.CancelRequest(this);
         CatSystemManager.Instance?.HideInteractionChoice();
 
-        // Safety check to reset camera zoom if NPC leaves prematurely
         QTEZoomController.Instance?.ZoomOutToGameplay();
 
         currentState = NPCState.Leaving;

@@ -2,24 +2,32 @@
 
 public class ShopItemButton : MonoBehaviour
 {
-    [Header("Furniture Data")]
-    public GameObject furniturePrefab; // Prefab โต๊ะที่จะสั่งวาง
+    [Header("Item Data To Buy")]
+    public FurnitureItemData itemData;
 
-    [Header("UI Reference")]
-    public GameObject computerShopCanvas; // ลาก ComputerUI มาใส่ตรงนี้
-
-    public void OnClickBuyAndPlace()
+    // ฟังก์ชันซื้อแล้วสร้าง Instance ใหม่ส่งเข้าคลัง
+    public void OnClickBuyToInventory()
     {
-        if (furniturePrefab != null && FurniturePlacementManager.Instance != null)
+        if (itemData == null)
         {
-            // 1. ซ่อน UI หน้าคอมพิวเตอร์ก่อน
-            if (computerShopCanvas != null)
-            {
-                computerShopCanvas.SetActive(false);
-            }
+            Debug.LogWarning("ยังไม่ได้ใส่ FurnitureItemData ใน Inspector!");
+            return;
+        }
 
-            // 2. ส่ง Prefab เข้าสู่ระบบวาง
-            FurniturePlacementManager.Instance.StartPlacement(furniturePrefab);
+        // เช็กและหักเงินผ่าน CurrencyManager
+        if (CurrencyManager.Instance != null && CurrencyManager.Instance.TrySpendMoney(itemData.price))
+        {
+            if (FurnitureInventory.Instance != null)
+            {
+                // สร้าง Instance ใหม่เริ่มต้นที่ Level 1
+                FurnitureInstanceData newInstance = new FurnitureInstanceData(itemData, 1, false);
+                FurnitureInventory.Instance.AddInstance(newInstance);
+                Debug.Log($"ซื้อ {itemData.furnitureName} สำเร็จ! เข้าคลังเรียบร้อย");
+            }
+        }
+        else
+        {
+            Debug.Log("เงินไม่พอซื้อ!");
         }
     }
 }

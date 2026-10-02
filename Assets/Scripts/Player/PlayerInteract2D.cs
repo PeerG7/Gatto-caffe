@@ -6,18 +6,6 @@ using UnityEngine.InputSystem;
 
 // =====================================================================
 // PlayerInteract2D — v2 (Keyboard + Gamepad Added)
-//
-// ของเดิม: mouse click / KeyCode.E ยังทำงานได้ปกติ
-// เพิ่มใหม่: รองรับ Unity New Input System
-//   - ถ้า project ใช้ New Input System → ผูก PlayerInput component
-//     บน Player แล้ว assign interactAction ใน Inspector
-//   - ถ้ายังใช้ Legacy Input → interactAction ว่างไว้ได้ ระบบเดิมทำงาน
-//
-// Setup (New Input System):
-//   1. Player prefab → Add Component → PlayerInput
-//   2. สร้าง InputActionAsset: Actions > Gameplay > Interact
-//      Binding: Keyboard/E, Gamepad/Button South (A/Cross)
-//   3. ลาก Action Reference มาใส่ช่อง "Interact Action" ใน Inspector
 // =====================================================================
 public class PlayerInteract2D : MonoBehaviour
 {
@@ -34,9 +22,6 @@ public class PlayerInteract2D : MonoBehaviour
 
     private List<TraySlot> lastNearbyTrays = new List<TraySlot>();
 
-    // ── Canvas navigation support ──────────────────────────────────
-    // script อื่นสามารถ register/unregister canvas ที่กำลัง active อยู่
-    // เพื่อให้ PlayerInteract2D หยุดส่ง interact ผ่าน world space
     private static IGamepadNavigable activeCanvas = null;
     public static void RegisterActiveCanvas(IGamepadNavigable canvas) => activeCanvas = canvas;
     public static void UnregisterActiveCanvas(IGamepadNavigable canvas)
@@ -64,15 +49,12 @@ public class PlayerInteract2D : MonoBehaviour
 
         bool pressed = false;
 
-        // ── Legacy KeyCode (เดิม) ──────────────────────────────────
         foreach (KeyCode key in interactKeys)
         {
             if (Input.GetKeyDown(key)) { pressed = true; break; }
         }
 
 #if ENABLE_INPUT_SYSTEM
-        // ── New Input System (ใหม่) ────────────────────────────────
-        // รับ gamepad South button (A/Cross) หรือ keyboard ที่ bind ไว้
         if (!pressed && interactAction != null)
         {
             if (interactAction.action.WasPressedThisFrame())
@@ -82,7 +64,6 @@ public class PlayerInteract2D : MonoBehaviour
 
         if (!pressed) return;
 
-        // ถ้ามี canvas ที่ active อยู่ ส่ง confirm ไปที่ canvas แทน
         if (activeCanvas != null)
         {
             activeCanvas.OnConfirm();
@@ -105,7 +86,7 @@ public class PlayerInteract2D : MonoBehaviour
         Physics2D.OverlapCircle(transform.position, range, filter, resultList);
         Collider2D[] hits = resultList.ToArray();
 
-        // 1. ปลดล็อกเฟอร์นิเจอร์ (ยังเป็นเงาอยู่) — priority สูงสุดเสมอ
+        // 1. ปลดล็อกเฟอร์นิเจอร์ (ยังเป็นเงาอยู่)
         foreach (var hit in hits)
         {
             FurnitureObject furn = hit.GetComponent<FurnitureObject>();
@@ -119,16 +100,15 @@ public class PlayerInteract2D : MonoBehaviour
             if (dmg != null && dmg.CanRepair()) { dmg.StartRepair(); return; }
         }
 
-        // 3. เสิร์ฟอาหารที่โต๊ะ
-        //    (เดิมมีข้อ "กด interact แทนการคลิก Heart Icon" อยู่ก่อนหน้านี้ — เอาออกแล้ว
-        //     เพราะ Heart Icon ถูกลบออกจากระบบทั้งหมด แมวเดินไป Interaction Zone
-        //     ทันทีหลัง Serve เสร็จโดยอัตโนมัติ ไม่ต้องรอผู้เล่นกด E ที่โต๊ะอีกต่อไป)
+        // 3. เสิร์ฟอาหารที่โต๊ะ (แก้จุดที่ 1 & 2)
         foreach (var hit in hits)
         {
             CustomerTable table = hit.GetComponent<CustomerTable>();
-            if (table != null && table.sittingNPC != null &&
-                table.sittingNPC.currentState == NPCController.NPCState.Sitting)
-            { table.TryServeFood(); return; }
+            if (table != null && table.HasAnyNPCWaiting())
+            {
+                table.TryServeFood();
+                return;
+            }
         }
 
         // 4. เปิด Relationship Book
@@ -138,7 +118,7 @@ public class PlayerInteract2D : MonoBehaviour
             if (book != null) { book.OpenBook(); return; }
         }
 
-        // 5. เปิด cooking / drink station
+        // 5. เปิด cooking / drink station (แก้จุดที่ 3 & 4)
         foreach (var hit in hits)
         {
             StationInteract station = hit.GetComponent<StationInteract>();
@@ -148,9 +128,11 @@ public class PlayerInteract2D : MonoBehaviour
                 foreach (var h in hits)
                 {
                     CustomerTable t = h.GetComponent<CustomerTable>();
-                    if (t != null && t.sittingNPC != null &&
-                        t.sittingNPC.currentState == NPCController.NPCState.Sitting)
-                    { hasActiveTable = true; break; }
+                    if (t != null && t.HasAnyNPCWaiting())
+                    {
+                        hasActiveTable = true;
+                        break;
+                    }
                 }
 
                 if (!hasActiveTable)
@@ -186,10 +168,7 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 8. อัปเกรดเฟอร์นิเจอร์ (ไม้ -> หินอ่อน)
-        //    ย้ายมาไว้ก่อน NPC interact เพื่อกันไม่ให้กด E ใกล้แมวที่นั่งอยู่
-        //    ไปโดน RelationShip() (คุยกับแมว) โดยไม่ตั้งใจตอนแค่จะ Upgrade โต๊ะ
-        //    ซึ่งเป็นสาเหตุของบั๊กเกมค้างที่ RelationShip() ไปเปิด Canvas ที่มีปัญหา
+        // 8. อัปเกรดเฟอร์นิเจอร์
         foreach (var hit in hits)
         {
             FurnitureObject furn = hit.GetComponent<FurnitureObject>();
@@ -201,7 +180,6 @@ public class PlayerInteract2D : MonoBehaviour
         }
 
         // 9. NPC interact
-        // ✅ ให้ความสำคัญกับแมวที่ยืนรออยู่ที่โซนก่อนเสมอ (ไม่สนว่าใครใกล้กว่า)
         NPCInteract zoneWaitingNPC = null;
         float minZoneDist = Mathf.Infinity;
         foreach (var hit in hits)
@@ -224,7 +202,6 @@ public class PlayerInteract2D : MonoBehaviour
             return;
         }
 
-        // ถ้าไม่มีแมวรอที่โซน ค่อยมาดูแมวตัวที่ใกล้ที่สุด
         NPCInteract closestNPC = GetClosestNPC(hits);
         if (closestNPC != null)
         {
@@ -242,6 +219,7 @@ public class PlayerInteract2D : MonoBehaviour
                 return;
             }
         }
+
         foreach (var hit in hits)
         {
             ComputerStation comp = hit.GetComponent<ComputerStation>();

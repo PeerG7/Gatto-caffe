@@ -1,11 +1,19 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class CustomerTable : MonoBehaviour
 {
     [Header("Table Configuration")]
-    public Transform seatPoint;
-    public bool isOccupied = false;
-    public NPCController sittingNPC;
+    [Tooltip("ตำแหน่งเก้าอี้ทั้งหมดที่มีในโต๊ะนี้ (เช่น Seat1, Seat2)")]
+    public List<Transform> seatPoints = new List<Transform>();
+
+    // เก็บรายการ NPC ที่กำลังนั่งอยู่จริงในโต๊ะนี้
+    [HideInInspector] public List<NPCController> sittingNPCs = new List<NPCController>();
+
+    // โต๊ะจะถือว่าเต็ม เมื่อจำนวนแมวที่นั่งอยู่เท่ากับจำนวนเก้าอี้ที่มี
+    public bool isFull => sittingNPCs.Count >= seatPoints.Count;
+    public bool isOccupied => sittingNPCs.Count > 0;
+
     public string wantedItem;
     public int dishReward = 100;
 
@@ -14,30 +22,46 @@ public class CustomerTable : MonoBehaviour
     public GameObject angryIcon;
 
     [Header("VIP Visual")]
-    [Tooltip("ไอคอน/ป้าย VIP ที่จะโชว์เมื่อลูกค้าที่นั่งโต๊ะนี้เป็นแมว VIP")]
     public GameObject vipBadgeIcon;
 
     [Header("Interaction Chance")]
-    [Tooltip("โอกาส % ที่ลูกค้าจะอยากทำ Interaction (เดินไป Interaction Zone) หลังกินเสร็จ — " +
-             "การเลือกว่าจะไปหรือไม่เกิดขึ้นทันทีตอนเสิร์ฟเสร็จ ไม่มี Heart Icon รอที่โต๊ะแล้ว")]
     [Range(0, 100)] public int interactionChance = 70;
 
     [Header("SFX")]
-    [Tooltip("เสียงเหรียญตอนได้รับเงิน — ถ้าไม่ใส่จะใช้ sfxCoin ของ AudioManager")]
     public AudioClip coinSoundClip;
-    public AudioSource sfxSource;   // Optional: AudioSource เฉพาะโต๊ะนี้
+    public AudioSource sfxSource;
 
-    void Awake()
+    [Header("Group Serve Settings")]
+    [Tooltip("เวลาที่จะบวกเพิ่มให้เพื่อนในโต๊ะเมื่อมีคนในโต๊ะได้รับอาหาร (วินาที)")]
+    public float patienceBonusOnFriendServed = 15f;
+
+    private void Awake()
+    {
+        SetWorldSpaceCamera();
+        AutoFindSeatPoints();
+    }
+
+    private void Start()
     {
         SetWorldSpaceCamera();
     }
 
-    void Start()
+    private void AutoFindSeatPoints()
     {
-        SetWorldSpaceCamera();
+        if (seatPoints == null || seatPoints.Count == 0)
+        {
+            seatPoints = new List<Transform>();
+            foreach (Transform child in transform)
+            {
+                if (child.name.StartsWith("Seat"))
+                {
+                    seatPoints.Add(child);
+                }
+            }
+        }
     }
 
-    void SetWorldSpaceCamera()
+    private void SetWorldSpaceCamera()
     {
         if (Camera.main == null) return;
         Canvas[] canvases = GetComponentsInChildren<Canvas>(true);
@@ -48,54 +72,120 @@ public class CustomerTable : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// หาเก้าอี้ที่ยังว่างอยู่
+    /// </summary>
+    public Transform GetAvailableSeat()
+    {
+        if (seatPoints == null || seatPoints.Count == 0) return transform;
+
+        if (sittingNPCs.Count < seatPoints.Count)
+        {
+            return seatPoints[sittingNPCs.Count];
+        }
+        return null;
+    }
+
+    public void AssignNPCToTable(NPCController npc)
+    {
+        if (!sittingNPCs.Contains(npc))
+        {
+            sittingNPCs.Add(npc);
+            npc.assignedTable = this;
+        }
+    }
+
     public void TryServeFood()
     {
         PlayerInventory player = FindObjectOfType<PlayerInventory>();
         if (player == null || !player.HasItem()) return;
 
-        if (player.currentItem.Trim().Equals(wantedItem.Trim(), System.StringComparison.OrdinalIgnoreCase))
+        string heldItem = player.currentItem.Trim();
+
+        // ค้นหาแมวบนโต๊ะที่นั่งอยู่ ยังไม่ได้กิน และสั่งเมนูตรงกับอาหารในมือของผู้เล่น
+        NPCController targetNPC = sittingNPCs.Find(n =>
+            n != null &&
+            !n.hasBeenServed &&
+            n.requestedRecipe != null &&
+            n.requestedRecipe.recipeName.Trim().Equals(heldItem, System.StringComparison.OrdinalIgnoreCase)
+        );
+
+        // กรณีฉุกเฉิน: ถ้าไม่ได้ตั้ง requestedRecipe บนตัวแมว ให้เช็กเทียบกับ wantedItem ของโต๊ะ
+        if (targetNPC == null && !string.IsNullOrEmpty(wantedItem) && heldItem.Equals(wantedItem.Trim(), System.StringComparison.OrdinalIgnoreCase))
+        {
+            targetNPC = sittingNPCs.Find(n => n != null && !n.hasBeenServed);
+        }
+
+        if (targetNPC != null)
         {
             PlayerController2D.IsLocked = false;
+            targetNPC.hasBeenServed = true;
 
-            NPCController servedNPC = sittingNPC; // เก็บ reference ไว้ก่อน เพราะ ResetTable() จะเคลียร์ sittingNPC ทิ้ง
+            // บวกเวลาความอดทนให้แมวตัวอื่นในกลุ่มที่ยังนั่งรออยู่
+            BoostRemainingNPCsPatience(targetNPC);
 
-            // ✅ ถ้าเป็นแมว VIP ให้เงินมากขึ้นตาม vipMoneyMultiplier
             int finalReward = dishReward;
-            if (servedNPC != null && servedNPC.isVIP)
-                finalReward = Mathf.RoundToInt(dishReward * servedNPC.vipMoneyMultiplier);
+            if (targetNPC.isVIP)
+                finalReward = Mathf.RoundToInt(dishReward * targetNPC.vipMoneyMultiplier);
 
-            // ✅ นับแมวที่ Serve และเงินที่ได้วันนี้
             if (DayNightManager.Instance != null)
             {
                 DayNightManager.Instance.catsServedToday++;
                 DayNightManager.Instance.moneyEarnedToday += finalReward;
             }
 
-            if (tableItemRenderer != null)
-                tableItemRenderer.enabled = false;
-
             if (CurrencyManager.Instance != null)
                 CurrencyManager.Instance.AddMoney(finalReward);
 
-            // ✅ เล่นเสียงเหรียญหลังได้รับเงิน
             PlayCoinSound();
-
             player.ClearItem();
 
-            // ✅ สุ่มว่าแมวตัวนี้จะไป Interaction Zone ต่อไหม ตัดสินใจทันที ณ จุดนี้เลย
+            // สุ่มการไป Interaction Zone
             bool willInteract = Random.Range(0, 101) <= interactionChance;
 
-            // ✅ ปลดโต๊ะให้ว่างทันที ไม่ต้องรอ Interaction จบก่อนแล้วค่อยว่าง
-            //    (NPCController.FinishServingAndProceed จะ ResetTable() ให้เอง แล้วค่อย
-            //    ตัดสินใจไป InteractionZone หรือออกจากร้านเลยตาม willInteract)
-            if (servedNPC != null)
-                servedNPC.FinishServingAndProceed(willInteract);
-            else
-                ResetTable();
+            // ถอดแมวออกจากรายการนั่งของโต๊ะ
+            RemoveNPCFromTable(targetNPC);
+
+            // สั่งให้แมวตัวนี้ลุกไปทาน/เดินออกจากร้าน
+            targetNPC.FinishServingAndProceed(willInteract);
+        }
+        else
+        {
+            Debug.Log("ไม่มีแมวตัวไหนบนโต๊ะนี้ที่รออาหาร: " + heldItem);
         }
     }
 
-    /// <summary>เล่นเสียงเหรียญ — ใช้ coinSoundClip ถ้ามี ไม่งั้นใช้ AudioManager.sfxCoin</summary>
+    /// <summary>
+    /// เอาแมวออกจากโต๊ะเมื่อกินเสร็จหรือหมดความอดทนลุกออกไป
+    /// </summary>
+    public void RemoveNPCFromTable(NPCController npc)
+    {
+        if (sittingNPCs.Contains(npc))
+        {
+            sittingNPCs.Remove(npc);
+        }
+
+        // ตรวจสอบว่าแมวทุกตัวบนโต๊ะได้รับการเสิร์ฟหรือลุกออกไปหมดแล้วหรือยัง
+        bool hasUnservedNPC = sittingNPCs.Exists(n => n != null && !n.hasBeenServed);
+        if (!hasUnservedNPC)
+        {
+            ResetTable();
+        }
+    }
+
+    private void BoostRemainingNPCsPatience(NPCController servedNPC)
+    {
+        if (sittingNPCs == null) return;
+
+        foreach (var npc in sittingNPCs)
+        {
+            if (npc != null && npc != servedNPC && !npc.hasBeenServed && npc.currentState == NPCController.NPCState.Sitting)
+            {
+                npc.AddExtraPatience(patienceBonusOnFriendServed);
+            }
+        }
+    }
+
     void PlayCoinSound()
     {
         if (sfxSource != null && coinSoundClip != null)
@@ -109,15 +199,27 @@ public class CustomerTable : MonoBehaviour
     public void ResetTable()
     {
         wantedItem = "";
-        sittingNPC = null;
-        isOccupied = false;
+        sittingNPCs.Clear();
         if (tableItemRenderer != null) tableItemRenderer.enabled = false;
         SetVIPVisual(false);
     }
 
-    /// <summary>เปิด/ปิด Badge บอกว่าโต๊ะนี้มีลูกค้า VIP นั่งอยู่</summary>
     public void SetVIPVisual(bool isVIP)
     {
         if (vipBadgeIcon != null) vipBadgeIcon.SetActive(isVIP);
+    }
+
+    public bool HasAnyNPCWaiting()
+    {
+        if (sittingNPCs == null || sittingNPCs.Count == 0) return false;
+
+        foreach (var npc in sittingNPCs)
+        {
+            if (npc != null && npc.currentState == NPCController.NPCState.Sitting && !npc.hasBeenServed)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

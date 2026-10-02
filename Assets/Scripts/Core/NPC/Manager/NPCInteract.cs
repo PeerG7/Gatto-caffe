@@ -41,12 +41,19 @@ public class NPCInteract : MonoBehaviour
             Debug.LogWarning("PlayAngry: ไม่มี AudioSource หรือ AudioManager บน " + gameObject.name);
     }
 
+    /// <summary>
+    /// เช็กว่าสามารถ Interact ที่โต๊ะได้ไหม (ป้องกันการเผลอกด E ขณะที่กำลังถืออาหารหรือกด Serve)
+    /// </summary>
     public bool CanInteract()
     {
+        PlayerInventory player = FindObjectOfType<PlayerInventory>();
+        // ถ้าผู้เล่นถืออาหารอยู่ ให้ลบล้าง Interact เพื่อให้ระบบ Serve อาหารทำงานแทน
+        if (player != null && player.HasItem()) return false;
+
         return npc != null && npc.currentState == NPCController.NPCState.Sitting;
     }
 
-    /// <summary>เช็คว่าแมวตัวนี้กำลังยืนรออยู่ที่ Interaction Zone (รอผู้เล่นกด E) หรือไม่</summary>
+    /// <summary>เช็กว่าแมวตัวนี้กำลังยืนรออยู่ที่ Interaction Zone (รอผู้เล่นกด E) หรือไม่</summary>
     public bool CanRequestZoneInteraction()
     {
         return npc != null && npc.CanRequestInteractionChoice();
@@ -90,9 +97,10 @@ public class NPCInteract : MonoBehaviour
     {
         if (npc == null) return;
 
-        if (npc.currentState != NPCController.NPCState.Sitting)
+        // ป้องกันการเปิด UI ความสัมพันธ์ ถ้าแมวไม่ได้นั่งอยู่ หรือกำลังโดน Serve
+        if (!CanInteract())
         {
-            Debug.Log("❌ NPC not sitting — state: " + npc.currentState);
+            Debug.Log("❌ NPC cannot open relationship at current state or player holds food: " + npc.currentState);
             return;
         }
 
@@ -104,11 +112,8 @@ public class NPCInteract : MonoBehaviour
         {
             relationshipCanvas.SetActive(true);
 
-            // ✅ Fix บั๊ก: ล็อก Player ตอนเปิด Relationship canvas
-            //    (เดิมมีแค่ Pause DayNightManager แต่ Player ยังเดินได้)
             PlayerController2D.IsLocked = true;
 
-            // ✅ Pause เฉพาะตอนที่ยังไม่ได้ pause อยู่
             if (DayNightManager.Instance != null && !DayNightManager.Instance.isPaused)
                 DayNightManager.Instance.PauseGame();
         }
