@@ -7,21 +7,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 #endif
 
-// =====================================================================
-// RelationshipBookUI — v2 (Keyboard + Gamepad Navigation Added)
-//
-// ของเดิม: Prev/Next/Close button ยังทำงานด้วย mouse ปกติ
-// เพิ่มใหม่:
-//   - กด A/D หรือ Left/Right บน D-pad เพื่อเปลี่ยนหน้า
-//   - กด Escape / B button เพื่อปิด book
-//   - implement IGamepadNavigable
-// =====================================================================
 public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
 {
     [Header("Book Canvas")]
     public GameObject bookCanvas;
 
-    [Header("Display Elements — ผูกตรงๆ ใน Inspector")]
+    [Header("Display Elements — Inspector Connections")]
     public Image portrait;
     public TMP_Text nameText;
     public TMP_Text labelText;
@@ -34,15 +25,12 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
     public Button closeButton;
 
 #if ENABLE_INPUT_SYSTEM
-    [Header("Gamepad Navigation (ใหม่)")]
-    [Tooltip("InputActionReference สำหรับ Navigate (D-pad / Left Stick)")]
+    [Header("Gamepad Navigation")]
     public UnityEngine.InputSystem.InputActionReference navigateAction;
-    [Tooltip("InputActionReference สำหรับ Back/Cancel (B button / Escape)")]
     public UnityEngine.InputSystem.InputActionReference backAction;
 #endif
 
-    // Legacy keyboard ─ ใช้ A/D หรือ Arrow keys เปลี่ยนหน้า
-    [Header("Legacy Keyboard (ใหม่)")]
+    [Header("Legacy Keyboard Navigation")]
     public KeyCode prevKey = KeyCode.A;
     public KeyCode nextKey = KeyCode.D;
 
@@ -50,7 +38,6 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
     private int currentIndex = 0;
     private bool isOpen = false;
 
-    // กัน navigate เร็วเกินไปด้วย cooldown เล็กน้อย
     private float navCooldown = 0f;
     private const float NAV_COOLDOWN_TIME = 0.25f;
 
@@ -82,7 +69,6 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
 
         navCooldown -= Time.deltaTime;
 
-        // ── Legacy keyboard ────────────────────────────────────────
         if (navCooldown <= 0f)
         {
             if (Input.GetKeyDown(prevKey) || Input.GetKeyDown(KeyCode.LeftArrow))
@@ -94,7 +80,6 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
         if (Input.GetKeyDown(KeyCode.Escape)) CloseBook();
 
 #if ENABLE_INPUT_SYSTEM
-        // ── New Input System ───────────────────────────────────────
         if (navCooldown <= 0f && navigateAction != null)
         {
             Vector2 nav = navigateAction.action.ReadValue<Vector2>();
@@ -107,8 +92,7 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
 #endif
     }
 
-    // ── IGamepadNavigable ──────────────────────────────────────────
-    public void OnConfirm() { /* Book ไม่ต้องการ confirm action */ }
+    public void OnConfirm() { }
     public void OnBack() => CloseBook();
     public void OnNavigate(Vector2 direction)
     {
@@ -117,7 +101,6 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
         else if (direction.x > 0.5f) { NextCat(); navCooldown = NAV_COOLDOWN_TIME; }
     }
 
-    // ── ของเดิม + เพิ่ม register/unregister ─────────────────────
     public void OpenBook()
     {
         if (RelationshipManager.Instance == null) return;
@@ -131,10 +114,8 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
         if (bookCanvas != null) bookCanvas.SetActive(true);
         PlayerController2D.IsLocked = true;
 
-        // ✅ ใหม่: register
         PlayerInteract2D.RegisterActiveCanvas(this);
 
-        // ✅ ใหม่: focus ที่ closeButton เพื่อให้ gamepad มี anchor
         if (EventSystem.current != null && closeButton != null)
             EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
 
@@ -146,9 +127,7 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
         isOpen = false;
         if (bookCanvas != null) bookCanvas.SetActive(false);
 
-        // ✅ ใหม่: unregister
         PlayerInteract2D.UnregisterActiveCanvas(this);
-
         PlayerController2D.IsLocked = false;
     }
 
@@ -171,16 +150,19 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
         if (cats == null || currentIndex >= cats.Count) return;
 
         CatRelationshipData cat = cats[currentIndex];
-        Debug.Log($"[Book] showing: {cat.catName} | portrait null: {cat.catPortrait == null}");
-        Debug.Log($"[Book] portrait field null: {portrait == null} | nameText null: {nameText == null}");
 
         if (portrait != null) portrait.sprite = cat.catPortrait;
         if (nameText != null) nameText.text = cat.catName;
         if (labelText != null) labelText.text = RelationshipManager.Instance.GetRelationshipLabel(cat.catID);
         if (pageText != null) pageText.text = $"{currentIndex + 1} / {cats.Count}";
 
+        // คำนวณและอัปเดตหลอด Bar
         if (relBarFill != null)
-            relBarFill.fillAmount = RelationshipManager.Instance.GetRelationship(cat.catID) / cat.maxRelationship;
+        {
+            float currentRel = RelationshipManager.Instance.GetRelationship(cat.catID);
+            float maxRel = cat.maxRelationship;
+            relBarFill.fillAmount = maxRel > 0f ? (float)currentRel / (float)maxRel : 0f;
+        }
 
         bool moreThanOne = cats.Count > 1;
         if (prevButton != null) prevButton.gameObject.SetActive(moreThanOne);

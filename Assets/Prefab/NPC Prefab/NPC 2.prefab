@@ -374,6 +374,12 @@ MonoBehaviour:
   maxBonusWaitTime: 15
   patienceBarRoot: {fileID: 3117635542986535974}
   patienceBarFill: {fileID: 6796472614567506207}
+  patienceImage1: {fileID: 831857512604744858}
+  patienceImage2: {fileID: 6796472614567506207}
+  normalSprite1: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  maxRepSprite1: {fileID: 3497078342218366529, guid: 4711f703b8f3cfc4186f39d95da701ac, type: 3}
+  normalSprite2: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  maxRepSprite2: {fileID: 3497078342218366529, guid: 4711f703b8f3cfc4186f39d95da701ac, type: 3}
   absoluteMaxSitTime: 120
   isVIP: 0
   vipMoneyMultiplier: 2

@@ -35,6 +35,16 @@ public class NPCController : MonoBehaviour
     public GameObject patienceBarRoot;
     public UnityEngine.UI.Image patienceBarFill;
 
+    [Header("Patience UI Images (2 ภาพใน Panel)")]
+    public Image patienceImage1;        // UI Image อันที่ 1 ใน Panel
+    public Image patienceImage2;        // UI Image อันที่ 2 ใน Panel
+
+    [Header("Sprites (ปกติ vs เต็ม 100%)")]
+    public Sprite normalSprite1;        // ภาพปกติ Image 1
+    public Sprite maxRepSprite1;        // ภาพเต็ม 100% Image 1
+    public Sprite normalSprite2;        // ภาพปกติ Image 2
+    public Sprite maxRepSprite2;        // ภาพเต็ม 100% Image 2
+
     [Header("Safety Timeout (ป้องกัน NPC ค้างโต๊ะ)")]
     public float absoluteMaxSitTime = 120f;
 
@@ -64,7 +74,6 @@ public class NPCController : MonoBehaviour
     public float moveAnimThreshold = 0.05f;
 
     [Header("Perform Animation Settings")]
-    [Tooltip("Fallback duration if Animator component is missing or clip length cannot be read.")]
     public float fallbackPerformDuration = 2.26f;
 
     [HideInInspector] public InteractionZone currentZone;
@@ -80,7 +89,6 @@ public class NPCController : MonoBehaviour
     private static readonly int AnimStateHash = Animator.StringToHash("AnimState");
     private bool isSittingAngryAnim = false;
 
-    // Safety lock during performance
     private bool isPerforming = false;
 
     static bool GameIsPaused =>
@@ -164,7 +172,6 @@ public class NPCController : MonoBehaviour
         if (currentState == NPCState.Sitting || currentState == NPCState.AtInteractionZone || currentState == NPCState.Performing)
             return;
 
-        // Force state reset if Animator got stuck in a performance clip while moving
         bool isStuckInPerform = false;
         if (animator != null)
         {
@@ -208,7 +215,6 @@ public class NPCController : MonoBehaviour
         {
             animator.SetInteger(AnimStateHash, (int)state);
 
-            // 1. Try exact enum name
             string enumName = state.ToString();
             int primaryHash = Animator.StringToHash(enumName);
 
@@ -218,7 +224,6 @@ public class NPCController : MonoBehaviour
             }
             else
             {
-                // 2. Try alternate naming conventions (e.g. Walk_Side, Perform_1)
                 string altName = enumName switch
                 {
                     "WalkSide" => "Walk_Side",
@@ -237,7 +242,6 @@ public class NPCController : MonoBehaviour
                 }
                 else if (state == AnimState.WalkSide || state == AnimState.WalkUp)
                 {
-                    // 3. Fallback for walking animation
                     int genericWalkHash = Animator.StringToHash("Walk");
                     if (animator.HasState(0, genericWalkHash))
                     {
@@ -332,10 +336,25 @@ public class NPCController : MonoBehaviour
         if (patienceBarRoot != null) patienceBarRoot.SetActive(true);
         if (patienceBarFill != null) patienceBarFill.fillAmount = 1f;
 
+        // ── สลับภาพ UI Image ทั้ง 2 อันตามระดับ Relationship (100%) ──
+        float currentRelRatio = GetCurrentCatRelationshipRatio();
+        bool isMaxRep = currentRelRatio >= 0.999f;
+
+        if (patienceImage1 != null)
+        {
+            Sprite target1 = isMaxRep ? maxRepSprite1 : normalSprite1;
+            if (target1 != null) patienceImage1.sprite = target1;
+        }
+
+        if (patienceImage2 != null)
+        {
+            Sprite target2 = isMaxRep ? maxRepSprite2 : normalSprite2;
+            if (target2 != null) patienceImage2.sprite = target2;
+        }
+
         if (AudioManager.instance != null)
             AudioManager.instance.PlaySitDown();
 
-        // ✅ แมวส่งสัญญาณอยากได้อาหาร — VIP จะใช้เสียงเฉพาะตัว (ถ้าตั้งไว้บน NPCInteract) ไม่งั้น fallback ไปเสียง default
         NPCInteract interactWantsFood = GetComponent<NPCInteract>();
         if (interactWantsFood != null)
             interactWantsFood.PlayWantsFood();
@@ -471,7 +490,6 @@ public class NPCController : MonoBehaviour
 
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(true);
 
-        // Zoom camera in to center between Player and NPC
         QTEZoomController.Instance?.ZoomInToQTE(transform);
     }
 
@@ -493,7 +511,6 @@ public class NPCController : MonoBehaviour
 
         currentState = NPCState.Performing;
 
-        // Freeze physical movement position
         if (agent != null && agent.isOnNavMesh)
         {
             agent.isStopped = true;
@@ -524,7 +541,6 @@ public class NPCController : MonoBehaviour
         {
             string targetStateName = targetState.ToString();
 
-            // Wait until Animator state machine switches to perform state
             float safetyWait = 0f;
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName(targetStateName) && safetyWait < 0.5f)
             {
@@ -532,7 +548,6 @@ public class NPCController : MonoBehaviour
                 yield return null;
             }
 
-            // Read duration directly from Animator state clip
             if (durationOverride <= 0f && animator.GetCurrentAnimatorStateInfo(0).IsName(targetStateName))
             {
                 float detectedLen = animator.GetCurrentAnimatorStateInfo(0).length;
@@ -540,7 +555,6 @@ public class NPCController : MonoBehaviour
             }
         }
 
-        // Wait stationary for exact animation duration
         float timer = 0f;
         while (timer < clipDuration)
         {
@@ -556,7 +570,6 @@ public class NPCController : MonoBehaviour
             yield return null;
         }
 
-        // Un-lock perform lock and reset cached animation state
         isPerforming = false;
         currentAnim = (AnimState)(-1);
 
@@ -576,7 +589,6 @@ public class NPCController : MonoBehaviour
         CatSystemManager.Instance?.HideInteractionChoice();
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
-        // Zoom camera back out to default gameplay camera
         QTEZoomController.Instance?.ZoomOutToGameplay();
 
         if (currentZone != null)
@@ -700,7 +712,6 @@ public class NPCController : MonoBehaviour
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
-        // ✅ สุ่มว่าจะร้อง Angry หรือ Sad (50/50) ตอนไม่ได้รับอาหาร
         NPCInteract interact = GetComponent<NPCInteract>();
         bool playSad = Random.Range(0, 100) < 50;
 
@@ -786,7 +797,6 @@ public class NPCController : MonoBehaviour
             InteractionZoneManager.Instance.CancelRequest(this);
         CatSystemManager.Instance?.HideInteractionChoice();
 
-        // Safety check to reset camera zoom if NPC leaves prematurely
         QTEZoomController.Instance?.ZoomOutToGameplay();
 
         currentState = NPCState.Leaving;
