@@ -212,11 +212,13 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
         if (cookingProgressBar != null) { cookingProgressBar.gameObject.SetActive(true); cookingProgressBar.fillAmount = 0f; }
         if (sfxSource != null && cookingSoundClip != null) { sfxSource.clip = cookingSoundClip; sfxSource.loop = false; sfxSource.Play(); }
 
+        // ✅ Daily Event: ตัวคูณความเร็วทำอาหาร (>1 = เร็วขึ้น)
+        float duration = cookingDuration / Mathf.Max(0.01f, DailyEventManager.CookingSpeedMult);
         float elapsed = 0f;
-        while (elapsed < cookingDuration)
+        while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            if (cookingProgressBar != null) cookingProgressBar.fillAmount = elapsed / cookingDuration;
+            if (cookingProgressBar != null) cookingProgressBar.fillAmount = elapsed / duration;
             yield return null;
         }
 

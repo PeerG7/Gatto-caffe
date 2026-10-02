@@ -64,6 +64,9 @@ public class CustomerTable : MonoBehaviour
             if (servedNPC != null && servedNPC.isVIP)
                 finalReward = Mathf.RoundToInt(dishReward * servedNPC.vipMoneyMultiplier);
 
+            // ✅ Daily Event: ตัวคูณเงินประจำวัน (1 = ปกติ)
+            finalReward = Mathf.RoundToInt(finalReward * DailyEventManager.MoneyMult);
+
             // ✅ นับแมวที่ Serve และเงินที่ได้วันนี้
             if (DayNightManager.Instance != null)
             {

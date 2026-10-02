@@ -32,7 +32,7 @@ public class NPCSpawner : MonoBehaviour
 
     void Start()
     {
-        spawnInterval = Random.Range(minInterval, maxInterval);
+        spawnInterval = Random.Range(minInterval, maxInterval) / Mathf.Max(0.01f, DailyEventManager.SpawnRateMult);
     }
 
     void Update()
@@ -48,7 +48,7 @@ public class NPCSpawner : MonoBehaviour
         {
             SpawnNPC();
             timer = 0f;
-            spawnInterval = Random.Range(minInterval, maxInterval);
+            spawnInterval = Random.Range(minInterval, maxInterval) / Mathf.Max(0.01f, DailyEventManager.SpawnRateMult);
         }
     }
 
