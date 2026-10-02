@@ -145,9 +145,8 @@ public class NPCInteract : MonoBehaviour
         {
             relationshipCanvas.SetActive(true);
 
-            // ✅ Fix บั๊ก: ล็อก Player ตอนเปิด Relationship canvas
-            //    (เดิมมีแค่ Pause DayNightManager แต่ Player ยังเดินได้)
-            PlayerController2D.IsLocked = true;
+            // ✅ ล็อก Player ตอนเปิด Relationship canvas
+            PlayerController2D.SetLock(true);
 
             // ✅ Pause เฉพาะตอนที่ยังไม่ได้ pause อยู่
             if (DayNightManager.Instance != null && !DayNightManager.Instance.isPaused)

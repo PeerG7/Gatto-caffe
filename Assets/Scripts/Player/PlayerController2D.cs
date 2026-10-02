@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // =====================================================================
-// PlayerController2D — v4 (Clean Fix)
+// PlayerController2D — v4.1 (Merge Fix)
 //
 // animState Values:
 // 0 = Idle
@@ -20,6 +20,14 @@ public class PlayerController2D : MonoBehaviour
     private Vector2 movement;
 
     public static bool IsLocked = false;
+
+    /// <summary>
+    /// เพิ่มฟังก์ชัน SetLock เพื่อรองรับ FurniturePlacementManager, FurnitureManager, ComputerStation
+    /// </summary>
+    public static void SetLock(bool value)
+    {
+        IsLocked = value;
+    }
 
     // fail-safe — ล็อก Player อัตโนมัติทุกครั้งที่เกมถูก Pause
     private static bool IsGamePaused =>
