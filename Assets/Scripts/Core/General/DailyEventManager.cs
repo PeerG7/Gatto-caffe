@@ -1,15 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 // =====================================================================
-// DailyEventManager
-// สุ่ม Event 1 อันต่อวัน (หรือไม่มีเลยก็ได้) — ผลมีอายุแค่วันนั้น
-// วันใหม่ (OnNewDayStarted) จะสุ่มใหม่ทับของเดิมทันที
-// ระบบอื่นอ่านค่าผ่าน static property ด้านล่าง (ปลอดภัยแม้ไม่มี Instance = 1x)
+// DailyEventManager (v3 — Player Choice)
+// โหมด PlayerChoice : ต้นวันสุ่มเสนอ choicesOffered อัน → ผู้เล่นเลือก 1 อัน
+//                     (DailyEventChoiceUI ฟัง OnEventsOffered แล้วเรียก SelectEvent)
+// โหมด RandomAuto   : สุ่มให้เลย eventsPerDay อัน ไม่ต้องเลือก (แบบเดิม)
+// ผลของ Event มีอายุแค่วันนั้น — ขึ้นวันใหม่สุ่มใหม่ (ผ่าน OnNewDayStarted)
+// ชื่อ static property (MoneyMult ฯลฯ) เหมือนเดิม → สคริปต์อื่นไม่ต้องแก้
 // =====================================================================
 public class DailyEventManager : MonoBehaviour
 {
     public static DailyEventManager Instance;
+
+    public enum EventSelectionMode { PlayerChoice, RandomAuto }
 
     [System.Serializable]
     public class DailyEvent
@@ -33,29 +38,57 @@ public class DailyEventManager : MonoBehaviour
     [Header("Event Pool")]
     public List<DailyEvent> events = new List<DailyEvent>();
 
-    [Header("Settings")]
+    [Header("Selection")]
+    public EventSelectionMode selectionMode = EventSelectionMode.PlayerChoice;
+    [Min(2)]
+    [Tooltip("PlayerChoice: จำนวนตัวเลือกที่เสนอให้ผู้เล่น")]
+    public int choicesOffered = 2;
+    [Min(1)]
+    [Tooltip("RandomAuto: จำนวน Event ที่สุ่มให้ต่อวัน")]
+    public int eventsPerDay = 2;
     [Range(0, 100)]
-    [Tooltip("โอกาส % ที่วันนั้นจะไม่มี Event (วันปกติ)")]
-    public int noEventChance = 30;
-    [Tooltip("กันไม่ให้ได้ Event ซ้ำกับเมื่อวาน")]
+    [Tooltip("RandomAuto เท่านั้น: โอกาส % ที่วันนั้นจะไม่มี Event")]
+    public int noEventChance = 20;
+    [Tooltip("กันไม่ให้เสนอ/สุ่มได้ Event ซ้ำกับของเมื่อวาน")]
     public bool avoidRepeatYesterday = true;
 
-    public DailyEvent CurrentEvent { get; private set; }
+    [Header("Combined Multiplier Limits (RandomAuto ที่ซ้อนหลาย Event)")]
+    public float minCombinedMultiplier = 0.25f;
+    public float maxCombinedMultiplier = 4f;
 
-    /// <summary>ยิงทุกครั้งที่สุ่มใหม่ (CurrentEvent เป็น null = วันปกติ) — ให้ UI ฟังไปแสดงป้ายได้</summary>
-    public event System.Action<DailyEvent> OnEventChanged;
+    private readonly List<DailyEvent> _current = new List<DailyEvent>();
+    private readonly List<DailyEvent> _offers = new List<DailyEvent>();
+    private readonly List<DailyEvent> _yesterday = new List<DailyEvent>();
 
-    // ── Safe accessors: เรียกจากที่ไหนก็ได้ ──────────────────────
+    /// <summary>Event ที่ Active วันนี้ (ว่าง = วันปกติ หรือยังไม่ได้เลือก)</summary>
+    public IReadOnlyList<DailyEvent> CurrentEvents => _current;
+
+    /// <summary>ตัวเลือกที่รอผู้เล่นเลือกอยู่ (ว่าง = ไม่ได้อยู่ระหว่างเลือก)</summary>
+    public IReadOnlyList<DailyEvent> PendingOffers => _offers;
+    public bool IsChoosing => _offers.Count > 0;
+
+    /// <summary>ยิงเมื่อมีตัวเลือกให้ผู้เล่นเลือก — ให้ Choice UI ฟัง</summary>
+    public event Action<IReadOnlyList<DailyEvent>> OnEventsOffered;
+
+    /// <summary>ยิงเมื่อ Event ของวันนี้ "ยืนยันแล้ว" (list ว่าง = วันปกติ) — ให้ Banner ฟัง</summary>
+    public event Action<IReadOnlyList<DailyEvent>> OnEventsChanged;
+
+    // ── Safe accessors: เรียกจากที่ไหนก็ได้ (ไม่มี Instance = 1x) ──
     public static float MoneyMult =>
-        Instance != null && Instance.CurrentEvent != null ? Instance.CurrentEvent.moneyMultiplier : 1f;
+        Instance != null ? Instance.Combine(e => e.moneyMultiplier) : 1f;
     public static float SpawnRateMult =>
-        Instance != null && Instance.CurrentEvent != null ? Instance.CurrentEvent.spawnRateMultiplier : 1f;
+        Instance != null ? Instance.Combine(e => e.spawnRateMultiplier) : 1f;
     public static float FurniturePriceMult =>
-        Instance != null && Instance.CurrentEvent != null ? Instance.CurrentEvent.furniturePriceMultiplier : 1f;
+        Instance != null ? Instance.Combine(e => e.furniturePriceMultiplier) : 1f;
     public static float CookingSpeedMult =>
-        Instance != null && Instance.CurrentEvent != null ? Instance.CurrentEvent.cookingSpeedMultiplier : 1f;
+        Instance != null ? Instance.Combine(e => e.cookingSpeedMultiplier) : 1f;
 
-    private DailyEvent _lastEvent;
+    float Combine(Func<DailyEvent, float> selector)
+    {
+        float result = 1f;
+        foreach (var e in _current) result *= selector(e);
+        return Mathf.Clamp(result, minCombinedMultiplier, maxCombinedMultiplier);
+    }
 
     void Awake()
     {
@@ -67,56 +100,104 @@ public class DailyEventManager : MonoBehaviour
     {
         // subscribe ใน Start เพื่อให้ DayNightManager.Instance ถูกตั้งใน Awake เสร็จก่อน
         if (DayNightManager.Instance != null)
-            DayNightManager.Instance.OnNewDayStarted += RollNewEvent;
+            DayNightManager.Instance.OnNewDayStarted += RollNewEvents;
 
-        RollNewEvent(); // วันที่ 1
+        RollNewEvents(); // วันที่ 1
     }
 
     void OnDestroy()
     {
         if (DayNightManager.Instance != null)
-            DayNightManager.Instance.OnNewDayStarted -= RollNewEvent;
+            DayNightManager.Instance.OnNewDayStarted -= RollNewEvents;
         if (Instance == this) Instance = null;
     }
 
-    public void RollNewEvent()
+    public void RollNewEvents()
     {
-        CurrentEvent = null;
+        _current.Clear();
+        _offers.Clear();
 
-        if (events.Count > 0 && Random.Range(0, 100) >= noEventChance)
+        if (events.Count == 0) { FinalizeToday(); return; }
+
+        if (selectionMode == EventSelectionMode.PlayerChoice)
         {
-            CurrentEvent = PickWeighted();
+            PickDistinctWeighted(_offers, choicesOffered);
+
+            if (_offers.Count == 0) { FinalizeToday(); return; }
+
+            // เหลือตัวเลือกเดียว หรือไม่มี UI ฟังอยู่ → เลือกให้เอง กันเกมค้าง
+            if (_offers.Count == 1 || OnEventsOffered == null)
+            {
+                SelectEvent(_offers[UnityEngine.Random.Range(0, _offers.Count)]);
+                return;
+            }
+
+            Debug.Log($"🎲 Daily Event Offers: {string.Join(" / ", _offers.ConvertAll(e => e.eventName))}");
+            OnEventsOffered.Invoke(_offers);
+            return;
         }
 
-        _lastEvent = CurrentEvent;
-
-        Debug.Log(CurrentEvent != null
-            ? $"🎲 Daily Event: {CurrentEvent.eventName}"
-            : "🎲 Daily Event: (วันปกติ)");
-
-        OnEventChanged?.Invoke(CurrentEvent);
+        // RandomAuto
+        if (UnityEngine.Random.Range(0, 100) >= noEventChance)
+            PickDistinctWeighted(_current, eventsPerDay);
+        FinalizeToday();
     }
 
-    DailyEvent PickWeighted()
+    /// <summary>ผู้เล่นเลือก Event (เรียกจาก Choice UI) — ต้องเป็นอันที่ถูกเสนอเท่านั้น</summary>
+    public void SelectEvent(DailyEvent chosen)
     {
+        if (chosen == null || !_offers.Contains(chosen)) return;
+
+        _current.Clear();
+        _current.Add(chosen);
+        _offers.Clear();
+        FinalizeToday();
+    }
+
+    void FinalizeToday()
+    {
+        _yesterday.Clear();
+        _yesterday.AddRange(_current);
+
+        Debug.Log(_current.Count > 0
+            ? $"🎲 Today's Events: {string.Join(" + ", _current.ConvertAll(e => e.eventName))}"
+            : "🎲 Today's Events: (วันปกติ)");
+
+        OnEventsChanged?.Invoke(_current);
+    }
+
+    void PickDistinctWeighted(List<DailyEvent> result, int count)
+    {
+        int want = Mathf.Min(count, events.Count);
+
         var pool = new List<DailyEvent>();
         foreach (var e in events)
-        {
-            if (e.weight <= 0f) continue;
-            if (avoidRepeatYesterday && events.Count > 1 && e == _lastEvent) continue;
-            pool.Add(e);
-        }
-        if (pool.Count == 0) return null;
+            if (e.weight > 0f) pool.Add(e);
 
-        float total = 0f;
-        foreach (var e in pool) total += e.weight;
-
-        float roll = Random.Range(0f, total);
-        foreach (var e in pool)
+        if (avoidRepeatYesterday)
         {
-            roll -= e.weight;
-            if (roll <= 0f) return e;
+            var filtered = pool.FindAll(e => !_yesterday.Contains(e));
+            if (filtered.Count >= want) pool = filtered;
         }
-        return pool[pool.Count - 1];
+
+        want = Mathf.Min(want, pool.Count);
+
+        // สุ่มแบบไม่คืน (without replacement)
+        for (int n = 0; n < want; n++)
+        {
+            float total = 0f;
+            foreach (var e in pool) total += e.weight;
+
+            float roll = UnityEngine.Random.Range(0f, total);
+            int pickIndex = pool.Count - 1;
+            for (int i = 0; i < pool.Count; i++)
+            {
+                roll -= pool[i].weight;
+                if (roll <= 0f) { pickIndex = i; break; }
+            }
+
+            result.Add(pool[pickIndex]);
+            pool.RemoveAt(pickIndex);
+        }
     }
 }

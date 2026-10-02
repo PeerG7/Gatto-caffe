@@ -1,18 +1,19 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 // =====================================================================
-// DailyEventBanner (v2 — Text only)
+// DailyEventBanner (v3 — รองรับหลาย Event)
 // Fade เฉพาะ TMP text ที่ลากใส่ในสคริปต์นี้เท่านั้น (ไม่ใช้ CanvasGroup)
-// Panel / Image / ลูกอื่นๆ ใน parent เดียวกันจะไม่ถูกแตะต้องเลย
-// วางสคริปต์ไว้บน GameObject ไหนก็ได้ (ต้อง Active ไว้ตลอด)
+//   titleText       = ชื่อ Event ทั้งหมด (คั่นด้วย titleSeparator)
+//   descriptionText = คำอธิบายของแต่ละ Event (คั่นด้วยบรรทัดใหม่)
 // =====================================================================
 public class DailyEventBanner : MonoBehaviour
 {
     [Header("UI References (fade เฉพาะ 2 ตัวนี้)")]
     public TMP_Text titleText;
-    [Tooltip("Optional: ข้อความรองใต้ชื่อ (ใช้ description ของ Event)")]
+    [Tooltip("Optional: ข้อความรองใต้ชื่อ (รวม description ของทุก Event)")]
     public TMP_Text descriptionText;
 
     [Header("Timing (seconds)")]
@@ -27,8 +28,10 @@ public class DailyEventBanner : MonoBehaviour
     public string normalDayText = "Normal Day";
 
     [Header("Text Format")]
-    [Tooltip("{0} = ชื่อ Event")]
+    [Tooltip("{0} = ชื่อ Event แต่ละอัน")]
     public string titleFormat = "{0}";
+    [Tooltip("ตัวคั่นระหว่างชื่อ Event เช่น \"\\n\" (ขึ้นบรรทัดใหม่) หรือ \"  +  \"")]
+    public string titleSeparator = "\n";
 
     private Coroutine _routine;
 
@@ -42,26 +45,42 @@ public class DailyEventBanner : MonoBehaviour
         var mgr = DailyEventManager.Instance;
         if (mgr == null) return;
 
-        mgr.OnEventChanged += HandleEventChanged;
+        mgr.OnEventsChanged += HandleEventsChanged;
 
         // ถ้า Manager สุ่มของวันที่ 1 ไปก่อนที่เราจะ subscribe ทัน ให้แสดงของที่สุ่มไว้แล้ว
-        if (mgr.CurrentEvent != null)
-            HandleEventChanged(mgr.CurrentEvent);
+        if (mgr.CurrentEvents.Count > 0)
+            HandleEventsChanged(mgr.CurrentEvents);
     }
 
     void OnDestroy()
     {
         if (DailyEventManager.Instance != null)
-            DailyEventManager.Instance.OnEventChanged -= HandleEventChanged;
+            DailyEventManager.Instance.OnEventsChanged -= HandleEventsChanged;
     }
 
-    void HandleEventChanged(DailyEventManager.DailyEvent ev)
+    void HandleEventsChanged(IReadOnlyList<DailyEventManager.DailyEvent> evs)
     {
-        if (ev == null && !showOnNormalDay) { HideImmediately(); return; }
+        if (evs == null || evs.Count == 0)
+        {
+            if (!showOnNormalDay) { HideImmediately(); return; }
+            StartShow(normalDayText, "");
+            return;
+        }
 
-        string title = ev != null ? string.Format(titleFormat, ev.eventName) : normalDayText;
-        string desc = ev != null ? ev.description : "";
+        var titles = new List<string>();
+        var descs = new List<string>();
+        foreach (var e in evs)
+        {
+            titles.Add(string.Format(titleFormat, e.eventName));
+            if (!string.IsNullOrEmpty(e.description)) descs.Add(e.description);
+        }
 
+        string sep = titleSeparator.Replace("\\n", "\n");
+        StartShow(string.Join(sep, titles), string.Join("\n", descs));
+    }
+
+    void StartShow(string title, string desc)
+    {
         if (_routine != null) StopCoroutine(_routine);
         _routine = StartCoroutine(ShowRoutine(title, desc));
     }
