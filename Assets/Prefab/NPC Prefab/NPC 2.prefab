@@ -433,8 +433,11 @@ MonoBehaviour:
   isInStore: 0
   relationshipCanvas: {fileID: 0}
   audioSource: {fileID: -3636977929279035644}
-  meowSound: {fileID: 8300000, guid: 17a286c32f2c35e4b827c417a1624287, type: 3}
+  meowSound: {fileID: 0}
   angrySound: {fileID: 0}
+  happySound: {fileID: 0}
+  sadSound: {fileID: 0}
+  wantsFoodSound: {fileID: 0}
 --- !u!114 &3328612327083211786
 MonoBehaviour:
   m_ObjectHideFlags: 0

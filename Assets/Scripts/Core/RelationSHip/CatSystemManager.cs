@@ -186,8 +186,13 @@ public class CatSystemManager : MonoBehaviour
 
         if (success)
         {
+            // ✅ Interact ในโซนสำเร็จ (QTE ผ่าน) — เล่นเสียงมีความสุขเท่านั้น (VIP ใช้เสียงเฉพาะตัวถ้าตั้งไว้)
+            // (meow ย้ายไปเล่นตอนเข้าร้านแทน — ดู NPCInteract.Interact())
             NPCInteract interact = currentNPC.GetComponent<NPCInteract>();
-            if (interact != null) interact.PlayMeow();
+            if (interact != null)
+                interact.PlayHappy();
+            else if (AudioManager.instance != null)
+                AudioManager.instance.Cathappy();
         }
 
         CatIdentity identity = currentNPC.GetComponent<CatIdentity>();

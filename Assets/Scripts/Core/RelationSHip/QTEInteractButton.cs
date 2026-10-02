@@ -146,7 +146,18 @@ public class QTEInteractButton : MonoBehaviour,
     {
         NPCController npc = RelationshipManager.Instance?.GetCurrentNPC();
         if (npc == null) return;
+
+        // ✅ Interact สำเร็จ — ร้อง meow + เสียงมีความสุข (VIP ใช้เสียงเฉพาะตัวถ้าตั้งไว้)
         NPCInteract interact = npc.GetComponent<NPCInteract>();
-        if (interact != null) interact.PlayMeow();
+        if (interact != null)
+        {
+            interact.PlayMeow();
+            interact.PlayHappy();
+        }
+        else if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayMeow();
+            AudioManager.instance.Cathappy();
+        }
     }
 }

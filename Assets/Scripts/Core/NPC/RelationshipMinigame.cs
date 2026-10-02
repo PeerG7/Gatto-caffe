@@ -16,19 +16,8 @@ public class RelationshipMinigame : MonoBehaviour
     private int currentInteraction = 0;
     public float relationshipGain = 10f;
 
-    [Header("SFX")]
-    public AudioSource sfxSource;     // AudioSource ใน RelationshipScene
-    public AudioClip meowClip;        // ลากไฟล์เสียงแมวมาใส่
-
-    void Awake()
-    {
-        // Canvas ไม่มี AudioSource ในตัว — หาบน GameObject นี้ก่อน
-        // ถ้าไม่มีให้สร้างขึ้นมาอัตโนมัติ ไม่ต้องลากใส่ใน Inspector
-        if (sfxSource == null)
-            sfxSource = GetComponent<AudioSource>();
-        if (sfxSource == null)
-            sfxSource = gameObject.AddComponent<AudioSource>();
-    }
+    // 🔈 เสียงตอนคลิกแมว เล่นผ่าน NPCInteract.PlayHappy() แทนแล้ว (ดูใน OnClickCat)
+    //    เพื่อให้แมว VIP ใช้เสียงเฉพาะตัวได้ — ไม่ต้องลากไฟล์เสียงใส่ในนี้อีกต่อไป
 
     void OnEnable()
     {
@@ -41,10 +30,6 @@ public class RelationshipMinigame : MonoBehaviour
 
         currentInteraction++;
 
-        // ✅ เล่นเสียงแมวทันทีที่ค่าความสัมพันธ์เพิ่ม
-        if (sfxSource != null && meowClip != null)
-            sfxSource.PlayOneShot(meowClip);
-
         // ✅ เพิ่มค่าความสัมพันธ์ผ่าน RelationshipManager
         //    เพื่อให้บันทึก PlayerPrefs และผ่าน maxRelationship clamp ด้วย
         var npc = RelationshipManager.Instance.GetCurrentNPC();
@@ -53,6 +38,13 @@ public class RelationshipMinigame : MonoBehaviour
             var relation = npc.GetComponent<NPCRelationship>();
             if (relation != null)
                 RelationshipManager.Instance.AddRelationship(relation.npcName, relationshipGain);
+
+            // ✅ Interact สำเร็จ — เล่นเสียงมีความสุข (VIP ใช้เสียงเฉพาะตัวถ้าตั้งไว้)
+            NPCInteract interact = npc.GetComponent<NPCInteract>();
+            if (interact != null)
+                interact.PlayHappy();
+            else if (AudioManager.instance != null)
+                AudioManager.instance.Cathappy();
         }
 
         Debug.Log($"❤️ +{relationshipGain} Relationship | ({currentInteraction}/{maxInteraction})");
