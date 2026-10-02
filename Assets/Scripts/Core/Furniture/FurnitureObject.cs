@@ -26,6 +26,10 @@ public class FurnitureObject : MonoBehaviour
     [Tooltip("เมื่อ Upgrade เป็นโต๊ะหินอ่อนสำเร็จ จะเพิ่มโอกาส Spawn แมว VIP ทั้งร้านขึ้นกี่ % (บวกเข้ากับ vipSpawnChance ของ NPCSpawner)")]
     public int vipChanceBonusOnUpgrade = 15;
 
+    [Header("Furniture Data")]
+    public string furnitureID;
+    public GameObject furniturePrefab;
+
     void Start() => UpdateVisuals();
 
     /// <summary>เงา -> โต๊ะไม้ (ปลดล็อกครั้งแรก)</summary>
@@ -33,12 +37,19 @@ public class FurnitureObject : MonoBehaviour
     {
         if (isUnlocked) return;
 
-        // 🔥 FIX: เช็คก่อนว่า CurrencyManager.Instance มีตัวตนหรือไม่
         if (CurrencyManager.Instance != null)
         {
             if (CurrencyManager.Instance.TrySpendMoney(price))
             {
                 isUnlocked = true;
+
+                // ซิงค์ไปยัง PlacedFurniture
+                PlacedFurniture placed = GetComponent<PlacedFurniture>();
+                if (placed != null && placed.instanceData != null)
+                {
+                    placed.instanceData.isUnlocked = true;
+                }
+
                 UpdateVisuals();
                 if (UINotificationManager.Instance != null)
                     UINotificationManager.Instance.ShowNotification("Furniture unlock successful!");
@@ -55,7 +66,7 @@ public class FurnitureObject : MonoBehaviour
         }
     }
 
-    /// <summary>โต๊ะไม้ -> โต๊ะหินอ่อน (ต้องปลดล็อกโต๊ะไม้ก่อน) — สำเร็จแล้วเพิ่มโอกาส Spawn แมว VIP ทั้งร้าน</summary>
+    /// <summary>โต๊ะไม้ -> โต๊ะหินอ่อน (ต้องปลดล็อกโต๊ะไม้ก่อน)</summary>
     public void AttemptUpgrade()
     {
         if (!isUnlocked)
@@ -65,7 +76,7 @@ public class FurnitureObject : MonoBehaviour
             return;
         }
 
-        if (isUpgraded) return; // Upgrade ไปแล้ว
+        if (isUpgraded) return;
 
         if (CurrencyManager.Instance == null)
         {
@@ -78,7 +89,13 @@ public class FurnitureObject : MonoBehaviour
             isUpgraded = true;
             UpdateVisuals();
 
-            // ✅ Upgrade โต๊ะสำเร็จ -> เพิ่มโอกาส Spawn แมว VIP ทั้งร้าน
+            //  เชื่อมต่อไปยัง PlacedFurniture เพื่อเพิ่ม Current Level และเปลี่ยน Sprite
+            PlacedFurniture placed = GetComponent<PlacedFurniture>();
+            if (placed != null)
+            {
+                placed.UpgradeFurniture();
+            }
+
             if (NPCSpawner.Instance != null)
                 NPCSpawner.Instance.IncreaseVIPChance(vipChanceBonusOnUpgrade);
             else
@@ -94,14 +111,24 @@ public class FurnitureObject : MonoBehaviour
         }
     }
 
-    void UpdateVisuals()
+    public void UpdateVisuals()
     {
         if (lockedVisual != null) lockedVisual.SetActive(!isUnlocked);
         if (woodVisual != null) woodVisual.SetActive(isUnlocked && !isUpgraded);
         if (marbleVisual != null) marbleVisual.SetActive(isUnlocked && isUpgraded);
 
-        // ✅ เก้าอี้เปลี่ยนลายไปพร้อมกับโต๊ะ (ถ้ามีลากไว้)
         if (woodChairVisual != null) woodChairVisual.SetActive(isUnlocked && !isUpgraded);
         if (marbleChairVisual != null) marbleChairVisual.SetActive(isUnlocked && isUpgraded);
+    }
+
+    private void OnMouseDown()
+    {
+        if (CameraController2D.IsInShopPanMode)
+        {
+            if (FurniturePlacementManager.Instance != null)
+            {
+                FurniturePlacementManager.Instance.SelectPlacedFurniture(this);
+            }
+        }
     }
 }

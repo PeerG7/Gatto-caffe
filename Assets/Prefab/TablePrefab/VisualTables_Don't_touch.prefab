@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3760928358165800475}
   - component: {fileID: 2407557904808216358}
   m_Layer: 9
-  m_Name: VisualTables
+  m_Name: VisualTables_Don't_touch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
