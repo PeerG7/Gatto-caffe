@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using TMPro; // อย่าลืมใช้ TextMeshPro สำหรับ UI
+using TMPro;
 
 public class CurrencyManager : MonoBehaviour
 {
@@ -9,16 +9,24 @@ public class CurrencyManager : MonoBehaviour
     public int currentMoney = 0;
 
     [Header("UI References")]
-    public TextMeshProUGUI moneyText; // ลาก Text ที่แสดงเลขเงินมาใส่ใน Inspector
+    public TextMeshProUGUI moneyText;
+
+    [Header("Effects")]
+    [SerializeField] private CoinFlipAnimator coinFlipAnimator;
+    [SerializeField] private CoinPunchAnimator moneyTextPunchAnimator;
+    [SerializeField] private MoneyGainPopup moneyGainPopup;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // ← เพิ่มบรรทัดนี้
+            DontDestroyOnLoad(gameObject);
         }
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Start()
@@ -26,14 +34,30 @@ public class CurrencyManager : MonoBehaviour
         UpdateCurrencyUI();
     }
 
-    // ฟังก์ชันที่ CustomerTable.cs จะเรียกใช้
     public void AddMoney(int amount)
     {
         currentMoney += amount;
         UpdateCurrencyUI();
+
+        // Trigger coin flip
+        if (coinFlipAnimator != null)
+        {
+            coinFlipAnimator.PlayCoinFlip();
+        }
+
+        // Trigger text punch
+        if (moneyTextPunchAnimator != null)
+        {
+            moneyTextPunchAnimator.PlayCoinPunch();
+        }
+
+        // Trigger floating popup
+        if (moneyGainPopup != null)
+        {
+            moneyGainPopup.ShowGain(amount);
+        }
     }
 
-    // ฟังก์ชันที่ FurnitureObject.cs จะเรียกใช้เพื่อหักเงิน
     public bool TrySpendMoney(int amount)
     {
         if (currentMoney >= amount)
@@ -45,7 +69,6 @@ public class CurrencyManager : MonoBehaviour
         return false;
     }
 
-    // อัปเดตตัวเลขบนหน้าจอ
     void UpdateCurrencyUI()
     {
         if (moneyText != null)
