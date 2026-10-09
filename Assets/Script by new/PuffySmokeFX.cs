@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,22 +11,25 @@ public class PuffySmokeFX : MonoBehaviour
     [SerializeField] private Color smokeColor = new Color(1f, 1f, 1f, 0.85f);
 
     [Header("Smoke Behavior")]
-    [SerializeField] private float spawnInterval = 0.18f;
+    [SerializeField] private float spawnInterval = 0.12f;
     [SerializeField] private float floatDuration = 0.8f;
-    [SerializeField] private float floatDistance = 90f;
-    [SerializeField] private Vector2 startSize = new Vector2(35f, 35f);
-    [SerializeField] private float endScaleMultiplier = 1.8f;
+    [SerializeField] private float floatDistance = 120f;
+    [SerializeField] private Vector2 startSize = new Vector2(90f, 90f);
+    [SerializeField] private float endScaleMultiplier = 2.2f;
 
     private Coroutine smokeLoopRoutine;
+    private List<GameObject> activePuffs = new List<GameObject>();
 
     void OnEnable()
     {
+        ClearAllPuffs();
         StartSmoke();
     }
 
     void OnDisable()
     {
         StopSmoke();
+        ClearAllPuffs();
     }
 
     public void StartSmoke()
@@ -43,6 +47,19 @@ public class PuffySmokeFX : MonoBehaviour
         }
     }
 
+    // ลบควันทุกก้อนที่ค้างอยู่ทิ้งทันทีเมื่อทำอาหารเสร็จหรือถูกปิด
+    public void ClearAllPuffs()
+    {
+        for (int i = 0; i < activePuffs.Count; i++)
+        {
+            if (activePuffs[i] != null)
+            {
+                Destroy(activePuffs[i]);
+            }
+        }
+        activePuffs.Clear();
+    }
+
     private IEnumerator SmokeLoop()
     {
         while (true)
@@ -56,12 +73,12 @@ public class PuffySmokeFX : MonoBehaviour
     {
         GameObject puff = new GameObject("SmokePuff", typeof(RectTransform), typeof(Image));
         puff.transform.SetParent(transform, false);
+        activePuffs.Add(puff);
 
         RectTransform rect = puff.GetComponent<RectTransform>();
         rect.sizeDelta = startSize;
 
-        // สุ่มขยับตำแหน่งซ้าย-ขวาเล็กน้อยตรงบริเวณเขียง
-        float randomX = Random.Range(-25f, 25f);
+        float randomX = Random.Range(-30f, 30f);
         rect.anchoredPosition = new Vector2(randomX, 0f);
 
         Image img = puff.GetComponent<Image>();
@@ -69,14 +86,14 @@ public class PuffySmokeFX : MonoBehaviour
         img.color = smokeColor;
         img.raycastTarget = false;
 
-        StartCoroutine(AnimatePuff(rect, img));
+        StartCoroutine(AnimatePuff(rect, img, puff));
     }
 
-    private IEnumerator AnimatePuff(RectTransform rect, Image img)
+    private IEnumerator AnimatePuff(RectTransform rect, Image img, GameObject puffObj)
     {
         float elapsed = 0f;
         Vector2 startPos = rect.anchoredPosition;
-        Vector2 endPos = startPos + new Vector2(Random.Range(-15f, 15f), floatDistance);
+        Vector2 endPos = startPos + new Vector2(Random.Range(-20f, 20f), floatDistance);
 
         Color initialCol = img.color;
 
@@ -92,13 +109,14 @@ public class PuffySmokeFX : MonoBehaviour
             float scale = Mathf.Lerp(1f, endScaleMultiplier, t);
             rect.localScale = new Vector3(scale, scale, 1f);
 
-            // 3. ค่อยๆ โปร่งแสงและจางหายไป
+            // 3. จางหายไป
             float alpha = Mathf.Lerp(initialCol.a, 0f, t);
             img.color = new Color(initialCol.r, initialCol.g, initialCol.b, alpha);
 
             yield return null;
         }
 
-        Destroy(rect.gameObject);
+        activePuffs.Remove(puffObj);
+        Destroy(puffObj);
     }
 }
