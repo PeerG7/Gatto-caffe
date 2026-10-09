@@ -134,7 +134,6 @@ MonoBehaviour:
   itemData: {fileID: 0}
   currentLevel: 0
   maxLevel: 2
-  isUnlocked: 0
   useLevelSprites: 0
   spriteRenderer: {fileID: 2321460117554443053}
   levelSprites:
@@ -337,7 +336,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: -2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 5b09bd9be32043d458190a3bd1baad4a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
