@@ -99,17 +99,18 @@ public class NPCController : MonoBehaviour
     public float interactionChoiceTimeout = 5f;
     private Coroutine interactionTimeoutCoroutine;
 
-    // --- Animator Controller Mapping (Indices 0 to 8) ---
+    // --- Complete 0-Based Mapping Matching Animator Controller (Indices 0 to 8) ---
     public enum AnimState
     {
-        Idle = 0,
-        WalkSide = 1,          // Walk
-        WalkUp = 2,            // WalkUp
-        Sit = 3,               // Siting
-        SitAngry = 4,          // SitingAngry
-        PettingAnimation = 5,  // Petting animation
-        CatToyMouse = 6,       // Cat_Toy_Mouse (Wand)
-        RandomSitPhase = 8     // Cat_Random_Sitting_Phase
+        Idle = 0,               // Idle
+        WalkSide = 1,           // Walk
+        WalkUp = 2,             // WalkUp
+        Sit = 3,                // Siting
+        SitAngry = 4,           // SitingAngry
+        PettingAnimation = 5,   // Petting animation
+        CatWandPlay = 6,        // catwandplay (Index 6)
+        CatToyMouse = 7,        // Cat_Toy_Mouse (Index 7)
+        RandomSitPhase = 8      // Cat_Random_Sitting_Phase (Index 8)
     }
 
     private AnimState currentAnim = AnimState.Idle;
@@ -118,6 +119,8 @@ public class NPCController : MonoBehaviour
     private bool isPlayingSittingFlavor = false;
 
     private bool isPerforming = false;
+
+    public bool IsPerforming => isPerforming;
 
     static bool GameIsPaused =>
         DayNightManager.Instance != null && DayNightManager.Instance.isPaused;
@@ -240,7 +243,6 @@ public class NPCController : MonoBehaviour
 
         Vector3 vel = agent.velocity;
 
-        // Prevent movement update from interrupting flavor animation while standing still
         if (isPlayingSittingFlavor && vel.sqrMagnitude < moveAnimThreshold * moveAnimThreshold)
             return;
 
@@ -253,7 +255,6 @@ public class NPCController : MonoBehaviour
             return;
         }
 
-        // Cancel flavor animation if NPC starts walking
         if (isPlayingSittingFlavor)
         {
             isPlayingSittingFlavor = false;
@@ -288,6 +289,7 @@ public class NPCController : MonoBehaviour
                 AnimState.Sit => "Siting",
                 AnimState.SitAngry => "SitingAngry",
                 AnimState.PettingAnimation => "Petting animation",
+                AnimState.CatWandPlay => "catwandplay",
                 AnimState.CatToyMouse => "Cat_Toy_Mouse",
                 AnimState.RandomSitPhase => "Cat_Random_Sitting_Phase",
                 _ => state.ToString()
@@ -627,13 +629,15 @@ public class NPCController : MonoBehaviour
 
         AnimState targetState = performIndex switch
         {
-            1 => AnimState.CatToyMouse,      // Wand / Toy Mouse Animation (Index 6)
-            2 => AnimState.RandomSitPhase,   // Index 8
-            _ => AnimState.PettingAnimation  // Index 5
+            1 => AnimState.CatWandPlay,       // Index 6 (catwandplay)
+            2 => AnimState.CatToyMouse,       // Index 7 (Cat_Toy_Mouse)
+            3 => AnimState.RandomSitPhase,    // Index 8 (Cat_Random_Sitting_Phase)
+            _ => AnimState.PettingAnimation   // Index 5 (Petting animation)
         };
 
         string targetStateName = targetState switch
         {
+            AnimState.CatWandPlay => "catwandplay",
             AnimState.CatToyMouse => "Cat_Toy_Mouse",
             AnimState.RandomSitPhase => "Cat_Random_Sitting_Phase",
             _ => "Petting animation"
@@ -641,8 +645,7 @@ public class NPCController : MonoBehaviour
 
         SetAnimState(targetState, true);
 
-        // --- CAMERA ZOOM-OUT FIX ---
-        // Wait until Animator has fully transitioned into target performance animation before checking length
+        // Wait until Animator has fully transitioned into target animation
         float transitionWait = 0.5f;
         while (animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName(targetStateName) && transitionWait > 0f)
         {
@@ -679,7 +682,6 @@ public class NPCController : MonoBehaviour
         isPerforming = false;
         currentAnim = (AnimState)(-1);
 
-        // Zooms camera out ONLY AFTER animation finishes complete duration
         FinishInteractionAtZone();
     }
 

@@ -455,8 +455,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCController
   targetObject: {fileID: 0}
   exitPoint: {fileID: 0}
+  assignedTable: {fileID: 0}
+  hasBeenServed: 0
+  groupID: 
   seatPoint: {fileID: 0}
-  sittingNPC: {fileID: 0}
   isOccupied: 0
   wantedItem: 
   qteCanvasInPrefab: {fileID: 2416233485390160750}
@@ -480,16 +482,21 @@ MonoBehaviour:
   orderIcon: {fileID: 1784946567233594603}
   requestedRecipe: {fileID: 0}
   allRecipes:
+  - {fileID: 11400000, guid: f2c6a9269f681e941ad28820d8a5a292, type: 2}
   - {fileID: 11400000, guid: 10c4d66a0285b4249b647e71f5334fa1, type: 2}
   - {fileID: 11400000, guid: a51d8199a988c9746ae1f4b920e00e9d, type: 2}
   - {fileID: 11400000, guid: 0ca36e83b1abe984bb2cd2068d6c15fd, type: 2}
-  - {fileID: 11400000, guid: f2c6a9269f681e941ad28820d8a5a292, type: 2}
+  - {fileID: 11400000, guid: 739149515113ffe4f817909b02c5f075, type: 2}
   animator: {fileID: 0}
   bodySpriteRenderer: {fileID: 0}
   idleBeforeSitDuration: 0.4
   angryPatienceRatioThreshold: 0.25
   moveAnimThreshold: 0.05
   fallbackPerformDuration: 2.26
+  enableRandomSitAnims: 1
+  minSitAnimInterval: 4
+  maxSitAnimInterval: 9
+  fallbackFlavorDuration: 5.07
   currentZone: {fileID: 0}
   waitForPlayerTimeout: 15
   interactionChoiceTimeout: 5

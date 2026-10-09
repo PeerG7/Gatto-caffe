@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Unity.Cinemachine; // Unity 6 Cinemachine 3.x namespace
 
 public class QTEZoomController : MonoBehaviour
@@ -33,6 +33,9 @@ public class QTEZoomController : MonoBehaviour
     private float currentOrthoSize;
     private float zoomVelocity;
     private Vector3 posVelocity;
+
+    // ตัวแปรสำหรับอ้างอิง NPC ที่กำลังทำ QTE/Perform
+    private NPCController activeNPC;
 
     private void Awake()
     {
@@ -96,6 +99,12 @@ public class QTEZoomController : MonoBehaviour
     {
         if (playerTransform == null || npcTransform == null) return;
 
+        // บันทึก NPCController ที่กำลังเริ่มทำ QTE
+        if (npcTransform.TryGetComponent<NPCController>(out var npc))
+        {
+            activeNPC = npc;
+        }
+
         isQTEActive = true;
         // Calculate midpoint between Player and NPC
         currentTargetPos = (playerTransform.position + npcTransform.position) * 0.5f;
@@ -103,10 +112,18 @@ public class QTEZoomController : MonoBehaviour
 
     /// <summary>
     /// Smoothly zooms back out and restores camera focus onto Player.
+    /// ส่ง force = true หากต้องการบังคับ Zoom Out ทันทีโดยไม่สนสถานะของ NPC
     /// </summary>
-    public void ZoomOutToGameplay()
+    public void ZoomOutToGameplay(bool force = false)
     {
+        // ป้องกันการ Zoom Out กล้องก่อนที่ NPC จะเล่นแอนิเมชัน Perform จบ
+        if (!force && activeNPC != null && activeNPC.IsPerforming)
+        {
+            return;
+        }
+
         isQTEActive = false;
+        activeNPC = null;
     }
 
     private void ApplyOrthoSize(float size)
