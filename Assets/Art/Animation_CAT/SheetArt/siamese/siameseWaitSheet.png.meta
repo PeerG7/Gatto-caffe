@@ -1,0 +1,1911 @@
+fileFormatVersion: 2
+guid: a200db2dcabcc0d448a963a105a4039a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1448885848985668439
+    second: siameseWaitSheet_0
+  - first:
+      213: 1559162383058809921
+    second: siameseWaitSheet_1
+  - first:
+      213: -2728073254504489388
+    second: siameseWaitSheet_2
+  - first:
+      213: -919642167214113586
+    second: siameseWaitSheet_3
+  - first:
+      213: -404926710853632438
+    second: siameseWaitSheet_4
+  - first:
+      213: 4309154886573564739
+    second: siameseWaitSheet_5
+  - first:
+      213: 2368653815189517250
+    second: siameseWaitSheet_6
+  - first:
+      213: 1556016617852680813
+    second: siameseWaitSheet_7
+  - first:
+      213: -1036396133687739487
+    second: siameseWaitSheet_8
+  - first:
+      213: 5628867834053659345
+    second: siameseWaitSheet_9
+  - first:
+      213: 6774071358287973083
+    second: siameseWaitSheet_10
+  - first:
+      213: -5207653209639119574
+    second: siameseWaitSheet_11
+  - first:
+      213: -155653209859810187
+    second: siameseWaitSheet_12
+  - first:
+      213: 951897629866724152
+    second: siameseWaitSheet_13
+  - first:
+      213: 2671475354431755186
+    second: siameseWaitSheet_14
+  - first:
+      213: 2966904154603428302
+    second: siameseWaitSheet_15
+  - first:
+      213: -3773496527659169984
+    second: siameseWaitSheet_16
+  - first:
+      213: 4395079049976177723
+    second: siameseWaitSheet_17
+  - first:
+      213: -8339296263985672319
+    second: siameseWaitSheet_18
+  - first:
+      213: 6979575172984525142
+    second: siameseWaitSheet_19
+  - first:
+      213: -6355916451315344645
+    second: siameseWaitSheet_20
+  - first:
+      213: 1329161967716101650
+    second: siameseWaitSheet_21
+  - first:
+      213: 2321128147803374715
+    second: siameseWaitSheet_22
+  - first:
+      213: -3908021788505181661
+    second: siameseWaitSheet_23
+  - first:
+      213: -4574513973701422903
+    second: siameseWaitSheet_24
+  - first:
+      213: -4501735103949866077
+    second: siameseWaitSheet_25
+  - first:
+      213: 8651677576974439896
+    second: siameseWaitSheet_26
+  - first:
+      213: 9066811524837108981
+    second: siameseWaitSheet_27
+  - first:
+      213: -4379519094040775014
+    second: siameseWaitSheet_28
+  - first:
+      213: -517962530127956737
+    second: siameseWaitSheet_29
+  - first:
+      213: -4236743222608638357
+    second: siameseWaitSheet_30
+  - first:
+      213: -3639027556642023217
+    second: siameseWaitSheet_31
+  - first:
+      213: 1883877709364601582
+    second: siameseWaitSheet_32
+  - first:
+      213: -7831782083598966505
+    second: siameseWaitSheet_33
+  - first:
+      213: 3993278021002610937
+    second: siameseWaitSheet_34
+  - first:
+      213: 1260887574214826255
+    second: siameseWaitSheet_35
+  - first:
+      213: 3761276128726989693
+    second: siameseWaitSheet_36
+  - first:
+      213: -3682670738606899618
+    second: siameseWaitSheet_37
+  - first:
+      213: -9112636414238894747
+    second: siameseWaitSheet_38
+  - first:
+      213: -7567740027392435457
+    second: siameseWaitSheet_39
+  - first:
+      213: 4799366780977341394
+    second: siameseWaitSheet_40
+  - first:
+      213: -6772888938080091377
+    second: siameseWaitSheet_41
+  - first:
+      213: -5520389214467989376
+    second: siameseWaitSheet_42
+  - first:
+      213: -2577172231636639248
+    second: siameseWaitSheet_43
+  - first:
+      213: 3604472597910391005
+    second: siameseWaitSheet_44
+  - first:
+      213: -3467946586831029512
+    second: siameseWaitSheet_45
+  - first:
+      213: 2024772398246687546
+    second: siameseWaitSheet_46
+  - first:
+      213: 241751190758935941
+    second: siameseWaitSheet_47
+  - first:
+      213: 2844600822299689940
+    second: siameseWaitSheet_48
+  - first:
+      213: 3296637293740971571
+    second: siameseWaitSheet_49
+  - first:
+      213: -3830325129572608301
+    second: siameseWaitSheet_50
+  - first:
+      213: 2812177009159395396
+    second: siameseWaitSheet_51
+  - first:
+      213: 7461469387404035290
+    second: siameseWaitSheet_52
+  - first:
+      213: -7076438078093218865
+    second: siameseWaitSheet_53
+  - first:
+      213: -4610442533049123943
+    second: siameseWaitSheet_54
+  - first:
+      213: 6233371304667158388
+    second: siameseWaitSheet_55
+  - first:
+      213: -8968378956233355978
+    second: siameseWaitSheet_56
+  - first:
+      213: -3714055392242597459
+    second: siameseWaitSheet_57
+  - first:
+      213: 1704503208620020367
+    second: siameseWaitSheet_58
+  - first:
+      213: -7704619273561685828
+    second: siameseWaitSheet_59
+  - first:
+      213: 7693943424904643593
+    second: siameseWaitSheet_60
+  - first:
+      213: -2278371672627428850
+    second: siameseWaitSheet_61
+  - first:
+      213: -3437685393265882683
+    second: siameseWaitSheet_62
+  - first:
+      213: 7696479027983371558
+    second: siameseWaitSheet_63
+  - first:
+      213: 8562177815244937294
+    second: siameseWaitSheet_64
+  - first:
+      213: -5213222682750774880
+    second: siameseWaitSheet_65
+  - first:
+      213: 5605537866132872789
+    second: siameseWaitSheet_66
+  - first:
+      213: 7032437327525689635
+    second: siameseWaitSheet_67
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: siameseWaitSheet_0
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 9452
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a47e133ff584ebe0800000000000000
+      internalID: -1448885848985668439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_1
+      rect:
+        serializedVersion: 2
+        x: 1478
+        y: 9452
+        width: 1145
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1443f553de143a510800000000000000
+      internalID: 1559162383058809921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_2
+      rect:
+        serializedVersion: 2
+        x: 2830
+        y: 9452
+        width: 1144
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45e140834dfe32ad0800000000000000
+      internalID: -2728073254504489388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_3
+      rect:
+        serializedVersion: 2
+        x: 4192
+        y: 9452
+        width: 1146
+        height: 1335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecc7bb64256cc33f0800000000000000
+      internalID: -919642167214113586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_4
+      rect:
+        serializedVersion: 2
+        x: 5551
+        y: 9452
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4e70874d49616af0800000000000000
+      internalID: -404926710853632438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_5
+      rect:
+        serializedVersion: 2
+        x: 6901
+        y: 9452
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3432b58d9813dcb30800000000000000
+      internalID: 4309154886573564739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_6
+      rect:
+        serializedVersion: 2
+        x: 8251
+        y: 9452
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c3be3268162fd020800000000000000
+      internalID: 2368653815189517250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_7
+      rect:
+        serializedVersion: 2
+        x: 9592
+        y: 9452
+        width: 1146
+        height: 1335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6ab6bbaed4189510800000000000000
+      internalID: 1556016617852680813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_8
+      rect:
+        serializedVersion: 2
+        x: 10930
+        y: 9452
+        width: 1144
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ab34fc153bfd91f0800000000000000
+      internalID: -1036396133687739487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_9
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 8102
+        width: 1145
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1da0468d871cd1e40800000000000000
+      internalID: 5628867834053659345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_10
+      rect:
+        serializedVersion: 2
+        x: 1398
+        y: 8102
+        width: 1231
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bda07e18206520e50800000000000000
+      internalID: 6774071358287973083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_11
+      rect:
+        serializedVersion: 2
+        x: 2759
+        y: 8102
+        width: 1145
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2599064ff2bab7b0800000000000000
+      internalID: -5207653209639119574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_12
+      rect:
+        serializedVersion: 2
+        x: 4110
+        y: 8102
+        width: 1144
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57c1826fa3207ddf0800000000000000
+      internalID: -155653209859810187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_13
+      rect:
+        serializedVersion: 2
+        x: 5450
+        y: 8102
+        width: 1146
+        height: 1335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83b0ebad9d1d53d00800000000000000
+      internalID: 951897629866724152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_14
+      rect:
+        serializedVersion: 2
+        x: 6786
+        y: 8102
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b39d174eacf21520800000000000000
+      internalID: 2671475354431755186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_15
+      rect:
+        serializedVersion: 2
+        x: 8136
+        y: 8102
+        width: 1161
+        height: 1329
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec994c9fb9f8c2920800000000000000
+      internalID: 2966904154603428302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_16
+      rect:
+        serializedVersion: 2
+        x: 9486
+        y: 8102
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04784b3a6e8d1abc0800000000000000
+      internalID: -3773496527659169984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_17
+      rect:
+        serializedVersion: 2
+        x: 10850
+        y: 8102
+        width: 1146
+        height: 1335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b34679d1c157efc30800000000000000
+      internalID: 4395079049976177723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_18
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 6752
+        width: 1144
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18f446c3b3ed44c80800000000000000
+      internalID: -8339296263985672319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_19
+      rect:
+        serializedVersion: 2
+        x: 1409
+        y: 6752
+        width: 1145
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 651d0e4f3ae6cd060800000000000000
+      internalID: 6979575172984525142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_20
+      rect:
+        serializedVersion: 2
+        x: 2748
+        y: 6752
+        width: 1231
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfa9941a9af3bc7a0800000000000000
+      internalID: -6355916451315344645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_21
+      rect:
+        serializedVersion: 2
+        x: 4178
+        y: 6752
+        width: 1145
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21e6da674c1227210800000000000000
+      internalID: 1329161967716101650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_22
+      rect:
+        serializedVersion: 2
+        x: 5530
+        y: 6752
+        width: 1144
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b740bf7a0cd463020800000000000000
+      internalID: 2321128147803374715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_23
+      rect:
+        serializedVersion: 2
+        x: 6880
+        y: 6752
+        width: 1147
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32279a193eae3c9c0800000000000000
+      internalID: -3908021788505181661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_24
+      rect:
+        serializedVersion: 2
+        x: 8226
+        y: 6752
+        width: 1090
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c0577917cf0480c0800000000000000
+      internalID: -4574513973701422903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_25
+      rect:
+        serializedVersion: 2
+        x: 9576
+        y: 6752
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ab792036cf9681c0800000000000000
+      internalID: -4501735103949866077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_26
+      rect:
+        serializedVersion: 2
+        x: 10926
+        y: 6752
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d516ceeaeee01870800000000000000
+      internalID: 8651677576974439896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_27
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 5402
+        width: 1145
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fc65573b09c3dd70800000000000000
+      internalID: 9066811524837108981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_28
+      rect:
+        serializedVersion: 2
+        x: 1476
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a96b8a07692d833c0800000000000000
+      internalID: -4379519094040775014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_29
+      rect:
+        serializedVersion: 2
+        x: 2826
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff4b2c8b2d3dfc8f0800000000000000
+      internalID: -517962530127956737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_30
+      rect:
+        serializedVersion: 2
+        x: 4176
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6e4edb7c701435c0800000000000000
+      internalID: -4236743222608638357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_31
+      rect:
+        serializedVersion: 2
+        x: 5526
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc89e76b7b39f7dc0800000000000000
+      internalID: -3639027556642023217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_32
+      rect:
+        serializedVersion: 2
+        x: 6876
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee224f2abc0e42a10800000000000000
+      internalID: 1883877709364601582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_33
+      rect:
+        serializedVersion: 2
+        x: 8226
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 711a0d480bbef4390800000000000000
+      internalID: -7831782083598966505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_34
+      rect:
+        serializedVersion: 2
+        x: 9576
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f84c3be339fa6730800000000000000
+      internalID: 3993278021002610937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_35
+      rect:
+        serializedVersion: 2
+        x: 10926
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0957ca71929f7110800000000000000
+      internalID: 1260887574214826255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_36
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7bbde206bcb23430800000000000000
+      internalID: 3761276128726989693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_37
+      rect:
+        serializedVersion: 2
+        x: 1476
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5e3c90997684ecc0800000000000000
+      internalID: -3682670738606899618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_38
+      rect:
+        serializedVersion: 2
+        x: 2826
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 565500a4679698180800000000000000
+      internalID: -9112636414238894747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_39
+      rect:
+        serializedVersion: 2
+        x: 4176
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffad4ca6a8cf9f690800000000000000
+      internalID: -7567740027392435457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_40
+      rect:
+        serializedVersion: 2
+        x: 5526
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d3e6feb8a6ca9240800000000000000
+      internalID: 4799366780977341394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_41
+      rect:
+        serializedVersion: 2
+        x: 6876
+        y: 4052
+        width: 1090
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f034096256dd102a0800000000000000
+      internalID: -6772888938080091377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_42
+      rect:
+        serializedVersion: 2
+        x: 8230
+        y: 4052
+        width: 1147
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 080ecb9f143a363b0800000000000000
+      internalID: -5520389214467989376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_43
+      rect:
+        serializedVersion: 2
+        x: 9580
+        y: 4052
+        width: 1144
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f12c40828b0c3cd0800000000000000
+      internalID: -2577172231636639248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_44
+      rect:
+        serializedVersion: 2
+        x: 10850
+        y: 4052
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd804110bb8a50230800000000000000
+      internalID: 3604472597910391005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_45
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 2702
+        width: 1227
+        height: 1298
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fa78e704f06fdfc0800000000000000
+      internalID: -3467946586831029512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_46
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 2702
+        width: 1227
+        height: 1298
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a33728cb4cf691c10800000000000000
+      internalID: 2024772398246687546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_47
+      rect:
+        serializedVersion: 2
+        x: 2750
+        y: 2702
+        width: 1227
+        height: 1268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58dc6395d6fda5300800000000000000
+      internalID: 241751190758935941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_48
+      rect:
+        serializedVersion: 2
+        x: 4100
+        y: 2702
+        width: 1227
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d305f4606d0a7720800000000000000
+      internalID: 2844600822299689940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_49
+      rect:
+        serializedVersion: 2
+        x: 5450
+        y: 2702
+        width: 1227
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3365cbef62200cd20800000000000000
+      internalID: 3296637293740971571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_50
+      rect:
+        serializedVersion: 2
+        x: 6800
+        y: 2702
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d6929da693f7dac0800000000000000
+      internalID: -3830325129572608301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_51
+      rect:
+        serializedVersion: 2
+        x: 8150
+        y: 2702
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 448577c171cd60720800000000000000
+      internalID: 2812177009159395396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_52
+      rect:
+        serializedVersion: 2
+        x: 9495
+        y: 2702
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad44ba210e67c8760800000000000000
+      internalID: 7461469387404035290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_53
+      rect:
+        serializedVersion: 2
+        x: 10845
+        y: 2702
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fcba4308f017bcd90800000000000000
+      internalID: -7076438078093218865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_54
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 1352
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99b314081fa6400c0800000000000000
+      internalID: -4610442533049123943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_55
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 1352
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4779ccffc22618650800000000000000
+      internalID: 6233371304667158388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_56
+      rect:
+        serializedVersion: 2
+        x: 2745
+        y: 1352
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63d4f961bdae98380800000000000000
+      internalID: -8968378956233355978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_57
+      rect:
+        serializedVersion: 2
+        x: 4095
+        y: 1352
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da181457c46057cc0800000000000000
+      internalID: -3714055392242597459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_58
+      rect:
+        serializedVersion: 2
+        x: 5450
+        y: 1352
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f825f4c23ac97a710800000000000000
+      internalID: 1704503208620020367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_59
+      rect:
+        serializedVersion: 2
+        x: 6800
+        y: 1352
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb04abd6791b31590800000000000000
+      internalID: -7704619273561685828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_60
+      rect:
+        serializedVersion: 2
+        x: 8145
+        y: 1352
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 904c46bd7c066ca60800000000000000
+      internalID: 7693943424904643593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_61
+      rect:
+        serializedVersion: 2
+        x: 9495
+        y: 1352
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e02cabaf8099160e0800000000000000
+      internalID: -2278371672627428850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_62
+      rect:
+        serializedVersion: 2
+        x: 10850
+        y: 1352
+        width: 1227
+        height: 1268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c986d43953ea40d0800000000000000
+      internalID: -3437685393265882683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_63
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 2
+        width: 1227
+        height: 1298
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62d4134f5e26fca60800000000000000
+      internalID: 7696479027983371558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_64
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 2
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e48976dcb57f2d670800000000000000
+      internalID: 8562177815244937294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_65
+      rect:
+        serializedVersion: 2
+        x: 2750
+        y: 2
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a191a34799e6a7b0800000000000000
+      internalID: -5213222682750774880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_66
+      rect:
+        serializedVersion: 2
+        x: 4100
+        y: 2
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55ed9d56dfedacd40800000000000000
+      internalID: 5605537866132872789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: siameseWaitSheet_67
+      rect:
+        serializedVersion: 2
+        x: 5450
+        y: 2
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 329bd5c6d7c389160800000000000000
+      internalID: 7032437327525689635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      siameseWaitSheet_0: -1448885848985668439
+      siameseWaitSheet_1: 1559162383058809921
+      siameseWaitSheet_10: 6774071358287973083
+      siameseWaitSheet_11: -5207653209639119574
+      siameseWaitSheet_12: -155653209859810187
+      siameseWaitSheet_13: 951897629866724152
+      siameseWaitSheet_14: 2671475354431755186
+      siameseWaitSheet_15: 2966904154603428302
+      siameseWaitSheet_16: -3773496527659169984
+      siameseWaitSheet_17: 4395079049976177723
+      siameseWaitSheet_18: -8339296263985672319
+      siameseWaitSheet_19: 6979575172984525142
+      siameseWaitSheet_2: -2728073254504489388
+      siameseWaitSheet_20: -6355916451315344645
+      siameseWaitSheet_21: 1329161967716101650
+      siameseWaitSheet_22: 2321128147803374715
+      siameseWaitSheet_23: -3908021788505181661
+      siameseWaitSheet_24: -4574513973701422903
+      siameseWaitSheet_25: -4501735103949866077
+      siameseWaitSheet_26: 8651677576974439896
+      siameseWaitSheet_27: 9066811524837108981
+      siameseWaitSheet_28: -4379519094040775014
+      siameseWaitSheet_29: -517962530127956737
+      siameseWaitSheet_3: -919642167214113586
+      siameseWaitSheet_30: -4236743222608638357
+      siameseWaitSheet_31: -3639027556642023217
+      siameseWaitSheet_32: 1883877709364601582
+      siameseWaitSheet_33: -7831782083598966505
+      siameseWaitSheet_34: 3993278021002610937
+      siameseWaitSheet_35: 1260887574214826255
+      siameseWaitSheet_36: 3761276128726989693
+      siameseWaitSheet_37: -3682670738606899618
+      siameseWaitSheet_38: -9112636414238894747
+      siameseWaitSheet_39: -7567740027392435457
+      siameseWaitSheet_4: -404926710853632438
+      siameseWaitSheet_40: 4799366780977341394
+      siameseWaitSheet_41: -6772888938080091377
+      siameseWaitSheet_42: -5520389214467989376
+      siameseWaitSheet_43: -2577172231636639248
+      siameseWaitSheet_44: 3604472597910391005
+      siameseWaitSheet_45: -3467946586831029512
+      siameseWaitSheet_46: 2024772398246687546
+      siameseWaitSheet_47: 241751190758935941
+      siameseWaitSheet_48: 2844600822299689940
+      siameseWaitSheet_49: 3296637293740971571
+      siameseWaitSheet_5: 4309154886573564739
+      siameseWaitSheet_50: -3830325129572608301
+      siameseWaitSheet_51: 2812177009159395396
+      siameseWaitSheet_52: 7461469387404035290
+      siameseWaitSheet_53: -7076438078093218865
+      siameseWaitSheet_54: -4610442533049123943
+      siameseWaitSheet_55: 6233371304667158388
+      siameseWaitSheet_56: -8968378956233355978
+      siameseWaitSheet_57: -3714055392242597459
+      siameseWaitSheet_58: 1704503208620020367
+      siameseWaitSheet_59: -7704619273561685828
+      siameseWaitSheet_6: 2368653815189517250
+      siameseWaitSheet_60: 7693943424904643593
+      siameseWaitSheet_61: -2278371672627428850
+      siameseWaitSheet_62: -3437685393265882683
+      siameseWaitSheet_63: 7696479027983371558
+      siameseWaitSheet_64: 8562177815244937294
+      siameseWaitSheet_65: -5213222682750774880
+      siameseWaitSheet_66: 5605537866132872789
+      siameseWaitSheet_67: 7032437327525689635
+      siameseWaitSheet_7: 1556016617852680813
+      siameseWaitSheet_8: -1036396133687739487
+      siameseWaitSheet_9: 5628867834053659345
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

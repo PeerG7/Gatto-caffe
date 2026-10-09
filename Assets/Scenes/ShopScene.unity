@@ -1412,6 +1412,10 @@ MonoBehaviour:
   angryPatienceRatioThreshold: 0.25
   moveAnimThreshold: 0.05
   fallbackPerformDuration: 2
+  enableRandomSitAnims: 1
+  minSitAnimInterval: 4
+  maxSitAnimInterval: 9
+  fallbackFlavorDuration: 1.8
   currentZone: {fileID: 0}
   waitForPlayerTimeout: 15
   interactionChoiceTimeout: 5
@@ -30920,7 +30924,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1499498135
 RectTransform:
   m_ObjectHideFlags: 0
