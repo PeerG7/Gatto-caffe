@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DATACAT 2
   m_EditorClassIdentifier: Assembly-CSharp::CatRelationshipData
   catName: Som
-  catPortrait: {fileID: 21300000, guid: 690389cbb31bd294096070fe51a39a66, type: 3}
+  catPortrait: {fileID: -6548814692687787910, guid: 6b15e1b94dd8dc64989b822bfe89e2d6, type: 3}
   catID: AISom
   maxRelationship: 100

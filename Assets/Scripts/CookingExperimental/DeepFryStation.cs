@@ -7,26 +7,24 @@ using UnityEngine.InputSystem;
 #endif
 
 // =====================================================================
-// DeepFryStation — v3 (Shared Canvas with CookingManager)
-//
-// เปลี่ยนจากเดิม:
-//   - ไม่ manage OpenCanvas / CloseCanvas เองอีกต่อไป
-//     เพราะ canvas เดียวกับ CookingManager — CookingManager จัดการแทน
-//   - OnFryButtonClicked() ยัง public อยู่ — CookingManager เรียกผ่าน hotkey F
-//   - mouse click บน deepfry button ยังทำงานปกติ
-//   - FryCoroutine ทำงานอิสระ ไม่ยุ่งกับ PlayerController2D.IsLocked
-//     เพราะ CookingManager เป็นคนล็อกอยู่แล้ว
-//
-// Setup ใน Inspector:
-//   - ลาก DeepFryStation component นี้ไปผูกกับ CookingManager.deepFryStation
-//   - ลาก fryButton ไปผูกกับ CookingManager.deepFryButton ด้วย
-//     เพื่อให้ CookingManager ตรวจ interactable ก่อนกด F
+// DeepFryStation — v5 (With Dynamic Sprite State & UI Shake Effect)
 // =====================================================================
 public class DeepFryStation : MonoBehaviour
 {
     [Header("UI Elements")]
     public Image fillImage;
     public Button fryButton;
+
+    [Header("Station Visuals")]
+    public Image stationImage;       // UI Image component for the station
+    public Sprite emptySprite;       // Sprite when station is idle
+    public Sprite fryingSprite;      // Sprite when deep-frying is in progress
+
+    [Header("Shake Settings (New)")]
+    [Tooltip("Target RectTransform to shake. Leaves empty to automatically shake stationImage.")]
+    public RectTransform shakeTarget;
+    [Tooltip("Strength of the shake in pixels.")]
+    public float shakeIntensity = 3f;
 
     [Header("Settings")]
     public float fryDuration = 4f;
@@ -40,6 +38,7 @@ public class DeepFryStation : MonoBehaviour
 
     private Coroutine fryCoroutine = null;
     private bool isProcessing = false;
+    private Vector2 originalPosition;
 
     void Start()
     {
@@ -48,15 +47,24 @@ public class DeepFryStation : MonoBehaviour
             fillImage.fillAmount = 0;
             fillImage.gameObject.SetActive(false);
         }
+
+        // Default shakeTarget to stationImage if not assigned
+        if (shakeTarget == null && stationImage != null)
+        {
+            shakeTarget = stationImage.rectTransform;
+        }
+
+        if (shakeTarget != null)
+        {
+            originalPosition = shakeTarget.anchoredPosition;
+        }
+
+        UpdateVisualState(false);
     }
 
-    // ── ยังคง OpenCanvas / CloseCanvas ไว้เผื่อใช้แบบ standalone ──
-    // ถ้า DeepFryStation อยู่ใน canvas เดียวกับ CookingManager
-    // ไม่จำเป็นต้องเรียก method เหล่านี้ — CookingManager จัดการแทน
-    public void OpenCanvas() { /* จัดการโดย CookingManager */ }
-    public void CloseCanvas() { /* จัดการโดย CookingManager */ }
+    public void OpenCanvas() { /* Managed by CookingManager */ }
+    public void CloseCanvas() { /* Managed by CookingManager */ }
 
-    // ── OnFryButtonClicked: เรียกได้จากทั้ง mouse click และ hotkey F ─
     public void OnFryButtonClicked()
     {
         if (isProcessing) return;
@@ -67,6 +75,12 @@ public class DeepFryStation : MonoBehaviour
     {
         isProcessing = true;
         if (fryButton != null) fryButton.interactable = false;
+
+        // Store original position prior to shaking
+        if (shakeTarget != null)
+            originalPosition = shakeTarget.anchoredPosition;
+
+        UpdateVisualState(true);
 
         if (fillImage != null)
         {
@@ -87,6 +101,13 @@ public class DeepFryStation : MonoBehaviour
             elapsed += Time.deltaTime;
             if (fillImage != null)
                 fillImage.fillAmount = elapsed / fryDuration;
+
+            // Apply slight random offset each frame
+            if (shakeTarget != null)
+            {
+                shakeTarget.anchoredPosition = originalPosition + (Random.insideUnitCircle * shakeIntensity);
+            }
+
             yield return null;
         }
 
@@ -116,13 +137,36 @@ public class DeepFryStation : MonoBehaviour
     {
         isProcessing = false;
         if (fryButton != null) fryButton.interactable = true;
+
+        // Reset anchored position back to exact original coordinates
+        if (shakeTarget != null)
+        {
+            shakeTarget.anchoredPosition = originalPosition;
+        }
+
         if (fillImage != null)
         {
             fillImage.fillAmount = 0;
             fillImage.gameObject.SetActive(false);
         }
+
+        UpdateVisualState(false);
     }
 
-    // ── helper สำหรับ CookingManager ตรวจสอบสถานะ ─────────────────
+    void UpdateVisualState(bool isFrying)
+    {
+        if (stationImage != null)
+        {
+            if (isFrying && fryingSprite != null)
+            {
+                stationImage.sprite = fryingSprite;
+            }
+            else if (!isFrying && emptySprite != null)
+            {
+                stationImage.sprite = emptySprite;
+            }
+        }
+    }
+
     public bool IsProcessing => isProcessing;
 }
