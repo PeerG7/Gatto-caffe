@@ -27,6 +27,11 @@ public class CustomerTable : MonoBehaviour
     [Header("Interaction Chance")]
     [Range(0, 100)] public int interactionChance = 70;
 
+    [Header("Chat Interaction Settings")]
+    [Range(0, 100)]
+    [Tooltip("โอกาสที่จะเกิด Pop-up ก้อนเมฆสุ่มไอคอนคุยกัน เมื่อแมวนั่งโต๊ะ 2 ที่นั่งครบทั้งคู่ (0-100%)")]
+    public int chatTriggerChance = 70;
+
     [Header("SFX")]
     public AudioClip coinSoundClip;
     public AudioSource sfxSource;
@@ -92,6 +97,35 @@ public class CustomerTable : MonoBehaviour
         {
             sittingNPCs.Add(npc);
             npc.assignedTable = this;
+
+            // ตรวจสอบเมื่อแมวนั่งลง หากนั่งครบ 2 ที่นั่ง จะสุ่มเปิด Pop-up คุยกัน
+            CheckAndTriggerChat();
+        }
+    }
+
+    /// <summary>
+    /// สุ่ม Trigger เปิดก้อนเมฆบนหัวแมว 2 ตัวเมื่อนั่งโต๊ะเดียวกัน
+    /// </summary>
+    private void CheckAndTriggerChat()
+    {
+        if (seatPoints.Count >= 2 && sittingNPCs.Count >= 2)
+        {
+            int roll = Random.Range(0, 100);
+            if (roll < chatTriggerChance)
+            {
+                for (int i = 0; i < sittingNPCs.Count; i++)
+                {
+                    if (sittingNPCs[i] != null)
+                    {
+                        CatChatBubble bubble = sittingNPCs[i].GetComponentInChildren<CatChatBubble>();
+                        if (bubble != null)
+                        {
+                            bubble.ShowChatBubble();
+                        }
+                    }
+                }
+                Debug.Log($"💬 [CustomerTable] แมวบนโต๊ะ {gameObject.name} เกิด Pop-up นั่งคุยกัน!");
+            }
         }
     }
 

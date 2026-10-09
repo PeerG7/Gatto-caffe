@@ -35,6 +35,14 @@ public class NPCController : MonoBehaviour
     private float waitTimer = 0f;
     private bool isAngry = false;
 
+    [Header("Queue Patience Settings (หน้าร้าน)")]
+    [Tooltip("เวลารอสูงสุดเมื่อยืนรอคิวหน้าร้าน (วินาที)")]
+    public float maxQueueWaitTime = 25f;
+    private float queueWaitTimer = 0f;
+    private bool hasReachedQueueOnce = false; // ✅ บันทึกว่าแมวเคยเดินถึงจุดรอคิวแล้วหรือยัง (ใช้เพื่อให้นับเวลาสะสมต่อเนื่อง)
+    public GameObject queuePatienceBarRoot;   // (Optional) UI หลอดเวลาหน้าร้าน
+    public Image queuePatienceBarFill;        // (Optional) Fill Image ของหลอดเวลาหน้าร้าน
+
     [Header("Patience Bar UI")]
     public GameObject patienceBarRoot;
     public UnityEngine.UI.Image patienceBarFill;
@@ -180,6 +188,35 @@ public class NPCController : MonoBehaviour
         UpdateMovementAnimation();
         UpdateWaitingFlavorTimers();
 
+        // ⏱️ นับเวลาถอยหลังการรอคิวหน้าร้าน (สะสมเวลาต่อเนื่องตั้งแต่เดินถึงคิวครั้งแรก)
+        if (currentState == NPCState.InQueue)
+        {
+            // เช็กว่าแมวเดินถึงจุดคิวปัจจุบันแล้วหรือยัง[cite: 20]
+            bool isAtCurrentQueuePoint = !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
+
+            // เมื่อเดินถึงจุดคิวครั้งแรก ให้บันทึกไว้ว่าเข้าสู่แถวเรียบร้อยแล้ว[cite: 20]
+            if (isAtCurrentQueuePoint)
+            {
+                hasReachedQueueOnce = true;
+            }
+
+            // เมื่อแมวเคยเข้าถึงคิวแล้ว ให้เดินหน้านับเวลาต่อทันทีแม้จะเดินขยับคิวอยู่[cite: 20]
+            if (hasReachedQueueOnce)
+            {
+                queueWaitTimer += Time.deltaTime;
+                float ratio = 1f - (queueWaitTimer / maxQueueWaitTime);
+
+                if (queuePatienceBarFill != null)
+                    queuePatienceBarFill.fillAmount = Mathf.Clamp01(ratio);
+
+                if (queueWaitTimer >= maxQueueWaitTime)
+                {
+                    OnQueueWaitTimeout();
+                    return;
+                }
+            }
+        }
+
         if (currentState == NPCState.Leaving || currentState == NPCState.Performing) return;
 
         if (currentState == NPCState.GoingToSeat)
@@ -201,11 +238,29 @@ public class NPCController : MonoBehaviour
         }
     }
 
+    private void OnQueueWaitTimeout()
+    {
+        if (currentState != NPCState.InQueue) return;
+
+        Debug.Log($"🐱 [{gameObject.name}] ยืนรอนานเกินไป ถอนคิวและเดินกลับ!");
+
+        if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
+
+        if (QueueManager.Instance != null)
+        {
+            QueueManager.Instance.RemoveFromQueue(this);
+        }
+
+        NPCInteract interact = GetComponent<NPCInteract>();
+        if (interact != null) interact.PlayAngry();
+
+        GoExit();
+    }
+
     void UpdateWaitingFlavorTimers()
     {
         if (!enableRandomSitAnims || isPlayingSittingFlavor || isInQTE) return;
 
-        // 1. In Queue (When stationary)
         if (currentState == NPCState.InQueue)
         {
             if (agent != null && agent.velocity.sqrMagnitude < moveAnimThreshold * moveAnimThreshold)
@@ -223,7 +278,6 @@ public class NPCController : MonoBehaviour
                 queueFlavorTimer = 0f;
             }
         }
-        // 2. At Interaction Zone
         else if (currentState == NPCState.AtInteractionZone)
         {
             interactionFlavorTimer += Time.deltaTime;
@@ -311,12 +365,18 @@ public class NPCController : MonoBehaviour
             agent.isStopped = false;
             agent.SetDestination(target.position);
             currentState = NPCState.InQueue;
+
+            // ✅ ไม่เคลียร์ queueWaitTimer = 0f เพื่อให้นับเวลาสะสมต่อเนื่องเมื่อคิวขยับขึ้นหน้า[cite: 20]
+
+            if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(true);
         }
     }
 
     public void GoToTableDirectly()
     {
         if (currentState != NPCState.InQueue) return;
+
+        if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
 
         CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
         foreach (var table in allTables)
@@ -389,6 +449,8 @@ public class NPCController : MonoBehaviour
 
     public void ForceSitAtTable(CustomerTable table, Transform seat)
     {
+        if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
+
         if (QueueManager.Instance != null) QueueManager.Instance.RemoveFromQueue(this);
 
         assignedTable = table;
@@ -629,10 +691,10 @@ public class NPCController : MonoBehaviour
 
         AnimState targetState = performIndex switch
         {
-            1 => AnimState.CatWandPlay,       // Index 6 (catwandplay)
-            2 => AnimState.CatToyMouse,       // Index 7 (Cat_Toy_Mouse)
-            3 => AnimState.RandomSitPhase,    // Index 8 (Cat_Random_Sitting_Phase)
-            _ => AnimState.PettingAnimation   // Index 5 (Petting animation)
+            1 => AnimState.CatWandPlay,
+            2 => AnimState.CatToyMouse,
+            3 => AnimState.RandomSitPhase,
+            _ => AnimState.PettingAnimation
         };
 
         string targetStateName = targetState switch
@@ -645,7 +707,6 @@ public class NPCController : MonoBehaviour
 
         SetAnimState(targetState, true);
 
-        // Wait until Animator has fully transitioned into target animation
         float transitionWait = 0.5f;
         while (animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName(targetStateName) && transitionWait > 0f)
         {
@@ -752,7 +813,6 @@ public class NPCController : MonoBehaviour
                     patienceBarFill.color = Color.Lerp(Color.red, Color.green, ratio);
                 }
 
-                // Trigger Random Sit Flavor Animation (AnimState = 8)
                 if (enableRandomSitAnims && !isPlayingSittingFlavor)
                 {
                     flavorTimer += Time.deltaTime;
@@ -764,7 +824,6 @@ public class NPCController : MonoBehaviour
                     }
                 }
 
-                // Regular Patience Animations
                 if (!isPlayingSittingFlavor)
                 {
                     if (!isSittingAngryAnim && ratio <= angryPatienceRatioThreshold)
@@ -792,7 +851,6 @@ public class NPCController : MonoBehaviour
 
         SetAnimState(AnimState.RandomSitPhase, true);
 
-        // Wait for state transition
         float transitionWait = 0.5f;
         while (animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Cat_Random_Sitting_Phase") && transitionWait > 0f)
         {
@@ -966,6 +1024,8 @@ public class NPCController : MonoBehaviour
     {
         if (isPerforming) return;
         if (exitPoint == null) return;
+
+        if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
 
         if (interactionTimeoutCoroutine != null)
         {

@@ -117,6 +117,7 @@ MonoBehaviour:
   angryIcon: {fileID: 8141302274863683036}
   vipBadgeIcon: {fileID: 0}
   interactionChance: 100
+  chatTriggerChance: 100
   coinSoundClip: {fileID: 0}
   sfxSource: {fileID: 0}
   patienceBonusOnFriendServed: 15
