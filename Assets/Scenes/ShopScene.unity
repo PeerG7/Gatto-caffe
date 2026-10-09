@@ -1251,7 +1251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1480,6 +1480,9 @@ MonoBehaviour:
   qteProgressBarFill: {fileID: 0}
   maxWaitTime: 10
   maxBonusWaitTime: 15
+  maxQueueWaitTime: 25
+  queuePatienceBarRoot: {fileID: 0}
+  queuePatienceBarFill: {fileID: 0}
   patienceBarRoot: {fileID: 0}
   patienceBarFill: {fileID: 0}
   patienceImage1: {fileID: 0}
@@ -11756,7 +11759,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &534551506
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11776,7 +11779,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4, y: -406}
+  m_AnchoredPosition: {x: 4, y: -640}
   m_SizeDelta: {x: 1280, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &534551507
@@ -11822,8 +11825,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -13261,7 +13264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -16341,7 +16344,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -16565,7 +16568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -18895,7 +18898,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -19342,9 +19345,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e3f98494d2cfd747af723383643762f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurnitureEditUI
-  editModePanel: {fileID: 842583079}
-  gridContainer: {fileID: 1344556050}
-  slotPrefab: {fileID: 7761387499464094134, guid: cf631685dade267429e6433ca6be8702, type: 3}
+  editUIPanel: {fileID: 842583079}
+  container: {fileID: 1344556050}
+  furnitureItemButtonPrefab: {fileID: 7761387499464094134, guid: cf631685dade267429e6433ca6be8702, type: 3}
+  furnitureScrollRect: {fileID: 534551507}
+  uiPanelRect: {fileID: 534551506}
+  normalPosY: -406
+  minimisedPosY: -640
+  moveSpeed: 12
 --- !u!114 &1074678456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20071,7 +20079,6 @@ GameObject:
   - component: {fileID: 1106574826}
   - component: {fileID: 1106574827}
   - component: {fileID: 1106574828}
-  - component: {fileID: 1106574831}
   - component: {fileID: 1106574830}
   - component: {fileID: 1106574829}
   m_Layer: 0
@@ -20238,23 +20245,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurnitureManager
   isEditMode: 0
---- !u!114 &1106574831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1106574819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a2ecc4b7797be9469335d6cb6aa68a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FurniturePlacementManager
-  interactableLayer:
+  gridSize: 0.5
+  gridOffset: {x: 0.25, y: 0.25, z: 0}
+  furnitureLayer:
     serializedVersion: 2
     m_Bits: 512
-  gridSize: 0.5
-  computerShopCanvas: {fileID: 1077466470}
+  unplaceableLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  validColor: {r: 0, g: 1, b: 0, a: 0.6}
+  invalidColor: {r: 1, g: 0, b: 0, a: 0.6}
 --- !u!1 &1118190443
 GameObject:
   m_ObjectHideFlags: 0
@@ -20711,7 +20711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -40163,7 +40163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
