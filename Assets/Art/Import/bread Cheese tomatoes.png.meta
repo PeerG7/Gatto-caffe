@@ -1,0 +1,767 @@
+fileFormatVersion: 2
+guid: 76acb612419cbd140bdcfe20fc282640
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8330813557399554285
+    second: bread Cheese tomatoes_0
+  - first:
+      213: 7175907145478301564
+    second: bread Cheese tomatoes_1
+  - first:
+      213: -2982572588349832817
+    second: bread Cheese tomatoes_2
+  - first:
+      213: 2874963511775806133
+    second: bread Cheese tomatoes_3
+  - first:
+      213: 215836337351163240
+    second: bread Cheese tomatoes_4
+  - first:
+      213: -7530286075101920240
+    second: bread Cheese tomatoes_5
+  - first:
+      213: 8807351755852553092
+    second: bread Cheese tomatoes_6
+  - first:
+      213: -2616451990857640150
+    second: bread Cheese tomatoes_7
+  - first:
+      213: -9206725069647813881
+    second: bread Cheese tomatoes_8
+  - first:
+      213: -4083775619812378739
+    second: bread Cheese tomatoes_9
+  - first:
+      213: -2870756923258557254
+    second: bread Cheese tomatoes_10
+  - first:
+      213: 4774536411253209641
+    second: bread Cheese tomatoes_11
+  - first:
+      213: -624872568591657046
+    second: bread Cheese tomatoes_12
+  - first:
+      213: -9064795504394145630
+    second: bread Cheese tomatoes_13
+  - first:
+      213: -1085182871231519050
+    second: bread Cheese tomatoes_14
+  - first:
+      213: -3752309179093680264
+    second: bread Cheese tomatoes_15
+  - first:
+      213: -2639255604018093458
+    second: bread Cheese tomatoes_16
+  - first:
+      213: -4091093015722805749
+    second: bread Cheese tomatoes_17
+  - first:
+      213: -9159705233129591343
+    second: bread Cheese tomatoes_18
+  - first:
+      213: -3509639828418604881
+    second: bread Cheese tomatoes_19
+  - first:
+      213: -5538302280988132841
+    second: bread Cheese tomatoes_20
+  - first:
+      213: 3702671270127071600
+    second: bread Cheese tomatoes_21
+  - first:
+      213: -4097689552742320372
+    second: bread Cheese tomatoes_22
+  - first:
+      213: 1755811698642672824
+    second: bread Cheese tomatoes_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_0
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 87
+        width: 1154
+        height: 1142
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de80fcabacefc9370800000000000000
+      internalID: 8330813557399554285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_1
+      rect:
+        serializedVersion: 2
+        x: 1289
+        y: 1226
+        width: 26
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c77eb6b7781f59360800000000000000
+      internalID: 7175907145478301564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_2
+      rect:
+        serializedVersion: 2
+        x: 1310
+        y: 1227
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8147928806cb96d0800000000000000
+      internalID: -2982572588349832817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_3
+      rect:
+        serializedVersion: 2
+        x: 1318
+        y: 1227
+        width: 59
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b24b9de41ce5e720800000000000000
+      internalID: 2874963511775806133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_4
+      rect:
+        serializedVersion: 2
+        x: 1319
+        y: 1227
+        width: 11
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86dff69510ecef200800000000000000
+      internalID: 215836337351163240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_5
+      rect:
+        serializedVersion: 2
+        x: 1328
+        y: 1223
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 014ca7c36bc0f7790800000000000000
+      internalID: -7530286075101920240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_6
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 1235
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48b118332cff93a70800000000000000
+      internalID: 8807351755852553092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_7
+      rect:
+        serializedVersion: 2
+        x: 1341
+        y: 1233
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a271111e6ce70bbd0800000000000000
+      internalID: -2616451990857640150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_8
+      rect:
+        serializedVersion: 2
+        x: 1342
+        y: 1226
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70365f614542b3080800000000000000
+      internalID: -9206725069647813881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_9
+      rect:
+        serializedVersion: 2
+        x: 1363
+        y: 1224
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d87bea6e5b38357c0800000000000000
+      internalID: -4083775619812378739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_10
+      rect:
+        serializedVersion: 2
+        x: 1378
+        y: 1227
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abc2ea8c9c50928d0800000000000000
+      internalID: -2870756923258557254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_11
+      rect:
+        serializedVersion: 2
+        x: 1379
+        y: 1218
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92a7ae7c19f824240800000000000000
+      internalID: 4774536411253209641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_12
+      rect:
+        serializedVersion: 2
+        x: 1380
+        y: 1234
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa75537a5b10457f0800000000000000
+      internalID: -624872568591657046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_13
+      rect:
+        serializedVersion: 2
+        x: 1382
+        y: 1219
+        width: 18
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a0770f1480633280800000000000000
+      internalID: -9064795504394145630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_14
+      rect:
+        serializedVersion: 2
+        x: 1396
+        y: 1234
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b628eb9de7a0f0f0800000000000000
+      internalID: -1085182871231519050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_15
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 1224
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87ffea4aeae1debc0800000000000000
+      internalID: -3752309179093680264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_16
+      rect:
+        serializedVersion: 2
+        x: 1411
+        y: 1230
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e62ea03f20b7f5bd0800000000000000
+      internalID: -2639255604018093458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_17
+      rect:
+        serializedVersion: 2
+        x: 1411
+        y: 1220
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b06b2c6e3948937c0800000000000000
+      internalID: -4091093015722805749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_18
+      rect:
+        serializedVersion: 2
+        x: 1419
+        y: 1226
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dd2604ee9032e080800000000000000
+      internalID: -9159705233129591343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_19
+      rect:
+        serializedVersion: 2
+        x: 1419
+        y: 1235
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa0db81cb214b4fc0800000000000000
+      internalID: -3509639828418604881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_20
+      rect:
+        serializedVersion: 2
+        x: 1426
+        y: 1219
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71a77fa2b6ff323b0800000000000000
+      internalID: -5538302280988132841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_21
+      rect:
+        serializedVersion: 2
+        x: 1441
+        y: 1227
+        width: 21
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 071f7ff07e7826330800000000000000
+      internalID: 3702671270127071600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_22
+      rect:
+        serializedVersion: 2
+        x: 606
+        y: 570
+        width: 7
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c07f6f0ff051227c0800000000000000
+      internalID: -4097689552742320372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bread Cheese tomatoes_23
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 307
+        width: 30
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bc521eef65ed5810800000000000000
+      internalID: 1755811698642672824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      bread Cheese tomatoes_0: 8330813557399554285
+      bread Cheese tomatoes_1: 7175907145478301564
+      bread Cheese tomatoes_10: -2870756923258557254
+      bread Cheese tomatoes_11: 4774536411253209641
+      bread Cheese tomatoes_12: -624872568591657046
+      bread Cheese tomatoes_13: -9064795504394145630
+      bread Cheese tomatoes_14: -1085182871231519050
+      bread Cheese tomatoes_15: -3752309179093680264
+      bread Cheese tomatoes_16: -2639255604018093458
+      bread Cheese tomatoes_17: -4091093015722805749
+      bread Cheese tomatoes_18: -9159705233129591343
+      bread Cheese tomatoes_19: -3509639828418604881
+      bread Cheese tomatoes_2: -2982572588349832817
+      bread Cheese tomatoes_20: -5538302280988132841
+      bread Cheese tomatoes_21: 3702671270127071600
+      bread Cheese tomatoes_22: -4097689552742320372
+      bread Cheese tomatoes_23: 1755811698642672824
+      bread Cheese tomatoes_3: 2874963511775806133
+      bread Cheese tomatoes_4: 215836337351163240
+      bread Cheese tomatoes_5: -7530286075101920240
+      bread Cheese tomatoes_6: 8807351755852553092
+      bread Cheese tomatoes_7: -2616451990857640150
+      bread Cheese tomatoes_8: -9206725069647813881
+      bread Cheese tomatoes_9: -4083775619812378739
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
