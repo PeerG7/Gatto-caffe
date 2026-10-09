@@ -9164,6 +9164,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449424383}
   m_CullTransparentMesh: 1
+--- !u!1 &464070142
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 464070143}
+  - component: {fileID: 464070144}
+  m_Layer: 0
+  m_Name: CookingSmokeUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &464070143
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464070142}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1499498135}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -345}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &464070144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464070142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7fc045cf1982f547b1e4f6de861f28a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PuffySmokeFX
+  smokeSprite: {fileID: 21300000, guid: ad8d26c2984d40c458a5f934e1f65962, type: 3}
+  smokeColor: {r: 1, g: 1, b: 1, a: 0.85}
+  spawnInterval: 0.12
+  floatDuration: 0.8
+  floatDistance: 150
+  startSize: {x: 350, y: 350}
+  endScaleMultiplier: 3
 --- !u!1 &466208905
 GameObject:
   m_ObjectHideFlags: 0
@@ -9207,7 +9262,7 @@ MonoBehaviour:
   - {fileID: 1074118037}
   - {fileID: 1429972654}
   cookButton: {fileID: 275399877}
-  cookingVisuals: {fileID: 1297556498}
+  cookingVisuals: {fileID: 464070142}
   cookingProgressBar: {fileID: 1705110942}
   cookingDuration: 2
   stationCookingCanvas: {fileID: 1499498134}
@@ -18784,7 +18839,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1297556499
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30725,6 +30780,7 @@ RectTransform:
   - {fileID: 891852864}
   - {fileID: 319655368}
   - {fileID: 799571773}
+  - {fileID: 464070143}
   m_Father: {fileID: 466208907}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
