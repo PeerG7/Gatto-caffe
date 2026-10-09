@@ -923,6 +923,8 @@ GameObject:
   - component: {fileID: 38831946}
   - component: {fileID: 38831945}
   - component: {fileID: 38831944}
+  - component: {fileID: 38831948}
+  - component: {fileID: 38831949}
   m_Layer: 0
   m_Name: Tuna
   m_TagString: Untagged
@@ -1007,7 +1009,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 38831946}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 38831949}
+        m_TargetAssemblyTypeName: FlyIngredientOnTrigger, Assembly-CSharp
+        m_MethodName: PlayFlyAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &38831946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1046,6 +1060,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 38831942}
   m_CullTransparentMesh: 1
+--- !u!114 &38831948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38831942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b101150bf27afe848b0831444ef4098a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverBounce
+  hoverOffset: {x: 0, y: 15}
+  hoverScale: 1.08
+  transitionSpeed: 0.15
+--- !u!114 &38831949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38831942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44cd0457b7de4c4598c14d1776a0c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlyIngredientOnTrigger
+  ingredientSprite: {fileID: 21300000, guid: eb6cc52e9191fcc4bb458382b68be872, type: 3}
+  canvasParent: {fileID: 1499498135}
+  cookingManager: {fileID: 466208906}
+  duration: 0.3
+  arcHeight: 70
+  rotationWobble: 25
+  peakScale: 1.25
+  itemSize: {x: 70, y: 70}
 --- !u!1 &68111395
 GameObject:
   m_ObjectHideFlags: 0
@@ -6508,6 +6557,8 @@ GameObject:
   - component: {fileID: 222624591}
   - component: {fileID: 222624590}
   - component: {fileID: 222624589}
+  - component: {fileID: 222624593}
+  - component: {fileID: 222624594}
   m_Layer: 0
   m_Name: Lettuce
   m_TagString: Untagged
@@ -6592,7 +6643,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 222624591}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 222624594}
+        m_TargetAssemblyTypeName: FlyIngredientOnTrigger, Assembly-CSharp
+        m_MethodName: PlayFlyAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &222624591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6631,6 +6694,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 222624587}
   m_CullTransparentMesh: 1
+--- !u!114 &222624593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222624587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b101150bf27afe848b0831444ef4098a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverBounce
+  hoverOffset: {x: 0, y: 15}
+  hoverScale: 1.08
+  transitionSpeed: 0.15
+--- !u!114 &222624594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222624587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44cd0457b7de4c4598c14d1776a0c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlyIngredientOnTrigger
+  ingredientSprite: {fileID: 21300000, guid: 3910b3f0e8eb01e498e5745ff5d091a1, type: 3}
+  canvasParent: {fileID: 1499498135}
+  cookingManager: {fileID: 466208906}
+  duration: 0.3
+  arcHeight: 70
+  rotationWobble: 25
+  peakScale: 1.25
+  itemSize: {x: 70, y: 70}
 --- !u!1 &230201406
 GameObject:
   m_ObjectHideFlags: 0
@@ -6969,6 +7067,7 @@ GameObject:
   - component: {fileID: 275399879}
   - component: {fileID: 275399878}
   - component: {fileID: 275399877}
+  - component: {fileID: 275399881}
   m_Layer: 0
   m_Name: Cooking Button
   m_TagString: Untagged
@@ -7090,6 +7189,25 @@ RectTransform:
   m_AnchoredPosition: {x: 408, y: -366}
   m_SizeDelta: {x: 126.9019, y: 70.989}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &275399881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275399876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ee6ecb6e5b115e498bf7e6f58931898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CookButtonAnimator
+  buttonRect: {fileID: 275399880}
+  clickSquashScale: {x: 1.15, y: 0.85, z: 1}
+  clickDuration: 0.15
+  playReadyAnimation: 0
+  wobbleSpeed: 4
+  wobbleAngle: 4
+  pulseScale: 1.05
 --- !u!1 &289002288
 GameObject:
   m_ObjectHideFlags: 0
@@ -7103,6 +7221,8 @@ GameObject:
   - component: {fileID: 289002292}
   - component: {fileID: 289002291}
   - component: {fileID: 289002290}
+  - component: {fileID: 289002294}
+  - component: {fileID: 289002295}
   m_Layer: 0
   m_Name: Tomato
   m_TagString: Untagged
@@ -7187,7 +7307,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 289002292}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 289002295}
+        m_TargetAssemblyTypeName: FlyIngredientOnTrigger, Assembly-CSharp
+        m_MethodName: PlayFlyAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &289002292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7226,6 +7358,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 289002288}
   m_CullTransparentMesh: 1
+--- !u!114 &289002294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289002288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b101150bf27afe848b0831444ef4098a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverBounce
+  hoverOffset: {x: 0, y: 15}
+  hoverScale: 1.08
+  transitionSpeed: 0.15
+--- !u!114 &289002295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289002288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44cd0457b7de4c4598c14d1776a0c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlyIngredientOnTrigger
+  ingredientSprite: {fileID: 21300000, guid: 72b3a1edc9dd33a4ea4f6a5da04ef547, type: 3}
+  canvasParent: {fileID: 1499498135}
+  cookingManager: {fileID: 466208906}
+  duration: 0.3
+  arcHeight: 70
+  rotationWobble: 25
+  peakScale: 1.25
+  itemSize: {x: 70, y: 70}
 --- !u!1 &295159413
 GameObject:
   m_ObjectHideFlags: 0
@@ -9217,6 +9384,8 @@ GameObject:
   - component: {fileID: 467111651}
   - component: {fileID: 467111650}
   - component: {fileID: 467111649}
+  - component: {fileID: 467111653}
+  - component: {fileID: 467111654}
   m_Layer: 0
   m_Name: Onion
   m_TagString: Untagged
@@ -9301,7 +9470,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 467111651}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 467111654}
+        m_TargetAssemblyTypeName: FlyIngredientOnTrigger, Assembly-CSharp
+        m_MethodName: PlayFlyAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &467111651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9340,6 +9521,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 467111647}
   m_CullTransparentMesh: 1
+--- !u!114 &467111653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467111647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b101150bf27afe848b0831444ef4098a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverBounce
+  hoverOffset: {x: 0, y: 15}
+  hoverScale: 1.08
+  transitionSpeed: 0.15
+--- !u!114 &467111654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467111647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44cd0457b7de4c4598c14d1776a0c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlyIngredientOnTrigger
+  ingredientSprite: {fileID: 21300000, guid: 4777df51798f6ea409b30c8f514c7205, type: 3}
+  canvasParent: {fileID: 1499498135}
+  cookingManager: {fileID: 466208906}
+  duration: 0.3
+  arcHeight: 70
+  rotationWobble: 25
+  peakScale: 1.25
+  itemSize: {x: 70, y: 70}
 --- !u!1 &469687350
 GameObject:
   m_ObjectHideFlags: 0
@@ -9353,6 +9569,8 @@ GameObject:
   - component: {fileID: 469687354}
   - component: {fileID: 469687353}
   - component: {fileID: 469687352}
+  - component: {fileID: 469687356}
+  - component: {fileID: 469687357}
   m_Layer: 0
   m_Name: Cheese
   m_TagString: Untagged
@@ -9437,7 +9655,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 469687354}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 469687357}
+        m_TargetAssemblyTypeName: FlyIngredientOnTrigger, Assembly-CSharp
+        m_MethodName: PlayFlyAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &469687354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9476,6 +9706,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 469687350}
   m_CullTransparentMesh: 1
+--- !u!114 &469687356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469687350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b101150bf27afe848b0831444ef4098a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverBounce
+  hoverOffset: {x: 0, y: 15}
+  hoverScale: 1.08
+  transitionSpeed: 0.15
+--- !u!114 &469687357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469687350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44cd0457b7de4c4598c14d1776a0c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlyIngredientOnTrigger
+  ingredientSprite: {fileID: 21300000, guid: d4b99a512ab409341ac96abc565034bc, type: 3}
+  canvasParent: {fileID: 1499498135}
+  cookingManager: {fileID: 466208906}
+  duration: 0.3
+  arcHeight: 70
+  rotationWobble: 25
+  peakScale: 1.25
+  itemSize: {x: 70, y: 70}
 --- !u!1 &471135128
 GameObject:
   m_ObjectHideFlags: 0
@@ -33587,6 +33852,8 @@ GameObject:
   - component: {fileID: 1760322231}
   - component: {fileID: 1760322230}
   - component: {fileID: 1760322229}
+  - component: {fileID: 1760322233}
+  - component: {fileID: 1760322234}
   m_Layer: 0
   m_Name: Salmon
   m_TagString: Untagged
@@ -33671,7 +33938,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1760322231}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1760322234}
+        m_TargetAssemblyTypeName: FlyIngredientOnTrigger, Assembly-CSharp
+        m_MethodName: PlayFlyAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1760322231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33710,6 +33989,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1760322227}
   m_CullTransparentMesh: 1
+--- !u!114 &1760322233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760322227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b101150bf27afe848b0831444ef4098a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverBounce
+  hoverOffset: {x: 0, y: 15}
+  hoverScale: 1.08
+  transitionSpeed: 0.15
+--- !u!114 &1760322234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760322227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44cd0457b7de4c4598c14d1776a0c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlyIngredientOnTrigger
+  ingredientSprite: {fileID: 21300000, guid: 1457b205996f4324697c933b38f76789, type: 3}
+  canvasParent: {fileID: 1499498135}
+  cookingManager: {fileID: 466208906}
+  duration: 0.3
+  arcHeight: 70
+  rotationWobble: 25
+  peakScale: 1.25
+  itemSize: {x: 70, y: 70}
 --- !u!1 &1768183146
 GameObject:
   m_ObjectHideFlags: 0
@@ -34557,6 +34871,8 @@ GameObject:
   - component: {fileID: 1876184583}
   - component: {fileID: 1876184582}
   - component: {fileID: 1876184581}
+  - component: {fileID: 1876184585}
+  - component: {fileID: 1876184586}
   m_Layer: 0
   m_Name: Bread
   m_TagString: Untagged
@@ -34641,7 +34957,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1876184583}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1876184586}
+        m_TargetAssemblyTypeName: FlyIngredientOnTrigger, Assembly-CSharp
+        m_MethodName: PlayFlyAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1876184583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34680,6 +35008,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1876184579}
   m_CullTransparentMesh: 1
+--- !u!114 &1876184585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876184579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b101150bf27afe848b0831444ef4098a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverBounce
+  hoverOffset: {x: 0, y: 15}
+  hoverScale: 1.08
+  transitionSpeed: 0.15
+--- !u!114 &1876184586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876184579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44cd0457b7de4c4598c14d1776a0c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlyIngredientOnTrigger
+  ingredientSprite: {fileID: 21300000, guid: ad65409ff16d029469377f5c96c5e28a, type: 3}
+  canvasParent: {fileID: 1499498135}
+  cookingManager: {fileID: 466208906}
+  duration: 0.3
+  arcHeight: 70
+  rotationWobble: 25
+  peakScale: 1.25
+  itemSize: {x: 70, y: 70}
 --- !u!1 &1879511944
 GameObject:
   m_ObjectHideFlags: 0
