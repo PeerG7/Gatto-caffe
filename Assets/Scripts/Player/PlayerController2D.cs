@@ -1,35 +1,45 @@
 ﻿using UnityEngine;
 
 // =====================================================================
-// PlayerController2D — v4.1 (Merge Fix)
-//
-// animState Values:
-// 0 = Idle
-// 1 = Walk (Horizontal / Downward)
-// 2 = Walk Up (Upward)
+// PlayerController2D — v6 (Any State Setup with Holding Support)
 // =====================================================================
 public class PlayerController2D : MonoBehaviour
 {
+    [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public LayerMask wallLayer;
 
     private Rigidbody2D rb;
     private CircleCollider2D col;
-    private Animator anim;
+    private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Vector2 movement;
 
     public static bool IsLocked = false;
 
-    /// <summary>
-    /// เพิ่มฟังก์ชัน SetLock เพื่อรองรับ FurniturePlacementManager, FurnitureManager, ComputerStation
-    /// </summary>
+    // --- Animation State Enum (ตรงกับค่าตัวเลข Index 0 ถึง 5) ---
+    public enum AnimState
+    {
+        Idle = 0,               // ยืนนิ่ง (มือเปล่า)
+        Walk = 1,               // เดิน ซ้าย/ขวา/ลง (มือเปล่า)
+        WalkUp = 2,             // เดินขึ้น (มือเปล่า)
+        IdleHolding = 3,        // ยืนนิ่ง (ถือของ)
+        WalkHolding = 4,        // เดิน ซ้าย/ขวา/ลง (ถือของ)
+        WalkUpHolding = 5       // เดินขึ้น (ถือของ)
+    }
+
+    private AnimState currentAnim = (AnimState)(-1);
+    private static readonly int AnimStateHash = Animator.StringToHash("animState");
+
+    [Header("Holding System")]
+    [Tooltip("เปิดใช้งานเมื่อผู้เล่นกำลังถือไอเทมหรืออาหารอยู่")]
+    public bool isHoldingItem = false;
+
     public static void SetLock(bool value)
     {
         IsLocked = value;
     }
 
-    // fail-safe — ล็อก Player อัตโนมัติทุกครั้งที่เกมถูก Pause
     private static bool IsGamePaused =>
         DayNightManager.Instance != null && DayNightManager.Instance.isPaused;
 
@@ -38,9 +48,13 @@ public class PlayerController2D : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<CircleCollider2D>();
 
-        // Look in child objects (e.g., Player > ChildSprite)
-        anim = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
+
+    void Start()
+    {
+        UpdateAnimation();
     }
 
     void Update()
@@ -61,30 +75,47 @@ public class PlayerController2D : MonoBehaviour
 
     void UpdateAnimation()
     {
-        if (anim == null) return;
+        AnimState targetState = AnimState.Idle;
+        bool isMoving = movement.sqrMagnitude > 0.01f;
 
-        int animState = 0; // Default: Idle (0)
-
-        if (movement.sqrMagnitude > 0.01f)
+        if (!isMoving)
         {
-            // Walk Up takes precedence when moving upwards
-            if (movement.y > 0.1f)
+            // --- เช็คตอนยืนนิ่ง (Idle) ---
+            targetState = isHoldingItem ? AnimState.IdleHolding : AnimState.Idle;
+        }
+        else
+        {
+            // --- เช็คตอนกำลังเดิน (Moving) ---
+            if (movement.y > 0.1f && Mathf.Abs(movement.y) >= Mathf.Abs(movement.x))
             {
-                animState = 2; // Walk Up
+                // เดินขึ้นบน
+                targetState = isHoldingItem ? AnimState.WalkUpHolding : AnimState.WalkUp;
             }
             else
             {
-                animState = 1; // Walk (Side / Down)
-            }
+                // เดิน ซ้าย, ขวา, หรือลง
+                targetState = isHoldingItem ? AnimState.WalkHolding : AnimState.Walk;
 
-            // Flip sprite horizontally when moving left
-            if (spriteRenderer != null && movement.x != 0)
-            {
-                spriteRenderer.flipX = movement.x < 0;
+                // จัดการทิศทางหันซ้าย-ขวาของ Sprite
+                if (spriteRenderer != null && movement.x != 0)
+                {
+                    spriteRenderer.flipX = movement.x > 0; // ปรับเป็น movement.x < 0 ได้ตามภาพต้นฉบับ
+                }
             }
         }
 
-        anim.SetInteger("animState", animState);
+        SetAnimState(targetState);
+    }
+
+    void SetAnimState(AnimState state)
+    {
+        if (currentAnim == state) return;
+        currentAnim = state;
+
+        if (animator != null)
+        {
+            animator.SetInteger(AnimStateHash, (int)state);
+        }
     }
 
     void FixedUpdate()
@@ -100,7 +131,6 @@ public class PlayerController2D : MonoBehaviour
 
         Vector2 newPos = rb.position;
 
-        // เช็ค X และ Y แยกกัน
         Vector2 moveX = new Vector2(movement.x, 0) * moveSpeed * Time.fixedDeltaTime;
         if (!IsBlocked(moveX))
             newPos += moveX;
