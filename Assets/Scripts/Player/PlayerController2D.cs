@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // =====================================================================
-// PlayerController2D — v6 (Any State Setup with Holding Support)
+// PlayerController2D — v12 (Fixed Walk-Up Flip & Holder Position)
 // =====================================================================
 public class PlayerController2D : MonoBehaviour
 {
@@ -13,27 +13,27 @@ public class PlayerController2D : MonoBehaviour
     private CircleCollider2D col;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private PlayerInventory playerInventory;
     private Vector2 movement;
 
     public static bool IsLocked = false;
 
-    // --- Animation State Enum (ตรงกับค่าตัวเลข Index 0 ถึง 5) ---
     public enum AnimState
     {
-        Idle = 0,               // ยืนนิ่ง (มือเปล่า)
-        Walk = 1,               // เดิน ซ้าย/ขวา/ลง (มือเปล่า)
-        WalkUp = 2,             // เดินขึ้น (มือเปล่า)
-        IdleHolding = 3,        // ยืนนิ่ง (ถือของ)
-        WalkHolding = 4,        // เดิน ซ้าย/ขวา/ลง (ถือของ)
-        WalkUpHolding = 5       // เดินขึ้น (ถือของ)
+        Idle = 0,
+        Walk = 1,
+        WalkUp = 2,
+        IdleHolding = 3,
+        WalkHolding = 4,
+        WalkUpHolding = 5
     }
 
     private AnimState currentAnim = (AnimState)(-1);
     private static readonly int AnimStateHash = Animator.StringToHash("animState");
 
     [Header("Holding System")]
-    [Tooltip("เปิดใช้งานเมื่อผู้เล่นกำลังถือไอเทมหรืออาหารอยู่")]
     public bool isHoldingItem = false;
+    private float idleSideInitialLocalX = 0.2f;
 
     public static void SetLock(bool value)
     {
@@ -50,6 +50,12 @@ public class PlayerController2D : MonoBehaviour
 
         animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        playerInventory = GetComponent<PlayerInventory>();
+
+        if (playerInventory != null && playerInventory.idleSideRenderer != null)
+        {
+            idleSideInitialLocalX = Mathf.Abs(playerInventory.idleSideRenderer.transform.localPosition.x);
+        }
     }
 
     void Start()
@@ -59,6 +65,11 @@ public class PlayerController2D : MonoBehaviour
 
     void Update()
     {
+        if (playerInventory != null)
+        {
+            isHoldingItem = playerInventory.HasItem();
+        }
+
         if (IsLocked || IsGamePaused)
         {
             movement = Vector2.zero;
@@ -77,30 +88,55 @@ public class PlayerController2D : MonoBehaviour
     {
         AnimState targetState = AnimState.Idle;
         bool isMoving = movement.sqrMagnitude > 0.01f;
+        bool isWalkUpDirection = false;
 
         if (!isMoving)
         {
-            // --- เช็คตอนยืนนิ่ง (Idle) ---
             targetState = isHoldingItem ? AnimState.IdleHolding : AnimState.Idle;
+            isWalkUpDirection = false;
         }
         else
         {
-            // --- เช็คตอนกำลังเดิน (Moving) ---
             if (movement.y > 0.1f && Mathf.Abs(movement.y) >= Mathf.Abs(movement.x))
             {
-                // เดินขึ้นบน
+                // 📌 ท่าเดินขึ้น (Walk Up): ล็อกไม่ให้ตัวละครพลิกซ้าย-ขวา เพื่อื่ให้มือที่ยกขึ้นอยู่ฝั่งเดิมเสมอ
                 targetState = isHoldingItem ? AnimState.WalkUpHolding : AnimState.WalkUp;
+                isWalkUpDirection = true;
+
+                if (spriteRenderer != null)
+                {
+                    spriteRenderer.flipX = false;
+                }
             }
             else
             {
-                // เดิน ซ้าย, ขวา, หรือลง
+                // ท่าเดิน ซ้าย / ขวา / ลง
                 targetState = isHoldingItem ? AnimState.WalkHolding : AnimState.Walk;
+                isWalkUpDirection = false;
 
-                // จัดการทิศทางหันซ้าย-ขวาของ Sprite
                 if (spriteRenderer != null && movement.x != 0)
                 {
-                    spriteRenderer.flipX = movement.x > 0; // ปรับเป็น movement.x < 0 ได้ตามภาพต้นฉบับ
+                    spriteRenderer.flipX = movement.x > 0; // ปรับเป็น < 0 ได้ถ้าภาพหันกลับด้าน
                 }
+            }
+        }
+
+        // อัปเดตการเปิด/ปิด Holder ตามท่าทาง
+        if (playerInventory != null)
+        {
+            playerInventory.UpdateHolderVisibility(isHoldingItem, isWalkUpDirection);
+
+            if (isHoldingItem)
+            {
+                if (!isWalkUpDirection && playerInventory.idleSideRenderer != null)
+                {
+                    // พลิกตำแหน่ง X ของ Holder ด้านข้างตามการหันหน้า
+                    Transform holderTransform = playerInventory.idleSideRenderer.transform;
+                    Vector3 localPos = holderTransform.localPosition;
+                    localPos.x = spriteRenderer.flipX ? -idleSideInitialLocalX : idleSideInitialLocalX;
+                    holderTransform.localPosition = localPos;
+                }
+                // *หมายเหตุ: สำหรับ Walk Up ให้ปล่อยตำแหน่งของ Holder_WalkUp นิ่งๆ ตามที่เราจัดไว้ใน Prefab ได้เลย ไม่ต้องคำนวณ FlipX เพิ่ม*
             }
         }
 

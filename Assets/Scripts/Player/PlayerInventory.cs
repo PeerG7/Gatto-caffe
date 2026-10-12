@@ -2,35 +2,64 @@
 
 public class PlayerInventory : MonoBehaviour
 {
-    [Header("Visuals")]
-    public SpriteRenderer heldItemRenderer; // ลาก SpriteRenderer เหนือหัวมาใส่ตรงนี้
+    [Header("Item Renderers (แยกตามท่าทาง/มุมมอง)")]
+    public SpriteRenderer idleSideRenderer;  // สำหรับตอนยืนนิ่ง หรือเดินซ้าย/ขวา/ลง
+    public SpriteRenderer walkUpRenderer;    // สำหรับตอนเดินขึ้น (Walk Up)
 
     [Header("Data")]
-    public string currentItem = "";         // เก็บชื่อไอเทมที่ถืออยู่
-    private Sprite currentSprite = null;    // เก็บ Sprite ของไอเทมที่ถืออยู่
+    public string currentItem = "";
+    private Sprite currentSprite = null;
 
     public void PickUpItem(string itemName, Sprite itemSprite)
     {
         currentItem = itemName;
         currentSprite = itemSprite;
-        heldItemRenderer.sprite = itemSprite;
-        heldItemRenderer.enabled = true;
+
+        // อัปเดต Sprite ให้ทุก Holder เตรียมไว้
+        if (idleSideRenderer != null) idleSideRenderer.sprite = itemSprite;
+        if (walkUpRenderer != null) walkUpRenderer.sprite = itemSprite;
     }
 
     public void ClearItem()
     {
         currentItem = "";
         currentSprite = null;
-        heldItemRenderer.sprite = null;
-        heldItemRenderer.enabled = false;
+
+        if (idleSideRenderer != null)
+        {
+            idleSideRenderer.sprite = null;
+            idleSideRenderer.enabled = false;
+        }
+        if (walkUpRenderer != null)
+        {
+            walkUpRenderer.sprite = null;
+            walkUpRenderer.enabled = false;
+        }
     }
 
-    public bool HasItem()
+    // ฟังก์ชันช่วยเปิด/ปิดการแสดงผล Holder ตัวที่ใช้งานอยู่
+    public void UpdateHolderVisibility(bool isHolding, bool isWalkUp)
     {
-        return !string.IsNullOrEmpty(currentItem);
+        if (!HasItem())
+        {
+            if (idleSideRenderer != null) idleSideRenderer.enabled = false;
+            if (walkUpRenderer != null) walkUpRenderer.enabled = false;
+            return;
+        }
+
+        if (isWalkUp)
+        {
+            if (walkUpRenderer != null) walkUpRenderer.enabled = true;
+            if (idleSideRenderer != null) idleSideRenderer.enabled = false;
+        }
+        else
+        {
+            if (idleSideRenderer != null) idleSideRenderer.enabled = true;
+            if (walkUpRenderer != null) walkUpRenderer.enabled = false;
+        }
     }
 
-    // ── เพิ่มใหม่ — ใช้โดย TraySlot ──────────────────
+    public bool HasItem() => !string.IsNullOrEmpty(currentItem);
     public bool IsEmpty() => string.IsNullOrEmpty(currentItem);
     public string GetCurrentItemName() => currentItem;
     public Sprite GetCurrentItemSprite() => currentSprite;

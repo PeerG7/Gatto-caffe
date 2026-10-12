@@ -1,0 +1,1053 @@
+fileFormatVersion: 2
+guid: 5b89af1bd5b32c2469b2fea6ed3cec37
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5459786467962558760
+    second: walking_hold_brush_pencil_0
+  - first:
+      213: -8468702834821478153
+    second: walking_hold_brush_pencil_1
+  - first:
+      213: 8317751818657969685
+    second: walking_hold_brush_pencil_2
+  - first:
+      213: 5810578480042500718
+    second: walking_hold_brush_pencil_3
+  - first:
+      213: 2784029382210931228
+    second: walking_hold_brush_pencil_4
+  - first:
+      213: 185093107898246154
+    second: walking_hold_brush_pencil_5
+  - first:
+      213: -2519871118324188034
+    second: walking_hold_brush_pencil_6
+  - first:
+      213: 5707041696440737403
+    second: walking_hold_brush_pencil_7
+  - first:
+      213: 4158687622382364011
+    second: walking_hold_brush_pencil_8
+  - first:
+      213: 9155414703376732142
+    second: walking_hold_brush_pencil_9
+  - first:
+      213: 2647175269351520692
+    second: walking_hold_brush_pencil_10
+  - first:
+      213: 27890186430597484
+    second: walking_hold_brush_pencil_11
+  - first:
+      213: -4020502332261464929
+    second: walking_hold_brush_pencil_12
+  - first:
+      213: 3207351511008053758
+    second: walking_hold_brush_pencil_13
+  - first:
+      213: 3958827164190926104
+    second: walking_hold_brush_pencil_14
+  - first:
+      213: 5542498719241949234
+    second: walking_hold_brush_pencil_15
+  - first:
+      213: -2346473321200475744
+    second: walking_hold_brush_pencil_16
+  - first:
+      213: 8980923591825469388
+    second: walking_hold_brush_pencil_17
+  - first:
+      213: 8512048750540749606
+    second: walking_hold_brush_pencil_18
+  - first:
+      213: -4164182534971824227
+    second: walking_hold_brush_pencil_19
+  - first:
+      213: -6524923404327397429
+    second: walking_hold_brush_pencil_20
+  - first:
+      213: 2105002334362619397
+    second: walking_hold_brush_pencil_21
+  - first:
+      213: -3103703407158636845
+    second: walking_hold_brush_pencil_22
+  - first:
+      213: -4384982298321186194
+    second: walking_hold_brush_pencil_23
+  - first:
+      213: 2806321989434337353
+    second: walking_hold_brush_pencil_24
+  - first:
+      213: -6241776597814209530
+    second: walking_hold_brush_pencil_25
+  - first:
+      213: 1490797531635828675
+    second: walking_hold_brush_pencil_26
+  - first:
+      213: -934043490808038699
+    second: walking_hold_brush_pencil_27
+  - first:
+      213: 3573383466439426629
+    second: walking_hold_brush_pencil_28
+  - first:
+      213: -4429804303318145956
+    second: walking_hold_brush_pencil_29
+  - first:
+      213: -364097710111798854
+    second: walking_hold_brush_pencil_30
+  - first:
+      213: -2583893025152112090
+    second: walking_hold_brush_pencil_31
+  - first:
+      213: -5696568696399615613
+    second: walking_hold_brush_pencil_32
+  - first:
+      213: -8325853894642507892
+    second: walking_hold_brush_pencil_33
+  - first:
+      213: 6962632598674348206
+    second: walking_hold_brush_pencil_34
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 600
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_0
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 10458
+        width: 1000
+        height: 1706
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 829946c8dde05cb40800000000000000
+      internalID: 5459786467962558760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_1
+      rect:
+        serializedVersion: 2
+        x: 2664
+        y: 10458
+        width: 1000
+        height: 1706
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f84f1e04af197a80800000000000000
+      internalID: -8468702834821478153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_2
+      rect:
+        serializedVersion: 2
+        x: 4712
+        y: 10458
+        width: 1000
+        height: 1706
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 516b7f0b5379e6370800000000000000
+      internalID: 8317751818657969685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_3
+      rect:
+        serializedVersion: 2
+        x: 6760
+        y: 10458
+        width: 1000
+        height: 1706
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e626672875253a050800000000000000
+      internalID: 5810578480042500718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_4
+      rect:
+        serializedVersion: 2
+        x: 8808
+        y: 10458
+        width: 1000
+        height: 1706
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1acee209fbd2a620800000000000000
+      internalID: 2784029382210931228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_5
+      rect:
+        serializedVersion: 2
+        x: 10856
+        y: 10494
+        width: 999
+        height: 1670
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a04e5a27335919200800000000000000
+      internalID: 185093107898246154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_6
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 8446
+        width: 999
+        height: 1670
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7c3588919e970dd0800000000000000
+      internalID: -2519871118324188034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_7
+      rect:
+        serializedVersion: 2
+        x: 2664
+        y: 8446
+        width: 999
+        height: 1670
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7e51ba8f2c733f40800000000000000
+      internalID: 5707041696440737403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_8
+      rect:
+        serializedVersion: 2
+        x: 4712
+        y: 8451
+        width: 998
+        height: 1665
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b652aefdb50a6b930800000000000000
+      internalID: 4158687622382364011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_9
+      rect:
+        serializedVersion: 2
+        x: 6760
+        y: 8451
+        width: 998
+        height: 1665
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eef882e4a219e0f70800000000000000
+      internalID: 9155414703376732142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_10
+      rect:
+        serializedVersion: 2
+        x: 8792
+        y: 8378
+        width: 1013
+        height: 1753
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b975e3d1e7acb420800000000000000
+      internalID: 2647175269351520692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_11
+      rect:
+        serializedVersion: 2
+        x: 10840
+        y: 8378
+        width: 1013
+        height: 1753
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c694aee0af5136000800000000000000
+      internalID: 27890186430597484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_12
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 6330
+        width: 1013
+        height: 1753
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f940dea2e6e4438c0800000000000000
+      internalID: -4020502332261464929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_13
+      rect:
+        serializedVersion: 2
+        x: 2648
+        y: 6330
+        width: 1013
+        height: 1753
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef9827bb43dc28c20800000000000000
+      internalID: 3207351511008053758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_14
+      rect:
+        serializedVersion: 2
+        x: 4696
+        y: 6330
+        width: 1013
+        height: 1753
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81564c0c45490f630800000000000000
+      internalID: 3958827164190926104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_15
+      rect:
+        serializedVersion: 2
+        x: 6709
+        y: 6330
+        width: 1044
+        height: 1753
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23059704839eaec40800000000000000
+      internalID: 5542498719241949234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_16
+      rect:
+        serializedVersion: 2
+        x: 8757
+        y: 6330
+        width: 1044
+        height: 1753
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a12aee42f6af6fd0800000000000000
+      internalID: -2346473321200475744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_17
+      rect:
+        serializedVersion: 2
+        x: 10805
+        y: 6330
+        width: 1044
+        height: 1753
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccfaead7c66a2ac70800000000000000
+      internalID: 8980923591825469388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_18
+      rect:
+        serializedVersion: 2
+        x: 565
+        y: 4282
+        width: 1042
+        height: 1753
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62bf9c66d3fd02670800000000000000
+      internalID: 8512048750540749606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_19
+      rect:
+        serializedVersion: 2
+        x: 2613
+        y: 4282
+        width: 1042
+        height: 1753
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d976e171c0ad536c0800000000000000
+      internalID: -4164182534971824227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_20
+      rect:
+        serializedVersion: 2
+        x: 4661
+        y: 4285
+        width: 1039
+        height: 1741
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc7de6afbb0d275a0800000000000000
+      internalID: -6524923404327397429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_21
+      rect:
+        serializedVersion: 2
+        x: 6709
+        y: 4285
+        width: 1039
+        height: 1741
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50e4d076878763d10800000000000000
+      internalID: 2105002334362619397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_22
+      rect:
+        serializedVersion: 2
+        x: 8757
+        y: 4285
+        width: 1039
+        height: 1741
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dec320023e6de4d0800000000000000
+      internalID: -3103703407158636845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_23
+      rect:
+        serializedVersion: 2
+        x: 10805
+        y: 4285
+        width: 1039
+        height: 1741
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e62903215d96523c0800000000000000
+      internalID: -4384982298321186194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_24
+      rect:
+        serializedVersion: 2
+        x: 565
+        y: 2237
+        width: 1039
+        height: 1741
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 948e9991bfe02f620800000000000000
+      internalID: 2806321989434337353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_25
+      rect:
+        serializedVersion: 2
+        x: 2656
+        y: 2290
+        width: 998
+        height: 1688
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60410ff2141c069a0800000000000000
+      internalID: -6241776597814209530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_26
+      rect:
+        serializedVersion: 2
+        x: 4704
+        y: 2290
+        width: 998
+        height: 1688
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c7ce29d47060b410800000000000000
+      internalID: 1490797531635828675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_27
+      rect:
+        serializedVersion: 2
+        x: 6752
+        y: 2290
+        width: 998
+        height: 1688
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5dafe95d46c9903f0800000000000000
+      internalID: -934043490808038699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_28
+      rect:
+        serializedVersion: 2
+        x: 8800
+        y: 2290
+        width: 998
+        height: 1688
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54240638455379130800000000000000
+      internalID: 3573383466439426629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_29
+      rect:
+        serializedVersion: 2
+        x: 10848
+        y: 2290
+        width: 998
+        height: 1688
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c54a93cc47c2682c0800000000000000
+      internalID: -4429804303318145956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_30
+      rect:
+        serializedVersion: 2
+        x: 608
+        y: 213
+        width: 1000
+        height: 1717
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab9c04dcf0772faf0800000000000000
+      internalID: -364097710111798854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_31
+      rect:
+        serializedVersion: 2
+        x: 2656
+        y: 213
+        width: 1000
+        height: 1717
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62ae232dbfa242cd0800000000000000
+      internalID: -2583893025152112090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_32
+      rect:
+        serializedVersion: 2
+        x: 4704
+        y: 213
+        width: 1000
+        height: 1717
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 389ad7cc3f8b1f0b0800000000000000
+      internalID: -5696568696399615613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_33
+      rect:
+        serializedVersion: 2
+        x: 6752
+        y: 213
+        width: 1000
+        height: 1717
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8fd70ebeff947c80800000000000000
+      internalID: -8325853894642507892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_hold_brush_pencil_34
+      rect:
+        serializedVersion: 2
+        x: 8800
+        y: 213
+        width: 1000
+        height: 1717
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea81a89757d30a060800000000000000
+      internalID: 6962632598674348206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      walking_hold_brush_pencil_0: 5459786467962558760
+      walking_hold_brush_pencil_1: -8468702834821478153
+      walking_hold_brush_pencil_10: 2647175269351520692
+      walking_hold_brush_pencil_11: 27890186430597484
+      walking_hold_brush_pencil_12: -4020502332261464929
+      walking_hold_brush_pencil_13: 3207351511008053758
+      walking_hold_brush_pencil_14: 3958827164190926104
+      walking_hold_brush_pencil_15: 5542498719241949234
+      walking_hold_brush_pencil_16: -2346473321200475744
+      walking_hold_brush_pencil_17: 8980923591825469388
+      walking_hold_brush_pencil_18: 8512048750540749606
+      walking_hold_brush_pencil_19: -4164182534971824227
+      walking_hold_brush_pencil_2: 8317751818657969685
+      walking_hold_brush_pencil_20: -6524923404327397429
+      walking_hold_brush_pencil_21: 2105002334362619397
+      walking_hold_brush_pencil_22: -3103703407158636845
+      walking_hold_brush_pencil_23: -4384982298321186194
+      walking_hold_brush_pencil_24: 2806321989434337353
+      walking_hold_brush_pencil_25: -6241776597814209530
+      walking_hold_brush_pencil_26: 1490797531635828675
+      walking_hold_brush_pencil_27: -934043490808038699
+      walking_hold_brush_pencil_28: 3573383466439426629
+      walking_hold_brush_pencil_29: -4429804303318145956
+      walking_hold_brush_pencil_3: 5810578480042500718
+      walking_hold_brush_pencil_30: -364097710111798854
+      walking_hold_brush_pencil_31: -2583893025152112090
+      walking_hold_brush_pencil_32: -5696568696399615613
+      walking_hold_brush_pencil_33: -8325853894642507892
+      walking_hold_brush_pencil_34: 6962632598674348206
+      walking_hold_brush_pencil_4: 2784029382210931228
+      walking_hold_brush_pencil_5: 185093107898246154
+      walking_hold_brush_pencil_6: -2519871118324188034
+      walking_hold_brush_pencil_7: 5707041696440737403
+      walking_hold_brush_pencil_8: 4158687622382364011
+      walking_hold_brush_pencil_9: 9155414703376732142
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
