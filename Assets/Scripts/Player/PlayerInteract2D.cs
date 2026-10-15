@@ -4,19 +4,18 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 #endif
 
-// =====================================================================
-// PlayerInteract2D — v2 (Keyboard + Gamepad Added)
-// =====================================================================
 public class PlayerInteract2D : MonoBehaviour
 {
     public float range = 3.0f;
 
-    [Header("Legacy Interact Keys (ยังใช้งานได้ปกติ)")]
+    [Header("DATACAT 1 Prefab (ลาก Prefab ของ DATACAT1 มาใส่ที่นี่)")]
+    public GameObject dataCat1Prefab;
+
+    [Header("Legacy Interact Keys")]
     public KeyCode[] interactKeys = new KeyCode[] { KeyCode.E };
 
 #if ENABLE_INPUT_SYSTEM
-    [Header("New Input System (optional — ถ้าใช้ New Input System)")]
-    [Tooltip("ลาก InputActionReference จาก InputActionAsset มาใส่ตรงนี้")]
+    [Header("New Input System")]
     public UnityEngine.InputSystem.InputActionReference interactAction;
 #endif
 
@@ -28,47 +27,28 @@ public class PlayerInteract2D : MonoBehaviour
     { if (activeCanvas == canvas) activeCanvas = null; }
 
 #if ENABLE_INPUT_SYSTEM
-    void OnEnable()
-    {
-        if (interactAction != null)
-            interactAction.action.Enable();
-    }
-
-    void OnDisable()
-    {
-        if (interactAction != null)
-            interactAction.action.Disable();
-    }
+    void OnEnable() { if (interactAction != null) interactAction.action.Enable(); }
+    void OnDisable() { if (interactAction != null) interactAction.action.Disable(); }
 #endif
 
     void Update()
     {
         if (PlayerController2D.IsLocked) return;
-
         UpdateTrayProximityFeedback();
 
         bool pressed = false;
-
         foreach (KeyCode key in interactKeys)
         {
             if (Input.GetKeyDown(key)) { pressed = true; break; }
         }
 
 #if ENABLE_INPUT_SYSTEM
-        if (!pressed && interactAction != null)
-        {
-            if (interactAction.action.WasPressedThisFrame())
-                pressed = true;
-        }
+        if (!pressed && interactAction != null && interactAction.action.WasPressedThisFrame())
+            pressed = true;
 #endif
 
         if (!pressed) return;
-
-        if (activeCanvas != null)
-        {
-            activeCanvas.OnConfirm();
-            return;
-        }
+        if (activeCanvas != null) { activeCanvas.OnConfirm(); return; }
 
         TriggerInteract();
     }
@@ -76,6 +56,38 @@ public class PlayerInteract2D : MonoBehaviour
     public void TriggerInteract()
     {
         if (PlayerController2D.IsLocked) return;
+
+        PlayerInventory playerInv = GetComponent<PlayerInventory>();
+
+        // ==========================================
+        // 0.1 🟢 วาง DATACAT1 ลงใน InteractionZone ที่ใกล้ที่สุดและว่างอยู่
+        // ==========================================
+        if (playerInv != null && playerInv.GetCurrentItemName() == "DATACAT1")
+        {
+            InteractionZone closestZone = null;
+            float minZoneDist = range;
+
+            foreach (var zone in FindObjectsOfType<InteractionZone>())
+            {
+                if (zone != null && zone.IsAvailable())
+                {
+                    float dist = Vector2.Distance(transform.position, zone.transform.position);
+                    if (dist <= minZoneDist)
+                    {
+                        minZoneDist = dist;
+                        closestZone = zone;
+                    }
+                }
+            }
+
+            if (closestZone != null)
+            {
+                SpawnAndSetupDataCat1AtZone(closestZone, playerInv.GetCurrentItemSprite());
+                playerInv.ClearItem();
+                PlayerController2D.IsLocked = false;
+                return;
+            }
+        }
 
         ContactFilter2D filter = new ContactFilter2D();
         filter.useTriggers = true;
@@ -86,21 +98,57 @@ public class PlayerInteract2D : MonoBehaviour
         Physics2D.OverlapCircle(transform.position, range, filter, resultList);
         Collider2D[] hits = resultList.ToArray();
 
-        // 1. ปลดล็อกเฟอร์นิเจอร์ (ยังเป็นเงาอยู่)[cite: 16]
+        // ==========================================
+        // 0.2 🟢 อุ้ม DATACAT1 ขึ้นหัว (ต้องกินอาหารเสร็จแล้วถึงจะอุ้มได้)
+        // ==========================================
+        if (playerInv != null && playerInv.IsEmpty())
+        {
+            foreach (var hit in hits)
+            {
+                CatIdentity identity = hit.GetComponent<CatIdentity>();
+                if (identity != null && identity.IsDataCat1())
+                {
+                    NPCController npcCtrl = hit.GetComponent<NPCController>();
+
+                    if (npcCtrl != null && npcCtrl.hasFinishedEating)
+                    {
+                        Sprite catSprite = identity.catData != null ? identity.catData.catPortrait : null;
+
+                        playerInv.PickUpItem("DATACAT1", catSprite);
+
+                        if (npcCtrl.assignedTable != null)
+                        {
+                            npcCtrl.assignedTable.RemoveNPCFromTable(npcCtrl);
+                        }
+
+                        if (npcCtrl.currentZone != null)
+                        {
+                            npcCtrl.currentZone.Release();
+                            npcCtrl.currentZone = null;
+                        }
+
+                        Destroy(hit.gameObject);
+                        return;
+                    }
+                }
+            }
+        }
+
+        // 1. ปลดล็อกเฟอร์นิเจอร์
         foreach (var hit in hits)
         {
             FurnitureObject furn = hit.GetComponent<FurnitureObject>();
             if (furn != null && !furn.isUnlocked) { furn.AttemptUnlock(); return; }
         }
 
-        // 2. ซ่อม Furniture ที่พัง[cite: 16]
+        // 2. ซ่อม Furniture ที่พัง
         foreach (var hit in hits)
         {
             DamageableObject dmg = hit.GetComponent<DamageableObject>();
             if (dmg != null && dmg.CanRepair()) { dmg.StartRepair(); return; }
         }
 
-        // 3. 🟢 [สำคัญ] เก็บเงินที่โต๊ะก่อนเป็นอันดับแรก (ห้ามอัปเกรดโต๊ะถ้ายังมีเงินค้างอยู่)
+        // 3. เก็บเงินที่โต๊ะ
         foreach (var hit in hits)
         {
             CustomerTable table = hit.GetComponent<CustomerTable>();
@@ -111,7 +159,7 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 4. เสิร์ฟอาหารที่โต๊ะ[cite: 16]
+        // 4. เสิร์ฟอาหารที่โต๊ะ
         foreach (var hit in hits)
         {
             CustomerTable table = hit.GetComponent<CustomerTable>();
@@ -122,14 +170,14 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 5. เปิด Relationship Book[cite: 16]
+        // 5. เปิด Relationship Book
         foreach (var hit in hits)
         {
             BookStation book = hit.GetComponent<BookStation>();
             if (book != null) { book.OpenBook(); return; }
         }
 
-        // 6. เปิด cooking / drink station[cite: 16]
+        // 6. เปิด cooking / drink station
         foreach (var hit in hits)
         {
             StationInteract station = hit.GetComponent<StationInteract>();
@@ -139,11 +187,7 @@ public class PlayerInteract2D : MonoBehaviour
                 foreach (var h in hits)
                 {
                     CustomerTable t = h.GetComponent<CustomerTable>();
-                    if (t != null && t.HasAnyNPCWaiting())
-                    {
-                        hasActiveTable = true;
-                        break;
-                    }
+                    if (t != null && t.HasAnyNPCWaiting()) { hasActiveTable = true; break; }
                 }
 
                 if (!hasActiveTable)
@@ -155,7 +199,7 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 7. ทิ้งอาหารที่ Garbage Zone[cite: 16]
+        // 7. ทิ้งอาหารที่ Garbage Zone
         foreach (var hit in hits)
         {
             GarbageZone garbage = hit.GetComponent<GarbageZone>();
@@ -167,7 +211,7 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 8. หยิบ/วาง/swap อาหารจาก TraySlot[cite: 16]
+        // 8. หยิบ/วาง/swap อาหารจาก TraySlot
         foreach (var hit in hits)
         {
             TraySlot tray = hit.GetComponent<TraySlot>();
@@ -179,13 +223,12 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 9. อัปเกรดเฟอร์นิเจอร์ (จะทำงานก็ต่อเมื่อเก็บเงินบนโต๊ะหมดแล้วเท่านั้น)[cite: 16]
+        // 9. อัปเกรดเฟอร์นิเจอร์
         foreach (var hit in hits)
         {
             FurnitureObject furn = hit.GetComponent<FurnitureObject>();
             if (furn != null && furn.isUnlocked && !furn.isUpgraded)
             {
-                // ตรวจสอบเพิ่มเติมเผื่อเป็นโต๊ะและมีเงินค้างอยู่ ห้ามอัปเกรด
                 CustomerTable tableCheck = hit.GetComponent<CustomerTable>();
                 if (tableCheck != null && tableCheck.hasMoneyToCollect) continue;
 
@@ -194,20 +237,16 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 10. NPC interact[cite: 16]
+        // 10. NPC interact
         NPCInteract zoneWaitingNPC = null;
-        float minZoneDist = Mathf.Infinity;
+        float minZoneDistNPC = Mathf.Infinity;
         foreach (var hit in hits)
         {
             NPCInteract n = hit.GetComponent<NPCInteract>();
             if (n != null && n.CanRequestZoneInteraction())
             {
                 float d = Vector2.Distance(transform.position, n.transform.position);
-                if (d < minZoneDist)
-                {
-                    minZoneDist = d;
-                    zoneWaitingNPC = n;
-                }
+                if (d < minZoneDistNPC) { minZoneDistNPC = d; zoneWaitingNPC = n; }
             }
         }
 
@@ -222,8 +261,8 @@ public class PlayerInteract2D : MonoBehaviour
         {
             if (closestNPC.CanInteract())
             {
-                PlayerInventory playerInv = GetComponent<PlayerInventory>();
-                if (playerInv != null && playerInv.HasItem()) return;
+                PlayerInventory playerInvRef = GetComponent<PlayerInventory>();
+                if (playerInvRef != null && playerInvRef.HasItem()) return;
 
                 closestNPC.RelationShip();
                 return;
@@ -239,6 +278,31 @@ public class PlayerInteract2D : MonoBehaviour
         {
             ComputerStation comp = hit.GetComponent<ComputerStation>();
             if (comp != null) { comp.OpenComputerShop(); return; }
+        }
+    }
+
+    private void SpawnAndSetupDataCat1AtZone(InteractionZone zone, Sprite catSprite)
+    {
+        if (dataCat1Prefab != null)
+        {
+            Vector3 spawnPos = zone.point.position;
+
+            // 🟢 เช็คและบังคับให้ตำแหน่งสปอว์นอยู่บน NavMesh เสมอ ป้องกันปัญหาหา NavMesh ไม่เจอ
+            if (UnityEngine.AI.NavMesh.SamplePosition(spawnPos, out UnityEngine.AI.NavMeshHit hit, 1.5f, UnityEngine.AI.NavMesh.AllAreas))
+            {
+                spawnPos = hit.position;
+            }
+
+            GameObject spawnedCat = Instantiate(dataCat1Prefab, spawnPos, Quaternion.identity);
+            NPCController newNpc = spawnedCat.GetComponent<NPCController>();
+            if (newNpc != null)
+            {
+                newNpc.InitAtInteractionZone(zone);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("PlayerInteract2D: ยังไม่ได้ลาก Prefab ของ DATACAT1 มาใส่ที่ช่อง dataCat1Prefab ใน Inspector!");
         }
     }
 
@@ -260,11 +324,9 @@ public class PlayerInteract2D : MonoBehaviour
         }
 
         foreach (var tray in lastNearbyTrays)
-            if (!currentTrays.Contains(tray))
-                tray.RefreshFeedback(isPlayerNearby: false);
+            if (!currentTrays.Contains(tray)) tray.RefreshFeedback(isPlayerNearby: false);
 
-        foreach (var tray in currentTrays)
-            tray.RefreshFeedback(isPlayerNearby: true);
+        foreach (var tray in currentTrays) tray.RefreshFeedback(isPlayerNearby: true);
 
         lastNearbyTrays = currentTrays;
     }

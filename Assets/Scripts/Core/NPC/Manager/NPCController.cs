@@ -15,6 +15,7 @@ public class NPCController : MonoBehaviour
     [HideInInspector] public CustomerTable assignedTable;
     [HideInInspector] public bool hasBeenServed = false;
     [HideInInspector] public string groupID = "";
+    [HideInInspector] public bool hasFinishedEating = false; // 🟢 เช็คว่ากินอาหารเสร็จแล้วหรือยัง (สำหรับ DATACAT1)
 
     [Header("Original System References")]
     public Transform seatPoint;
@@ -535,12 +536,10 @@ public class NPCController : MonoBehaviour
         isSittingAngryAnim = false;
         SetAnimState(AnimState.Sit);
 
-        // 🟢 Step: นั่งโต๊ะคิดว่าจะกินอะไรดี 1.5 วินาที
         yield return new WaitForSeconds(1.5f);
 
         if (currentState != NPCState.Sitting) yield break;
 
-        // 🟢 Step: โต๊ะ 2 เก้าอี้ขึ้นไป มีโอกาส Trigger คุยกัน 80%
         bool isTwoSeaterOrMore = assignedTable != null && assignedTable.seatPoints.Count >= 2;
         bool hasFriendWithThem = assignedTable != null && assignedTable.sittingNPCs.Count >= 2;
         bool willChat = isTwoSeaterOrMore && hasFriendWithThem && (Random.Range(0, 100) < assignedTable.chatTriggerChance);
@@ -561,7 +560,6 @@ public class NPCController : MonoBehaviour
             }
         }
 
-        // เริ่มสั่งอาหาร / แสดง UI รออาหาร
         SetupOrderUI();
 
         if (patienceBarRoot != null) patienceBarRoot.SetActive(true);
@@ -604,9 +602,6 @@ public class NPCController : MonoBehaviour
         StartCoroutine(AbsoluteTimeoutRoutine());
     }
 
-    /// <summary>
-    /// เริ่มกระบวนการกินหลังจากได้รับอาหาร (ใช้เวลา 5 วินาที แล้ววางเงินไว้ที่โต๊ะ)
-    /// </summary>
     public void StartEatingProcess()
     {
         StopAllCoroutines();
@@ -619,7 +614,6 @@ public class NPCController : MonoBehaviour
 
     IEnumerator EatingRoutine()
     {
-        // 🟢 Step: กินอาหารใช้เวลา 5 วินาที
         float eatTimer = 0f;
         float eatDuration = 5f;
 
@@ -629,17 +623,27 @@ public class NPCController : MonoBehaviour
             yield return null;
         }
 
-        // เมื่อกินเสร็จแล้ว -> วางเงินไว้ที่โต๊ะ
         if (assignedTable != null)
         {
             int reward = assignedTable.dishReward;
             assignedTable.LeaveMoneyOnTable(reward, isVIP);
-            assignedTable.RemoveNPCFromTable(this);
-        }
 
-        // เดินไปที่ InteractionZone หรือออกจากร้าน
-        bool willInteract = Random.Range(0, 101) <= (assignedTable != null ? assignedTable.interactionChance : 70);
-        FinishEatingAndProceed(willInteract);
+            CatIdentity identity = GetComponent<CatIdentity>();
+            bool isDataCat1 = identity != null && identity.IsDataCat1();
+
+            if (isDataCat1)
+            {
+                hasFinishedEating = true; // 🟢 ตั้งค่าสถานะว่ากินเสร็จและพร้อมให้อุ้มแล้ว
+                currentState = NPCState.Sitting;
+                yield break;
+            }
+            else
+            {
+                assignedTable.RemoveNPCFromTable(this);
+                bool willInteract = Random.Range(0, 101) <= (assignedTable != null ? assignedTable.interactionChance : 70);
+                FinishEatingAndProceed(willInteract);
+            }
+        }
     }
 
     public void FinishEatingAndProceed(bool willInteract)
@@ -693,6 +697,43 @@ public class NPCController : MonoBehaviour
         onArrivedAtInteractionZone = null;
         cb?.Invoke();
 
+        interactionTimeoutCoroutine = StartCoroutine(WaitForPlayerRoutine());
+    }
+
+    /// <summary>
+    /// 🟢 ฟังก์ชันสำหรับเริ่มต้นใช้งานเมื่อ DATACAT1 ถูกวางลงใน InteractionZone โดยผู้เล่น
+    /// </summary>
+    public void InitAtInteractionZone(InteractionZone zone)
+    {
+        currentZone = zone;
+        zone.Occupy(this);
+        currentState = NPCState.AtInteractionZone;
+
+        if (agent != null)
+        {
+            // ปิดชั่วคราวเพื่อให้แน่ใจว่าวางตำแหน่งทับจุด Interaction ได้ทันทีโดยไม่โดน NavMesh บล็อก
+            agent.enabled = false;
+            transform.position = zone.point.position;
+            agent.enabled = true;
+
+            if (agent.isOnNavMesh)
+            {
+                agent.isStopped = true;
+                agent.Warp(zone.point.position);
+            }
+            else
+            {
+                Debug.LogWarning($"[NPCController] {gameObject.name} ไม่สามารถเกาะ NavMesh ได้ที่ตำแหน่ง InteractionZone นี้! กรุณาตรวจสอบว่าจุด InteractionZone อยู่บน NavMesh หรือไม่");
+            }
+        }
+        else
+        {
+            transform.position = zone.point.position;
+        }
+
+        SetAnimState(AnimState.Sit, true);
+
+        StopAllCoroutines();
         interactionTimeoutCoroutine = StartCoroutine(WaitForPlayerRoutine());
     }
 
@@ -900,9 +941,20 @@ public class NPCController : MonoBehaviour
         float flavorTimer = 0f;
         float nextFlavorInterval = Random.Range(minSitAnimInterval, maxSitAnimInterval);
 
+        CatIdentity identity = GetComponent<CatIdentity>();
+        bool isDataCat1 = identity != null && identity.IsDataCat1();
+
         while (waitTimer < actualWaitTime)
         {
             if (currentState != NPCState.Sitting) yield break;
+
+            if (isDataCat1)
+            {
+                if (patienceBarRoot != null) patienceBarRoot.SetActive(false);
+                yield return null;
+                continue;
+            }
+
             bool shouldPause = isInQTE || GameIsPaused;
             if (!shouldPause)
             {
@@ -943,7 +995,7 @@ public class NPCController : MonoBehaviour
             yield return null;
         }
 
-        if (currentState == NPCState.Sitting && !isInQTE)
+        if (currentState == NPCState.Sitting && !isInQTE && !isDataCat1)
             BecomeAngry();
     }
 
@@ -1038,6 +1090,9 @@ public class NPCController : MonoBehaviour
 
     IEnumerator AbsoluteTimeoutRoutine()
     {
+        CatIdentity identity = GetComponent<CatIdentity>();
+        if (identity != null && identity.IsDataCat1()) yield break;
+
         float elapsed = 0f;
         while (elapsed < absoluteMaxSitTime)
         {
@@ -1124,7 +1179,23 @@ public class NPCController : MonoBehaviour
     public void GoExit()
     {
         if (isPerforming) return;
-        if (exitPoint == null) return;
+
+        // 🟢 ค้นหาจากชื่อ GameObject โดยตรง ไม่ใช้ Tag เพื่อป้องกันปัญหา Tag is not defined
+        if (exitPoint == null)
+        {
+            GameObject exitObj = GameObject.Find("ExitPoint");
+
+            if (exitObj != null)
+            {
+                exitPoint = exitObj.transform;
+            }
+            else
+            {
+                Debug.LogError($"[NPCController] ไม่พบ GameObject ชื่อ 'ExitPoint' ใน Scene! กรุณาสร้าง Empty GameObject และตั้งชื่อว่า 'ExitPoint'");
+                Destroy(gameObject);
+                return;
+            }
+        }
 
         if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
 
@@ -1136,12 +1207,14 @@ public class NPCController : MonoBehaviour
         onArrivedAtInteractionZone = null;
         if (currentZone != null)
         {
-            currentZone.Release();
-            currentZone = null;
+            currentZone.Release(); 
+        currentZone = null;
         }
+
         if (InteractionZoneManager.Instance != null)
-            InteractionZoneManager.Instance.CancelRequest(this);
-        CatSystemManager.Instance?.HideInteractionChoice();
+            InteractionZoneManager.Instance.CancelRequest(this); 
+
+    CatSystemManager.Instance?.HideInteractionChoice();
 
         QTEZoomController.Instance?.ZoomOutToGameplay();
 
@@ -1158,7 +1231,7 @@ public class NPCController : MonoBehaviour
         }
 
         Vector3 dir = (exitPoint.position - transform.position).normalized;
-        if (Mathf.Abs(dir.y) > Mathf.Abs(dir.x) && dir.y > 0.1f)
+        if (Mathf.Abs(dir.y) >= Mathf.Abs(dir.x) && dir.y > 0.1f)
         {
             SetAnimState(AnimState.WalkUp, true);
         }

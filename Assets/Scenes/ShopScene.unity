@@ -1711,6 +1711,7 @@ MonoBehaviour:
   assignedTable: {fileID: 0}
   hasBeenServed: 0
   groupID: 
+  hasFinishedEating: 0
   seatPoint: {fileID: 0}
   isOccupied: 0
   wantedItem: 
@@ -22810,7 +22811,7 @@ Transform:
   m_GameObject: {fileID: 1263260549}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.71, y: -0.36, z: 0}
+  m_LocalPosition: {x: 11.1, y: -0.85, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44400,6 +44401,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3397465124266803378, guid: 739e12f432990d44394a07cc89d82529, type: 3}
+      propertyPath: dataCat1Prefab
+      value: 
+      objectReference: {fileID: 1500671038587446994, guid: 674566b583f6fde4bb238e43d4da9724, type: 3}
     - target: {fileID: 3397465124266803378, guid: 739e12f432990d44394a07cc89d82529, type: 3}
       propertyPath: interactKeys.Array.size
       value: 2
