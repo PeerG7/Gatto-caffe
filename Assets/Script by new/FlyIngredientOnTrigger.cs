@@ -36,11 +36,15 @@ public class FlyIngredientOnTrigger : MonoBehaviour
         Image targetSlot = cookingManager.boardSlots[targetIndex];
         if (targetSlot == null) return;
 
-        StartCoroutine(JuicyFlyRoutine(targetSlot.rectTransform));
+        // ซ่อนรูปสล็อตบนเขียงไว้ชั่วคราวขณะวัตถุดิบกำลังบิน
+        targetSlot.color = new Color(1f, 1f, 1f, 0f);
+
+        StartCoroutine(JuicyFlyRoutine(targetSlot));
     }
 
-    private IEnumerator JuicyFlyRoutine(RectTransform targetRect)
+    private IEnumerator JuicyFlyRoutine(Image targetSlot)
     {
+        RectTransform targetRect = targetSlot.rectTransform;
         Transform parent = canvasParent != null ? canvasParent : transform.root;
 
         // Instantiate temporary ghost item
@@ -101,6 +105,9 @@ public class FlyIngredientOnTrigger : MonoBehaviour
             flyRect.localScale = Vector3.Lerp(Vector3.one, squashScale, Mathf.Sin(bt * Mathf.PI));
             yield return null;
         }
+
+        // 3. พอบินถึงเขียงแล้ว ค่อยสั่งเปิดรูปบนเขียงให้โชว์ออกมา
+        targetSlot.color = Color.white;
 
         Destroy(flyObj);
     }
