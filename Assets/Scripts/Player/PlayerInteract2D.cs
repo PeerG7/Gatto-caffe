@@ -86,21 +86,32 @@ public class PlayerInteract2D : MonoBehaviour
         Physics2D.OverlapCircle(transform.position, range, filter, resultList);
         Collider2D[] hits = resultList.ToArray();
 
-        // 1. ปลดล็อกเฟอร์นิเจอร์ (ยังเป็นเงาอยู่)
+        // 1. ปลดล็อกเฟอร์นิเจอร์ (ยังเป็นเงาอยู่)[cite: 16]
         foreach (var hit in hits)
         {
             FurnitureObject furn = hit.GetComponent<FurnitureObject>();
             if (furn != null && !furn.isUnlocked) { furn.AttemptUnlock(); return; }
         }
 
-        // 2. ซ่อม Furniture ที่พัง
+        // 2. ซ่อม Furniture ที่พัง[cite: 16]
         foreach (var hit in hits)
         {
             DamageableObject dmg = hit.GetComponent<DamageableObject>();
             if (dmg != null && dmg.CanRepair()) { dmg.StartRepair(); return; }
         }
 
-        // 3. เสิร์ฟอาหารที่โต๊ะ (แก้จุดที่ 1 & 2)
+        // 3. 🟢 [สำคัญ] เก็บเงินที่โต๊ะก่อนเป็นอันดับแรก (ห้ามอัปเกรดโต๊ะถ้ายังมีเงินค้างอยู่)
+        foreach (var hit in hits)
+        {
+            CustomerTable table = hit.GetComponent<CustomerTable>();
+            if (table != null && table.hasMoneyToCollect)
+            {
+                table.TryCollectMoney();
+                return;
+            }
+        }
+
+        // 4. เสิร์ฟอาหารที่โต๊ะ[cite: 16]
         foreach (var hit in hits)
         {
             CustomerTable table = hit.GetComponent<CustomerTable>();
@@ -111,14 +122,14 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 4. เปิด Relationship Book
+        // 5. เปิด Relationship Book[cite: 16]
         foreach (var hit in hits)
         {
             BookStation book = hit.GetComponent<BookStation>();
             if (book != null) { book.OpenBook(); return; }
         }
 
-        // 5. เปิด cooking / drink station (แก้จุดที่ 3 & 4)
+        // 6. เปิด cooking / drink station[cite: 16]
         foreach (var hit in hits)
         {
             StationInteract station = hit.GetComponent<StationInteract>();
@@ -144,7 +155,7 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 6. ทิ้งอาหารที่ Garbage Zone
+        // 7. ทิ้งอาหารที่ Garbage Zone[cite: 16]
         foreach (var hit in hits)
         {
             GarbageZone garbage = hit.GetComponent<GarbageZone>();
@@ -156,7 +167,7 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 7. หยิบ/วาง/swap อาหารจาก TraySlot
+        // 8. หยิบ/วาง/swap อาหารจาก TraySlot[cite: 16]
         foreach (var hit in hits)
         {
             TraySlot tray = hit.GetComponent<TraySlot>();
@@ -168,18 +179,22 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 8. อัปเกรดเฟอร์นิเจอร์
+        // 9. อัปเกรดเฟอร์นิเจอร์ (จะทำงานก็ต่อเมื่อเก็บเงินบนโต๊ะหมดแล้วเท่านั้น)[cite: 16]
         foreach (var hit in hits)
         {
             FurnitureObject furn = hit.GetComponent<FurnitureObject>();
             if (furn != null && furn.isUnlocked && !furn.isUpgraded)
             {
+                // ตรวจสอบเพิ่มเติมเผื่อเป็นโต๊ะและมีเงินค้างอยู่ ห้ามอัปเกรด
+                CustomerTable tableCheck = hit.GetComponent<CustomerTable>();
+                if (tableCheck != null && tableCheck.hasMoneyToCollect) continue;
+
                 furn.AttemptUpgrade();
                 return;
             }
         }
 
-        // 9. NPC interact
+        // 10. NPC interact[cite: 16]
         NPCInteract zoneWaitingNPC = null;
         float minZoneDist = Mathf.Infinity;
         foreach (var hit in hits)

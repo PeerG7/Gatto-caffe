@@ -68,7 +68,7 @@ public class NPCController : MonoBehaviour
 
     [HideInInspector] public bool isInQTE = false;
 
-    public enum NPCState { InQueue, GoingToSeat, Sitting, GoingToInteractionZone, AtInteractionZone, GoingToDamage, Leaving, Performing }
+    public enum NPCState { InQueue, GoingToSeat, Sitting, Eating, GoingToInteractionZone, AtInteractionZone, GoingToDamage, Leaving, Performing }
     public NPCState currentState = NPCState.InQueue;
 
     [Header("Order System")]
@@ -175,7 +175,7 @@ public class NPCController : MonoBehaviour
         }
         else if (agent != null)
         {
-            if (currentState != NPCState.Performing && currentState != NPCState.Sitting && currentState != NPCState.AtInteractionZone)
+            if (currentState != NPCState.Performing && currentState != NPCState.Sitting && currentState != NPCState.AtInteractionZone && currentState != NPCState.Eating)
             {
                 agent.isStopped = false;
             }
@@ -284,7 +284,7 @@ public class NPCController : MonoBehaviour
 
     void UpdateMovementAnimation()
     {
-        if (currentState == NPCState.Sitting || currentState == NPCState.AtInteractionZone || currentState == NPCState.Performing)
+        if (currentState == NPCState.Sitting || currentState == NPCState.Eating || currentState == NPCState.AtInteractionZone || currentState == NPCState.Performing)
             return;
 
         Vector3 vel = agent.velocity;
@@ -362,9 +362,6 @@ public class NPCController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// สั่งให้เดินไปยังตำแหน่ง Vector3 โดยตรง (ใช้สำหรับยืนคู่ข้างกันที่จุดคิว)
-    /// </summary>
     public void SetQueueTargetCustom(Vector3 targetPosition)
     {
         if (agent == null) agent = GetComponent<NavMeshAgent>();
@@ -387,7 +384,6 @@ public class NPCController : MonoBehaviour
         int groupSize = GetGroupSize();
         CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
 
-        // กรองเฉพาะโต๊ะที่ปลดล็อกแล้วและยังว่างอยู่
         var availableTables = allTables.Where(t => {
             FurnitureObject furniture = t.GetComponent<FurnitureObject>();
             bool isUnlocked = (furniture == null || furniture.isUnlocked);
@@ -403,19 +399,19 @@ public class NPCController : MonoBehaviour
 
         if (groupSize == 1)
         {
-            // 🟢 แมวเดี่ยว (1 ตัว): จัดลำดับให้เลือก "โต๊ะ 1 ที่นั่ง" ก่อนเสมอ ถ้าไม่มีค่อยขยับไปโต๊ะที่นั่งมากกว่า
+            // 🟢 แมวเดี่ยว: เลือกโต๊ะ 1 ที่นั่งก่อนเสมอ (ไม่สนใจว่าโต๊ะไหนสร้างล่าสุด)
             targetTable = availableTables
                 .Where(t => t.seatPoints.Count >= 1)
-                .OrderBy(t => t.seatPoints.Count == 1 ? 0 : 1) // ให้โต๊ะ 1 ที่นั่งมาก่อน (Priority 0)
-                .ThenBy(t => Vector3.Distance(transform.position, t.transform.position)) // ถ้าจำนวนที่นั่งเท่ากัน ให้เลือกโต๊ะที่ใกล้ที่สุด
+                .OrderBy(t => t.seatPoints.Count == 1 ? 0 : 1)
+                .ThenBy(t => Vector3.Distance(transform.position, t.transform.position))
                 .FirstOrDefault();
         }
         else
         {
-            // 🟢 แมวคู่/กลุ่ม (2 ตัวขึ้นไป): จัดลำดับให้เลือกโต๊ะที่มีเก้าอี้พอดีกับกลุ่มก่อนเสมอ
+            // 🟢 แมวคู่: เลือกโต๊ะ 2 ที่นั่งขึ้นไปเสมอ
             targetTable = availableTables
                 .Where(t => t.seatPoints.Count >= groupSize)
-                .OrderBy(t => t.seatPoints.Count) // เลือกโต๊ะที่จำนวนที่นั่งใกล้เคียงกับขนาดกลุ่มที่สุดก่อน
+                .OrderBy(t => t.seatPoints.Count)
                 .ThenBy(t => Vector3.Distance(transform.position, t.transform.position))
                 .FirstOrDefault();
         }
@@ -607,14 +603,49 @@ public class NPCController : MonoBehaviour
         StartCoroutine(AbsoluteTimeoutRoutine());
     }
 
-    public void FinishServingAndProceed(bool willInteract)
+    /// <summary>
+    /// เริ่มกระบวนการกินหลังจากได้รับอาหาร (ใช้เวลา 5 วินาที แล้ววางเงินไว้ที่โต๊ะ)
+    /// </summary>
+    public void StartEatingProcess()
+    {
+        StopAllCoroutines();
+        if (patienceBarRoot != null) patienceBarRoot.SetActive(false);
+        if (orderCanvas != null) orderCanvas.SetActive(false);
+
+        currentState = NPCState.Eating;
+        StartCoroutine(EatingRoutine());
+    }
+
+    IEnumerator EatingRoutine()
+    {
+        // กินอาหารใช้เวลา 5 วินาที
+        float eatTimer = 0f;
+        float eatDuration = 5f;
+
+        while (eatTimer < eatDuration)
+        {
+            if (!GameIsPaused) eatTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        // เมื่อกินเสร็จแล้ว -> วางเงินไว้ที่โต๊ะ
+        if (assignedTable != null)
+        {
+            int reward = assignedTable.dishReward;
+            assignedTable.LeaveMoneyOnTable(reward, isVIP);
+            assignedTable.RemoveNPCFromTable(this);
+        }
+
+        // ตัดสินใจว่าจะไป Interaction Zone หรือออกจากร้าน
+        bool willInteract = Random.Range(0, 101) <= (assignedTable != null ? assignedTable.interactionChance : 70);
+        FinishEatingAndProceed(willInteract);
+    }
+
+    public void FinishEatingAndProceed(bool willInteract)
     {
         isInQTE = false;
         isSittingAngryAnim = false;
         isPlayingSittingFlavor = false;
-        if (orderCanvas != null) orderCanvas.SetActive(false);
-        if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
-        if (patienceBarRoot != null) patienceBarRoot.SetActive(false);
 
         if (willInteract)
             GoToInteractionZone(ArriveAtInteractionZone);
@@ -1150,6 +1181,7 @@ public class NPCController : MonoBehaviour
         }
         Destroy(gameObject);
     }
+
     public int GetGroupSize()
     {
         if (string.IsNullOrEmpty(groupID)) return 1;

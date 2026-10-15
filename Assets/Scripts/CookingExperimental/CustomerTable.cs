@@ -7,10 +7,8 @@ public class CustomerTable : MonoBehaviour
     [Tooltip("ตำแหน่งเก้าอี้ทั้งหมดที่มีในโต๊ะนี้ (เช่น Seat1, Seat2)")]
     public List<Transform> seatPoints = new List<Transform>();
 
-    // เก็บรายการ NPC ที่กำลังนั่งอยู่จริงในโต๊ะนี้
     [HideInInspector] public List<NPCController> sittingNPCs = new List<NPCController>();
 
-    // โต๊ะจะถือว่าเต็ม เมื่อจำนวนแมวที่นั่งอยู่เท่ากับจำนวนเก้าอี้ที่มี
     public bool isFull => sittingNPCs.Count >= seatPoints.Count;
     public bool isOccupied => sittingNPCs.Count > 0;
 
@@ -24,12 +22,16 @@ public class CustomerTable : MonoBehaviour
     [Header("VIP Visual")]
     public GameObject vipBadgeIcon;
 
+    [Header("Money on Table Settings")]
+    public GameObject moneyIconOnTable;
+    [HideInInspector] public bool hasMoneyToCollect = false;
+    private int pendingMoneyReward = 0;
+
     [Header("Interaction Chance")]
     [Range(0, 100)] public int interactionChance = 70;
 
     [Header("Chat Interaction Settings")]
     [Range(0, 100)]
-    [Tooltip("โอกาสที่จะเกิด Pop-up ก้อนเมฆสุ่มไอคอนคุยกัน เมื่อแมวนั่งโต๊ะ 2 ที่นั่งครบทั้งคู่ (0-100%)")]
     public int chatTriggerChance = 70;
 
     [Header("SFX")]
@@ -37,13 +39,13 @@ public class CustomerTable : MonoBehaviour
     public AudioSource sfxSource;
 
     [Header("Group Serve Settings")]
-    [Tooltip("เวลาที่จะบวกเพิ่มให้เพื่อนในโต๊ะเมื่อมีคนในโต๊ะได้รับอาหาร (วินาที)")]
     public float patienceBonusOnFriendServed = 15f;
 
     private void Awake()
     {
         SetWorldSpaceCamera();
         AutoFindSeatPoints();
+        if (moneyIconOnTable != null) moneyIconOnTable.SetActive(false);
     }
 
     private void Start()
@@ -77,14 +79,10 @@ public class CustomerTable : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// หาเก้าอี้ที่ยังว่างอยู่ (ตรวจสอบเฉพาะเก้าอี้ที่ไม่มีแมวจับจองจริงๆ)
-    /// </summary>
     public Transform GetAvailableSeat()
     {
         if (seatPoints == null || seatPoints.Count == 0) return transform;
 
-        // ถ้าระหว่างที่มีแมวนั่งอยู่ ห้ามให้คนนอกร้านมาแจมเด็ดขาด
         if (sittingNPCs.Count > 0)
         {
             foreach (Transform seat in seatPoints)
@@ -92,13 +90,12 @@ public class CustomerTable : MonoBehaviour
                 bool isSeatTaken = sittingNPCs.Exists(npc => npc != null && npc.seatPoint == seat);
                 if (!isSeatTaken)
                 {
-                    return seat; // ส่งเก้าอี้ที่ว่างจริง ๆ ให้เฉพาะแมวในกลุ่มเดียวกัน
+                    return seat;
                 }
             }
             return null;
         }
 
-        // กรณีโต๊ะว่างสนิท
         return seatPoints[0];
     }
 
@@ -111,9 +108,6 @@ public class CustomerTable : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// สั่งให้แมวบนโต๊ะแสดงบทสนทนาร่วมกัน
-    /// </summary>
     public void TriggerTableChat()
     {
         if (seatPoints.Count >= 2 && sittingNPCs.Count >= 2)
@@ -132,7 +126,6 @@ public class CustomerTable : MonoBehaviour
                         }
                     }
                 }
-                Debug.Log($"💬 [CustomerTable] แมวบนโต๊ะ {gameObject.name} เริ่มพูดคุยกันแทนการสั่งอาหาร!");
             }
         }
     }
@@ -162,28 +155,9 @@ public class CustomerTable : MonoBehaviour
             targetNPC.hasBeenServed = true;
 
             BoostRemainingNPCsPatience(targetNPC);
-
-            int finalReward = dishReward;
-            if (targetNPC.isVIP)
-                finalReward = Mathf.RoundToInt(dishReward * targetNPC.vipMoneyMultiplier);
-
-            if (DayNightManager.Instance != null)
-            {
-                DayNightManager.Instance.catsServedToday++;
-                DayNightManager.Instance.moneyEarnedToday += finalReward;
-            }
-
-            if (CurrencyManager.Instance != null)
-                CurrencyManager.Instance.AddMoney(finalReward);
-
-            PlayCoinSound();
             player.ClearItem();
 
-            bool willInteract = Random.Range(0, 101) <= interactionChance;
-
-            RemoveNPCFromTable(targetNPC);
-
-            targetNPC.FinishServingAndProceed(willInteract);
+            targetNPC.StartEatingProcess();
         }
         else
         {
@@ -192,7 +166,54 @@ public class CustomerTable : MonoBehaviour
     }
 
     /// <summary>
-    /// เอาแมวออกจากโต๊ะ (คงสถานะโต๊ะไว้จนกว่าจะลุกออกหมดทุกตัว)
+    /// สะสมเงินไว้ที่โต๊ะเมื่อแมวกินเสร็จทีละตัว (รองรับการ Stack เงินรวมกัน)
+    /// </summary>
+    public void LeaveMoneyOnTable(int reward, bool isVIP)
+    {
+        int finalReward = isVIP ? Mathf.RoundToInt(reward * 2f) : reward;
+        pendingMoneyReward += finalReward; // 🟢 บวกสะสมเพิ่มขึ้นเรื่อยๆ
+        hasMoneyToCollect = true;
+
+        if (moneyIconOnTable != null)
+            moneyIconOnTable.SetActive(true);
+
+        if (DayNightManager.Instance != null)
+        {
+            DayNightManager.Instance.catsServedToday++;
+            DayNightManager.Instance.moneyEarnedToday += finalReward;
+        }
+    }
+
+    /// <summary>
+    /// ผู้เล่นเดินมาเก็บเงินที่โต๊ะ
+    /// </summary>
+    public bool TryCollectMoney()
+    {
+        if (!hasMoneyToCollect) return false;
+
+        if (CurrencyManager.Instance != null)
+        {
+            CurrencyManager.Instance.AddMoney(pendingMoneyReward);
+        }
+
+        PlayCoinSound();
+
+        hasMoneyToCollect = false;
+        pendingMoneyReward = 0;
+        if (moneyIconOnTable != null)
+            moneyIconOnTable.SetActive(false);
+
+        // 🟢 ถ้าแมวออกจากโต๊ะหมดแล้ว แต่ติดที่รอเก็บเงินอยู่ พอเก็บเงินปุ๊บให้รีเซ็ตโต๊ะทันที
+        if (sittingNPCs.Count == 0)
+        {
+            ResetTable();
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// จัดการเมื่อแมวแต่ละตัวลุกออกจากโต๊ะ
     /// </summary>
     public void RemoveNPCFromTable(NPCController npc)
     {
@@ -201,14 +222,20 @@ public class CustomerTable : MonoBehaviour
             sittingNPCs.Remove(npc);
         }
 
-        // ถ้ายังมีแมวตัวอื่นนั่งอยู่บนโต๊ะ -> ห้ามรีเซ็ตโต๊ะเด็ดขาด
+        // 🟢 ถ้ายังมีแมวตัวอื่นนั่งอยู่บนโต๊ะ ห้ามรีเซ็ตและห้ามล้างเงินเด็ดขาด
         if (sittingNPCs.Count > 0)
         {
             Debug.Log($"🪑 [CustomerTable] แมวตัวหนึ่งลุกออกจากโต๊ะ {gameObject.name} แล้ว แต่ยังมีเพื่อนร่วมโต๊ะนั่งอยู่ คงสถานะโต๊ะไว้");
             return;
         }
 
-        // ถ้าไม่มีแมวเหลืออยู่บนโต๊ะแล้ว ถึงค่อยเคลียร์และรีเซ็ตโต๊ะ
+        // 🟢 ถ้าแมวออกจากโต๊ะหมดแล้ว แต่ "ยังมีเงินค้างอยู่บนโต๊ะ" ให้รอจนกว่าผู้เล่นจะเก็บเงินก่อน
+        if (hasMoneyToCollect)
+        {
+            Debug.Log($"💰 [CustomerTable] แมวออกจากโต๊ะหมดแล้ว แต่ยังมีเงินค้างอยู่ รอผู้เล่นมาเก็บเงินก่อนค่อยรีเซ็ตโต๊ะ");
+            return;
+        }
+
         ResetTable();
     }
 
@@ -239,7 +266,10 @@ public class CustomerTable : MonoBehaviour
     {
         wantedItem = "";
         sittingNPCs.Clear();
+        hasMoneyToCollect = false;
+        pendingMoneyReward = 0;
         if (tableItemRenderer != null) tableItemRenderer.enabled = false;
+        if (moneyIconOnTable != null) moneyIconOnTable.SetActive(false);
         SetVIPVisual(false);
     }
 
