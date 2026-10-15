@@ -49,7 +49,6 @@ public class NPCInteract : MonoBehaviour
             Debug.LogWarning("PlayAngry: ไม่มี AudioSource หรือ AudioManager บน " + gameObject.name);
     }
 
-    /// <summary>แมวมีความสุข (ได้รับอาหาร/เครื่องดื่มถูกใจ) — VIP ใช้เสียงตัวเอง ถ้าไม่มีก็ใช้ default</summary>
     public void PlayHappy()
     {
         if (audioSource != null && happySound != null)
@@ -60,7 +59,6 @@ public class NPCInteract : MonoBehaviour
             Debug.LogWarning("PlayHappy: ไม่มี AudioSource หรือ AudioManager บน " + gameObject.name);
     }
 
-    /// <summary>แมวไม่พอใจ (ได้รับอาหาร/เครื่องดื่มผิด) — VIP ใช้เสียงตัวเอง ถ้าไม่มีก็ใช้ default</summary>
     public void PlaySad()
     {
         if (audioSource != null && sadSound != null)
@@ -71,7 +69,6 @@ public class NPCInteract : MonoBehaviour
             Debug.LogWarning("PlaySad: ไม่มี AudioSource หรือ AudioManager บน " + gameObject.name);
     }
 
-    /// <summary>แมวส่งสัญญาณต้องการอาหาร — VIP ใช้เสียงตัวเอง ถ้าไม่มีก็ใช้ default</summary>
     public void PlayWantsFood()
     {
         if (audioSource != null && wantsFoodSound != null)
@@ -87,13 +84,11 @@ public class NPCInteract : MonoBehaviour
         return npc != null && npc.currentState == NPCController.NPCState.Sitting;
     }
 
-    /// <summary>เช็คว่าแมวตัวนี้กำลังยืนรออยู่ที่ Interaction Zone (รอผู้เล่นกด E) หรือไม่</summary>
     public bool CanRequestZoneInteraction()
     {
         return npc != null && npc.CanRequestInteractionChoice();
     }
 
-    /// <summary>เรียกจาก PlayerInteract2D ตอนกด E ใกล้แมวที่ยืนรออยู่ที่ Zone — เปิดเมนูเลือก QTE</summary>
     public void RequestZoneInteraction()
     {
         if (npc == null) return;
@@ -105,18 +100,30 @@ public class NPCInteract : MonoBehaviour
         if (npc == null) return;
 
         NPCController frontNPC = QueueManager.Instance.GetFrontNPC();
-        if (frontNPC != npc)
+
+        // อนุญาตให้คลิกต้อนรับได้ ถ้าตัวที่คลิกคือหัวแถว หรือเป็นเพื่อนร่วมกลุ่มที่ต่อแถวอยู่
+        bool isFrontOrSameGroup = (frontNPC == npc) ||
+                                  (frontNPC != null && !string.IsNullOrEmpty(frontNPC.groupID) && frontNPC.groupID == npc.groupID);
+
+        if (!isFrontOrSameGroup)
         {
-            Debug.Log("❌ Not front of queue");
+            Debug.Log("❌ Not front of queue"); 
             return;
         }
 
         if (npc.currentState == NPCController.NPCState.InQueue)
         {
-            Debug.Log("✅ Invite NPC");
-            isInStore = true;
+            Debug.Log("✅ Invite NPC Group"); 
             PlayMeow();
-            npc.GoToTableDirectly();
+
+            if (QueueManager.Instance != null)
+            {
+                QueueManager.Instance.InviteGroup(frontNPC);
+            }
+            else
+            {
+                npc.GoToTableDirectly();
+            }
         }
     }
 
@@ -133,29 +140,26 @@ public class NPCInteract : MonoBehaviour
 
         if (npc.currentState != NPCController.NPCState.Sitting)
         {
-            Debug.Log("❌ NPC not sitting — state: " + npc.currentState);
+            Debug.Log("❌ NPC not sitting — state: " + npc.currentState); 
             return;
         }
 
-        Debug.Log("❤️ OPEN RELATIONSHIP for: " + gameObject.name);
+        Debug.Log("❤️ OPEN RELATIONSHIP for: " + gameObject.name); 
 
         RelationshipManager.Instance.SetCurrentNPC(npc);
 
         if (relationshipCanvas != null)
         {
             relationshipCanvas.SetActive(true);
-
-            // ✅ ล็อก Player ตอนเปิด Relationship canvas
             PlayerController2D.SetLock(true);
 
-            // ✅ Pause เฉพาะตอนที่ยังไม่ได้ pause อยู่
             if (DayNightManager.Instance != null && !DayNightManager.Instance.isPaused)
                 DayNightManager.Instance.PauseGame();
         }
         else
         {
             Debug.LogError("❌ relationshipCanvas is NULL บน " + gameObject.name +
-                           " — กรุณาลาก RelationshipCanvas มาใส่ใน Inspector ของ NPCSpawner");
+                           " — กรุณาลาก RelationshipCanvas มาใส่ใน Inspector ของ NPCSpawner"); 
         }
     }
 }

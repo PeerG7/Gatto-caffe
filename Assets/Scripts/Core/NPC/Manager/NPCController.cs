@@ -39,23 +39,23 @@ public class NPCController : MonoBehaviour
     [Tooltip("เวลารอสูงสุดเมื่อยืนรอคิวหน้าร้าน (วินาที)")]
     public float maxQueueWaitTime = 25f;
     private float queueWaitTimer = 0f;
-    private bool hasReachedQueueOnce = false; // ✅ บันทึกว่าแมวเคยเดินถึงจุดรอคิวแล้วหรือยัง (ใช้เพื่อให้นับเวลาสะสมต่อเนื่อง)
-    public GameObject queuePatienceBarRoot;   // (Optional) UI หลอดเวลาหน้าร้าน
-    public Image queuePatienceBarFill;        // (Optional) Fill Image ของหลอดเวลาหน้าร้าน
+    private bool hasReachedQueueOnce = false;
+    public GameObject queuePatienceBarRoot;
+    public Image queuePatienceBarFill;
 
     [Header("Patience Bar UI")]
     public GameObject patienceBarRoot;
     public UnityEngine.UI.Image patienceBarFill;
 
     [Header("Patience UI Images (2 ภาพใน Panel)")]
-    public Image patienceImage1;        // UI Image อันที่ 1 ใน Panel
-    public Image patienceImage2;        // UI Image อันที่ 2 ใน Panel
+    public Image patienceImage1;
+    public Image patienceImage2;
 
     [Header("Sprites (ปกติ vs เต็ม 100%)")]
-    public Sprite normalSprite1;        // ภาพปกติ Image 1
-    public Sprite maxRepSprite1;        // ภาพเต็ม 100% Image 1
-    public Sprite normalSprite2;        // ภาพปกติ Image 2
-    public Sprite maxRepSprite2;        // ภาพเต็ม 100% Image 2
+    public Sprite normalSprite1;
+    public Sprite maxRepSprite1;
+    public Sprite normalSprite2;
+    public Sprite maxRepSprite2;
 
     [Header("Safety Timeout (ป้องกัน NPC ค้างโต๊ะ)")]
     public float absoluteMaxSitTime = 120f;
@@ -107,18 +107,17 @@ public class NPCController : MonoBehaviour
     public float interactionChoiceTimeout = 5f;
     private Coroutine interactionTimeoutCoroutine;
 
-    // --- Complete 0-Based Mapping Matching Animator Controller (Indices 0 to 8) ---
     public enum AnimState
     {
-        Idle = 0,               // Idle
-        WalkSide = 1,           // Walk
-        WalkUp = 2,             // WalkUp
-        Sit = 3,                // Siting
-        SitAngry = 4,           // SitingAngry
-        PettingAnimation = 5,   // Petting animation
-        CatWandPlay = 6,        // catwandplay (Index 6)
-        CatToyMouse = 7,        // Cat_Toy_Mouse (Index 7)
-        RandomSitPhase = 8      // Cat_Random_Sitting_Phase (Index 8)
+        Idle = 0,
+        WalkSide = 1,
+        WalkUp = 2,
+        Sit = 3,
+        SitAngry = 4,
+        PettingAnimation = 5,
+        CatWandPlay = 6,
+        CatToyMouse = 7,
+        RandomSitPhase = 8
     }
 
     private AnimState currentAnim = AnimState.Idle;
@@ -127,7 +126,6 @@ public class NPCController : MonoBehaviour
     private bool isPlayingSittingFlavor = false;
 
     private bool isPerforming = false;
-
     public bool IsPerforming => isPerforming;
 
     static bool GameIsPaused =>
@@ -188,19 +186,15 @@ public class NPCController : MonoBehaviour
         UpdateMovementAnimation();
         UpdateWaitingFlavorTimers();
 
-        // ⏱️ นับเวลาถอยหลังการรอคิวหน้าร้าน (สะสมเวลาต่อเนื่องตั้งแต่เดินถึงคิวครั้งแรก)
         if (currentState == NPCState.InQueue)
         {
-            // เช็กว่าแมวเดินถึงจุดคิวปัจจุบันแล้วหรือยัง[cite: 20]
             bool isAtCurrentQueuePoint = !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
 
-            // เมื่อเดินถึงจุดคิวครั้งแรก ให้บันทึกไว้ว่าเข้าสู่แถวเรียบร้อยแล้ว[cite: 20]
             if (isAtCurrentQueuePoint)
             {
                 hasReachedQueueOnce = true;
             }
 
-            // เมื่อแมวเคยเข้าถึงคิวแล้ว ให้เดินหน้านับเวลาต่อทันทีแม้จะเดินขยับคิวอยู่[cite: 20]
             if (hasReachedQueueOnce)
             {
                 queueWaitTimer += Time.deltaTime;
@@ -241,8 +235,6 @@ public class NPCController : MonoBehaviour
     private void OnQueueWaitTimeout()
     {
         if (currentState != NPCState.InQueue) return;
-
-        Debug.Log($"🐱 [{gameObject.name}] ยืนรอนานเกินไป ถอนคิวและเดินกลับ!");
 
         if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
 
@@ -366,7 +358,21 @@ public class NPCController : MonoBehaviour
             agent.SetDestination(target.position);
             currentState = NPCState.InQueue;
 
-            // ✅ ไม่เคลียร์ queueWaitTimer = 0f เพื่อให้นับเวลาสะสมต่อเนื่องเมื่อคิวขยับขึ้นหน้า[cite: 20]
+            if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// สั่งให้เดินไปยังตำแหน่ง Vector3 โดยตรง (ใช้สำหรับยืนคู่ข้างกันที่จุดคิว)
+    /// </summary>
+    public void SetQueueTargetCustom(Vector3 targetPosition)
+    {
+        if (agent == null) agent = GetComponent<NavMeshAgent>();
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(targetPosition);
+            currentState = NPCState.InQueue;
 
             if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(true);
         }
@@ -383,6 +389,14 @@ public class NPCController : MonoBehaviour
         {
             FurnitureObject furniture = table.GetComponent<FurnitureObject>();
             bool isUnlocked = (furniture == null || furniture.isUnlocked);
+
+            // ตรวจสอบว่าโต๊ะมีแมวจากกลุ่มเดียวกันนั่งอยู่แล้วหรือไม่
+            bool isSameGroup = table.sittingNPCs.Count > 0 &&
+                               !string.IsNullOrEmpty(groupID) &&
+                               table.sittingNPCs.Exists(n => n != null && n.groupID == groupID);
+
+            // ถ้าโต๊ะไม่ว่างและไม่ใช่กลุ่มเดียวกัน ให้ข้ามไป
+            if (table.isOccupied && !isSameGroup) continue;
 
             Transform seat = table.GetAvailableSeat();
 
@@ -503,6 +517,30 @@ public class NPCController : MonoBehaviour
         isSittingAngryAnim = false;
         SetAnimState(AnimState.Sit);
 
+        yield return new WaitForSeconds(1.5f);
+
+        if (currentState != NPCState.Sitting) yield break;
+
+        bool isTwoSeaterOrMore = assignedTable != null && assignedTable.seatPoints.Count >= 2;
+        bool hasFriendWithThem = assignedTable != null && assignedTable.sittingNPCs.Count >= 2;
+        bool willChat = isTwoSeaterOrMore && hasFriendWithThem && (Random.Range(0, 100) < assignedTable.chatTriggerChance);
+
+        if (willChat)
+        {
+            if (assignedTable != null)
+            {
+                assignedTable.TriggerTableChat();
+            }
+
+            float chatTimer = 0f;
+            while (chatTimer < 5f)
+            {
+                if (currentState != NPCState.Sitting) yield break;
+                if (!GameIsPaused) chatTimer += Time.deltaTime;
+                yield return null;
+            }
+        }
+
         SetupOrderUI();
 
         if (patienceBarRoot != null) patienceBarRoot.SetActive(true);
@@ -531,6 +569,15 @@ public class NPCController : MonoBehaviour
             interactWantsFood.PlayWantsFood();
         else if (AudioManager.instance != null)
             AudioManager.instance.PlayWantsFood();
+
+        float postOrderWait = 1.5f;
+        float postTimer = 0f;
+        while (postTimer < postOrderWait)
+        {
+            if (currentState != NPCState.Sitting) yield break;
+            if (!GameIsPaused) postTimer += Time.deltaTime;
+            yield return null;
+        }
 
         StartCoroutine(SitRoutine());
         StartCoroutine(AbsoluteTimeoutRoutine());
@@ -561,7 +608,6 @@ public class NPCController : MonoBehaviour
 
         if (InteractionZoneManager.Instance == null)
         {
-            Debug.LogWarning("[NPCController] ไม่พบ InteractionZoneManager.Instance — ข้ามการเดินไปโซน");
             GoExit();
             return;
         }
@@ -946,7 +992,6 @@ public class NPCController : MonoBehaviour
 
         if (currentState == NPCState.Sitting)
         {
-            Debug.LogWarning($"⚠️ [{gameObject.name}] ค้างโต๊ะเกิน {absoluteMaxSitTime}s — บังคับออก (isInQTE={isInQTE})");
             isInQTE = false;
             LeaveSeat();
         }

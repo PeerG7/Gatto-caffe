@@ -78,17 +78,28 @@ public class CustomerTable : MonoBehaviour
     }
 
     /// <summary>
-    /// หาเก้าอี้ที่ยังว่างอยู่
+    /// หาเก้าอี้ที่ยังว่างอยู่ (ตรวจสอบเฉพาะเก้าอี้ที่ไม่มีแมวจับจองจริงๆ)
     /// </summary>
     public Transform GetAvailableSeat()
     {
         if (seatPoints == null || seatPoints.Count == 0) return transform;
 
-        if (sittingNPCs.Count < seatPoints.Count)
+        // ถ้าระหว่างที่มีแมวนั่งอยู่ ห้ามให้คนนอกร้านมาแจมเด็ดขาด
+        if (sittingNPCs.Count > 0)
         {
-            return seatPoints[sittingNPCs.Count];
+            foreach (Transform seat in seatPoints)
+            {
+                bool isSeatTaken = sittingNPCs.Exists(npc => npc != null && npc.seatPoint == seat);
+                if (!isSeatTaken)
+                {
+                    return seat; // ส่งเก้าอี้ที่ว่างจริง ๆ ให้เฉพาะแมวในกลุ่มเดียวกัน
+                }
+            }
+            return null;
         }
-        return null;
+
+        // กรณีโต๊ะว่างสนิท
+        return seatPoints[0];
     }
 
     public void AssignNPCToTable(NPCController npc)
@@ -97,16 +108,13 @@ public class CustomerTable : MonoBehaviour
         {
             sittingNPCs.Add(npc);
             npc.assignedTable = this;
-
-            // ตรวจสอบเมื่อแมวนั่งลง หากนั่งครบ 2 ที่นั่ง จะสุ่มเปิด Pop-up คุยกัน
-            CheckAndTriggerChat();
         }
     }
 
     /// <summary>
-    /// สุ่ม Trigger เปิดก้อนเมฆบนหัวแมว 2 ตัวเมื่อนั่งโต๊ะเดียวกัน
+    /// สั่งให้แมวบนโต๊ะแสดงบทสนทนาร่วมกัน
     /// </summary>
-    private void CheckAndTriggerChat()
+    public void TriggerTableChat()
     {
         if (seatPoints.Count >= 2 && sittingNPCs.Count >= 2)
         {
@@ -124,7 +132,7 @@ public class CustomerTable : MonoBehaviour
                         }
                     }
                 }
-                Debug.Log($"💬 [CustomerTable] แมวบนโต๊ะ {gameObject.name} เกิด Pop-up นั่งคุยกัน!");
+                Debug.Log($"💬 [CustomerTable] แมวบนโต๊ะ {gameObject.name} เริ่มพูดคุยกันแทนการสั่งอาหาร!");
             }
         }
     }
@@ -136,7 +144,6 @@ public class CustomerTable : MonoBehaviour
 
         string heldItem = player.currentItem.Trim();
 
-        // ค้นหาแมวบนโต๊ะที่นั่งอยู่ ยังไม่ได้กิน และสั่งเมนูตรงกับอาหารในมือของผู้เล่น
         NPCController targetNPC = sittingNPCs.Find(n =>
             n != null &&
             !n.hasBeenServed &&
@@ -144,7 +151,6 @@ public class CustomerTable : MonoBehaviour
             n.requestedRecipe.recipeName.Trim().Equals(heldItem, System.StringComparison.OrdinalIgnoreCase)
         );
 
-        // กรณีฉุกเฉิน: ถ้าไม่ได้ตั้ง requestedRecipe บนตัวแมว ให้เช็กเทียบกับ wantedItem ของโต๊ะ
         if (targetNPC == null && !string.IsNullOrEmpty(wantedItem) && heldItem.Equals(wantedItem.Trim(), System.StringComparison.OrdinalIgnoreCase))
         {
             targetNPC = sittingNPCs.Find(n => n != null && !n.hasBeenServed);
@@ -155,7 +161,6 @@ public class CustomerTable : MonoBehaviour
             PlayerController2D.IsLocked = false;
             targetNPC.hasBeenServed = true;
 
-            // บวกเวลาความอดทนให้แมวตัวอื่นในกลุ่มที่ยังนั่งรออยู่
             BoostRemainingNPCsPatience(targetNPC);
 
             int finalReward = dishReward;
@@ -174,13 +179,10 @@ public class CustomerTable : MonoBehaviour
             PlayCoinSound();
             player.ClearItem();
 
-            // สุ่มการไป Interaction Zone
             bool willInteract = Random.Range(0, 101) <= interactionChance;
 
-            // ถอดแมวออกจากรายการนั่งของโต๊ะ
             RemoveNPCFromTable(targetNPC);
 
-            // สั่งให้แมวตัวนี้ลุกไปทาน/เดินออกจากร้าน
             targetNPC.FinishServingAndProceed(willInteract);
         }
         else
@@ -190,7 +192,7 @@ public class CustomerTable : MonoBehaviour
     }
 
     /// <summary>
-    /// เอาแมวออกจากโต๊ะเมื่อกินเสร็จหรือหมดความอดทนลุกออกไป
+    /// เอาแมวออกจากโต๊ะ (คงสถานะโต๊ะไว้จนกว่าจะลุกออกหมดทุกตัว)
     /// </summary>
     public void RemoveNPCFromTable(NPCController npc)
     {
@@ -199,12 +201,15 @@ public class CustomerTable : MonoBehaviour
             sittingNPCs.Remove(npc);
         }
 
-        // ตรวจสอบว่าแมวทุกตัวบนโต๊ะได้รับการเสิร์ฟหรือลุกออกไปหมดแล้วหรือยัง
-        bool hasUnservedNPC = sittingNPCs.Exists(n => n != null && !n.hasBeenServed);
-        if (!hasUnservedNPC)
+        // ถ้ายังมีแมวตัวอื่นนั่งอยู่บนโต๊ะ -> ห้ามรีเซ็ตโต๊ะเด็ดขาด
+        if (sittingNPCs.Count > 0)
         {
-            ResetTable();
+            Debug.Log($"🪑 [CustomerTable] แมวตัวหนึ่งลุกออกจากโต๊ะ {gameObject.name} แล้ว แต่ยังมีเพื่อนร่วมโต๊ะนั่งอยู่ คงสถานะโต๊ะไว้");
+            return;
         }
+
+        // ถ้าไม่มีแมวเหลืออยู่บนโต๊ะแล้ว ถึงค่อยเคลียร์และรีเซ็ตโต๊ะ
+        ResetTable();
     }
 
     private void BoostRemainingNPCsPatience(NPCController servedNPC)
