@@ -399,7 +399,6 @@ public class NPCController : MonoBehaviour
 
         if (groupSize == 1)
         {
-            // 🟢 แมวเดี่ยว: เลือกโต๊ะ 1 ที่นั่งก่อนเสมอ (ไม่สนใจว่าโต๊ะไหนสร้างล่าสุด)
             targetTable = availableTables
                 .Where(t => t.seatPoints.Count >= 1)
                 .OrderBy(t => t.seatPoints.Count == 1 ? 0 : 1)
@@ -408,7 +407,6 @@ public class NPCController : MonoBehaviour
         }
         else
         {
-            // 🟢 แมวคู่: เลือกโต๊ะ 2 ที่นั่งขึ้นไปเสมอ
             targetTable = availableTables
                 .Where(t => t.seatPoints.Count >= groupSize)
                 .OrderBy(t => t.seatPoints.Count)
@@ -537,10 +535,12 @@ public class NPCController : MonoBehaviour
         isSittingAngryAnim = false;
         SetAnimState(AnimState.Sit);
 
+        // 🟢 Step: นั่งโต๊ะคิดว่าจะกินอะไรดี 1.5 วินาที
         yield return new WaitForSeconds(1.5f);
 
         if (currentState != NPCState.Sitting) yield break;
 
+        // 🟢 Step: โต๊ะ 2 เก้าอี้ขึ้นไป มีโอกาส Trigger คุยกัน 80%
         bool isTwoSeaterOrMore = assignedTable != null && assignedTable.seatPoints.Count >= 2;
         bool hasFriendWithThem = assignedTable != null && assignedTable.sittingNPCs.Count >= 2;
         bool willChat = isTwoSeaterOrMore && hasFriendWithThem && (Random.Range(0, 100) < assignedTable.chatTriggerChance);
@@ -561,6 +561,7 @@ public class NPCController : MonoBehaviour
             }
         }
 
+        // เริ่มสั่งอาหาร / แสดง UI รออาหาร
         SetupOrderUI();
 
         if (patienceBarRoot != null) patienceBarRoot.SetActive(true);
@@ -618,7 +619,7 @@ public class NPCController : MonoBehaviour
 
     IEnumerator EatingRoutine()
     {
-        // กินอาหารใช้เวลา 5 วินาที
+        // 🟢 Step: กินอาหารใช้เวลา 5 วินาที
         float eatTimer = 0f;
         float eatDuration = 5f;
 
@@ -636,7 +637,7 @@ public class NPCController : MonoBehaviour
             assignedTable.RemoveNPCFromTable(this);
         }
 
-        // ตัดสินใจว่าจะไป Interaction Zone หรือออกจากร้าน
+        // เดินไปที่ InteractionZone หรือออกจากร้าน
         bool willInteract = Random.Range(0, 101) <= (assignedTable != null ? assignedTable.interactionChance : 70);
         FinishEatingAndProceed(willInteract);
     }

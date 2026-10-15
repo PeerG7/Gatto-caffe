@@ -32,7 +32,7 @@ public class CustomerTable : MonoBehaviour
 
     [Header("Chat Interaction Settings")]
     [Range(0, 100)]
-    public int chatTriggerChance = 70;
+    public int chatTriggerChance = 80; // 🟢 ปรับโอกาสคุยกันเป็น 80% ตามที่ต้องการ
 
     [Header("SFX")]
     public AudioClip coinSoundClip;
@@ -171,7 +171,7 @@ public class CustomerTable : MonoBehaviour
     public void LeaveMoneyOnTable(int reward, bool isVIP)
     {
         int finalReward = isVIP ? Mathf.RoundToInt(reward * 2f) : reward;
-        pendingMoneyReward += finalReward; // 🟢 บวกสะสมเพิ่มขึ้นเรื่อยๆ
+        pendingMoneyReward += finalReward;
         hasMoneyToCollect = true;
 
         if (moneyIconOnTable != null)
@@ -203,7 +203,6 @@ public class CustomerTable : MonoBehaviour
         if (moneyIconOnTable != null)
             moneyIconOnTable.SetActive(false);
 
-        // 🟢 ถ้าแมวออกจากโต๊ะหมดแล้ว แต่ติดที่รอเก็บเงินอยู่ พอเก็บเงินปุ๊บให้รีเซ็ตโต๊ะทันที
         if (sittingNPCs.Count == 0)
         {
             ResetTable();
@@ -222,17 +221,13 @@ public class CustomerTable : MonoBehaviour
             sittingNPCs.Remove(npc);
         }
 
-        // 🟢 ถ้ายังมีแมวตัวอื่นนั่งอยู่บนโต๊ะ ห้ามรีเซ็ตและห้ามล้างเงินเด็ดขาด
         if (sittingNPCs.Count > 0)
         {
-            Debug.Log($"🪑 [CustomerTable] แมวตัวหนึ่งลุกออกจากโต๊ะ {gameObject.name} แล้ว แต่ยังมีเพื่อนร่วมโต๊ะนั่งอยู่ คงสถานะโต๊ะไว้");
             return;
         }
 
-        // 🟢 ถ้าแมวออกจากโต๊ะหมดแล้ว แต่ "ยังมีเงินค้างอยู่บนโต๊ะ" ให้รอจนกว่าผู้เล่นจะเก็บเงินก่อน
         if (hasMoneyToCollect)
         {
-            Debug.Log($"💰 [CustomerTable] แมวออกจากโต๊ะหมดแล้ว แต่ยังมีเงินค้างอยู่ รอผู้เล่นมาเก็บเงินก่อนค่อยรีเซ็ตโต๊ะ");
             return;
         }
 
