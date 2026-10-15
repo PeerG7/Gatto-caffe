@@ -10788,6 +10788,7 @@ GameObject:
   - component: {fileID: 482954293}
   - component: {fileID: 482954292}
   - component: {fileID: 482954291}
+  - component: {fileID: 482954294}
   m_Layer: 0
   m_Name: ' money_popup'
   m_TagString: Untagged
@@ -10811,7 +10812,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.90025926}
   m_AnchorMax: {x: 0.41320837, y: 1}
-  m_AnchoredPosition: {x: 345, y: -267}
+  m_AnchoredPosition: {x: 476, y: -200.39}
   m_SizeDelta: {x: 62.6562, y: 74.311}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &482954291
@@ -10929,6 +10930,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 482954289}
   m_CullTransparentMesh: 1
+--- !u!114 &482954294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482954289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3861254f6fd7e714bb60070e47c7b0bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoneyGainPopup
+  popupText: {fileID: 482954292}
+  floatDistance: 25
+  duration: 0.8
 --- !u!1 &493378495
 GameObject:
   m_ObjectHideFlags: 0
@@ -11759,7 +11775,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &534551506
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14325,6 +14341,7 @@ GameObject:
   - component: {fileID: 730628114}
   - component: {fileID: 730628116}
   - component: {fileID: 730628115}
+  - component: {fileID: 730628117}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -14389,6 +14406,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730628113}
   m_CullTransparentMesh: 1
+--- !u!114 &730628117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730628113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52f0bd52b8757a14fa1250d331484b0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoinFlipAnimator
+  coinRect: {fileID: 730628114}
+  duration: 0.4
+  fullRotations: 1
 --- !u!1 &734170191
 GameObject:
   m_ObjectHideFlags: 0
@@ -19580,7 +19612,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1077466471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20771,7 +20803,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -238, y: 8}
   m_SizeDelta: {x: 160, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1181981287
@@ -32256,6 +32288,7 @@ GameObject:
   - component: {fileID: 1353073464}
   - component: {fileID: 1353073466}
   - component: {fileID: 1353073465}
+  - component: {fileID: 1353073467}
   m_Layer: 0
   m_Name: Money
   m_TagString: Untagged
@@ -32382,6 +32415,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353073463}
   m_CullTransparentMesh: 1
+--- !u!114 &1353073467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353073463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 169d9c68bed35e74cb3ccb5fe3a81afe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoinPunchAnimator
+  coinRect: {fileID: 1353073464}
+  punchScaleMultiplier: 1.35
+  duration: 0.25
 --- !u!1 &1364580519
 GameObject:
   m_ObjectHideFlags: 0
@@ -33850,9 +33898,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CurrencyManager
   currentMoney: 0
   moneyText: {fileID: 1353073465}
-  coinFlipAnimator: {fileID: 0}
-  moneyTextPunchAnimator: {fileID: 0}
-  moneyGainPopup: {fileID: 0}
+  coinFlipAnimator: {fileID: 730628117}
+  moneyTextPunchAnimator: {fileID: 1353073467}
+  moneyGainPopup: {fileID: 482954291}
 --- !u!4 &1475066133
 Transform:
   m_ObjectHideFlags: 0
@@ -40405,7 +40453,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -120}
+  m_AnchoredPosition: {x: 218, y: 8}
   m_SizeDelta: {x: 160, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1979704962
