@@ -384,25 +384,49 @@ public class NPCController : MonoBehaviour
 
         if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
 
+        int groupSize = GetGroupSize();
         CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
-        foreach (var table in allTables)
-        {
-            FurnitureObject furniture = table.GetComponent<FurnitureObject>();
+
+        // กรองเฉพาะโต๊ะที่ปลดล็อกแล้วและยังว่างอยู่
+        var availableTables = allTables.Where(t => {
+            FurnitureObject furniture = t.GetComponent<FurnitureObject>();
             bool isUnlocked = (furniture == null || furniture.isUnlocked);
 
-            // ตรวจสอบว่าโต๊ะมีแมวจากกลุ่มเดียวกันนั่งอยู่แล้วหรือไม่
-            bool isSameGroup = table.sittingNPCs.Count > 0 &&
+            bool isSameGroup = t.sittingNPCs.Count > 0 &&
                                !string.IsNullOrEmpty(groupID) &&
-                               table.sittingNPCs.Exists(n => n != null && n.groupID == groupID);
+                               t.sittingNPCs.Exists(n => n != null && n.groupID == groupID);
 
-            // ถ้าโต๊ะไม่ว่างและไม่ใช่กลุ่มเดียวกัน ให้ข้ามไป
-            if (table.isOccupied && !isSameGroup) continue;
+            return isUnlocked && (!t.isOccupied || isSameGroup);
+        }).ToList();
 
-            Transform seat = table.GetAvailableSeat();
+        CustomerTable targetTable = null;
 
-            if (seat != null && isUnlocked)
+        if (groupSize == 1)
+        {
+            // 🟢 แมวเดี่ยว (1 ตัว): จัดลำดับให้เลือก "โต๊ะ 1 ที่นั่ง" ก่อนเสมอ ถ้าไม่มีค่อยขยับไปโต๊ะที่นั่งมากกว่า
+            targetTable = availableTables
+                .Where(t => t.seatPoints.Count >= 1)
+                .OrderBy(t => t.seatPoints.Count == 1 ? 0 : 1) // ให้โต๊ะ 1 ที่นั่งมาก่อน (Priority 0)
+                .ThenBy(t => Vector3.Distance(transform.position, t.transform.position)) // ถ้าจำนวนที่นั่งเท่ากัน ให้เลือกโต๊ะที่ใกล้ที่สุด
+                .FirstOrDefault();
+        }
+        else
+        {
+            // 🟢 แมวคู่/กลุ่ม (2 ตัวขึ้นไป): จัดลำดับให้เลือกโต๊ะที่มีเก้าอี้พอดีกับกลุ่มก่อนเสมอ
+            targetTable = availableTables
+                .Where(t => t.seatPoints.Count >= groupSize)
+                .OrderBy(t => t.seatPoints.Count) // เลือกโต๊ะที่จำนวนที่นั่งใกล้เคียงกับขนาดกลุ่มที่สุดก่อน
+                .ThenBy(t => Vector3.Distance(transform.position, t.transform.position))
+                .FirstOrDefault();
+        }
+
+        if (targetTable != null)
+        {
+            Transform seat = targetTable.GetAvailableSeat();
+
+            if (seat != null)
             {
-                table.AssignNPCToTable(this);
+                targetTable.AssignNPCToTable(this);
                 seatPoint = seat;
                 currentState = NPCState.GoingToSeat;
 
@@ -411,23 +435,23 @@ public class NPCController : MonoBehaviour
                 agent.isStopped = false;
                 agent.SetDestination(seatPoint.position);
 
-                if (string.IsNullOrEmpty(table.wantedItem))
+                if (string.IsNullOrEmpty(targetTable.wantedItem))
                 {
                     GenerateOrderData();
 
                     if (requestedRecipe != null)
                     {
-                        table.wantedItem = requestedRecipe.recipeName;
+                        targetTable.wantedItem = requestedRecipe.recipeName;
 
-                        if (table.tableItemRenderer != null)
+                        if (targetTable.tableItemRenderer != null)
                         {
-                            table.tableItemRenderer.sprite = requestedRecipe.finalDishSprite;
-                            table.tableItemRenderer.enabled = true;
+                            targetTable.tableItemRenderer.sprite = requestedRecipe.finalDishSprite;
+                            targetTable.tableItemRenderer.enabled = true;
                         }
                     }
                 }
 
-                table.SetVIPVisual(isVIP);
+                targetTable.SetVIPVisual(isVIP);
                 return;
             }
         }
@@ -1125,5 +1149,26 @@ public class NPCController : MonoBehaviour
             yield return null;
         }
         Destroy(gameObject);
+    }
+    public int GetGroupSize()
+    {
+        if (string.IsNullOrEmpty(groupID)) return 1;
+        int count = FindObjectsOfType<NPCController>().Count(n => n != null && n.groupID == groupID);
+        return count > 0 ? count : 1;
+    }
+
+    public static bool HasAvailableTableForGroup(int groupSize)
+    {
+        CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
+        foreach (var table in allTables)
+        {
+            FurnitureObject furn = table.GetComponent<FurnitureObject>();
+            bool isUnlocked = (furn == null || furn.isUnlocked);
+            if (isUnlocked && !table.isOccupied && table.seatPoints.Count >= groupSize)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

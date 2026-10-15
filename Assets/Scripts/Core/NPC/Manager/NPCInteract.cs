@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class NPCInteract : MonoBehaviour
 {
@@ -113,6 +115,16 @@ public class NPCInteract : MonoBehaviour
 
         if (npc.currentState == NPCController.NPCState.InQueue)
         {
+            int groupSize = npc.GetGroupSize();
+
+            // ถ้าเป็นกลุ่ม 2 ตัวขึ้นไป แต่ไม่มีโต๊ะที่นั่งเพียงพอว่างอยู่เลย
+            if (groupSize >= 2 && !NPCController.HasAvailableTableForGroup(groupSize))
+            {
+                Debug.Log("❌ ไม่มีโต๊ะเพียงพอสำหรับกลุ่มนี้ — เล่นอนิเมชันหงุดหงิดแล้วเดินออก"); 
+                StartCoroutine(HandleGroupRejectAndExit(frontNPC.groupID));
+                return;
+            }
+
             Debug.Log("✅ Invite NPC Group"); 
             PlayMeow();
 
@@ -124,6 +136,41 @@ public class NPCInteract : MonoBehaviour
             {
                 npc.GoToTableDirectly();
             }
+        }
+    }
+
+    private IEnumerator HandleGroupRejectAndExit(string targetGroupID)
+    {
+        // ค้นหาแมวทุกตัวในกลุ่มที่มี groupID นี้
+        List<NPCController> groupMembers = new List<NPCController>();
+        NPCController[] allNPCs = FindObjectsOfType<NPCController>();
+        foreach (var n in allNPCs)
+        {
+            if (n != null && n.groupID == targetGroupID)
+            {
+                groupMembers.Add(n);
+            }
+        }
+
+        // ปิดหลอดรอคิว และสั่งเล่นเสียง/อนิเมชันหงุดหงิดของทุกคนในกลุ่มพร้อมกัน
+        foreach (var member in groupMembers)
+        {
+            if (member.queuePatienceBarRoot != null) member.queuePatienceBarRoot.SetActive(false);
+            NPCInteract inter = member.GetComponent<NPCInteract>();
+            if (inter != null) inter.PlayAngry();
+        }
+
+        // ยืนรอ 2 วินาที
+        yield return new WaitForSeconds(2f);
+
+        // นำออกจากคิวและสั่งเดินออกพร้อมกันทั้งคู่
+        foreach (var member in groupMembers)
+        {
+            if (QueueManager.Instance != null)
+            {
+                QueueManager.Instance.RemoveFromQueue(member);
+            }
+            member.GoExit();
         }
     }
 
