@@ -177,6 +177,9 @@ public class AudioManager : MonoBehaviour
     /// <summary>เปิดคอมร้านค้า</summary>
     public void PlayComputerOpen() => PlaySFX(sfxComputerOpen);
 
+    /// <summary>เล่นเสียงที่ส่งเข้ามาโดยตรง (ใช้กับเสียงเฉพาะตัว เช่น วัตถุดิบแต่ละชนิด)</summary>
+    public void PlaySFXClip(AudioClip clip) => PlaySFX(clip);
+
     void PlaySFX(AudioClip clip)
     {
         if (clip == null || sfxSource == null) return;

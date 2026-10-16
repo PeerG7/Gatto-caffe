@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +6,7 @@ public class FlyIngredientOnTrigger : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Sprite ingredientSprite;
+    [SerializeField] private AudioClip landSfx;   // เสียงประจำวัตถุดิบนี้ (เล่นตอนลงเขียง)
     [SerializeField] private Transform canvasParent;
     [SerializeField] private CookingManager cookingManager;
 
@@ -36,7 +37,7 @@ public class FlyIngredientOnTrigger : MonoBehaviour
         Image targetSlot = cookingManager.boardSlots[targetIndex];
         if (targetSlot == null) return;
 
-        // ��͹�ٻ���͵����§�����Ǥ��Ǣ���ѵ�شԺ���ѧ�Թ
+        // ซ่อนรูปบนเขียงไว้ก่อน จนกว่าวัตถุดิบจะบินถึง
         targetSlot.color = new Color(1f, 1f, 1f, 0f);
 
         StartCoroutine(JuicyFlyRoutine(targetSlot));
@@ -93,10 +94,12 @@ public class FlyIngredientOnTrigger : MonoBehaviour
             yield return null;
         }
 
-        // 2. Landing Squash & Bounce (�駴�맵͹����з���§)
+        // 2. Landing Squash & Bounce (วัตถุดิบแตะเขียง)
+        AudioManager.instance?.PlaySFXClip(landSfx);   // เสียงเฉพาะตัวของวัตถุดิบนี้
+
         float bounceDuration = 0.12f;
         float bounceElapsed = 0f;
-        Vector3 squashScale = new Vector3(1.2f, 0.8f, 1f); // �غ���ŧ����Ǵ��
+        Vector3 squashScale = new Vector3(1.2f, 0.8f, 1f); // แบนลงตอนกระแทก
 
         while (bounceElapsed < bounceDuration)
         {
@@ -106,7 +109,7 @@ public class FlyIngredientOnTrigger : MonoBehaviour
             yield return null;
         }
 
-        // 3. �ͺԹ�֧��§���� ��������Դ�ٻ����§�������͡��
+        // 3. จบแอนิเมชัน แสดงรูปจริงบนเขียง แล้วลบตัวที่บิน
         targetSlot.color = Color.white;
 
         Destroy(flyObj);
