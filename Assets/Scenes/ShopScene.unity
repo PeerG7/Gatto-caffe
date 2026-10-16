@@ -42940,6 +42940,8 @@ MonoBehaviour:
   sfxCathappy: {fileID: 8300000, guid: a95029b5943c56b448f20d5ee860edcc, type: 3}
   sfxCatsad: {fileID: 8300000, guid: 719c9e1ff80e9b243ba4a850085dd7e3, type: 3}
   sfxWantsFood: {fileID: 8300000, guid: 6558546061a46b549ba92e27190d7f5f, type: 3}
+  sfxPlaceFurniture: {fileID: 8300000, guid: 0ad19e176e91e054b938e97d5c0b7f56, type: 3}
+  sfxCollectFurniture: {fileID: 8300000, guid: 92a27dd3134f60748a2be6c2defe0e46, type: 3}
   fadeDuration: 1
   maxVolume: 1
   endOfDayFadeDuration: 5

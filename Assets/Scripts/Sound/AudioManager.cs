@@ -25,7 +25,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip sfxEndOfDay;       // 6. ประกาศจบวัน
     public AudioClip sfxCathappy;
     public AudioClip sfxCatsad;
-    public AudioClip sfxWantsFood;      // 7. แมวต้องการอาหาร (default — แมวทั่วไป)
+    public AudioClip sfxWantsFood;        // 7. แมวต้องการอาหาร (default — แมวทั่วไป)
+    public AudioClip sfxPlaceFurniture;   // 8. วางเฟอร์นิเจอร์ (put_table.mp3)
+    public AudioClip sfxCollectFurniture; // 9. เก็บเฟอร์นิเจอร์ (collect_table.mp3)
 
     [Header("Fade Settings")]
     [Range(0.1f, 3f)] public float fadeDuration = 1f;
@@ -164,6 +166,12 @@ public class AudioManager : MonoBehaviour
 
     /// <summary>แมว (ทั่วไป) ต้องการอาหาร — ใช้เป็นค่า default เวลา NPC ตัวใดไม่ได้ตั้งเสียงเฉพาะตัวไว้</summary>
     public void PlayWantsFood() => PlaySFX(sfxWantsFood);
+
+    /// <summary>วางเฟอร์นิเจอร์สำเร็จ</summary>
+    public void PlayPlaceFurniture() => PlaySFX(sfxPlaceFurniture);
+
+    /// <summary>เก็บเฟอร์นิเจอร์</summary>
+    public void PlayCollectFurniture() => PlaySFX(sfxCollectFurniture);
 
     void PlaySFX(AudioClip clip)
     {

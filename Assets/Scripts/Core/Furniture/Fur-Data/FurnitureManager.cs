@@ -173,6 +173,9 @@ public class FurnitureManager : MonoBehaviour
 
             placedScript.Setup(currentPlacingInstance);
 
+            // เล่นเสียงวางเฟอร์นิเจอร์ (วางจากคลังสำเร็จ)
+            AudioManager.instance?.PlayPlaceFurniture();
+
             // 🌟 [JUICE] เล่นอนิเมชันเด้งดึ๋งนุ่มนวลตอนวางเฟอร์นิเจอร์
             StartCoroutine(AnimatePlacementBounce(currentPlacingObject.transform));
 
@@ -227,6 +230,9 @@ public class FurnitureManager : MonoBehaviour
                 PlacedFurniture furniture = hit.collider.GetComponentInParent<PlacedFurniture>();
                 if (furniture != null)
                 {
+                    // เล่นเสียงเก็บตอนเริ่มอนิเมชัน (ไม่รอให้ของหายก่อน)
+                    AudioManager.instance?.PlayCollectFurniture();
+
                     // 🌟 [JUICE] เล่นอนิเมชันพองแล้วยุบหายไป ก่อนเก็บเข้ากระเป๋า
                     StartCoroutine(AnimatePickupShrink(furniture));
                 }

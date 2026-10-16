@@ -112,6 +112,7 @@ public class FurniturePlacementManager : MonoBehaviour
     void Place()
     {
         Instantiate(currentPrefab, currentGhost.transform.position, currentGhost.transform.rotation);
+        AudioManager.instance?.PlayPlaceFurniture();   // เล่นเสียงวาง (เฉพาะตอนวางสำเร็จ)
         RebakeNavMesh();
         Cancel();
     }
@@ -168,6 +169,7 @@ public class FurniturePlacementManager : MonoBehaviour
     {
         if (selectedFurniture == null) return;
 
+        AudioManager.instance?.PlayCollectFurniture();   // เล่นเสียงเก็บ
         Debug.Log($"เก็บ {selectedFurniture.furnitureID} เรียบร้อยแล้ว");
 
         Destroy(selectedFurniture.gameObject);

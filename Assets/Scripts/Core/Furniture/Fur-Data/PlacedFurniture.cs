@@ -113,6 +113,8 @@ public class PlacedFurniture : MonoBehaviour
     {
         if (isPickingUp) return;
         isPickingUp = true;
+
+        // เสียงเก็บเล่นที่ผู้เรียก (FurnitureManager.HandleFurniturePickup) แล้ว ไม่เล่นซ้ำที่นี่
         StartCoroutine(AnimatePickupAndDestroy());
     }
 
