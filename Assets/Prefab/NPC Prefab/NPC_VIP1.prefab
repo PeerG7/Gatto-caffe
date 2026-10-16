@@ -535,6 +535,7 @@ MonoBehaviour:
   assignedTable: {fileID: 0}
   hasBeenServed: 0
   groupID: 
+  hasFinishedEating: 0
   seatPoint: {fileID: 0}
   isOccupied: 0
   wantedItem: 
@@ -545,10 +546,10 @@ MonoBehaviour:
   maxQueueWaitTime: 25
   queuePatienceBarRoot: {fileID: 0}
   queuePatienceBarFill: {fileID: 0}
-  patienceBarRoot: {fileID: 3567601081555230984}
+  patienceBarRoot: {fileID: 8747681826876789345}
   patienceBarFill: {fileID: 3996312268597964124}
-  patienceImage1: {fileID: 0}
-  patienceImage2: {fileID: 0}
+  patienceImage1: {fileID: 4781259572585481163}
+  patienceImage2: {fileID: 3996312268597964124}
   normalSprite1: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   maxRepSprite1: {fileID: 3497078342218366529, guid: 4711f703b8f3cfc4186f39d95da701ac, type: 3}
   normalSprite2: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
@@ -557,6 +558,7 @@ MonoBehaviour:
   isVIP: 0
   vipMoneyMultiplier: 2
   isInQTE: 0
+  isInteractionAllowed: 0
   currentState: 0
   orderCanvas: {fileID: 1944499645809837282}
   orderIcon: {fileID: 1784946567233594603}
@@ -573,6 +575,7 @@ MonoBehaviour:
   angryPatienceRatioThreshold: 0.25
   moveAnimThreshold: 0.05
   fallbackPerformDuration: 2.26
+  postPerformZoomDelay: 0.8
   enableRandomSitAnims: 1
   minSitAnimInterval: 4
   maxSitAnimInterval: 9
@@ -782,7 +785,7 @@ MonoBehaviour:
   bubbleCanvas: {fileID: 4478847893772172452}
   iconImage: {fileID: 6561215706539120818}
   chatIcons:
-  - {fileID: 21300000, guid: b1540473f784f2a4f9a34e9a2493611b, type: 3}
+  - {fileID: -983688450724491263, guid: feaa600372b82d041b942cb7c3e211e2, type: 3}
   displayDuration: 3.5
 --- !u!1 &1944499645809837282
 GameObject:
@@ -1158,7 +1161,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &591813498563653351
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1419,7 +1422,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6715361674754480040
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1834,7 +1837,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4551746489705194126}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -2673,7 +2676,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7279943455920092442
 RectTransform:
   m_ObjectHideFlags: 0

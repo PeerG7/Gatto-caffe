@@ -8,6 +8,10 @@ public class RelationshipManager : MonoBehaviour
     [Header("All Cats in Game")]
     public List<CatRelationshipData> allCats;
 
+    [Header("UI Canvas Reference")]
+    [Tooltip("ลากหน้าต่างหนังสือ UI (Relationship Canvas / BookCanvas) ใน Scene มาใส่ที่นี่")]
+    public GameObject relationshipCanvas; // 🟢 เพิ่มตัวแปรนี้ตรงนี้ครับ
+
     private Dictionary<string, float> relationshipValues = new Dictionary<string, float>();
     private const string REL_KEY = "rel_";
 

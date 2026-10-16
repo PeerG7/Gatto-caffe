@@ -15,7 +15,7 @@ public class NPCController : MonoBehaviour
     [HideInInspector] public CustomerTable assignedTable;
     [HideInInspector] public bool hasBeenServed = false;
     [HideInInspector] public string groupID = "";
-    [HideInInspector] public bool hasFinishedEating = false; // 🟢 เช็คว่ากินอาหารเสร็จแล้วหรือยัง (สำหรับ DATACAT1)
+    [HideInInspector] public bool hasFinishedEating = false;
 
     [Header("Original System References")]
     public Transform seatPoint;
@@ -69,6 +69,9 @@ public class NPCController : MonoBehaviour
 
     [HideInInspector] public bool isInQTE = false;
 
+    // 🟢 Flag พิเศษควบคุมสิทธิ์การเปิด Interaction Canvas โดยเฉพาะ (Architectural Guard)
+    [HideInInspector] public bool isInteractionAllowed = false;
+
     public enum NPCState { InQueue, GoingToSeat, Sitting, Eating, GoingToInteractionZone, AtInteractionZone, GoingToDamage, Leaving, Performing }
     public NPCState currentState = NPCState.InQueue;
 
@@ -87,7 +90,9 @@ public class NPCController : MonoBehaviour
     public float moveAnimThreshold = 0.05f;
 
     [Header("Perform Animation Settings")]
-    public float fallbackPerformDuration = 2.26f;
+    public float fallbackPerformDuration = 5.0f;
+    [Tooltip("ระยะเวลาหน่วงให้กล้องเริ่มถอย Zoom Out ก่อนปลดล็อคให้แมวเดินออก")]
+    public float postPerformZoomDelay = 0.8f;
 
     [Header("Random Sit/Idle Flavor Animations (AnimState = 8)")]
     public bool enableRandomSitAnims = true;
@@ -118,7 +123,9 @@ public class NPCController : MonoBehaviour
         PettingAnimation = 5,
         CatWandPlay = 6,
         CatToyMouse = 7,
-        RandomSitPhase = 8
+        RandomSitPhase = 8,
+        Chatting = 9,
+        ReadingMenu = 10
     }
 
     private AnimState currentAnim = AnimState.Idle;
@@ -145,6 +152,9 @@ public class NPCController : MonoBehaviour
 
         if (animator == null) animator = GetComponentInChildren<Animator>();
         if (bodySpriteRenderer == null) bodySpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        // 🔴 เริ่มต้นสิทธิ์ Interaction ให้เป็น false เสมอ
+        isInteractionAllowed = false;
 
         SetWorldSpaceCamera();
     }
@@ -319,7 +329,7 @@ public class NPCController : MonoBehaviour
         }
     }
 
-    void SetAnimState(AnimState state, bool force = false)
+    public void SetAnimState(AnimState state, bool force = false)
     {
         if (!force && currentAnim == state) return;
         currentAnim = state;
@@ -339,6 +349,8 @@ public class NPCController : MonoBehaviour
                 AnimState.CatWandPlay => "catwandplay",
                 AnimState.CatToyMouse => "Cat_Toy_Mouse",
                 AnimState.RandomSitPhase => "Cat_Random_Sitting_Phase",
+                AnimState.Chatting => "Chatting",
+                AnimState.ReadingMenu => "ReadingMenu",
                 _ => state.ToString()
             };
 
@@ -352,6 +364,7 @@ public class NPCController : MonoBehaviour
 
     public void SetQueueTarget(Transform target)
     {
+        isInteractionAllowed = false; // 🔴
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         if (agent != null)
         {
@@ -365,6 +378,7 @@ public class NPCController : MonoBehaviour
 
     public void SetQueueTargetCustom(Vector3 targetPosition)
     {
+        isInteractionAllowed = false; // 🔴
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         if (agent != null && agent.isOnNavMesh)
         {
@@ -378,6 +392,7 @@ public class NPCController : MonoBehaviour
 
     public void GoToTableDirectly()
     {
+        isInteractionAllowed = false; // 🔴 ตัดสิทธิ์ทันทีเมื่อเริ่มไปโต๊ะ
         if (currentState != NPCState.InQueue) return;
 
         if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
@@ -482,6 +497,9 @@ public class NPCController : MonoBehaviour
 
     public void ForceSitAtTable(CustomerTable table, Transform seat)
     {
+        // 🔴 ตัดสิทธิ์เปิด Interaction Canvas ทันทีเมื่อวาง/พามานั่งโต๊ะ
+        isInteractionAllowed = false;
+
         if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
 
         if (QueueManager.Instance != null) QueueManager.Instance.RemoveFromQueue(this);
@@ -503,6 +521,11 @@ public class NPCController : MonoBehaviour
         isSittingAngryAnim = false;
         SetAnimState(AnimState.Sit);
 
+        // 🟢 เคลียร์ UI QTE และสั่งปลดล็อคผู้เล่น
+        if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
+        CatSystemManager.Instance?.HideInteractionChoice();
+        PlayerController2D.SetLock(false);
+
         SetupOrderUI();
 
         if (patienceBarRoot != null) patienceBarRoot.SetActive(true);
@@ -518,6 +541,7 @@ public class NPCController : MonoBehaviour
 
     void ArriveAtSeat()
     {
+        isInteractionAllowed = false; // 🔴
         if (currentState == NPCState.Sitting) return;
         currentState = NPCState.Sitting;
         agent.isStopped = true;
@@ -534,6 +558,33 @@ public class NPCController : MonoBehaviour
         if (currentState != NPCState.Sitting) yield break;
 
         isSittingAngryAnim = false;
+
+        bool originalFlipX = bodySpriteRenderer != null && bodySpriteRenderer.flipX;
+
+        bool willReadMenu = Random.value < 0.5f;
+        if (willReadMenu)
+        {
+            if (assignedTable != null && bodySpriteRenderer != null)
+            {
+                if (transform.position.x > assignedTable.transform.position.x)
+                {
+                    bodySpriteRenderer.flipX = true;
+                }
+                else
+                {
+                    bodySpriteRenderer.flipX = false;
+                }
+            }
+
+            SetAnimState(AnimState.ReadingMenu);
+            yield return new WaitForSeconds(2.0f);
+
+            if (bodySpriteRenderer != null)
+            {
+                bodySpriteRenderer.flipX = originalFlipX;
+            }
+        }
+
         SetAnimState(AnimState.Sit);
 
         yield return new WaitForSeconds(1.5f);
@@ -551,6 +602,22 @@ public class NPCController : MonoBehaviour
                 assignedTable.TriggerTableChat();
             }
 
+            NPCController friend = assignedTable.sittingNPCs.Find(n => n != null && n != this);
+
+            if (friend != null && bodySpriteRenderer != null)
+            {
+                if (transform.position.x > friend.transform.position.x)
+                {
+                    bodySpriteRenderer.flipX = true;
+                }
+                else
+                {
+                    bodySpriteRenderer.flipX = false;
+                }
+            }
+
+            SetAnimState(AnimState.Chatting);
+
             float chatTimer = 0f;
             while (chatTimer < 5f)
             {
@@ -558,6 +625,13 @@ public class NPCController : MonoBehaviour
                 if (!GameIsPaused) chatTimer += Time.deltaTime;
                 yield return null;
             }
+
+            if (bodySpriteRenderer != null)
+            {
+                bodySpriteRenderer.flipX = originalFlipX;
+            }
+
+            SetAnimState(AnimState.Sit);
         }
 
         SetupOrderUI();
@@ -604,6 +678,7 @@ public class NPCController : MonoBehaviour
 
     public void StartEatingProcess()
     {
+        isInteractionAllowed = false; // 🔴
         StopAllCoroutines();
         if (patienceBarRoot != null) patienceBarRoot.SetActive(false);
         if (orderCanvas != null) orderCanvas.SetActive(false);
@@ -633,7 +708,7 @@ public class NPCController : MonoBehaviour
 
             if (isDataCat1)
             {
-                hasFinishedEating = true; // 🟢 ตั้งค่าสถานะว่ากินเสร็จและพร้อมให้อุ้มแล้ว
+                hasFinishedEating = true;
                 currentState = NPCState.Sitting;
                 yield break;
             }
@@ -660,6 +735,7 @@ public class NPCController : MonoBehaviour
 
     void GoToInteractionZone(System.Action onArrived)
     {
+        isInteractionAllowed = false; // 🔴 ยังไม่เปิดสิทธิ์จนกว่าจะเดินถึง Zone
         if (agent == null)
         {
             onArrived?.Invoke();
@@ -690,8 +766,11 @@ public class NPCController : MonoBehaviour
     {
         if (currentState == NPCState.AtInteractionZone) return;
         currentState = NPCState.AtInteractionZone;
-        agent.isStopped = true;
+        if (agent != null && agent.isOnNavMesh) agent.isStopped = true;
         SetAnimState(AnimState.Sit);
+
+        // 🟢 เปิดสิทธิ์ Interaction เมื่อเดินมาถึง InteractionZone สำเร็จแล้วเท่านั้น!
+        isInteractionAllowed = true;
 
         var cb = onArrivedAtInteractionZone;
         onArrivedAtInteractionZone = null;
@@ -700,18 +779,17 @@ public class NPCController : MonoBehaviour
         interactionTimeoutCoroutine = StartCoroutine(WaitForPlayerRoutine());
     }
 
-    /// <summary>
-    /// 🟢 ฟังก์ชันสำหรับเริ่มต้นใช้งานเมื่อ DATACAT1 ถูกวางลงใน InteractionZone โดยผู้เล่น
-    /// </summary>
     public void InitAtInteractionZone(InteractionZone zone)
     {
         currentZone = zone;
         zone.Occupy(this);
         currentState = NPCState.AtInteractionZone;
 
+        // 🟢 เปิดสิทธิ์ Interaction เฉพาะตอนประจำตำแหน่ง InteractionZone สำเร็จแล้วเท่านั้น!
+        isInteractionAllowed = true;
+
         if (agent != null)
         {
-            // ปิดชั่วคราวเพื่อให้แน่ใจว่าวางตำแหน่งทับจุด Interaction ได้ทันทีโดยไม่โดน NavMesh บล็อก
             agent.enabled = false;
             transform.position = zone.point.position;
             agent.enabled = true;
@@ -721,10 +799,6 @@ public class NPCController : MonoBehaviour
                 agent.isStopped = true;
                 agent.Warp(zone.point.position);
             }
-            else
-            {
-                Debug.LogWarning($"[NPCController] {gameObject.name} ไม่สามารถเกาะ NavMesh ได้ที่ตำแหน่ง InteractionZone นี้! กรุณาตรวจสอบว่าจุด InteractionZone อยู่บน NavMesh หรือไม่");
-            }
         }
         else
         {
@@ -732,7 +806,6 @@ public class NPCController : MonoBehaviour
         }
 
         SetAnimState(AnimState.Sit, true);
-
         StopAllCoroutines();
         interactionTimeoutCoroutine = StartCoroutine(WaitForPlayerRoutine());
     }
@@ -753,50 +826,43 @@ public class NPCController : MonoBehaviour
 
     public bool CanRequestInteractionChoice()
     {
-        return currentState == NPCState.AtInteractionZone;
+        // 🟢 ขอแค่อยู่ในสถานะ AtInteractionZone, มี isInteractionAllowed == true และไม่ได้นั่งโต๊ะอาหาร ก็เปิดได้เลย
+        return isInteractionAllowed && currentState == NPCState.AtInteractionZone && assignedTable == null;
     }
 
     public void RequestInteractionChoice()
     {
-        if (currentState != NPCState.AtInteractionZone) return;
+        if (!CanRequestInteractionChoice())
+        {
+            Debug.LogWarning($"[NPCController] บล็อกการ Request Interaction บน {gameObject.name}");
+            PlayerController2D.SetLock(false);
+            return;
+        }
 
+        StopInteractionTimeout();
+
+        // 🔴 ปิดการใช้งาน Canvas ติดหัวแมวใน Prefab (ป้องกัน UI ซ้อน/หลอกหลอน)
+        if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
+
+        // 🟢 เรียกให้ UI Scene หลัก (CatSystemManager) แสดงผลปุ่มช้อยส์แทน
+        CatSystemManager.Instance?.ShowInteractionChoice(this);
+    }
+
+    public void StopInteractionTimeout()
+    {
         if (interactionTimeoutCoroutine != null)
         {
             StopCoroutine(interactionTimeoutCoroutine);
             interactionTimeoutCoroutine = null;
         }
-
-        CatSystemManager.Instance?.ShowInteractionChoice(this);
-        interactionTimeoutCoroutine = StartCoroutine(InteractionChoiceTimeoutRoutine());
-    }
-
-    IEnumerator InteractionChoiceTimeoutRoutine()
-    {
-        float elapsed = 0f;
-        while (elapsed < interactionChoiceTimeout)
-        {
-            if (currentState != NPCState.AtInteractionZone) yield break;
-            if (!GameIsPaused) elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        if (currentState == NPCState.AtInteractionZone)
-            FinishInteractionAtZone();
     }
 
     public void OpenQTECanvas()
     {
-        if (currentState != NPCState.AtInteractionZone) return;
+        // 🔴 ไม่ต้องสั่งเปิด qteCanvasInPrefab แล้ว ให้ CatSystemManager จัดการ UI หลักใน Scene ตัวเดียวพอ
+        if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
-        if (interactionTimeoutCoroutine != null)
-        {
-            StopCoroutine(interactionTimeoutCoroutine);
-            interactionTimeoutCoroutine = null;
-        }
-
-        if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(true);
-
-        QTEZoomController.Instance?.ZoomInToQTE(transform);
+        QTEZoomController.Instance?.ZoomInToQTE(transform, true);
     }
 
     public void PlayPerformAndExit(int performIndex = 0, float customDuration = -1f)
@@ -809,11 +875,7 @@ public class NPCController : MonoBehaviour
         if (isPerforming) yield break;
         isPerforming = true;
 
-        if (interactionTimeoutCoroutine != null)
-        {
-            StopCoroutine(interactionTimeoutCoroutine);
-            interactionTimeoutCoroutine = null;
-        }
+        StopInteractionTimeout();
 
         currentState = NPCState.Performing;
 
@@ -831,6 +893,8 @@ public class NPCController : MonoBehaviour
 
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
         CatSystemManager.Instance?.HideInteractionChoice();
+
+        QTEZoomController.Instance?.ZoomInToQTE(transform, true);
 
         AnimState targetState = performIndex switch
         {
@@ -883,8 +947,23 @@ public class NPCController : MonoBehaviour
             yield return null;
         }
 
+        QTEZoomController.Instance?.UnlockQTEZoom();
+        QTEZoomController.Instance?.ZoomOutToGameplay(true);
+
+        if (postPerformZoomDelay > 0f)
+        {
+            float delayTimer = 0f;
+            while (delayTimer < postPerformZoomDelay)
+            {
+                if (!GameIsPaused) delayTimer += Time.deltaTime;
+                yield return null;
+            }
+        }
+
         isPerforming = false;
         currentAnim = (AnimState)(-1);
+
+        PlayerController2D.SetLock(false);
 
         FinishInteractionAtZone();
     }
@@ -893,16 +972,16 @@ public class NPCController : MonoBehaviour
     {
         if (isPerforming) return;
 
-        if (interactionTimeoutCoroutine != null)
-        {
-            StopCoroutine(interactionTimeoutCoroutine);
-            interactionTimeoutCoroutine = null;
-        }
+        // 🔴 ตัดสิทธิ์ Interaction เมื่อเสร็จสิ้นกิจกรรม
+        isInteractionAllowed = false;
+
+        StopInteractionTimeout();
 
         CatSystemManager.Instance?.HideInteractionChoice();
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
-        QTEZoomController.Instance?.ZoomOutToGameplay();
+        QTEZoomController.Instance?.UnlockQTEZoom();
+        QTEZoomController.Instance?.ZoomOutToGameplay(true);
 
         if (currentZone != null)
         {
@@ -915,6 +994,7 @@ public class NPCController : MonoBehaviour
 
     public void LeaveSeat()
     {
+        isInteractionAllowed = false; // 🔴
         isInQTE = false;
         isSittingAngryAnim = false;
         isPlayingSittingFlavor = false;
@@ -1112,6 +1192,7 @@ public class NPCController : MonoBehaviour
     {
         if (isAngry) return;
         isAngry = true;
+        isInteractionAllowed = false; // 🔴
         isPlayingSittingFlavor = false;
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
@@ -1143,6 +1224,7 @@ public class NPCController : MonoBehaviour
 
     void ChooseRandomTarget()
     {
+        isInteractionAllowed = false; // 🔴
         var available = DamageableObject.allObjects
             .Where(obj => obj.IsAvailable())
             .ToList();
@@ -1180,7 +1262,8 @@ public class NPCController : MonoBehaviour
     {
         if (isPerforming) return;
 
-        // 🟢 ค้นหาจากชื่อ GameObject โดยตรง ไม่ใช้ Tag เพื่อป้องกันปัญหา Tag is not defined
+        isInteractionAllowed = false; // 🔴 ตัดสิทธิ์เด็ดขาดเมื่อออกจากร้าน
+
         if (exitPoint == null)
         {
             GameObject exitObj = GameObject.Find("ExitPoint");
@@ -1191,7 +1274,7 @@ public class NPCController : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"[NPCController] ไม่พบ GameObject ชื่อ 'ExitPoint' ใน Scene! กรุณาสร้าง Empty GameObject และตั้งชื่อว่า 'ExitPoint'");
+                Debug.LogError($"[NPCController] ไม่พบ GameObject ชื่อ 'ExitPoint' ใน Scene!");
                 Destroy(gameObject);
                 return;
             }
@@ -1199,24 +1282,21 @@ public class NPCController : MonoBehaviour
 
         if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
 
-        if (interactionTimeoutCoroutine != null)
-        {
-            StopCoroutine(interactionTimeoutCoroutine);
-            interactionTimeoutCoroutine = null;
-        }
+        StopInteractionTimeout();
         onArrivedAtInteractionZone = null;
         if (currentZone != null)
         {
-            currentZone.Release(); 
-        currentZone = null;
+            currentZone.Release();
+            currentZone = null;
         }
 
         if (InteractionZoneManager.Instance != null)
-            InteractionZoneManager.Instance.CancelRequest(this); 
+            InteractionZoneManager.Instance.CancelRequest(this);
 
-    CatSystemManager.Instance?.HideInteractionChoice();
+        CatSystemManager.Instance?.HideInteractionChoice();
 
-        QTEZoomController.Instance?.ZoomOutToGameplay();
+        QTEZoomController.Instance?.UnlockQTEZoom();
+        QTEZoomController.Instance?.ZoomOutToGameplay(true);
 
         currentState = NPCState.Leaving;
         isSittingAngryAnim = false;

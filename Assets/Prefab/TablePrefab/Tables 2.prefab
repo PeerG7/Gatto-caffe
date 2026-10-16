@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7338213721253124517}
   m_Layer: 0
   m_Name: WoodChair
-  m_TagString: Untagged
+  m_TagString: Seat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: -7315504372380875893}
   m_Layer: 9
   m_Name: Tables 2
-  m_TagString: Untagged
+  m_TagString: CustomerTable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,6 +116,8 @@ MonoBehaviour:
   tableItemRenderer: {fileID: 7924761688268685119}
   angryIcon: {fileID: 8141302274863683036}
   vipBadgeIcon: {fileID: 0}
+  moneyIconOnTable: {fileID: 0}
+  hasMoneyToCollect: 0
   interactionChance: 100
   chatTriggerChance: 100
   coinSoundClip: {fileID: 0}
@@ -290,7 +292,7 @@ GameObject:
   - component: {fileID: 5441634437437879869}
   m_Layer: 0
   m_Name: MarbleChair
-  m_TagString: Untagged
+  m_TagString: Seat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -324,7 +326,7 @@ GameObject:
   - component: {fileID: 2113039217996997465}
   m_Layer: 9
   m_Name: Seat_Left
-  m_TagString: Untagged
+  m_TagString: Seat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -415,7 +417,7 @@ GameObject:
   - component: {fileID: 7559927408973252459}
   m_Layer: 9
   m_Name: Seat_Right_Marble
-  m_TagString: Untagged
+  m_TagString: Seat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -597,7 +599,7 @@ GameObject:
   - component: {fileID: 5568902983678806370}
   m_Layer: 9
   m_Name: Seat_Right
-  m_TagString: Untagged
+  m_TagString: Seat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1027,7 +1029,7 @@ GameObject:
   - component: {fileID: 189540109543665280}
   m_Layer: 9
   m_Name: Seat_Left_Marble
-  m_TagString: Untagged
+  m_TagString: Seat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

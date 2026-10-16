@@ -129,7 +129,6 @@ public class CustomerTable : MonoBehaviour
             }
         }
     }
-
     public void TryServeFood()
     {
         PlayerInventory player = FindObjectOfType<PlayerInventory>();
@@ -151,9 +150,11 @@ public class CustomerTable : MonoBehaviour
 
         if (targetNPC != null)
         {
-            PlayerController2D.IsLocked = false;
-            targetNPC.hasBeenServed = true;
+            // 🟢 เมื่อเสิร์ฟอาหารสำเร็จ ให้ปลดล็อคผู้เล่น และสั่งปิด UI QTE ทันที (ป้องกัน UI เด้งซ้อน)
+            PlayerController2D.SetLock(false);
+            CatSystemManager.Instance?.HideInteractionChoice();
 
+            targetNPC.hasBeenServed = true;
             BoostRemainingNPCsPatience(targetNPC);
             player.ClearItem();
 

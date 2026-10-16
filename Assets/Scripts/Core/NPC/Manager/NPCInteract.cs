@@ -8,8 +8,7 @@ public class NPCInteract : MonoBehaviour
 
     public bool isInStore = false;
 
-    [Header("Relationship Canvas")]
-    [Tooltip("ลาก RelationshipCanvas (GameObject ใน Scene) มาใส่ตรงนี้ทุก NPC Prefab")]
+    [Header("Relationship Canvas (ลาก RelationshipCanvas หรือ BookCanvas ใน Scene มาใส่ตรงนี้)")]
     public GameObject relationshipCanvas;
 
     [Header("Audio Settings (เสียงเฉพาะตัว NPC นี้ — Optional)")]
@@ -17,12 +16,9 @@ public class NPCInteract : MonoBehaviour
     public AudioClip meowSound;
     public AudioClip angrySound;
 
-    [Header("VIP Sounds (Optional — สำหรับแมว VIP เช่น Alien ที่มีเสียงเฉพาะตัว)")]
-    [Tooltip("cat_happy_alien เป็นต้น — ถ้าไม่ใส่ จะใช้เสียง default จาก AudioManager แทน")]
+    [Header("VIP Sounds (Optional — สำหรับแมว VIP ที่มีเสียงเฉพาะตัว)")]
     public AudioClip happySound;
-    [Tooltip("cat_sad_new_alien เป็นต้น")]
     public AudioClip sadSound;
-    [Tooltip("cat_wants_food_alien เป็นต้น")]
     public AudioClip wantsFoodSound;
 
     void Awake()
@@ -86,62 +82,78 @@ public class NPCInteract : MonoBehaviour
         return npc != null && npc.currentState == NPCController.NPCState.Sitting;
     }
 
+    /// <summary>
+    /// 🟢 เช็คว่าแมวตัวนี้อยู่ในจุด InteractionZone และได้รับการปลดล็อคสิทธิ์แล้วหรือไม่
+    /// </summary>
     public bool CanRequestZoneInteraction()
     {
-        return npc != null && npc.CanRequestInteractionChoice();
+        if (npc == null) return false;
+
+        return npc.currentState == NPCController.NPCState.AtInteractionZone && npc.isInteractionAllowed;
     }
 
+    /// <summary>
+    /// 🟢 เรียกสั่งเปิดหน้า UI Choice 3 ปุ่มผ่าน CatSystemManager
+    /// </summary>
     public void RequestZoneInteraction()
     {
         if (npc == null) return;
-        npc.RequestInteractionChoice();
+
+        if (!CanRequestZoneInteraction())
+        {
+            Debug.LogWarning($"[NPCInteract] บล็อกการเปิด Canvas บน {gameObject.name} (currentState: {npc.currentState}, isAllowed: {npc.isInteractionAllowed})");
+            PlayerController2D.SetLock(false);
+            return;
+        }
+
+        npc.StopInteractionTimeout();
+        CatSystemManager.Instance?.ShowInteractionChoice(npc);
     }
 
     public void Interact()
     {
         if (npc == null) return;
 
-        NPCController frontNPC = QueueManager.Instance.GetFrontNPC();
+        if (npc.currentState != NPCController.NPCState.InQueue)
+        {
+            return;
+        }
 
-        // อนุญาตให้คลิกต้อนรับได้ ถ้าตัวที่คลิกคือหัวแถว หรือเป็นเพื่อนร่วมกลุ่มที่ต่อแถวอยู่
+        NPCController frontNPC = QueueManager.Instance?.GetFrontNPC();
+
         bool isFrontOrSameGroup = (frontNPC == npc) ||
                                   (frontNPC != null && !string.IsNullOrEmpty(frontNPC.groupID) && frontNPC.groupID == npc.groupID);
 
         if (!isFrontOrSameGroup)
         {
-            Debug.Log("❌ Not front of queue"); 
+            Debug.Log("❌ Not front of queue");
             return;
         }
 
-        if (npc.currentState == NPCController.NPCState.InQueue)
+        int groupSize = npc.GetGroupSize();
+
+        if (groupSize >= 2 && !NPCController.HasAvailableTableForGroup(groupSize))
         {
-            int groupSize = npc.GetGroupSize();
+            Debug.Log("❌ ไม่มีโต๊ะเพียงพอสำหรับกลุ่มนี้ — เล่นอนิเมชันหงุดหงิดแล้วเดินออก");
+            StartCoroutine(HandleGroupRejectAndExit(frontNPC.groupID));
+            return;
+        }
 
-            // ถ้าเป็นกลุ่ม 2 ตัวขึ้นไป แต่ไม่มีโต๊ะที่นั่งเพียงพอว่างอยู่เลย
-            if (groupSize >= 2 && !NPCController.HasAvailableTableForGroup(groupSize))
-            {
-                Debug.Log("❌ ไม่มีโต๊ะเพียงพอสำหรับกลุ่มนี้ — เล่นอนิเมชันหงุดหงิดแล้วเดินออก"); 
-                StartCoroutine(HandleGroupRejectAndExit(frontNPC.groupID));
-                return;
-            }
+        Debug.Log("✅ Invite NPC Group");
+        PlayMeow();
 
-            Debug.Log("✅ Invite NPC Group"); 
-            PlayMeow();
-
-            if (QueueManager.Instance != null)
-            {
-                QueueManager.Instance.InviteGroup(frontNPC);
-            }
-            else
-            {
-                npc.GoToTableDirectly();
-            }
+        if (QueueManager.Instance != null)
+        {
+            QueueManager.Instance.InviteGroup(frontNPC);
+        }
+        else
+        {
+            npc.GoToTableDirectly();
         }
     }
 
     private IEnumerator HandleGroupRejectAndExit(string targetGroupID)
     {
-        // ค้นหาแมวทุกตัวในกลุ่มที่มี groupID นี้
         List<NPCController> groupMembers = new List<NPCController>();
         NPCController[] allNPCs = FindObjectsOfType<NPCController>();
         foreach (var n in allNPCs)
@@ -152,25 +164,28 @@ public class NPCInteract : MonoBehaviour
             }
         }
 
-        // ปิดหลอดรอคิว และสั่งเล่นเสียง/อนิเมชันหงุดหงิดของทุกคนในกลุ่มพร้อมกัน
         foreach (var member in groupMembers)
         {
-            if (member.queuePatienceBarRoot != null) member.queuePatienceBarRoot.SetActive(false);
-            NPCInteract inter = member.GetComponent<NPCInteract>();
-            if (inter != null) inter.PlayAngry();
+            if (member != null)
+            {
+                if (member.queuePatienceBarRoot != null) member.queuePatienceBarRoot.SetActive(false);
+                NPCInteract inter = member.GetComponent<NPCInteract>();
+                if (inter != null) inter.PlayAngry();
+            }
         }
 
-        // ยืนรอ 2 วินาที
         yield return new WaitForSeconds(2f);
 
-        // นำออกจากคิวและสั่งเดินออกพร้อมกันทั้งคู่
         foreach (var member in groupMembers)
         {
-            if (QueueManager.Instance != null)
+            if (member != null)
             {
-                QueueManager.Instance.RemoveFromQueue(member);
+                if (QueueManager.Instance != null)
+                {
+                    QueueManager.Instance.RemoveFromQueue(member);
+                }
+                member.GoExit();
             }
-            member.GoExit();
         }
     }
 
@@ -181,32 +196,113 @@ public class NPCInteract : MonoBehaviour
             controller.GoToTableDirectly();
     }
 
+    /// <summary>
+    /// 🟢 เรียกเปิดหน้า Relationship สำหรับแมวที่นั่งโต๊ะอาหาร (บล็อกครอบคลุมทุกรอยต่ออนิเมชัน)
+    /// </summary>
     public void RelationShip()
     {
         if (npc == null) return;
 
         if (npc.currentState != NPCController.NPCState.Sitting)
         {
-            Debug.Log("❌ NPC not sitting — state: " + npc.currentState); 
+            Debug.Log("❌ NPC not sitting — state: " + npc.currentState);
             return;
         }
 
-        Debug.Log("❤️ OPEN RELATIONSHIP for: " + gameObject.name); 
-
-        RelationshipManager.Instance.SetCurrentNPC(npc);
-
-        if (relationshipCanvas != null)
+        // 🔴 1. บล็อกถ้าแมวตัวนี้กำลังเปิดป้ายออร์เดอร์อยู่
+        if (npc.orderCanvas != null && npc.orderCanvas.activeSelf)
         {
-            relationshipCanvas.SetActive(true);
-            PlayerController2D.SetLock(true);
-
-            if (DayNightManager.Instance != null && !DayNightManager.Instance.isPaused)
-                DayNightManager.Instance.PauseGame();
+            Debug.Log("⏳ แมวกำลังอยู่ในช่วงสั่งอาหาร ไม่สามารถเปิดหน้า Relationship ได้");
+            return;
         }
-        else
+
+        // 🔴 2. บล็อกถ้าแมวกำลังทำกิจกรรม / Performing / QTE อยู่
+        if (npc.IsPerforming || npc.currentState == NPCController.NPCState.Performing)
         {
-            Debug.LogError("❌ relationshipCanvas is NULL บน " + gameObject.name +
-                           " — กรุณาลาก RelationshipCanvas มาใส่ใน Inspector ของ NPCSpawner"); 
+            Debug.Log("⏳ แมวกำลังทำกิจกรรม/QTE อยู่ ไม่สามารถเปิดหน้า Relationship ได้");
+            return;
+        }
+
+        // 🔴 3. เพิ่มการเช็คอนิเมชันปัจจุบัน (Animator State): ห้ามเปิดถ้ากำลังเล่นอนิเมชันอ่านเมนู คุยกัน หรือสเตทอื่นๆ ที่ไม่ใช่ท่านั่งปกติ
+        Animator animator = npc.GetComponentInChildren<Animator>();
+        if (animator != null)
+        {
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+            // ตรวจสอบชื่อ State ที่ตั้งไว้ใน Animator (เช่น ReadingMenu, Chatting, SitingAngry ฯลฯ)
+            if (stateInfo.IsName("ReadingMenu") || stateInfo.IsName("Chatting") || stateInfo.IsName("SitingAngry"))
+            {
+                Debug.Log("⏳ แมวกำลังอยู่ในช่วงรอยต่ออนิเมชัน (อ่านเมนู/คุยกัน/โกรธ) บล็อกการเปิดหน้า Relationship");
+                return;
+            }
+        }
+
+        // 🔴 4. เช็คโต๊ะ 2 ที่นั่ง: ถ้ามีแมวตัวอื่นบนโต๊ะเดียวกันกำลังสั่งอาหารอยู่
+        if (npc.assignedTable != null)
+        {
+            foreach (var tableNPC in npc.assignedTable.sittingNPCs)
+            {
+                if (tableNPC != null)
+                {
+                    if (tableNPC.orderCanvas != null && tableNPC.orderCanvas.activeSelf)
+                    {
+                        Debug.Log("⏳ มีแมวบนโต๊ะเดียวกันกำลังสั่งอาหารอยู่ บล็อกการเปิดหนังสือความสัมพันธ์");
+                        return;
+                    }
+                }
+            }
+        }
+
+        // สั่งเคลียร์ปิด UI QTE ทั้งหมดใน Scene ทันที
+        if (CatSystemManager.Instance != null)
+        {
+            CatSystemManager.Instance.HideAllQTEUI();
+        }
+
+        GameObject targetCanvas = null;
+        if (RelationshipManager.Instance != null)
+        {
+            targetCanvas = RelationshipManager.Instance.relationshipCanvas;
+        }
+
+        if (targetCanvas == null)
+        {
+            Debug.LogError($"❌ [NPCInteract] ยังไม่ได้ลากใส่ RelationshipCanvas ใน RelationshipManager (Inspector)!");
+            return;
+        }
+
+        if (targetCanvas.activeSelf) return;
+
+        Debug.Log("❤️ OPEN RELATIONSHIP for: " + gameObject.name);
+
+        RelationshipManager.Instance?.SetCurrentNPC(npc);
+
+        targetCanvas.SetActive(true);
+        PlayerController2D.SetLock(true);
+
+        if (DayNightManager.Instance != null && !DayNightManager.Instance.isPaused)
+            DayNightManager.Instance.PauseGame();
+    }
+    /// <summary>
+    /// 🟢 สั่งปิดหน้า Relationship และ Resume เวลาในเกมกลับสู่สภาวะปกติ
+    /// </summary>
+    public void CloseRelationship()
+    {
+        GameObject targetCanvas = null;
+        if (RelationshipManager.Instance != null)
+        {
+            targetCanvas = RelationshipManager.Instance.relationshipCanvas;
+        }
+
+        if (targetCanvas != null)
+        {
+            targetCanvas.SetActive(false);
+            PlayerController2D.SetLock(false);
+
+            if (DayNightManager.Instance != null && DayNightManager.Instance.isPaused)
+            {
+                DayNightManager.Instance.ResumeGame();
+            }
         }
     }
 }

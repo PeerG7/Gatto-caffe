@@ -471,6 +471,7 @@ MonoBehaviour:
   assignedTable: {fileID: 0}
   hasBeenServed: 0
   groupID: 
+  hasFinishedEating: 0
   seatPoint: {fileID: 0}
   isOccupied: 0
   wantedItem: 
@@ -493,6 +494,7 @@ MonoBehaviour:
   isVIP: 0
   vipMoneyMultiplier: 2
   isInQTE: 0
+  isInteractionAllowed: 0
   currentState: 0
   orderCanvas: {fileID: 4845705617944683491}
   orderIcon: {fileID: 1790485472768442124}
@@ -509,6 +511,7 @@ MonoBehaviour:
   angryPatienceRatioThreshold: 0.25
   moveAnimThreshold: 0.05
   fallbackPerformDuration: 2.26
+  postPerformZoomDelay: 0.8
   enableRandomSitAnims: 1
   minSitAnimInterval: 4
   maxSitAnimInterval: 9
@@ -718,7 +721,7 @@ MonoBehaviour:
   bubbleCanvas: {fileID: 674440325777529964}
   iconImage: {fileID: 1209117427944031044}
   chatIcons:
-  - {fileID: 21300000, guid: b1540473f784f2a4f9a34e9a2493611b, type: 3}
+  - {fileID: -983688450724491263, guid: feaa600372b82d041b942cb7c3e211e2, type: 3}
   displayDuration: 3.5
 --- !u!1 &1692684101686376709
 GameObject:

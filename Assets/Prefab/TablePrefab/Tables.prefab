@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 2321460117554443053}
   m_Layer: 9
   m_Name: Tables
-  m_TagString: Untagged
+  m_TagString: CustomerTable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,6 +83,8 @@ MonoBehaviour:
   tableItemRenderer: {fileID: 7924761688268685119}
   angryIcon: {fileID: 8141302274863683036}
   vipBadgeIcon: {fileID: 0}
+  moneyIconOnTable: {fileID: 0}
+  hasMoneyToCollect: 0
   interactionChance: 100
   chatTriggerChance: 0
   coinSoundClip: {fileID: 0}
@@ -270,7 +272,7 @@ GameObject:
   - component: {fileID: 2113039217996997465}
   m_Layer: 9
   m_Name: Seat
-  m_TagString: Untagged
+  m_TagString: Seat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -560,19 +562,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1382758529666655796}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4805848941703438177}
-        m_TargetAssemblyTypeName: CustomerTable, Assembly-CSharp
-        m_MethodName: OnHeartClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &5825165951669725367
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,7 +848,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: -2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 6953763705610993427, guid: c85d58ed0874ab541b9d7c79811ec64a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

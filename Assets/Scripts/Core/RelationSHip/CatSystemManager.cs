@@ -4,29 +4,43 @@ using System.Collections;
 
 public enum QTEType { SinglePress, Hold, ButtonMash }
 
-// =====================================================================
-// CatSystemManager — v3 (Interaction Zone — ทำงานกับ NPCController ตรงๆ)
-// =====================================================================
 public class CatSystemManager : MonoBehaviour
 {
     public static CatSystemManager Instance;
     private NPCController currentNPC;
     private bool isInteracting = false;
 
-    [Header("QTE UI")]
+    [Header("Interaction Hierarchy Root")]
+    [Tooltip("Parent นอกสุด (GroupOfInteraction)")]
+    public GameObject groupOfInteraction;
+
+    [Tooltip("QTEPanel หลัก")]
     public GameObject qtePanel;
+
+    [Header("QTE Child UI Components")]
+    [Tooltip("ButtonGroup (กลุ่มปุ่มเลือกกิจกรรม 3 ช้อยส์)")]
+    public GameObject buttonGroup;
+
+    [Tooltip("ExitButton (ปุ่มกดยกเลิก/ออก)")]
+    public GameObject exitButton;
+
+    [Tooltip("Reputation Bar")]
+    public GameObject reputationBar;
+
+    [Tooltip("ProgressBar (หลอดแสดงความคืบหน้า)")]
+    public GameObject progressBar;
+
+    [Tooltip("QTE interact (ปุ่มกด Input QTE ตัวใหญ่ที่ขึ้นมาระหว่างเล่น)")]
+    public GameObject qteInteractButton;
+
+    [Tooltip("PRGBAR (Fill Image ด้านใน ProgressBar)")]
     public Image qteProgressBarFill;
 
-    [Header("Interaction Choice UI (Global — ใช้ตัวเดียวร่วมกันทั้งร้าน ไม่ต้องสร้างซ้ำต่อ NPC)")]
-    [Tooltip("ลาก 'ButtonGroup' ที่มีอยู่แล้วใน GroupOfInteraction > QTEPanel มาใส่ตรงนี้ — ตัวนี้อยู่ในซีนแล้ว ไม่ใช่ Prefab จึงลากใส่ตรงนี้ได้ปกติ")]
-    public GameObject interactionButtonGroup;
-
     [Header("QTE Settings")]
-    public float interactionWindow = 3.0f;
+    public float interactionWindow = 5.0f;
     public float holdRequiredTime = 1.5f;
     public int mashRequiredClicks = 10;
 
-    // input flags — set โดย QTEInteractButton บน NPC prefab เท่านั้น
     private bool _pressReceived = false;
     private bool _holdActive = false;
 
@@ -41,10 +55,9 @@ public class CatSystemManager : MonoBehaviour
 
     void Start()
     {
-        if (qtePanel != null) qtePanel.SetActive(false);
+        HideAllQTEUI();
     }
 
-    /// <summary>เรียกจาก NPCController ตอนไปถึง InteractionZone แล้ว</summary>
     public void StartInteraction(NPCController npc)
     {
         currentNPC = npc;
@@ -52,38 +65,71 @@ public class CatSystemManager : MonoBehaviour
         StopAllCoroutines();
         ResetInputFlags();
         if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = 0;
-        if (qtePanel != null) qtePanel.SetActive(false);
+        HideAllQTEUI();
     }
 
-    /// <summary>เปิดแผงเลือกประเภท QTE (ButtonGroup ตัวกลาง) ให้ NPC ตัวนี้</summary>
+    /// <summary>
+    /// 🟢 1. สเตจเปิดเมนูตัวเลือก (ตอนแมวถึง InteractionZone): แสดงเฉพาะกลุ่มปุ่มตัวเลือก 3 ช้อยส์
+    /// </summary>
     public void ShowInteractionChoice(NPCController npc)
     {
-        StartInteraction(npc);
-
-        if (qtePanel != null)
-            qtePanel.SetActive(true);
-
-        if (interactionButtonGroup != null)
+        // 🟢 Guard Clause: กรองสถานะสิทธิ์การเปิด Canvas อย่างเข้มงวด
+        if (npc == null || !npc.isInteractionAllowed || npc.currentState != NPCController.NPCState.AtInteractionZone)
         {
-            interactionButtonGroup.SetActive(true);
-            interactionButtonGroup.transform.SetAsLastSibling();
+            Debug.LogWarning($"[CatSystemManager] บล็อก QTE! แมว {npc?.name} ไม่มีสิทธิ์เปิด Canvas (isAllowed: {npc?.isInteractionAllowed}, State: {npc?.currentState})");
+
+            PlayerController2D.SetLock(false);
+            HideAllQTEUI();
+            return;
         }
+
+        StartInteraction(npc);
+        npc.StopInteractionTimeout();
+        QTEZoomController.Instance?.ZoomInToQTE(npc.transform, true);
+
+        PlayerController2D.SetLock(true);
+
+        // 🟢 เปิด Root หลัก และ Panel
+        if (groupOfInteraction != null) groupOfInteraction.SetActive(true);
+        if (qtePanel != null) qtePanel.SetActive(true);
+
+        // 🟢 เปิดเฉพาะกลุ่มปุ่ม Choice และ Bar ตกแต่ง
+        if (buttonGroup != null) buttonGroup.SetActive(true);
+        if (exitButton != null) exitButton.SetActive(true);
+        if (reputationBar != null) reputationBar.SetActive(true);
+
+        // 🔴 ปิด ProgressBar และปุ่ม QTE interact ไว้ก่อนจนกว่าจะเลือกช้อยส์
+        if (progressBar != null) progressBar.SetActive(false);
+        if (qteInteractButton != null) qteInteractButton.SetActive(false);
     }
 
-    /// <summary>ปิดแผงเลือกประเภท QTE</summary>
     public void HideInteractionChoice()
     {
-        if (interactionButtonGroup != null)
-            interactionButtonGroup.SetActive(false);
+        if (buttonGroup != null) buttonGroup.SetActive(false);
     }
 
+    /// <summary>
+    /// 🟢 2. สเตจเริ่มทำกิจกรรม QTE: ซ่อน 3 ช้อยส์ แล้วเปิด ProgressBar + ปุ่ม QTE interact ค้างไว้
+    /// </summary>
     public void StartQTE(int typeIndex)
     {
         if (!isInteracting)
         {
+            // 🟢 ปิดกลุ่มปุ่มเลือกช้อยส์
             HideInteractionChoice();
+
+            // 🟢 เปิดหลอดคืบหน้า และปุ่มกด QTE interact สำหรับใช้ทำกิจกรรม
+            if (groupOfInteraction != null) groupOfInteraction.SetActive(true);
+            if (qtePanel != null) qtePanel.SetActive(true);
+            if (progressBar != null) progressBar.SetActive(true);
+            if (qteInteractButton != null) qteInteractButton.SetActive(true);
+            if (exitButton != null) exitButton.SetActive(true);
+
             if (currentNPC != null)
-                currentNPC.OpenQTECanvas();
+            {
+                currentNPC.StopInteractionTimeout();
+            }
+
             ResetInputFlags();
             StartCoroutine(RunInteractionQTE((QTEType)typeIndex));
         }
@@ -98,7 +144,7 @@ public class CatSystemManager : MonoBehaviour
     IEnumerator RunInteractionQTE(QTEType qteType)
     {
         isInteracting = true;
-        if (qtePanel != null) qtePanel.SetActive(true);
+
         if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = 0;
 
         float timeLeft = interactionWindow;
@@ -128,8 +174,9 @@ public class CatSystemManager : MonoBehaviour
                     }
                     else
                     {
-                        currentHoldTime = 0f;
-                        if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = 0;
+                        currentHoldTime = Mathf.Max(0f, currentHoldTime - Time.deltaTime * 1.5f);
+                        if (qteProgressBarFill != null)
+                            qteProgressBarFill.fillAmount = currentHoldTime / holdRequiredTime;
                     }
                     break;
 
@@ -148,17 +195,14 @@ public class CatSystemManager : MonoBehaviour
             yield return null;
         }
 
-        // ส่งผลไปยัง RelationshipManager
         ApplyResult(success);
 
         if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = 0;
-        if (qtePanel != null) qtePanel.SetActive(false);
-        HideInteractionChoice();
+
+        // 🟢 เมื่อเล่นเสร็จ ปิด UI ทั้งหมด
+        HideAllQTEUI();
         isInteracting = false;
         ResetInputFlags();
-
-        DayNightManager.Instance?.ForceResume();
-        PlayerController2D.IsLocked = false;
 
         if (currentNPC != null)
         {
@@ -167,14 +211,19 @@ public class CatSystemManager : MonoBehaviour
 
             if (success)
             {
-                // เล่น Animation Perform ตามประเภท QTE (0 = Perform1, 1 = Perform2, 2 = Perform3)
                 npcToClose.PlayPerformAndExit((int)qteType);
             }
             else
             {
-                // ถ้า QTE ล้มเหลว ให้เดินออกจากร้านทันที
+                PlayerController2D.SetLock(false);
+                QTEZoomController.Instance?.UnlockQTEZoom();
                 npcToClose.FinishInteractionAtZone();
             }
+        }
+        else
+        {
+            PlayerController2D.SetLock(false);
+            QTEZoomController.Instance?.UnlockQTEZoom();
         }
     }
 
@@ -186,8 +235,6 @@ public class CatSystemManager : MonoBehaviour
 
         if (success)
         {
-            // ✅ Interact ในโซนสำเร็จ (QTE ผ่าน) — เล่นเสียงมีความสุขเท่านั้น (VIP ใช้เสียงเฉพาะตัวถ้าตั้งไว้)
-            // (meow ย้ายไปเล่นตอนเข้าร้านแทน — ดู NPCInteract.Interact())
             NPCInteract interact = currentNPC.GetComponent<NPCInteract>();
             if (interact != null)
                 interact.PlayHappy();
@@ -196,14 +243,24 @@ public class CatSystemManager : MonoBehaviour
         }
 
         CatIdentity identity = currentNPC.GetComponent<CatIdentity>();
-        if (identity == null || identity.catData == null)
-        {
-            Debug.LogWarning("CatSystemManager: NPC ไม่มี CatIdentity component หรือไม่ได้ผูก catData");
-            return;
-        }
+        if (identity == null || identity.catData == null) return;
 
         if (RelationshipManager.Instance != null)
             RelationshipManager.Instance.AddRelationship(identity.CatID, change);
+    }
+
+    /// <summary>
+    /// 🔴 คำสั่งปิด UI ทุกชิ้นใน Hierarchy ของ GroupOfInteraction อย่างเด็ดขาด
+    /// </summary>
+    public void HideAllQTEUI()
+    {
+        if (buttonGroup != null) buttonGroup.SetActive(false);
+        if (progressBar != null) progressBar.SetActive(false);
+        if (qteInteractButton != null) qteInteractButton.SetActive(false);
+        if (exitButton != null) exitButton.SetActive(false);
+        if (reputationBar != null) reputationBar.SetActive(false);
+        if (qtePanel != null) qtePanel.SetActive(false);
+        if (groupOfInteraction != null) groupOfInteraction.SetActive(false);
     }
 
     public void ForceCloseSystem()
@@ -212,11 +269,11 @@ public class CatSystemManager : MonoBehaviour
         StopAllCoroutines();
         ResetInputFlags();
         if (qteProgressBarFill != null) qteProgressBarFill.fillAmount = 0;
-        if (qtePanel != null) qtePanel.SetActive(false);
-        HideInteractionChoice();
 
-        DayNightManager.Instance?.ForceResume();
-        PlayerController2D.IsLocked = false;
+        HideAllQTEUI();
+
+        PlayerController2D.SetLock(false);
+        QTEZoomController.Instance?.UnlockQTEZoom();
 
         if (currentNPC != null)
         {

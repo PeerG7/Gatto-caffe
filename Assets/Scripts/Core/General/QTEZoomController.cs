@@ -12,30 +12,24 @@ public class QTEZoomController : MonoBehaviour
     public Camera main2DCamera;
 
     [Header("Targeting")]
-    [Tooltip("The empty GameObject assigned as Follow target in Cinemachine")]
     public Transform cameraFollowTarget;
     public Transform playerTransform;
 
     [Header("Responsiveness Settings")]
-    [Tooltip("How fast the camera follows the player during normal movement (Lower = tighter/faster, Higher = floatier)")]
-    public float followDampTime = 0.1f;
-    [Tooltip("Transition speed when zooming in/out for QTE (in seconds)")]
-    public float zoomTransitionTime = 0.25f;
+    [Tooltip("Transition speed when zooming in/out (seconds)")]
+    public float zoomTransitionTime = 0.65f;
 
     [Header("Zoom Settings")]
-    [Tooltip("Default top-down game camera zoom size (e.g. 5)")]
     public float defaultOrthoSize = 5f;
-    [Tooltip("Zoomed-in size during QTE (smaller number = closer zoom, e.g. 2.5)")]
     public float qteOrthoSize = 2.5f;
 
     private bool isQTEActive = false;
-    private Vector3 currentTargetPos;
     private float currentOrthoSize;
     private float zoomVelocity;
     private Vector3 posVelocity;
 
-    // ตัวแปรสำหรับอ้างอิง NPC ที่กำลังทำ QTE/Perform
-    private NPCController activeNPC;
+    private Transform activeTargetTransform;
+    private bool isLockedInQTE = false;
 
     private void Awake()
     {
@@ -43,6 +37,7 @@ public class QTEZoomController : MonoBehaviour
         else Destroy(gameObject);
 
         if (main2DCamera == null) main2DCamera = Camera.main;
+        if (cinemachineCam == null) cinemachineCam = FindFirstObjectByType<CinemachineCamera>();
     }
 
     private void Start()
@@ -57,10 +52,8 @@ public class QTEZoomController : MonoBehaviour
 
         if (cameraFollowTarget != null && playerTransform != null)
         {
-            // Ensure target is detached from hierarchy to prevent recursive motion wobble
             cameraFollowTarget.SetParent(null);
             cameraFollowTarget.position = playerTransform.position;
-            currentTargetPos = playerTransform.position;
         }
     }
 
@@ -68,19 +61,29 @@ public class QTEZoomController : MonoBehaviour
     {
         if (playerTransform == null || cameraFollowTarget == null) return;
 
-        // 1. Determine target position (Player position normally, Midpoint during QTE)
-        Vector3 targetPos = isQTEActive ? currentTargetPos : playerTransform.position;
+        Vector3 targetPos;
 
-        // 2. Smoothly follow target position (Uses tighter damp time for normal tracking)
-        float currentDamp = isQTEActive ? zoomTransitionTime : followDampTime;
-        cameraFollowTarget.position = Vector3.SmoothDamp(
-            cameraFollowTarget.position,
-            targetPos,
-            ref posVelocity,
-            currentDamp
-        );
+        if (isQTEActive && activeTargetTransform != null)
+        {
+            targetPos = (playerTransform.position + activeTargetTransform.position) * 0.5f;
 
-        // 3. Smoothly adjust orthographic zoom size
+            cameraFollowTarget.position = Vector3.SmoothDamp(
+                cameraFollowTarget.position,
+                targetPos,
+                ref posVelocity,
+                zoomTransitionTime
+            );
+        }
+        else
+        {
+            cameraFollowTarget.position = Vector3.SmoothDamp(
+                cameraFollowTarget.position,
+                playerTransform.position,
+                ref posVelocity,
+                zoomTransitionTime
+            );
+        }
+
         float targetSize = isQTEActive ? qteOrthoSize : defaultOrthoSize;
         currentOrthoSize = Mathf.SmoothDamp(
             currentOrthoSize,
@@ -92,43 +95,31 @@ public class QTEZoomController : MonoBehaviour
         ApplyOrthoSize(currentOrthoSize);
     }
 
-    /// <summary>
-    /// Smoothly focuses camera halfway between Player and NPC, and zooms in.
-    /// </summary>
-    public void ZoomInToQTE(Transform npcTransform)
+    public void ZoomInToQTE(Transform targetTransform, bool lockZoom = false)
     {
-        if (playerTransform == null || npcTransform == null) return;
+        if (targetTransform == null) return;
 
-        // บันทึก NPCController ที่กำลังเริ่มทำ QTE
-        if (npcTransform.TryGetComponent<NPCController>(out var npc))
-        {
-            activeNPC = npc;
-        }
-
+        activeTargetTransform = targetTransform;
         isQTEActive = true;
-        // Calculate midpoint between Player and NPC
-        currentTargetPos = (playerTransform.position + npcTransform.position) * 0.5f;
+        isLockedInQTE = lockZoom;
     }
 
-    /// <summary>
-    /// Smoothly zooms back out and restores camera focus onto Player.
-    /// ส่ง force = true หากต้องการบังคับ Zoom Out ทันทีโดยไม่สนสถานะของ NPC
-    /// </summary>
     public void ZoomOutToGameplay(bool force = false)
     {
-        // ป้องกันการ Zoom Out กล้องก่อนที่ NPC จะเล่นแอนิเมชัน Perform จบ
-        if (!force && activeNPC != null && activeNPC.IsPerforming)
-        {
-            return;
-        }
+        if (isLockedInQTE && !force) return;
 
         isQTEActive = false;
-        activeNPC = null;
+        isLockedInQTE = false;
+        activeTargetTransform = null;
+    }
+
+    public void UnlockQTEZoom()
+    {
+        isLockedInQTE = false;
     }
 
     private void ApplyOrthoSize(float size)
     {
-        // 1. Apply to Cinemachine 3.x Camera Lens
         if (cinemachineCam != null)
         {
             var lens = cinemachineCam.Lens;
@@ -136,7 +127,6 @@ public class QTEZoomController : MonoBehaviour
             cinemachineCam.Lens = lens;
         }
 
-        // 2. Direct fallback on Main Camera
         if (main2DCamera != null)
         {
             main2DCamera.orthographicSize = size;

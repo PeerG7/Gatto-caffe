@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -18,6 +19,11 @@ public class PlayerInteract2D : MonoBehaviour
     [Header("New Input System")]
     public UnityEngine.InputSystem.InputActionReference interactAction;
 #endif
+
+    [Header("Anti-Spam / Cooldown Settings")]
+    [Tooltip("ระยะเวลาหน่วงระหว่างการกด E แต่ละครั้ง ป้องกัน Frame Collision / Race Condition")]
+    public float interactCooldown = 0.25f;
+    private float lastInteractTime = 0f;
 
     private List<TraySlot> lastNearbyTrays = new List<TraySlot>();
 
@@ -48,6 +54,15 @@ public class PlayerInteract2D : MonoBehaviour
 #endif
 
         if (!pressed) return;
+
+        // 🟢 บล็อกการสแปมกด E รัวๆ ในเฟรมติดๆ กัน (Anti-Spam Debounce)
+        if (Time.time - lastInteractTime < interactCooldown)
+        {
+            Debug.LogWarning($"[TRACE_INPUT] ⚠️ Ignore Spam E Input! (Cooldown: {Time.time - lastInteractTime:F2}s)");
+            return;
+        }
+        lastInteractTime = Time.time;
+
         if (activeCanvas != null) { activeCanvas.OnConfirm(); return; }
 
         TriggerInteract();
@@ -97,6 +112,8 @@ public class PlayerInteract2D : MonoBehaviour
         List<Collider2D> resultList = new List<Collider2D>();
         Physics2D.OverlapCircle(transform.position, range, filter, resultList);
         Collider2D[] hits = resultList.ToArray();
+
+        Debug.Log($"[TRACE_INPUT] 🔘 Player Triggered Interact at Time: {Time.time:F2} | Hits Count: {hits.Length}");
 
         // ==========================================
         // 0.2 🟢 อุ้ม DATACAT1 ขึ้นหัว (ต้องกินอาหารเสร็จแล้วถึงจะอุ้มได้)
@@ -238,37 +255,32 @@ public class PlayerInteract2D : MonoBehaviour
         }
 
         // 10. NPC interact
-        NPCInteract zoneWaitingNPC = null;
-        float minZoneDistNPC = Mathf.Infinity;
-        foreach (var hit in hits)
-        {
-            NPCInteract n = hit.GetComponent<NPCInteract>();
-            if (n != null && n.CanRequestZoneInteraction())
-            {
-                float d = Vector2.Distance(transform.position, n.transform.position);
-                if (d < minZoneDistNPC) { minZoneDistNPC = d; zoneWaitingNPC = n; }
-            }
-        }
-
-        if (zoneWaitingNPC != null)
-        {
-            zoneWaitingNPC.RequestZoneInteraction();
-            return;
-        }
-
         NPCInteract closestNPC = GetClosestNPC(hits);
         if (closestNPC != null)
         {
-            if (closestNPC.CanInteract())
+            NPCController npcCtrl = closestNPC.GetComponent<NPCController>();
+
+            // 🟢 1. ถ้ายืนประจำจุด InteractionZone และปลดล็อคสิทธิ์แล้ว -> เปิดหน้า Choice / QTE
+            if (npcCtrl != null && npcCtrl.isInteractionAllowed && npcCtrl.currentState == NPCController.NPCState.AtInteractionZone)
+            {
+                Debug.Log($"[TRACE_INPUT] ✅ Triggering Zone QTE for: {closestNPC.gameObject.name}");
+                closestNPC.RequestZoneInteraction();
+                return;
+            }
+            // 🟢 2. ถ้านั่งที่โต๊ะอาหารอยู่ (Sitting) -> เปิดหน้า Relationship Book เท่านั้น
+            else if (closestNPC.CanInteract())
             {
                 PlayerInventory playerInvRef = GetComponent<PlayerInventory>();
-                if (playerInvRef != null && playerInvRef.HasItem()) return;
+                if (playerInvRef != null && playerInvRef.HasItem()) return; // ถ้าถืออาหารอยู่ให้ Bypass ไปเสิร์ฟ
 
+                Debug.Log($"[TRACE_INPUT] ❤️ Opening Relationship for Sitting Cat: {closestNPC.gameObject.name}");
                 closestNPC.RelationShip();
                 return;
             }
-            else
+            // 🟢 3. ถ้ารอคิวหน้าร้าน -> เรียกเข้าคิว
+            else if (npcCtrl != null && npcCtrl.currentState == NPCController.NPCState.InQueue)
             {
+                Debug.Log($"[TRACE_INPUT] 📋 Inviting Queue NPC: {closestNPC.gameObject.name}");
                 closestNPC.Interact();
                 return;
             }
@@ -287,7 +299,6 @@ public class PlayerInteract2D : MonoBehaviour
         {
             Vector3 spawnPos = zone.point.position;
 
-            // 🟢 เช็คและบังคับให้ตำแหน่งสปอว์นอยู่บน NavMesh เสมอ ป้องกันปัญหาหา NavMesh ไม่เจอ
             if (UnityEngine.AI.NavMesh.SamplePosition(spawnPos, out UnityEngine.AI.NavMeshHit hit, 1.5f, UnityEngine.AI.NavMesh.AllAreas))
             {
                 spawnPos = hit.position;
