@@ -87,7 +87,9 @@ public class NPCController : MonoBehaviour
     public float moveAnimThreshold = 0.05f;
 
     [Header("Perform Animation Settings")]
-    public float fallbackPerformDuration = 2.26f;
+    public float fallbackPerformDuration = 5.0f;
+    [Tooltip("ระยะเวลาหน่วงให้กล้องเริ่มถอย Zoom Out ก่อนปลดล็อคให้แมวเดินออก")]
+    public float postPerformZoomDelay = 0.8f;
 
     [Header("Random Sit/Idle Flavor Animations (AnimState = 8)")]
     public bool enableRandomSitAnims = true;
@@ -108,6 +110,7 @@ public class NPCController : MonoBehaviour
     public float interactionChoiceTimeout = 5f;
     private Coroutine interactionTimeoutCoroutine;
 
+    // 🟢 Enum AnimState เพิ่มลำดับที่ 9 (Chatting) และ 10 (ReadingMenu)
     public enum AnimState
     {
         Idle = 0,
@@ -118,7 +121,9 @@ public class NPCController : MonoBehaviour
         PettingAnimation = 5,
         CatWandPlay = 6,
         CatToyMouse = 7,
-        RandomSitPhase = 8
+        RandomSitPhase = 8,
+        Chatting = 9,      // 🟢 แมวคุยกัน
+        ReadingMenu = 10   // 🟢 แมวดูเมนูอาหาร
     }
 
     private AnimState currentAnim = AnimState.Idle;
@@ -319,7 +324,7 @@ public class NPCController : MonoBehaviour
         }
     }
 
-    void SetAnimState(AnimState state, bool force = false)
+    public void SetAnimState(AnimState state, bool force = false)
     {
         if (!force && currentAnim == state) return;
         currentAnim = state;
@@ -339,6 +344,8 @@ public class NPCController : MonoBehaviour
                 AnimState.CatWandPlay => "catwandplay",
                 AnimState.CatToyMouse => "Cat_Toy_Mouse",
                 AnimState.RandomSitPhase => "Cat_Random_Sitting_Phase",
+                AnimState.Chatting => "Chatting",
+                AnimState.ReadingMenu => "ReadingMenu",
                 _ => state.ToString()
             };
 
@@ -534,6 +541,15 @@ public class NPCController : MonoBehaviour
         if (currentState != NPCState.Sitting) yield break;
 
         isSittingAngryAnim = false;
+
+        // 🟢 สุ่มเปิดแอนิเมชันดูเมนูอาหาร (ReadingMenu) เมื่อนั่งลงที่โต๊ะ
+        bool willReadMenu = Random.value < 0.5f;
+        if (willReadMenu)
+        {
+            SetAnimState(AnimState.ReadingMenu);
+            yield return new WaitForSeconds(2.0f);
+        }
+
         SetAnimState(AnimState.Sit);
 
         yield return new WaitForSeconds(1.5f);
@@ -551,6 +567,25 @@ public class NPCController : MonoBehaviour
                 assignedTable.TriggerTableChat();
             }
 
+            // 🟢 ตรวจสอบตำแหน่งเพื่อนร่วมโต๊ะ และ Flip แมวฝั่งขวาให้หันหน้าเข้าหาเพื่อนชั่วคราว
+            NPCController friend = assignedTable.sittingNPCs.Find(n => n != null && n != this);
+            bool originalFlipX = bodySpriteRenderer != null && bodySpriteRenderer.flipX;
+
+            if (friend != null && bodySpriteRenderer != null)
+            {
+                // ถ้าตำแหน่ง X ของเรามากกว่าเพื่อน (อยู่ทางขวา) ให้ Flip กลับด้านเข้าหาเพื่อน
+                if (transform.position.x > friend.transform.position.x)
+                {
+                    bodySpriteRenderer.flipX = true;
+                }
+                else
+                {
+                    bodySpriteRenderer.flipX = false;
+                }
+            }
+
+            SetAnimState(AnimState.Chatting);
+
             float chatTimer = 0f;
             while (chatTimer < 5f)
             {
@@ -558,6 +593,14 @@ public class NPCController : MonoBehaviour
                 if (!GameIsPaused) chatTimer += Time.deltaTime;
                 yield return null;
             }
+
+            // 🟢 คืนค่า Flip เดิมหลังจากคุยกันเสร็จแล้ว
+            if (bodySpriteRenderer != null)
+            {
+                bodySpriteRenderer.flipX = originalFlipX;
+            }
+
+            SetAnimState(AnimState.Sit);
         }
 
         SetupOrderUI();
@@ -711,7 +754,6 @@ public class NPCController : MonoBehaviour
 
         if (agent != null)
         {
-            // ปิดชั่วคราวเพื่อให้แน่ใจว่าวางตำแหน่งทับจุด Interaction ได้ทันทีโดยไม่โดน NavMesh บล็อก
             agent.enabled = false;
             transform.position = zone.point.position;
             agent.enabled = true;
@@ -723,7 +765,7 @@ public class NPCController : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"[NPCController] {gameObject.name} ไม่สามารถเกาะ NavMesh ได้ที่ตำแหน่ง InteractionZone นี้! กรุณาตรวจสอบว่าจุด InteractionZone อยู่บน NavMesh หรือไม่");
+                Debug.LogWarning($"[NPCController] {gameObject.name} ไม่สามารถเกาะ NavMesh ได้ที่ตำแหน่ง InteractionZone นี้!");
             }
         }
         else
@@ -760,14 +802,13 @@ public class NPCController : MonoBehaviour
     {
         if (currentState != NPCState.AtInteractionZone) return;
 
-        if (interactionTimeoutCoroutine != null)
-        {
-            StopCoroutine(interactionTimeoutCoroutine);
-            interactionTimeoutCoroutine = null;
-        }
+        // 🟢 หยุด Timeout ของการรอนั่งในโซน และ Timeout ของหน้า Choice ทันที
+        StopInteractionTimeout();
 
         CatSystemManager.Instance?.ShowInteractionChoice(this);
-        interactionTimeoutCoroutine = StartCoroutine(InteractionChoiceTimeoutRoutine());
+
+        // ❌ นำการรัน interactionChoiceTimeoutTimeoutRoutine ออกไป 
+        // เพื่อให้หน้า Choice เปิดค้างไว้จนกว่าผู้เล่นจะเลือก หรือเดินกดปิดเอง
     }
 
     IEnumerator InteractionChoiceTimeoutRoutine()
@@ -784,19 +825,24 @@ public class NPCController : MonoBehaviour
             FinishInteractionAtZone();
     }
 
-    public void OpenQTECanvas()
+    public void StopInteractionTimeout()
     {
-        if (currentState != NPCState.AtInteractionZone) return;
-
         if (interactionTimeoutCoroutine != null)
         {
             StopCoroutine(interactionTimeoutCoroutine);
             interactionTimeoutCoroutine = null;
         }
+    }
+
+    public void OpenQTECanvas()
+    {
+        if (currentState != NPCState.AtInteractionZone) return;
+
+        StopInteractionTimeout();
 
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(true);
 
-        QTEZoomController.Instance?.ZoomInToQTE(transform);
+        QTEZoomController.Instance?.ZoomInToQTE(transform, true);
     }
 
     public void PlayPerformAndExit(int performIndex = 0, float customDuration = -1f)
@@ -809,11 +855,7 @@ public class NPCController : MonoBehaviour
         if (isPerforming) yield break;
         isPerforming = true;
 
-        if (interactionTimeoutCoroutine != null)
-        {
-            StopCoroutine(interactionTimeoutCoroutine);
-            interactionTimeoutCoroutine = null;
-        }
+        StopInteractionTimeout();
 
         currentState = NPCState.Performing;
 
@@ -831,6 +873,8 @@ public class NPCController : MonoBehaviour
 
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
         CatSystemManager.Instance?.HideInteractionChoice();
+
+        QTEZoomController.Instance?.ZoomInToQTE(transform, true);
 
         AnimState targetState = performIndex switch
         {
@@ -883,8 +927,23 @@ public class NPCController : MonoBehaviour
             yield return null;
         }
 
+        QTEZoomController.Instance?.UnlockQTEZoom();
+        QTEZoomController.Instance?.ZoomOutToGameplay(true);
+
+        if (postPerformZoomDelay > 0f)
+        {
+            float delayTimer = 0f;
+            while (delayTimer < postPerformZoomDelay)
+            {
+                if (!GameIsPaused) delayTimer += Time.deltaTime;
+                yield return null;
+            }
+        }
+
         isPerforming = false;
         currentAnim = (AnimState)(-1);
+
+        PlayerController2D.SetLock(false);
 
         FinishInteractionAtZone();
     }
@@ -893,16 +952,13 @@ public class NPCController : MonoBehaviour
     {
         if (isPerforming) return;
 
-        if (interactionTimeoutCoroutine != null)
-        {
-            StopCoroutine(interactionTimeoutCoroutine);
-            interactionTimeoutCoroutine = null;
-        }
+        StopInteractionTimeout();
 
         CatSystemManager.Instance?.HideInteractionChoice();
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
-        QTEZoomController.Instance?.ZoomOutToGameplay();
+        QTEZoomController.Instance?.UnlockQTEZoom();
+        QTEZoomController.Instance?.ZoomOutToGameplay(true);
 
         if (currentZone != null)
         {
@@ -1180,7 +1236,6 @@ public class NPCController : MonoBehaviour
     {
         if (isPerforming) return;
 
-        // 🟢 ค้นหาจากชื่อ GameObject โดยตรง ไม่ใช้ Tag เพื่อป้องกันปัญหา Tag is not defined
         if (exitPoint == null)
         {
             GameObject exitObj = GameObject.Find("ExitPoint");
@@ -1191,7 +1246,7 @@ public class NPCController : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"[NPCController] ไม่พบ GameObject ชื่อ 'ExitPoint' ใน Scene! กรุณาสร้าง Empty GameObject และตั้งชื่อว่า 'ExitPoint'");
+                Debug.LogError($"[NPCController] ไม่พบ GameObject ชื่อ 'ExitPoint' ใน Scene!");
                 Destroy(gameObject);
                 return;
             }
@@ -1199,24 +1254,21 @@ public class NPCController : MonoBehaviour
 
         if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
 
-        if (interactionTimeoutCoroutine != null)
-        {
-            StopCoroutine(interactionTimeoutCoroutine);
-            interactionTimeoutCoroutine = null;
-        }
+        StopInteractionTimeout();
         onArrivedAtInteractionZone = null;
         if (currentZone != null)
         {
-            currentZone.Release(); 
-        currentZone = null;
+            currentZone.Release();
+            currentZone = null;
         }
 
         if (InteractionZoneManager.Instance != null)
-            InteractionZoneManager.Instance.CancelRequest(this); 
+            InteractionZoneManager.Instance.CancelRequest(this);
 
-    CatSystemManager.Instance?.HideInteractionChoice();
+        CatSystemManager.Instance?.HideInteractionChoice();
 
-        QTEZoomController.Instance?.ZoomOutToGameplay();
+        QTEZoomController.Instance?.UnlockQTEZoom();
+        QTEZoomController.Instance?.ZoomOutToGameplay(true);
 
         currentState = NPCState.Leaving;
         isSittingAngryAnim = false;

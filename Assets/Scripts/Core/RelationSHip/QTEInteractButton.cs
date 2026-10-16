@@ -7,7 +7,8 @@ using UnityEngine.InputSystem;
 
 public class QTEInteractButton : MonoBehaviour,
     IPointerDownHandler,
-    IPointerUpHandler
+    IPointerUpHandler,
+    IPointerExitHandler // 🟢 เพิ่มการจับ Event เมื่อเมาส์หลุดขอบปุ่ม
 {
     public enum ButtonMode { QTEInput, InteractChoice }
 
@@ -35,6 +36,7 @@ public class QTEInteractButton : MonoBehaviour,
     };
 
     private bool isHoldingViaKey = false;
+    private bool isPointerDown = false; // 🟢 ป้องกันการส่ง Release ซ้ำซ้อน
 
     private static List<QTEInteractButton> _activeChoiceButtons = new List<QTEInteractButton>();
 
@@ -50,6 +52,7 @@ public class QTEInteractButton : MonoBehaviour,
     {
         if (qteAction != null) qteAction.action.Disable();
         _activeChoiceButtons.Remove(this);
+        ResetButtonState();
     }
 #else
     void OnEnable()
@@ -61,6 +64,7 @@ public class QTEInteractButton : MonoBehaviour,
     void OnDisable()
     {
         _activeChoiceButtons.Remove(this);
+        ResetButtonState();
     }
 #endif
 
@@ -119,15 +123,43 @@ public class QTEInteractButton : MonoBehaviour,
     public void OnPointerDown(PointerEventData eventData)
     {
         if (mode == ButtonMode.QTEInput)
+        {
+            isPointerDown = true;
             SendPress();
+        }
         else
+        {
             FireChoice();
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (mode == ButtonMode.QTEInput)
+        if (mode == ButtonMode.QTEInput && isPointerDown)
+        {
+            isPointerDown = false;
             SendRelease();
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        // 🟢 เมื่อหลุดกรอบปุ่ม ให้ทำการ Release อย่างปลอดภัย ไม่ตัดเข้า-ออกทันที
+        if (mode == ButtonMode.QTEInput && isPointerDown)
+        {
+            isPointerDown = false;
+            SendRelease();
+        }
+    }
+
+    private void ResetButtonState()
+    {
+        if (isPointerDown || isHoldingViaKey)
+        {
+            isPointerDown = false;
+            isHoldingViaKey = false;
+            SendRelease();
+        }
     }
 
     void SendPress()
@@ -147,7 +179,6 @@ public class QTEInteractButton : MonoBehaviour,
         NPCController npc = RelationshipManager.Instance?.GetCurrentNPC();
         if (npc == null) return;
 
-        // ✅ Interact สำเร็จ — ร้อง meow + เสียงมีความสุข (VIP ใช้เสียงเฉพาะตัวถ้าตั้งไว้)
         NPCInteract interact = npc.GetComponent<NPCInteract>();
         if (interact != null)
         {

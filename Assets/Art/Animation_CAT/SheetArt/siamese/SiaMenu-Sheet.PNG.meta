@@ -1,0 +1,493 @@
+fileFormatVersion: 2
+guid: 6e2973495b3b1c447b71048f7195d7b9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3161715490008366592
+    second: SiaMenu-Sheet_0
+  - first:
+      213: -3631286617967789735
+    second: SiaMenu-Sheet_1
+  - first:
+      213: 1255382343406594826
+    second: SiaMenu-Sheet_2
+  - first:
+      213: 3594355786398427952
+    second: SiaMenu-Sheet_3
+  - first:
+      213: -8534942021812345629
+    second: SiaMenu-Sheet_4
+  - first:
+      213: -5329192189018834968
+    second: SiaMenu-Sheet_5
+  - first:
+      213: 8941849679099505617
+    second: SiaMenu-Sheet_6
+  - first:
+      213: 2219569324035427937
+    second: SiaMenu-Sheet_7
+  - first:
+      213: -1164189066101165745
+    second: SiaMenu-Sheet_8
+  - first:
+      213: -6055146020933759294
+    second: SiaMenu-Sheet_9
+  - first:
+      213: 1536942996086245550
+    second: SiaMenu-Sheet_10
+  - first:
+      213: 7230187776803827459
+    second: SiaMenu-Sheet_11
+  - first:
+      213: -1310643156410432483
+    second: SiaMenu-Sheet_12
+  - first:
+      213: -5667226489795075676
+    second: SiaMenu-Sheet_13
+  - first:
+      213: -8230048763768830452
+    second: SiaMenu-Sheet_14
+  - first:
+      213: 4415932194622151761
+    second: SiaMenu-Sheet_15
+  - first:
+      213: 5199128859280159858
+    second: SiaMenu-Sheet_16
+  - first:
+      213: -4465714642498926083
+    second: SiaMenu-Sheet_17
+  - first:
+      213: -4700233503059645674
+    second: SiaMenu-Sheet_18
+  - first:
+      213: 33637644677828175
+    second: SiaMenu-Sheet_19
+  - first:
+      213: -7842860368393067599
+    second: SiaMenu-Sheet_20
+  - first:
+      213: 7680501339546925989
+    second: SiaMenu-Sheet_21
+  - first:
+      213: 6730753015057241310
+    second: SiaMenu-Sheet_22
+  - first:
+      213: -2500448249208395111
+    second: SiaMenu-Sheet_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SiaMenu-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4260
+        width: 1420
+        height: 1420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 002833963845f14d0800000000000000
+      internalID: -3161715490008366592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaMenu-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 4260
+        width: 1420
+        height: 1420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95976627f041b9dc0800000000000000
+      internalID: -3631286617967789735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaMenu-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 4260
+        width: 1420
+        height: 1420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0b2c0c07930c6110800000000000000
+      internalID: 1255382343406594826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaMenu-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2840
+        width: 1420
+        height: 1420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03be5a44b87b1e130800000000000000
+      internalID: 3594355786398427952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaMenu-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 2840
+        width: 1420
+        height: 1420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e42253837bcd8980800000000000000
+      internalID: -8534942021812345629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaMenu-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 2840
+        width: 1420
+        height: 1420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e7feb970f7ea06b0800000000000000
+      internalID: -5329192189018834968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaMenu-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1420
+        width: 1420
+        height: 1420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dbaaad38e4d71c70800000000000000
+      internalID: 8941849679099505617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaMenu-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 1420
+        width: 1420
+        height: 1420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16e4c795a8e7dce10800000000000000
+      internalID: 2219569324035427937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaMenu-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 1420
+        width: 1420
+        height: 1420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4175a76638f7dfe0800000000000000
+      internalID: -1164189066101165745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaMenu-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1420
+        height: 1420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ce8f1786ccc7fba0800000000000000
+      internalID: -6055146020933759294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaMenu-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 0
+        width: 1420
+        height: 1420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea8ceb90381545510800000000000000
+      internalID: 1536942996086245550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaMenu-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 2840
+        y: 0
+        width: 1420
+        height: 1420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30f63cfc979c65460800000000000000
+      internalID: 7230187776803827459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1bd03fe0700d39844a835aa9bab57754
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":1420.0,"y":1420.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      SiaMenu-Sheet_0: -3161715490008366592
+      SiaMenu-Sheet_1: -3631286617967789735
+      SiaMenu-Sheet_10: 1536942996086245550
+      SiaMenu-Sheet_11: 7230187776803827459
+      SiaMenu-Sheet_2: 1255382343406594826
+      SiaMenu-Sheet_3: 3594355786398427952
+      SiaMenu-Sheet_4: -8534942021812345629
+      SiaMenu-Sheet_5: -5329192189018834968
+      SiaMenu-Sheet_6: 8941849679099505617
+      SiaMenu-Sheet_7: 2219569324035427937
+      SiaMenu-Sheet_8: -1164189066101165745
+      SiaMenu-Sheet_9: -6055146020933759294
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

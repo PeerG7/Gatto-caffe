@@ -18,11 +18,8 @@ public class NPCInteract : MonoBehaviour
     public AudioClip angrySound;
 
     [Header("VIP Sounds (Optional — สำหรับแมว VIP เช่น Alien ที่มีเสียงเฉพาะตัว)")]
-    [Tooltip("cat_happy_alien เป็นต้น — ถ้าไม่ใส่ จะใช้เสียง default จาก AudioManager แทน")]
     public AudioClip happySound;
-    [Tooltip("cat_sad_new_alien เป็นต้น")]
     public AudioClip sadSound;
-    [Tooltip("cat_wants_food_alien เป็นต้น")]
     public AudioClip wantsFoodSound;
 
     void Awake()
@@ -103,13 +100,12 @@ public class NPCInteract : MonoBehaviour
 
         NPCController frontNPC = QueueManager.Instance.GetFrontNPC();
 
-        // อนุญาตให้คลิกต้อนรับได้ ถ้าตัวที่คลิกคือหัวแถว หรือเป็นเพื่อนร่วมกลุ่มที่ต่อแถวอยู่
         bool isFrontOrSameGroup = (frontNPC == npc) ||
                                   (frontNPC != null && !string.IsNullOrEmpty(frontNPC.groupID) && frontNPC.groupID == npc.groupID);
 
         if (!isFrontOrSameGroup)
         {
-            Debug.Log("❌ Not front of queue"); 
+            Debug.Log("❌ Not front of queue");
             return;
         }
 
@@ -117,15 +113,14 @@ public class NPCInteract : MonoBehaviour
         {
             int groupSize = npc.GetGroupSize();
 
-            // ถ้าเป็นกลุ่ม 2 ตัวขึ้นไป แต่ไม่มีโต๊ะที่นั่งเพียงพอว่างอยู่เลย
             if (groupSize >= 2 && !NPCController.HasAvailableTableForGroup(groupSize))
             {
-                Debug.Log("❌ ไม่มีโต๊ะเพียงพอสำหรับกลุ่มนี้ — เล่นอนิเมชันหงุดหงิดแล้วเดินออก"); 
+                Debug.Log("❌ ไม่มีโต๊ะเพียงพอสำหรับกลุ่มนี้ — เล่นอนิเมชันหงุดหงิดแล้วเดินออก");
                 StartCoroutine(HandleGroupRejectAndExit(frontNPC.groupID));
                 return;
             }
 
-            Debug.Log("✅ Invite NPC Group"); 
+            Debug.Log("✅ Invite NPC Group");
             PlayMeow();
 
             if (QueueManager.Instance != null)
@@ -141,7 +136,6 @@ public class NPCInteract : MonoBehaviour
 
     private IEnumerator HandleGroupRejectAndExit(string targetGroupID)
     {
-        // ค้นหาแมวทุกตัวในกลุ่มที่มี groupID นี้
         List<NPCController> groupMembers = new List<NPCController>();
         NPCController[] allNPCs = FindObjectsOfType<NPCController>();
         foreach (var n in allNPCs)
@@ -152,25 +146,29 @@ public class NPCInteract : MonoBehaviour
             }
         }
 
-        // ปิดหลอดรอคิว และสั่งเล่นเสียง/อนิเมชันหงุดหงิดของทุกคนในกลุ่มพร้อมกัน
         foreach (var member in groupMembers)
         {
-            if (member.queuePatienceBarRoot != null) member.queuePatienceBarRoot.SetActive(false);
-            NPCInteract inter = member.GetComponent<NPCInteract>();
-            if (inter != null) inter.PlayAngry();
+            if (member != null)
+            {
+                if (member.queuePatienceBarRoot != null) member.queuePatienceBarRoot.SetActive(false);
+                NPCInteract inter = member.GetComponent<NPCInteract>();
+                if (inter != null) inter.PlayAngry();
+            }
         }
 
-        // ยืนรอ 2 วินาที
         yield return new WaitForSeconds(2f);
 
-        // นำออกจากคิวและสั่งเดินออกพร้อมกันทั้งคู่
         foreach (var member in groupMembers)
         {
-            if (QueueManager.Instance != null)
+            // 🟢 ตรวจสอบว่าแมวยังไม่ถูก Destroy ก่อนสั่ง Remove และ GoExit
+            if (member != null)
             {
-                QueueManager.Instance.RemoveFromQueue(member);
+                if (QueueManager.Instance != null)
+                {
+                    QueueManager.Instance.RemoveFromQueue(member);
+                }
+                member.GoExit();
             }
-            member.GoExit();
         }
     }
 
@@ -187,11 +185,11 @@ public class NPCInteract : MonoBehaviour
 
         if (npc.currentState != NPCController.NPCState.Sitting)
         {
-            Debug.Log("❌ NPC not sitting — state: " + npc.currentState); 
+            Debug.Log("❌ NPC not sitting — state: " + npc.currentState);
             return;
         }
 
-        Debug.Log("❤️ OPEN RELATIONSHIP for: " + gameObject.name); 
+        Debug.Log("❤️ OPEN RELATIONSHIP for: " + gameObject.name);
 
         RelationshipManager.Instance.SetCurrentNPC(npc);
 
@@ -206,7 +204,7 @@ public class NPCInteract : MonoBehaviour
         else
         {
             Debug.LogError("❌ relationshipCanvas is NULL บน " + gameObject.name +
-                           " — กรุณาลาก RelationshipCanvas มาใส่ใน Inspector ของ NPCSpawner"); 
+                           " — กรุณาลาก RelationshipCanvas มาใส่ใน Inspector ของ NPCSpawner");
         }
     }
 }
