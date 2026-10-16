@@ -28,6 +28,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip sfxWantsFood;        // 7. แมวต้องการอาหาร (default — แมวทั่วไป)
     public AudioClip sfxPlaceFurniture;   // 8. วางเฟอร์นิเจอร์ (put_table.mp3)
     public AudioClip sfxCollectFurniture; // 9. เก็บเฟอร์นิเจอร์ (collect_table.mp3)
+    public AudioClip sfxComputerOpen;     // 10. เปิดคอม (กด E ที่คอม)
 
     [Header("Fade Settings")]
     [Range(0.1f, 3f)] public float fadeDuration = 1f;
@@ -172,6 +173,9 @@ public class AudioManager : MonoBehaviour
 
     /// <summary>เก็บเฟอร์นิเจอร์</summary>
     public void PlayCollectFurniture() => PlaySFX(sfxCollectFurniture);
+
+    /// <summary>เปิดคอมร้านค้า</summary>
+    public void PlayComputerOpen() => PlaySFX(sfxComputerOpen);
 
     void PlaySFX(AudioClip clip)
     {

@@ -22,6 +22,10 @@ public class ComputerStation : MonoBehaviour
 
         if (shopCanvas != null)
         {
+            // ถ้าเปิดอยู่แล้ว ไม่เล่นเสียงซ้ำ
+            if (!IsShopOpen)
+                AudioManager.instance?.PlayComputerOpen();
+
             shopCanvas.SetActive(true);
             IsShopOpen = true;
             PlayerController2D.SetLock(true); // ล็อก Player ไม่ให้เดิน
