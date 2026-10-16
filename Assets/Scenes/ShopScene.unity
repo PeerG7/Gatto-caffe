@@ -525,6 +525,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 0}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!114 &13556768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1084,6 +1087,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 8300000, guid: c9d55f99385f5d844890c99571f9e246, type: 3}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!114 &38831949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1248,6 +1254,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemButton
   itemData: {fileID: 11400000, guid: 95c768e553a705741946f15c7ec76bc1, type: 2}
+  buySoundClip: {fileID: 8300000, guid: d4fb24a3bafe06a42add6bfe28ea41a4, type: 3}
+  sfxVolume: 1
 --- !u!114 &73190092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1357,6 +1365,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 0}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!1 &86318480
 GameObject:
   m_ObjectHideFlags: 0
@@ -7423,6 +7434,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 8300000, guid: c9d55f99385f5d844890c99571f9e246, type: 3}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!1 &230201406
 GameObject:
   m_ObjectHideFlags: 0
@@ -7897,6 +7911,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 8300000, guid: c9d55f99385f5d844890c99571f9e246, type: 3}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!1 &289002288
 GameObject:
   m_ObjectHideFlags: 0
@@ -8062,6 +8079,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 8300000, guid: c9d55f99385f5d844890c99571f9e246, type: 3}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!114 &289002295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10694,6 +10714,7 @@ MonoBehaviour:
   sfxSource: {fileID: 466208908}
   cookingSoundClip: {fileID: 8300000, guid: c0fa00eb777ffdb40b767beab1b79a72, type: 3}
   completeSoundClip: {fileID: 8300000, guid: 1f0492c95348685468f3e911068d4065, type: 3}
+  binSoundClip: {fileID: 8300000, guid: a27dec61c1348be46aa0b3e7c48f4ed7, type: 3}
   firstSelectedButton: {fileID: 469687350}
   backAction: {fileID: 5317567377745415392, guid: 1ec89c8190a1f644796c1e984cf92f33, type: 3}
 --- !u!4 &466208907
@@ -11019,6 +11040,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 8300000, guid: c9d55f99385f5d844890c99571f9e246, type: 3}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!114 &467111654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11204,6 +11228,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 8300000, guid: c9d55f99385f5d844890c99571f9e246, type: 3}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!114 &469687357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14227,6 +14254,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 8300000, guid: c9d55f99385f5d844890c99571f9e246, type: 3}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!1 &702237051
 GameObject:
   m_ObjectHideFlags: 0
@@ -17331,6 +17361,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 0}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!1 &862048707
 GameObject:
   m_ObjectHideFlags: 0
@@ -21540,6 +21573,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemButton
   itemData: {fileID: 11400000, guid: 9864119005fd25c4090267329410b064, type: 2}
+  buySoundClip: {fileID: 0}
+  sfxVolume: 1
 --- !u!114 &1181981288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21661,6 +21696,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 0}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!4 &1190988633 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 919422827561980744, guid: bd5279869a4ca554898d4bcabc527d80, type: 3}
@@ -36441,6 +36479,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemButton
   itemData: {fileID: 11400000, guid: 9864119005fd25c4090267329410b064, type: 2}
+  buySoundClip: {fileID: 8300000, guid: d4fb24a3bafe06a42add6bfe28ea41a4, type: 3}
+  sfxVolume: 1
 --- !u!114 &1561759299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36550,6 +36590,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 0}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!1 &1569343193
 GameObject:
   m_ObjectHideFlags: 0
@@ -38258,6 +38301,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 0}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!1 &1705110940
 GameObject:
   m_ObjectHideFlags: 0
@@ -39447,6 +39493,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 8300000, guid: c9d55f99385f5d844890c99571f9e246, type: 3}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!114 &1760322234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40557,6 +40606,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 8300000, guid: c9d55f99385f5d844890c99571f9e246, type: 3}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!114 &1876184586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41623,6 +41675,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemButton
   itemData: {fileID: 11400000, guid: 95c768e553a705741946f15c7ec76bc1, type: 2}
+  buySoundClip: {fileID: 0}
+  sfxVolume: 1
 --- !u!114 &1979704963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41744,6 +41798,9 @@ MonoBehaviour:
   hoverOffset: {x: 0, y: 15}
   hoverScale: 1.08
   transitionSpeed: 0.15
+  hoverSfx: {fileID: 0}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!1 &1989250053
 GameObject:
   m_ObjectHideFlags: 0
@@ -42880,9 +42937,9 @@ MonoBehaviour:
   sfxComplete: {fileID: 8300000, guid: 1f0492c95348685468f3e911068d4065, type: 3}
   sfxCoin: {fileID: 8300000, guid: 261974345d549b34aa026405a771841e, type: 3}
   sfxEndOfDay: {fileID: 8300000, guid: 95ee43bed39010f4c8f7f391b09a74f6, type: 3}
-  sfxCathappy: {fileID: 0}
-  sfxCatsad: {fileID: 0}
-  sfxWantsFood: {fileID: 0}
+  sfxCathappy: {fileID: 8300000, guid: a95029b5943c56b448f20d5ee860edcc, type: 3}
+  sfxCatsad: {fileID: 8300000, guid: 719c9e1ff80e9b243ba4a850085dd7e3, type: 3}
+  sfxWantsFood: {fileID: 8300000, guid: 6558546061a46b549ba92e27190d7f5f, type: 3}
   fadeDuration: 1
   maxVolume: 1
   endOfDayFadeDuration: 5

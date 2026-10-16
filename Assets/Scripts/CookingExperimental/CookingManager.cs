@@ -7,90 +7,91 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 #endif
 
-public class CookingManager : MonoBehaviour, IGamepadNavigable //[cite: 2]
+public class CookingManager : MonoBehaviour, IGamepadNavigable
 {
     [Header("Recipe Data")]
-    public List<RecipeSO> allRecipes; //[cite: 2]
-    public RecipeSO failedDishRecipe; //[cite: 2]
+    public List<RecipeSO> allRecipes;
+    public RecipeSO failedDishRecipe;
 
     [Header("Ingredients & Board")]
-    public List<string> currentIngredients = new List<string>(); //[cite: 2]
-    public Image[] boardSlots; //[cite: 2]
+    public List<string> currentIngredients = new List<string>();
+    public Image[] boardSlots;
 
     [Header("UI Controls")]
-    public Button cookButton; //[cite: 2]
-    public GameObject cookingVisuals; //[cite: 2]
-    public Image cookingProgressBar; //[cite: 2]
+    public Button cookButton;
+    public GameObject cookingVisuals;
+    public Image cookingProgressBar;
 
     [Header("Settings")]
-    public float cookingDuration = 3f; //[cite: 2]
+    public float cookingDuration = 3f;
 
-    public GameObject stationCookingCanvas; //[cite: 2]
+    public GameObject stationCookingCanvas;
 
     [Header("Deep Fry")]
-    public DeepFryStation deepFryStation; //[cite: 2]
-    public Button deepFryButton; //[cite: 2]
+    public DeepFryStation deepFryStation;
+    public Button deepFryButton;
 
     [Header("SFX")]
-    public AudioSource sfxSource; //[cite: 2]
-    public AudioClip cookingSoundClip; //[cite: 2]
-    public AudioClip completeSoundClip; //[cite: 2]
+    public AudioSource sfxSource;
+    public AudioClip cookingSoundClip;
+    public AudioClip completeSoundClip;
+    public AudioClip binSoundClip;   // เสียงตอนลบวัตถุดิบออก (bin_2.mp3)
 
     [Header("Gamepad / Keyboard Navigation")]
-    public GameObject firstSelectedButton; //[cite: 2]
+    public GameObject firstSelectedButton;
 
 #if ENABLE_INPUT_SYSTEM
-    public UnityEngine.InputSystem.InputActionReference backAction; //[cite: 2]
+    public UnityEngine.InputSystem.InputActionReference backAction;
 #endif
 
-    private IngredientButton[] _registeredIngredients = new IngredientButton[7]; //[cite: 2]
+    private IngredientButton[] _registeredIngredients = new IngredientButton[7];
 
     public void RegisterIngredientButton(IngredientButton btn, int slotIndex)
     {
         if (slotIndex >= 0 && slotIndex < 7)
-            _registeredIngredients[slotIndex] = btn; //[cite: 2]
+            _registeredIngredients[slotIndex] = btn;
     }
 
     private static readonly KeyCode[] _ingredientHotkeys = {
         KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4,
         KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7
-    }; //[cite: 2]
+    };
 
     private static readonly KeyCode[] _confirmKeys = {
         KeyCode.Return, KeyCode.KeypadEnter, KeyCode.Space
-    }; //[cite: 2]
+    };
 
-    private const KeyCode DEEPFRY_KEY = KeyCode.F; //[cite: 2]
+    private const KeyCode DEEPFRY_KEY = KeyCode.F;
 
-    private RecipeSO currentOutput; //[cite: 2]
-    private bool isFailed = false; //[cite: 2]
-    private Coroutine cookCoroutine = null; //[cite: 2]
-    private bool isCooking = false; //[cite: 2]
+    private RecipeSO currentOutput;
+    private bool isFailed = false;
+    private Coroutine cookCoroutine = null;
+    private bool isCooking = false;
 
     void Start()
     {
-        if (cookButton != null) cookButton.interactable = false; //[cite: 2]
-        ResetBoardVisuals(); //[cite: 2]
-        if (cookingVisuals != null) cookingVisuals.SetActive(false); //[cite: 2]
-        if (cookingProgressBar != null) cookingProgressBar.gameObject.SetActive(false); //[cite: 2]
+        if (cookButton != null) cookButton.interactable = false;
+        ResetBoardVisuals();
+        if (cookingVisuals != null) cookingVisuals.SetActive(false);
+        if (cookingProgressBar != null) cookingProgressBar.gameObject.SetActive(false);
     }
 
 #if ENABLE_INPUT_SYSTEM
-    void OnEnable() { if (backAction != null) backAction.action.Enable(); } //[cite: 2]
-    void OnDisable() { if (backAction != null) backAction.action.Disable(); } //[cite: 2]
+    void OnEnable() { if (backAction != null) backAction.action.Enable(); }
+    void OnDisable() { if (backAction != null) backAction.action.Disable(); }
 #endif
 
     void Update()
     {
-        if (stationCookingCanvas == null || !stationCookingCanvas.activeSelf) return; //[cite: 2]
-        if (isCooking) return; //[cite: 2]
+        if (stationCookingCanvas == null || !stationCookingCanvas.activeSelf) return;
+        if (isCooking) return;
 
-        bool backPressed = Input.GetKeyDown(KeyCode.Escape); //[cite: 2]
+        bool backPressed = Input.GetKeyDown(KeyCode.Escape);
 #if ENABLE_INPUT_SYSTEM
         if (!backPressed && backAction != null && backAction.action.WasPressedThisFrame())
-            backPressed = true; //[cite: 2]
+            backPressed = true;
 #endif
-        if (backPressed) { CloseCanvas(); return; } //[cite: 2]
+        if (backPressed) { CloseCanvas(); return; }
 
         // --- INGREDIENT REMOVAL HOTKEYS ---
         if (Input.GetKeyDown(KeyCode.Backspace))
@@ -105,83 +106,83 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable //[cite: 2]
         }
 
         for (int i = 0; i < _ingredientHotkeys.Length; i++)
-            if (Input.GetKeyDown(_ingredientHotkeys[i])) { TryAddIngredientBySlot(i); return; } //[cite: 2]
+            if (Input.GetKeyDown(_ingredientHotkeys[i])) { TryAddIngredientBySlot(i); return; }
 
-        if (Input.GetKeyDown(DEEPFRY_KEY)) { TryTriggerDeepFry(); return; } //[cite: 2]
+        if (Input.GetKeyDown(DEEPFRY_KEY)) { TryTriggerDeepFry(); return; }
 
         foreach (KeyCode key in _confirmKeys)
             if (Input.GetKeyDown(key))
             {
-                if (cookButton != null && cookButton.interactable) OnCookButtonClicked(); //[cite: 2]
+                if (cookButton != null && cookButton.interactable) OnCookButtonClicked();
                 return;
             }
     }
 
     void TryAddIngredientBySlot(int i)
     {
-        IngredientButton btn = _registeredIngredients[i]; //[cite: 2]
-        if (btn == null) { Debug.LogWarning($"[CookingManager] ไม่มี IngredientButton ที่ slot {i + 1}"); return; } //[cite: 2]
-        btn.TriggerIngredient(); //[cite: 2]
+        IngredientButton btn = _registeredIngredients[i];
+        if (btn == null) { Debug.LogWarning($"[CookingManager] ไม่มี IngredientButton ที่ slot {i + 1}"); return; }
+        btn.TriggerIngredient();
     }
 
     void TryTriggerDeepFry()
     {
-        if (deepFryButton != null && !deepFryButton.interactable) return; //[cite: 2]
-        if (deepFryStation != null) deepFryStation.OnFryButtonClicked(); //[cite: 2]
-        else Debug.LogWarning("[CookingManager] ไม่ได้ผูก DeepFryStation"); //[cite: 2]
+        if (deepFryButton != null && !deepFryButton.interactable) return;
+        if (deepFryStation != null) deepFryStation.OnFryButtonClicked();
+        else Debug.LogWarning("[CookingManager] ไม่ได้ผูก DeepFryStation");
     }
 
-    public void OnConfirm() { if (cookButton != null && cookButton.interactable && !isCooking) OnCookButtonClicked(); } //[cite: 2]
-    public void OnBack() => CloseCanvas(); //[cite: 2]
-    public void OnNavigate(Vector2 direction) { } //[cite: 2]
+    public void OnConfirm() { if (cookButton != null && cookButton.interactable && !isCooking) OnCookButtonClicked(); }
+    public void OnBack() => CloseCanvas();
+    public void OnNavigate(Vector2 direction) { }
 
     public void OpenCanvas()
     {
-        if (stationCookingCanvas != null) stationCookingCanvas.SetActive(true); //[cite: 2]
-        PlayerController2D.IsLocked = true; //[cite: 2]
-        PlayerInteract2D.RegisterActiveCanvas(this); //[cite: 2]
-        DayNightManager.Instance?.PauseGame(); //[cite: 2]
-        SetInitialFocus(); //[cite: 2]
+        if (stationCookingCanvas != null) stationCookingCanvas.SetActive(true);
+        PlayerController2D.IsLocked = true;
+        PlayerInteract2D.RegisterActiveCanvas(this);
+        DayNightManager.Instance?.PauseGame();
+        SetInitialFocus();
     }
 
     public void CloseCanvas()
     {
-        if (stationCookingCanvas != null) stationCookingCanvas.SetActive(false); //[cite: 2]
-        PlayerInteract2D.UnregisterActiveCanvas(this); //[cite: 2]
+        if (stationCookingCanvas != null) stationCookingCanvas.SetActive(false);
+        PlayerInteract2D.UnregisterActiveCanvas(this);
 
         if (isCooking)
         {
-            if (cookCoroutine != null) { StopCoroutine(cookCoroutine); cookCoroutine = null; } //[cite: 2]
-            if (sfxSource != null && sfxSource.isPlaying) sfxSource.Stop(); //[cite: 2]
-            isCooking = false; //[cite: 2]
-            if (cookingVisuals != null) cookingVisuals.SetActive(false); //[cite: 2]
-            if (cookingProgressBar != null) { cookingProgressBar.fillAmount = 0; cookingProgressBar.gameObject.SetActive(false); } //[cite: 2]
-            currentIngredients.Clear(); //[cite: 2]
-            ResetBoardVisuals(); //[cite: 2]
-            CheckRecipe(); //[cite: 2]
+            if (cookCoroutine != null) { StopCoroutine(cookCoroutine); cookCoroutine = null; }
+            if (sfxSource != null && sfxSource.isPlaying) sfxSource.Stop();
+            isCooking = false;
+            if (cookingVisuals != null) cookingVisuals.SetActive(false);
+            if (cookingProgressBar != null) { cookingProgressBar.fillAmount = 0; cookingProgressBar.gameObject.SetActive(false); }
+            currentIngredients.Clear();
+            ResetBoardVisuals();
+            CheckRecipe();
         }
 
-        PlayerController2D.IsLocked = false; //[cite: 2]
-        DayNightManager.Instance?.ResumeGame(); //[cite: 2]
+        PlayerController2D.IsLocked = false;
+        DayNightManager.Instance?.ResumeGame();
     }
 
     void SetInitialFocus()
     {
-        if (EventSystem.current == null) return; //[cite: 2]
+        if (EventSystem.current == null) return;
         GameObject target = firstSelectedButton != null ? firstSelectedButton
-            : (cookButton != null ? cookButton.gameObject : null); //[cite: 2]
-        if (target != null) EventSystem.current.SetSelectedGameObject(target); //[cite: 2]
+            : (cookButton != null ? cookButton.gameObject : null);
+        if (target != null) EventSystem.current.SetSelectedGameObject(target);
     }
 
     public void AddIngredient(string ingredientName, Sprite ingredientSprite)
     {
-        if (isCooking) return; //[cite: 2]
-        if (currentIngredients.Count < 3) //[cite: 2]
+        if (isCooking) return;
+        if (currentIngredients.Count < 3)
         {
-            currentIngredients.Add(ingredientName); //[cite: 2]
-            int index = currentIngredients.Count - 1; //[cite: 2]
-            if (index < boardSlots.Length) { boardSlots[index].sprite = ingredientSprite; boardSlots[index].enabled = true; } //[cite: 2]
-            CheckRecipe(); //[cite: 2]
+            currentIngredients.Add(ingredientName);
+            int index = currentIngredients.Count - 1;
+            if (index < boardSlots.Length) { boardSlots[index].sprite = ingredientSprite; boardSlots[index].enabled = true; }
+            CheckRecipe();
         }
     }
 
@@ -190,7 +191,7 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable //[cite: 2]
     // =====================================================================
 
     /// <summary>
-    /// Removes the last added ingredient (Backspace hotkey).
+    /// ลบวัตถุดิบชิ้นล่าสุด 1 ชิ้น (ปุ่มถังขยะ / Backspace)
     /// </summary>
     public void RemoveLastIngredient()
     {
@@ -199,11 +200,13 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable //[cite: 2]
     }
 
     /// <summary>
-    /// Removes an ingredient at a specific board slot index (0, 1, or 2) and shifts sprites left.
+    /// ลบวัตถุดิบตามตำแหน่ง (0, 1, 2) แล้วเลื่อนภาพทางซ้าย พร้อมเล่นเสียง
     /// </summary>
     public void RemoveIngredientAt(int index)
     {
         if (isCooking || index < 0 || index >= currentIngredients.Count) return;
+
+        PlayBinSound();   // เล่นเฉพาะตอนมีของให้ลบจริง
 
         currentIngredients.RemoveAt(index);
 
@@ -229,104 +232,116 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable //[cite: 2]
     }
 
     /// <summary>
-    /// Clears all ingredients from the board at once (Delete hotkey).
+    /// ล้างวัตถุดิบทั้งหมดในครั้งเดียว (Delete) เล่นเสียงเฉพาะตอนมีของ
     /// </summary>
     public void ClearAllIngredients()
     {
         if (isCooking || currentIngredients.Count == 0) return;
+
+        PlayBinSound();
 
         currentIngredients.Clear();
         ResetBoardVisuals();
         CheckRecipe();
     }
 
+    void PlayBinSound()
+    {
+        if (binSoundClip == null) return;
+
+        if (sfxSource != null)
+            sfxSource.PlayOneShot(binSoundClip);
+        else if (Camera.main != null)
+            AudioSource.PlayClipAtPoint(binSoundClip, Camera.main.transform.position);
+    }
+
     // =====================================================================
 
     void CheckRecipe()
     {
-        isFailed = false; //[cite: 2]
-        currentOutput = null; //[cite: 2]
-        foreach (var recipe in allRecipes) //[cite: 2]
+        isFailed = false;
+        currentOutput = null;
+        foreach (var recipe in allRecipes)
         {
-            if (IsMatch(recipe)) { currentOutput = recipe; if (cookButton != null) cookButton.interactable = true; return; } //[cite: 2]
+            if (IsMatch(recipe)) { currentOutput = recipe; if (cookButton != null) cookButton.interactable = true; return; }
         }
-        if (currentIngredients.Count == 3) { currentOutput = failedDishRecipe; isFailed = true; if (cookButton != null) cookButton.interactable = true; } //[cite: 2]
-        else { if (cookButton != null) cookButton.interactable = false; } //[cite: 2]
+        if (currentIngredients.Count == 3) { currentOutput = failedDishRecipe; isFailed = true; if (cookButton != null) cookButton.interactable = true; }
+        else { if (cookButton != null) cookButton.interactable = false; }
     }
 
     bool IsMatch(RecipeSO recipe)
     {
-        if (recipe.requiredIngredients.Count != currentIngredients.Count) return false; //[cite: 2]
-        List<string> playerInput = new List<string>(currentIngredients); //[cite: 2]
-        foreach (string required in recipe.requiredIngredients) //[cite: 2]
+        if (recipe.requiredIngredients.Count != currentIngredients.Count) return false;
+        List<string> playerInput = new List<string>(currentIngredients);
+        foreach (string required in recipe.requiredIngredients)
         {
-            string found = playerInput.Find(x => x.Equals(required, System.StringComparison.OrdinalIgnoreCase)); //[cite: 2]
-            if (found != null) playerInput.Remove(found); else return false; //[cite: 2]
+            string found = playerInput.Find(x => x.Equals(required, System.StringComparison.OrdinalIgnoreCase));
+            if (found != null) playerInput.Remove(found); else return false;
         }
-        return playerInput.Count == 0; //[cite: 2]
+        return playerInput.Count == 0;
     }
 
     public void OnCookButtonClicked()
     {
-        if (currentOutput == null || isCooking) return; //[cite: 2]
-        if (TrayManager.instance != null && !TrayManager.instance.HasEmptySlot()) { Debug.LogWarning("[CookingManager] Tray เต็ม!"); return; } //[cite: 2]
-        PlayerController2D.IsLocked = true; //[cite: 2]
-        cookCoroutine = StartCoroutine(PerformCookingCoroutine()); //[cite: 2]
+        if (currentOutput == null || isCooking) return;
+        if (TrayManager.instance != null && !TrayManager.instance.HasEmptySlot()) { Debug.LogWarning("[CookingManager] Tray เต็ม!"); return; }
+        PlayerController2D.IsLocked = true;
+        cookCoroutine = StartCoroutine(PerformCookingCoroutine());
     }
 
     private IEnumerator PerformCookingCoroutine()
     {
-        isCooking = true; //[cite: 2]
-        if (cookButton != null) cookButton.interactable = false; //[cite: 2]
-        ResetBoardVisuals(); //[cite: 2]
-        if (cookingVisuals != null) cookingVisuals.SetActive(true); //[cite: 2]
-        if (cookingProgressBar != null) { cookingProgressBar.gameObject.SetActive(true); cookingProgressBar.fillAmount = 0f; } //[cite: 2]
-        if (sfxSource != null && cookingSoundClip != null) { sfxSource.clip = cookingSoundClip; sfxSource.loop = false; sfxSource.Play(); } //[cite: 2]
+        isCooking = true;
+        if (cookButton != null) cookButton.interactable = false;
+        ResetBoardVisuals();
+        if (cookingVisuals != null) cookingVisuals.SetActive(true);
+        if (cookingProgressBar != null) { cookingProgressBar.gameObject.SetActive(true); cookingProgressBar.fillAmount = 0f; }
+        if (sfxSource != null && cookingSoundClip != null) { sfxSource.clip = cookingSoundClip; sfxSource.loop = false; sfxSource.Play(); }
 
-        float elapsed = 0f; //[cite: 2]
-        while (elapsed < cookingDuration) //[cite: 2]
+        float elapsed = 0f;
+        while (elapsed < cookingDuration)
         {
-            elapsed += Time.deltaTime; //[cite: 2]
-            if (cookingProgressBar != null) cookingProgressBar.fillAmount = elapsed / cookingDuration; //[cite: 2]
-            yield return null; //[cite: 2]
+            elapsed += Time.deltaTime;
+            if (cookingProgressBar != null) cookingProgressBar.fillAmount = elapsed / cookingDuration;
+            yield return null;
         }
 
-        cookCoroutine = null; //[cite: 2]
-        isCooking = false; //[cite: 2]
-        if (sfxSource != null && sfxSource.isPlaying) sfxSource.Stop(); //[cite: 2]
-        PlayCompleteSound(); //[cite: 2]
+        cookCoroutine = null;
+        isCooking = false;
+        if (sfxSource != null && sfxSource.isPlaying) sfxSource.Stop();
+        PlayCompleteSound();
 
-        if (TrayManager.instance != null) //[cite: 2]
+        if (TrayManager.instance != null)
         {
-            bool placed = TrayManager.instance.ReceiveFood(currentOutput.recipeName, currentOutput.finalDishSprite); //[cite: 2]
-            if (!placed) Debug.LogWarning("[CookingManager] Tray เต็ม"); //[cite: 2]
+            bool placed = TrayManager.instance.ReceiveFood(currentOutput.recipeName, currentOutput.finalDishSprite);
+            if (!placed) Debug.LogWarning("[CookingManager] Tray เต็ม");
         }
         else
         {
-            PlayerInventory player = FindObjectOfType<PlayerInventory>(); //[cite: 2]
-            if (player != null) player.PickUpItem(currentOutput.recipeName, currentOutput.finalDishSprite); //[cite: 2]
+            PlayerInventory player = FindObjectOfType<PlayerInventory>();
+            if (player != null) player.PickUpItem(currentOutput.recipeName, currentOutput.finalDishSprite);
         }
 
-        if (cookingVisuals != null) cookingVisuals.SetActive(false); //[cite: 2]
-        if (cookingProgressBar != null) cookingProgressBar.gameObject.SetActive(false); //[cite: 2]
-        currentIngredients.Clear(); //[cite: 2]
-        CheckRecipe(); //[cite: 2]
+        if (cookingVisuals != null) cookingVisuals.SetActive(false);
+        if (cookingProgressBar != null) cookingProgressBar.gameObject.SetActive(false);
+        currentIngredients.Clear();
+        CheckRecipe();
 
-        if (stationCookingCanvas != null) stationCookingCanvas.SetActive(false); //[cite: 2]
-        PlayerInteract2D.UnregisterActiveCanvas(this); //[cite: 2]
-        PlayerController2D.IsLocked = false; //[cite: 2]
-        DayNightManager.Instance?.ResumeGame(); //[cite: 2]
+        if (stationCookingCanvas != null) stationCookingCanvas.SetActive(false);
+        PlayerInteract2D.UnregisterActiveCanvas(this);
+        PlayerController2D.IsLocked = false;
+        DayNightManager.Instance?.ResumeGame();
     }
 
     void PlayCompleteSound()
     {
-        if (sfxSource != null && completeSoundClip != null) sfxSource.PlayOneShot(completeSoundClip); //[cite: 2]
-        else if (AudioManager.instance != null) AudioManager.instance.PlayComplete(); //[cite: 2]
+        if (sfxSource != null && completeSoundClip != null) sfxSource.PlayOneShot(completeSoundClip);
+        else if (AudioManager.instance != null) AudioManager.instance.PlayComplete();
     }
 
     void ResetBoardVisuals()
     {
         foreach (var slot in boardSlots)
-            if (slot != null) { slot.sprite = null; slot.enabled = false; } //[cite: 2]
+            if (slot != null) { slot.sprite = null; slot.enabled = false; }
     }
 }

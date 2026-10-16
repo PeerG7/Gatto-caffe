@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIHoverBounce : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UIHoverBounce : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler
 {
     [Header("Hover Settings")]
     [Tooltip("Offset position when hovered (e.g., Y = 15 moves up slightly)")]
@@ -13,6 +13,17 @@ public class UIHoverBounce : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     [Tooltip("Duration of the transition")]
     [SerializeField] private float transitionSpeed = 0.15f;
+
+    [Header("Hover SFX")]
+    [Tooltip("เสียงตอนเอาเมาส์ไปชี้ (ลาก mouse_chee_ui_sfx.wav มาใส่)")]
+    [SerializeField] private AudioClip hoverSfx;
+    [Range(0f, 1f)]
+    [SerializeField] private float sfxVolume = 1f;
+    [Tooltip("ถ้าไม่ใส่ จะใช้ AudioSource กลางที่สร้างให้อัตโนมัติ")]
+    [SerializeField] private AudioSource audioSource;
+
+    // AudioSource กลาง ใช้ร่วมกันทุกปุ่ม ไม่ต้องใส่ AudioSource ทีละอัน
+    private static AudioSource sharedSource;
 
     private RectTransform targetRect;
     private Vector2 defaultPosition;
@@ -31,7 +42,6 @@ public class UIHoverBounce : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     void OnDisable()
     {
-        // Reset state immediately if deactivated
         if (targetRect != null)
         {
             targetRect.anchoredPosition = defaultPosition;
@@ -41,6 +51,7 @@ public class UIHoverBounce : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        PlayHoverSfx();
         Vector2 targetPos = defaultPosition + hoverOffset;
         Vector3 targetSc = defaultScale * hoverScale;
         StartTransition(targetPos, targetSc);
@@ -49,6 +60,34 @@ public class UIHoverBounce : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerExit(PointerEventData eventData)
     {
         StartTransition(defaultPosition, defaultScale);
+    }
+
+    // เสียงตอนเลือกด้วยคีย์บอร์ด/จอย (เมาส์ชี้ก็ทำให้เกิด select ได้ในบางกรณี
+    // ถ้าได้ยินเสียงซ้ำสองครั้ง ให้ลบ ISelectHandler กับเมธอดนี้ออก)
+    public void OnSelect(BaseEventData eventData)
+    {
+        PlayHoverSfx();
+    }
+
+    private void PlayHoverSfx()
+    {
+        if (hoverSfx == null) return;
+
+        AudioSource src = audioSource != null ? audioSource : GetSharedSource();
+        src.PlayOneShot(hoverSfx, sfxVolume);
+    }
+
+    private static AudioSource GetSharedSource()
+    {
+        if (sharedSource == null)
+        {
+            GameObject go = new GameObject("UIHoverSfxPlayer");
+            DontDestroyOnLoad(go);
+            sharedSource = go.AddComponent<AudioSource>();
+            sharedSource.playOnAwake = false;
+            sharedSource.spatialBlend = 0f; // 2D sound
+        }
+        return sharedSource;
     }
 
     private void StartTransition(Vector2 targetPos, Vector3 targetSc)
@@ -67,7 +106,7 @@ public class UIHoverBounce : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         while (elapsed < transitionSpeed)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(elapsed / transitionSpeed);
             float curve = Mathf.SmoothStep(0f, 1f, t);
 
