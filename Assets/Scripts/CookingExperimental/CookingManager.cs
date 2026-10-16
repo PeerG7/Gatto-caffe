@@ -143,12 +143,29 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
         PlayerInteract2D.RegisterActiveCanvas(this);
         DayNightManager.Instance?.PauseGame();
         SetInitialFocus();
+
+        // 🟢 เพิ่มบรรทัดเช็กตรงนี้
+        if (ScreenSmudgeManager.Instance != null)
+        {
+            Debug.Log("[CookingManager] ✅ เจอ ScreenSmudgeManager.Instance แล้ว! กำลังสั่งทำงาน...");
+            ScreenSmudgeManager.Instance.TryTriggerDelayedSmudge();
+        }
+        else
+        {
+            Debug.LogError("[CookingManager] ❌ ไม่พบ ScreenSmudgeManager.Instance (เป็นค่า null)!");
+        }
     }
 
     public void CloseCanvas()
     {
         if (stationCookingCanvas != null) stationCookingCanvas.SetActive(false);
         PlayerInteract2D.UnregisterActiveCanvas(this);
+
+        // 🟢 ยกเลิกคราบเลอะหรือซ่อน UI แมวทันทีถ้าปิดหน้าต่างก่อนทำความสะอาดเสร็จ
+        if (ScreenSmudgeManager.Instance != null)
+        {
+            ScreenSmudgeManager.Instance.CancelActiveSmudge();
+        }
 
         if (isCooking)
         {

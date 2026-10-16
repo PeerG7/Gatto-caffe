@@ -30,6 +30,9 @@ public class ComputerStation : MonoBehaviour
             IsShopOpen = true;
             PlayerController2D.SetLock(true); // ล็อก Player ไม่ให้เดิน
             CameraController2D.SetPanMode(true); // เปิดโหมดกล้อง Shop
+
+            // 🟢 สั่งหยุดเวลาในเกมเมื่อเปิดหน้าต่างคอมพิวเตอร์
+            DayNightManager.Instance?.PauseGame();
         }
     }
 
@@ -41,6 +44,9 @@ public class ComputerStation : MonoBehaviour
             IsShopOpen = false;
             PlayerController2D.SetLock(false); // ✅ ปลดล็อก Player ให้กลับมาเดินได้
             CameraController2D.SetPanMode(false); // ✅ ปรับกล้องกลับติดตาม Player
+
+            // 🟢 สั่งให้เวลาในเกมกลับมาเดินต่อเมื่อปิดหน้าต่างคอมพิวเตอร์
+            DayNightManager.Instance?.ResumeGame();
         }
     }
 }

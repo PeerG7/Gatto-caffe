@@ -11,8 +11,13 @@ public class StationInteract : MonoBehaviour
 
     public void OpenCanvas()
     {
-        // ✅ ถ้าผูก CookingManager หรือ DrinkStation ไว้ ให้เรียกผ่านตัวนั้น
-        // เพราะ OpenCanvas() ของพวกนั้นมี PauseGame() อยู่แล้ว
+        // 🟢 เปิดสถานีทันทีโดยไม่ต้องเช็คที่นี่ 
+        // (เพราะการสุ่มคราบเลอะจะถูกจัดการต่อภายใน CookingManager.OpenCanvas แทนแล้ว)
+        ExecuteOpenCanvas();
+    }
+
+    private void ExecuteOpenCanvas()
+    {
         if (cookingManager != null)
         {
             cookingManager.OpenCanvas();
@@ -25,7 +30,6 @@ public class StationInteract : MonoBehaviour
             return;
         }
 
-        // Fallback: ถ้าไม่ได้ผูกอะไรไว้ ก็เปิด Canvas ตรงๆ พร้อม Pause
         if (stationCanvas != null)
         {
             stationCanvas.SetActive(true);
