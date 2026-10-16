@@ -29,6 +29,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip sfxPlaceFurniture;   // 8. วางเฟอร์นิเจอร์ (put_table.mp3)
     public AudioClip sfxCollectFurniture; // 9. เก็บเฟอร์นิเจอร์ (collect_table.mp3)
     public AudioClip sfxComputerOpen;     // 10. เปิดคอม (กด E ที่คอม)
+    public AudioClip sfxPaperFold;        // 11. เสียงพับกระดาษ (สมุด)
+    public AudioClip sfxBookClose;        // 12. เสียงปิดสมุด (กด Exit / Esc)
 
     [Header("Fade Settings")]
     [Range(0.1f, 3f)] public float fadeDuration = 1f;
@@ -179,6 +181,12 @@ public class AudioManager : MonoBehaviour
 
     /// <summary>เล่นเสียงที่ส่งเข้ามาโดยตรง (ใช้กับเสียงเฉพาะตัว เช่น วัตถุดิบแต่ละชนิด)</summary>
     public void PlaySFXClip(AudioClip clip) => PlaySFX(clip);
+
+    /// <summary>เสียงพับกระดาษ (สมุด)</summary>
+    public void PlayPaperFold() => PlaySFX(sfxPaperFold);
+
+    /// <summary>เสียงปิดสมุด</summary>
+    public void PlayBookClose() => PlaySFX(sfxBookClose);
 
     void PlaySFX(AudioClip clip)
     {

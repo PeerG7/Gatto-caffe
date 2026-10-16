@@ -111,6 +111,8 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
         currentIndex = 0;
         isOpen = true;
 
+        AudioManager.instance?.PlayPaperFold();   // เสียงเปิดสมุด
+
         if (bookCanvas != null) bookCanvas.SetActive(true);
         PlayerController2D.IsLocked = true;
 
@@ -124,6 +126,9 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
 
     public void CloseBook()
     {
+        if (isOpen)
+            AudioManager.instance?.PlayBookClose();   // เสียงปิดสมุด (เฉพาะตอนเปิดอยู่)
+
         isOpen = false;
         if (bookCanvas != null) bookCanvas.SetActive(false);
 
@@ -134,6 +139,7 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
     void PrevCat()
     {
         if (cats == null || cats.Count == 0) return;
+        if (cats.Count > 1) AudioManager.instance?.PlayPaperFold();   // เสียงพลิกหน้า
         currentIndex = (currentIndex - 1 + cats.Count) % cats.Count;
         ShowCurrentCat();
     }
@@ -141,6 +147,7 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
     void NextCat()
     {
         if (cats == null || cats.Count == 0) return;
+        if (cats.Count > 1) AudioManager.instance?.PlayPaperFold();   // เสียงพลิกหน้า
         currentIndex = (currentIndex + 1) % cats.Count;
         ShowCurrentCat();
     }

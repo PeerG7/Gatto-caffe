@@ -2127,6 +2127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverWobble
   tiltAngle: 8
   wobbleSpeed: 15
+  hoverSfx: {fileID: 8300000, guid: 0a59a93f1161855458ce0ba720e6bd74, type: 3}
+  sfxVolume: 1
 --- !u!1 &129671338
 GameObject:
   m_ObjectHideFlags: 0
@@ -14681,6 +14683,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverWobble
   tiltAngle: 8
   wobbleSpeed: 15
+  hoverSfx: {fileID: 8300000, guid: b131e1ba62e179049884a44c3d221819, type: 3}
+  sfxVolume: 1
 --- !u!1 &717268168
 GameObject:
   m_ObjectHideFlags: 0
@@ -17883,6 +17887,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverWobble
   tiltAngle: 8
   wobbleSpeed: 15
+  hoverSfx: {fileID: 0}
+  sfxVolume: 1
 --- !u!1 &893276801
 GameObject:
   m_ObjectHideFlags: 0
@@ -36139,6 +36145,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverWobble
   tiltAngle: 8
   wobbleSpeed: 15
+  hoverSfx: {fileID: 8300000, guid: 9fb891aa87840a14aa12e4b566b7c6ff, type: 3}
+  sfxVolume: 1
 --- !u!1 &1545858119
 GameObject:
   m_ObjectHideFlags: 0
@@ -42950,6 +42958,8 @@ MonoBehaviour:
   sfxPlaceFurniture: {fileID: 8300000, guid: 0ad19e176e91e054b938e97d5c0b7f56, type: 3}
   sfxCollectFurniture: {fileID: 8300000, guid: 92a27dd3134f60748a2be6c2defe0e46, type: 3}
   sfxComputerOpen: {fileID: 8300000, guid: c04ef340c49f9434a91d7526f7826479, type: 3}
+  sfxPaperFold: {fileID: 8300000, guid: bba50fd55e7ae83428a9189fb5b3cfcd, type: 3}
+  sfxBookClose: {fileID: 8300000, guid: 49091b1e27cce2d4e8bf6e3a01d40527, type: 3}
   fadeDuration: 1
   maxVolume: 1
   endOfDayFadeDuration: 5

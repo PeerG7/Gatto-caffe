@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,6 +10,15 @@ public class UIHoverWobble : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     [Tooltip("Wobble animation speed multiplier")]
     [SerializeField] private float wobbleSpeed = 15f;
+
+    [Header("Hover SFX")]
+    [Tooltip("เสียงตอนเอาเมาส์ไปชี้ (ลาก mouse_chee_ui_sfx.wav มาใส่)")]
+    [SerializeField] private AudioClip hoverSfx;
+    [Range(0f, 1f)]
+    [SerializeField] private float sfxVolume = 1f;
+
+    // AudioSource กลาง ใช้ร่วมกันทุกปุ่ม (ใช้ตัวเดียวกับ UIHoverBounce ถ้าชื่อเดียวกันจะแยกกันคนละ static)
+    private static AudioSource sharedSource;
 
     private Quaternion defaultRotation;
     private Coroutine wobbleRoutine;
@@ -31,6 +40,8 @@ public class UIHoverWobble : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        PlayHoverSfx();
+
         if (wobbleRoutine != null) StopCoroutine(wobbleRoutine);
         wobbleRoutine = StartCoroutine(AnimateWobble());
     }
@@ -43,6 +54,25 @@ public class UIHoverWobble : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             wobbleRoutine = null;
         }
         transform.localRotation = defaultRotation;
+    }
+
+    private void PlayHoverSfx()
+    {
+        if (hoverSfx == null) return;
+        GetSharedSource().PlayOneShot(hoverSfx, sfxVolume);
+    }
+
+    private static AudioSource GetSharedSource()
+    {
+        if (sharedSource == null)
+        {
+            GameObject go = new GameObject("UIHoverWobbleSfxPlayer");
+            DontDestroyOnLoad(go);
+            sharedSource = go.AddComponent<AudioSource>();
+            sharedSource.playOnAwake = false;
+            sharedSource.spatialBlend = 0f; // 2D sound
+        }
+        return sharedSource;
     }
 
     private IEnumerator AnimateWobble()
