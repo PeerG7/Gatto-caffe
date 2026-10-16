@@ -14,7 +14,12 @@ public class AudioManager : MonoBehaviour
 
     [Header("Music")]
     public AudioClip menuMusic;
-    public AudioClip gameMusic;
+    public AudioClip gameMusic;                 // เพลงเกมปัจจุบัน (อัปเดตอัตโนมัติตอนสุ่ม / ใช้เป็นตัวสำรอง)
+
+    [Header("Game Music Playlist (สุ่ม)")]
+    [Tooltip("ลากเพลงเกม 3 เพลงใส่ที่นี่ — จะสุ่มทุกครั้งที่เข้า GameScene")]
+    public AudioClip[] gameMusicList;
+    private int lastGameMusicIndex = -1;        // กันสุ่มซ้ำเพลงเดิมติดกัน
 
     [Header("SFX Clips")]
     public AudioClip sfxMeow;           // 1. แมวร้องตอนเรียกเข้าร้าน
@@ -87,11 +92,37 @@ public class AudioManager : MonoBehaviour
         }
         else if (scene.name == gameSceneName)
         {
-            if (audioSource.clip != gameMusic)
-                CrossfadeTo(gameMusic);
-            else if (!audioSource.isPlaying)
-                PlayMusicWithFadeIn(gameMusic);
+            // ✅ สุ่มเพลงเกมใหม่ทุกครั้งที่เข้า GameScene
+            AudioClip pick = PickRandomGameMusic();
+            CrossfadeTo(pick);
         }
+    }
+
+    // ── Random Game Music ────────────────────────────────
+
+    /// <summary>สุ่มเพลงเกมจาก gameMusicList (ไม่ซ้ำเพลงเดิมติดกัน)</summary>
+    AudioClip PickRandomGameMusic()
+    {
+        // ถ้าไม่ได้ใส่ list ให้ใช้ gameMusic เดิม
+        if (gameMusicList == null || gameMusicList.Length == 0)
+            return gameMusic;
+
+        if (gameMusicList.Length == 1)
+        {
+            lastGameMusicIndex = 0;
+            gameMusic = gameMusicList[0];
+            return gameMusic;
+        }
+
+        int index;
+        do
+        {
+            index = Random.Range(0, gameMusicList.Length);
+        } while (index == lastGameMusicIndex);
+
+        lastGameMusicIndex = index;
+        gameMusic = gameMusicList[index];   // อัปเดตเพลงปัจจุบัน
+        return gameMusic;
     }
 
     // ── Public BGM API ───────────────────────────────────
@@ -134,11 +165,13 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(EndOfDayRoutine());
     }
 
-    /// <summary>เรียกเมื่อกด Next Day — BGM เพลงเกมกลับมา fade in</summary>
+    /// <summary>เรียกเมื่อกด Next Day — สุ่มเพลงเกมใหม่แล้ว fade in</summary>
     public void ResumeGameMusic()
     {
         StopAllCoroutines();
-        StartCoroutine(FadeInRoutine(gameMusic));
+        StartCoroutine(FadeInRoutine(PickRandomGameMusic()));
+        // ถ้าอยากให้ Next Day เล่นเพลงเดิมต่อ ไม่สุ่มใหม่ ให้เปลี่ยนเป็น:
+        // StartCoroutine(FadeInRoutine(gameMusic));
     }
 
     // ── Public SFX API ───────────────────────────────────

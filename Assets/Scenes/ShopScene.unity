@@ -2127,7 +2127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverWobble
   tiltAngle: 8
   wobbleSpeed: 15
-  hoverSfx: {fileID: 8300000, guid: 0a59a93f1161855458ce0ba720e6bd74, type: 3}
+  hoverSfx: {fileID: 8300000, guid: bf7a66939c56d3743b5d664b5dc3c5af, type: 3}
   sfxVolume: 1
 --- !u!1 &129671338
 GameObject:
@@ -14683,7 +14683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverWobble
   tiltAngle: 8
   wobbleSpeed: 15
-  hoverSfx: {fileID: 8300000, guid: b131e1ba62e179049884a44c3d221819, type: 3}
+  hoverSfx: {fileID: 8300000, guid: e2de6d05067494f44a7d2a330deab2ff, type: 3}
   sfxVolume: 1
 --- !u!1 &717268168
 GameObject:
@@ -36145,7 +36145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverWobble
   tiltAngle: 8
   wobbleSpeed: 15
-  hoverSfx: {fileID: 8300000, guid: 9fb891aa87840a14aa12e4b566b7c6ff, type: 3}
+  hoverSfx: {fileID: 8300000, guid: 14f95df3aaad2124e910e2cfdb870218, type: 3}
   sfxVolume: 1
 --- !u!1 &1545858119
 GameObject:
@@ -42946,6 +42946,10 @@ MonoBehaviour:
   sfxSource: {fileID: 0}
   menuMusic: {fileID: 8300000, guid: f26eab0c6bcc9cd449aff658d2bb4103, type: 3}
   gameMusic: {fileID: 8300000, guid: ea227e04830a83147ad0a7e93daed4f5, type: 3}
+  gameMusicList:
+  - {fileID: 8300000, guid: ea227e04830a83147ad0a7e93daed4f5, type: 3}
+  - {fileID: 8300000, guid: 849cb68c93a9abb4291d9af1719c8574, type: 3}
+  - {fileID: 8300000, guid: ca2b664bdfd2b5641b1168aabb7fa51c, type: 3}
   sfxMeow: {fileID: 8300000, guid: dc3ae25056ac5d64a8c7bc5487f9877b, type: 3}
   sfxAngry: {fileID: 8300000, guid: 0489b5016d5455b44bcd74e308949bc9, type: 3}
   sfxSitDown: {fileID: 8300000, guid: 646ac0c0bd7db6f4f8b4c7b6a89dac0e, type: 3}
