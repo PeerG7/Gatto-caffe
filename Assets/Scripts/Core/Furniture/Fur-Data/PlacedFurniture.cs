@@ -21,6 +21,8 @@ public class PlacedFurniture : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Sprite[] levelSprites;
 
+    private bool isPickingUp = false;
+
     private void Awake()
     {
         if (string.IsNullOrEmpty(instanceID))
@@ -88,9 +90,6 @@ public class PlacedFurniture : MonoBehaviour
         FurnitureObject furnObj = GetComponent<FurnitureObject>();
         if (furnObj != null)
         {
-            // Level 0 : (isUnlocked = false, isUpgraded = false) -> โต๊ะเงา
-            // Level 1 : (isUnlocked = true,  isUpgraded = false) -> โต๊ะไม้
-            // Level 2 : (isUnlocked = true,  isUpgraded = true)  -> โต๊ะหินอ่อน
             bool unlockedState = (currentLevel >= 1);
             bool upgradedState = (currentLevel >= 2);
 
@@ -112,6 +111,41 @@ public class PlacedFurniture : MonoBehaviour
 
     public void PickupFurniture()
     {
+        if (isPickingUp) return;
+        isPickingUp = true;
+        StartCoroutine(AnimatePickupAndDestroy());
+    }
+
+    private System.Collections.IEnumerator AnimatePickupAndDestroy()
+    {
+        Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
+        foreach (var col in colliders) col.enabled = false;
+
+        Vector3 originalScale = transform.localScale;
+        Vector3 popScale = originalScale * 1.25f;
+
+        float duration = 0.08f;
+        float elapsed = 0f;
+
+        // 1. พองตัวขึ้นนิดนึง
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            transform.localScale = Vector3.Lerp(originalScale, popScale, elapsed / duration);
+            yield return null;
+        }
+
+        // 2. ยุบเล็กลงจนเป็น 0
+        elapsed = 0f;
+        duration = 0.1f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            transform.localScale = Vector3.Lerp(popScale, Vector3.zero, elapsed / duration);
+            yield return null;
+        }
+
+        // 3. บันทึกและส่งเข้า Inventory
         if (instanceData == null)
         {
             instanceData = new FurnitureInstanceData(itemData, currentLevel);
@@ -125,11 +159,9 @@ public class PlacedFurniture : MonoBehaviour
 
         if (FurnitureInventory.Instance != null)
         {
-            // 1. เพิ่มไอเทมเข้า Inventory
             FurnitureInventory.Instance.AddInstance(instanceData);
             Debug.Log($"[PlacedFurniture] เก็บ {gameObject.name} (Level: {currentLevel}) เข้า Inventory");
 
-            // 2. สั่งรีเฟรช UI ทันที เพื่อให้ช่องไอเทมอัปเดตโดยไม่ต้องกด B ปิด/เปิด ใหม่
             if (FurnitureEditUI.Instance != null)
             {
                 FurnitureEditUI.Instance.RefreshUI();

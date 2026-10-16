@@ -173,12 +173,15 @@ public class FurnitureManager : MonoBehaviour
 
             placedScript.Setup(currentPlacingInstance);
 
+            // 🌟 [JUICE] เล่นอนิเมชันเด้งดึ๋งนุ่มนวลตอนวางเฟอร์นิเจอร์
+            StartCoroutine(AnimatePlacementBounce(currentPlacingObject.transform));
+
             currentPlacingObject = null;
             currentPlacingInstance = null;
             currentRenderers = null;
             previewCollider = null;
 
-            // 🟢 ยกตำแหน่ง UI กลับมาที่ Pos Y = -406 และอัปเดตรายการในคลัง
+            // ยกตำแหน่ง UI กลับมาที่ Pos Y = -406 และอัปเดตรายการในคลัง
             if (FurnitureEditUI.Instance != null)
             {
                 FurnitureEditUI.Instance.RestorePanelPosition();
@@ -202,7 +205,7 @@ public class FurnitureManager : MonoBehaviour
             previewCollider = null;
         }
 
-        // 🟢 ยกตำแหน่ง UI กลับมาที่ Pos Y = -406 เมื่อกดยกเลิก
+        // ยกตำแหน่ง UI กลับมาที่ Pos Y = -406 เมื่อกดยกเลิก
         if (FurnitureEditUI.Instance != null)
         {
             FurnitureEditUI.Instance.RestorePanelPosition();
@@ -224,7 +227,8 @@ public class FurnitureManager : MonoBehaviour
                 PlacedFurniture furniture = hit.collider.GetComponentInParent<PlacedFurniture>();
                 if (furniture != null)
                 {
-                    furniture.PickupFurniture();
+                    // 🌟 [JUICE] เล่นอนิเมชันพองแล้วยุบหายไป ก่อนเก็บเข้ากระเป๋า
+                    StartCoroutine(AnimatePickupShrink(furniture));
                 }
             }
         }
@@ -257,5 +261,97 @@ public class FurnitureManager : MonoBehaviour
 
         if (FurnitureEditUI.Instance != null)
             FurnitureEditUI.Instance.ToggleEditUI(active);
+    }
+
+    // =========================================================================
+    // 🌟 JUICE EFFECT 1: อนิเมชันเด้งดึ๋งนุ่มนวลตอนวางเฟอร์นิเจอร์ลงบนฉาก
+    // =========================================================================
+    private System.Collections.IEnumerator AnimatePlacementBounce(Transform targetTransform)
+    {
+        if (targetTransform == null) yield break;
+
+        Vector3 originalScale = targetTransform.localScale;
+        // พองออกทางข้าง ยุบตัวลงแนวดิ่ง (Squash)
+        Vector3 squashScale = new Vector3(originalScale.x * 1.18f, originalScale.y * 0.82f, originalScale.z);
+        // ยืดขึ้นแนวดิ่ง ย่อเข้าทางข้าง (Stretch)
+        Vector3 stretchScale = new Vector3(originalScale.x * 0.92f, originalScale.y * 1.08f, originalScale.z);
+
+        float duration = 0.07f;
+        float elapsed = 0f;
+
+        // จังหวะที่ 1: แบนลง
+        while (elapsed < duration)
+        {
+            if (targetTransform == null) yield break;
+            elapsed += Time.deltaTime;
+            targetTransform.localScale = Vector3.Lerp(originalScale, squashScale, elapsed / duration);
+            yield return null;
+        }
+
+        // จังหวะที่ 2: เด้งยืดขึ้น
+        elapsed = 0f;
+        while (elapsed < duration)
+        {
+            if (targetTransform == null) yield break;
+            elapsed += Time.deltaTime;
+            targetTransform.localScale = Vector3.Lerp(squashScale, stretchScale, elapsed / duration);
+            yield return null;
+        }
+
+        // จังหวะที่ 3: คืนค่าขนาดเดิม
+        elapsed = 0f;
+        while (elapsed < duration)
+        {
+            if (targetTransform == null) yield break;
+            elapsed += Time.deltaTime;
+            targetTransform.localScale = Vector3.Lerp(stretchScale, originalScale, elapsed / duration);
+            yield return null;
+        }
+
+        if (targetTransform != null)
+            targetTransform.localScale = originalScale;
+    }
+
+    // =========================================================================
+    // 🌟 JUICE EFFECT 2: อนิเมชันพองแล้วยุบหาย (Pop & Shrink) ตอนกดเก็บเฟอร์นิเจอร์ (ปุ่ม V)
+    // =========================================================================
+    private System.Collections.IEnumerator AnimatePickupShrink(PlacedFurniture furniture)
+    {
+        if (furniture == null) yield break;
+
+        Transform targetTransform = furniture.transform;
+        Vector3 originalScale = targetTransform.localScale;
+
+        // เด้งพองขยายขึ้นเล็กน้อยก่อนยุบ
+        Vector3 popScale = originalScale * 1.2f;
+
+        float duration = 0.08f;
+        float elapsed = 0f;
+
+        // 1. พองตัวขึ้นนิดนึง
+        while (elapsed < duration)
+        {
+            if (targetTransform == null) yield break;
+            elapsed += Time.deltaTime;
+            targetTransform.localScale = Vector3.Lerp(originalScale, popScale, elapsed / duration);
+            yield return null;
+        }
+
+        // 2. ยุบตัวเล็กลงจนเหลือ 0 (ดูดเก็บลงกระเป๋า)
+        elapsed = 0f;
+        duration = 0.1f;
+        while (elapsed < duration)
+        {
+            if (targetTransform == null) yield break;
+            elapsed += Time.deltaTime;
+            targetTransform.localScale = Vector3.Lerp(popScale, Vector3.zero, elapsed / duration);
+            yield return null;
+        }
+
+        // 3. เรียกฟังก์ชันเก็บเข้ากระเป๋าจริง และ Destroy วัตถุ
+        if (furniture != null)
+        {
+            furniture.PickupFurniture();
+        }
     }
 }

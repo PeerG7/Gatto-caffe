@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TableSet_2_Chair
   m_EditorClassIdentifier: Assembly-CSharp::FurnitureItemData
   id: 2
-  furnitureName: TableSet_2_Chair
+  furnitureName: 2_Chair
   icon: {fileID: 21300000, guid: d4b325aeb964c384181cffec68648a06, type: 3}
   price: 0
   prefab: {fileID: 387129776201575806, guid: ea6ae540245de1b41a246e74b5346f3e, type: 3}

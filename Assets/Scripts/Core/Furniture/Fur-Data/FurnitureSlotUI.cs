@@ -16,13 +16,25 @@ public class FurnitureSlotUI : MonoBehaviour
         currentInstance = instance;
         if (instance == null || instance.itemData == null) return;
 
-        if (iconImage != null) iconImage.sprite = instance.itemData.icon;
+        // 1. ตั้งค่ารูปภาพ Icon
+        if (iconImage != null)
+        {
+            iconImage.sprite = instance.itemData.icon;
+        }
 
-        // แสดงชื่อ + Level ล่าสุดที่เคย Upgrade ไว้
-        if (nameText != null) nameText.text = $"{instance.itemData.furnitureName} (Lv.{instance.currentLevel})";
+        // 2. จัดรูปแบบชื่อ + Level ล่าสุด (ขึ้นบรรทัดใหม่ และย่อขนาด Lv. ให้เล็กลง)
+        if (nameText != null)
+        {
+            nameText.text = $"{instance.itemData.furnitureName}\n<size=75%>(Lv.{instance.currentLevel})</size>";
+        }
 
-        if (countText != null) countText.text = "x1"; // แต่ละ Slot จะถือ 1 Unique Instance
+        // 3. แสดงจำนวนชิ้น
+        if (countText != null)
+        {
+            countText.text = "x1"; // แต่ละ Slot ถือ 1 Unique Instance
+        }
 
+        // 4. ผูกปุ่มกดเลือกวาง
         if (selectButton != null)
         {
             selectButton.onClick.RemoveAllListeners();
