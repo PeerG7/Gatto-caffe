@@ -16,6 +16,7 @@ public class PlayerController2D : MonoBehaviour
     private PlayerInventory playerInventory;
     private Vector2 movement;
 
+
     public static bool IsLocked = false;
 
     public enum AnimState
@@ -167,11 +168,11 @@ public class PlayerController2D : MonoBehaviour
 
         Vector2 newPos = rb.position;
 
-        Vector2 moveX = new Vector2(movement.x, 0) * moveSpeed * Time.fixedDeltaTime;
+        Vector2 moveX = new Vector2(movement.x, 0) * moveSpeed * escortSpeedMultiplier * Time.fixedDeltaTime;
         if (!IsBlocked(moveX))
             newPos += moveX;
 
-        Vector2 moveY = new Vector2(0, movement.y) * moveSpeed * Time.fixedDeltaTime;
+        Vector2 moveY = new Vector2(0, movement.y) * moveSpeed * escortSpeedMultiplier * Time.fixedDeltaTime;
         if (!IsBlocked(moveY))
             newPos += moveY;
 
@@ -196,5 +197,11 @@ public class PlayerController2D : MonoBehaviour
         if (Vector2.Dot(direction.normalized, toWall) <= 0f) return false;
 
         return true;
+    }
+    private float escortSpeedMultiplier = 1f;
+
+    public void SetEscortSpeedMultiplier(float multiplier)
+    {
+        escortSpeedMultiplier = multiplier;
     }
 }

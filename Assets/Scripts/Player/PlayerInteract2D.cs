@@ -9,7 +9,7 @@ public class PlayerInteract2D : MonoBehaviour
 {
     public float range = 3.0f;
 
-    [Header("DATACAT 1 Prefab (ลาก Prefab ของ DATACAT1 มาใส่ที่นี่)")]
+    [Header("DATACAT 1 Prefab")]
     public GameObject dataCat1Prefab;
 
     [Header("Legacy Interact Keys")]
@@ -21,7 +21,6 @@ public class PlayerInteract2D : MonoBehaviour
 #endif
 
     [Header("Anti-Spam / Cooldown Settings")]
-    [Tooltip("ระยะเวลาหน่วงระหว่างการกด E แต่ละครั้ง ป้องกัน Frame Collision / Race Condition")]
     public float interactCooldown = 0.25f;
     private float lastInteractTime = 0f;
 
@@ -53,19 +52,21 @@ public class PlayerInteract2D : MonoBehaviour
             pressed = true;
 #endif
 
-        if (!pressed) return;
-
-        // 🟢 บล็อกการสแปมกด E รัวๆ ในเฟรมติดๆ กัน (Anti-Spam Debounce)
-        if (Time.time - lastInteractTime < interactCooldown)
+        if (pressed)
         {
-            Debug.LogWarning($"[TRACE_INPUT] ⚠️ Ignore Spam E Input! (Cooldown: {Time.time - lastInteractTime:F2}s)");
-            return;
+            if (Time.time - lastInteractTime < interactCooldown) return;
+            lastInteractTime = Time.time;
+
+            if (activeCanvas != null) { activeCanvas.OnConfirm(); return; }
+
+            TriggerInteract();
         }
-        lastInteractTime = Time.time;
 
-        if (activeCanvas != null) { activeCanvas.OnConfirm(); return; }
-
-        TriggerInteract();
+        // กดปุ่ม F เพื่อสั่งให้แมวที่กำลังถูกพาเดินตาม (Escort) เข้าไปนั่งโต๊ะที่ใกล้ที่สุด
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            TrySeatEscortedCat();
+        }
     }
 
     public void TriggerInteract()
@@ -74,9 +75,7 @@ public class PlayerInteract2D : MonoBehaviour
 
         PlayerInventory playerInv = GetComponent<PlayerInventory>();
 
-        // ==========================================
-        // 0.1 🟢 วาง DATACAT1 ลงใน InteractionZone ที่ใกล้ที่สุดและว่างอยู่
-        // ==========================================
+        // 0.1 วาง DATACAT1 ลง InteractionZone
         if (playerInv != null && playerInv.GetCurrentItemName() == "DATACAT1")
         {
             InteractionZone closestZone = null;
@@ -113,11 +112,7 @@ public class PlayerInteract2D : MonoBehaviour
         Physics2D.OverlapCircle(transform.position, range, filter, resultList);
         Collider2D[] hits = resultList.ToArray();
 
-        Debug.Log($"[TRACE_INPUT] 🔘 Player Triggered Interact at Time: {Time.time:F2} | Hits Count: {hits.Length}");
-
-        // ==========================================
-        // 0.2 🟢 อุ้ม DATACAT1 ขึ้นหัว (ต้องกินอาหารเสร็จแล้วถึงจะอุ้มได้)
-        // ==========================================
+        // 0.2 อุ้ม DATACAT1 ขึ้นหัว
         if (playerInv != null && playerInv.IsEmpty())
         {
             foreach (var hit in hits)
@@ -126,23 +121,13 @@ public class PlayerInteract2D : MonoBehaviour
                 if (identity != null && identity.IsDataCat1())
                 {
                     NPCController npcCtrl = hit.GetComponent<NPCController>();
-
                     if (npcCtrl != null && npcCtrl.hasFinishedEating)
                     {
                         Sprite catSprite = identity.catData != null ? identity.catData.catPortrait : null;
-
                         playerInv.PickUpItem("DATACAT1", catSprite);
 
-                        if (npcCtrl.assignedTable != null)
-                        {
-                            npcCtrl.assignedTable.RemoveNPCFromTable(npcCtrl);
-                        }
-
-                        if (npcCtrl.currentZone != null)
-                        {
-                            npcCtrl.currentZone.Release();
-                            npcCtrl.currentZone = null;
-                        }
+                        if (npcCtrl.assignedTable != null) assignedTableRemove(npcCtrl);
+                        if (npcCtrl.currentZone != null) { npcCtrl.currentZone.Release(); npcCtrl.currentZone = null; }
 
                         Destroy(hit.gameObject);
                         return;
@@ -158,7 +143,7 @@ public class PlayerInteract2D : MonoBehaviour
             if (furn != null && !furn.isUnlocked) { furn.AttemptUnlock(); return; }
         }
 
-        // 2. ซ่อม Furniture ที่พัง
+        // 2. ซ่อม Furniture
         foreach (var hit in hits)
         {
             DamageableObject dmg = hit.GetComponent<DamageableObject>();
@@ -169,22 +154,14 @@ public class PlayerInteract2D : MonoBehaviour
         foreach (var hit in hits)
         {
             CustomerTable table = hit.GetComponent<CustomerTable>();
-            if (table != null && table.hasMoneyToCollect)
-            {
-                table.TryCollectMoney();
-                return;
-            }
+            if (table != null && table.hasMoneyToCollect) { table.TryCollectMoney(); return; }
         }
 
         // 4. เสิร์ฟอาหารที่โต๊ะ
         foreach (var hit in hits)
         {
             CustomerTable table = hit.GetComponent<CustomerTable>();
-            if (table != null && table.HasAnyNPCWaiting())
-            {
-                table.TryServeFood();
-                return;
-            }
+            if (table != null && table.HasAnyNPCWaiting()) { table.TryServeFood(); return; }
         }
 
         // 5. เปิด Relationship Book
@@ -194,7 +171,7 @@ public class PlayerInteract2D : MonoBehaviour
             if (book != null) { book.OpenBook(); return; }
         }
 
-        // 6. เปิด cooking / drink station
+        // 6. เปิด Cooking/Drink station
         foreach (var hit in hits)
         {
             StationInteract station = hit.GetComponent<StationInteract>();
@@ -216,7 +193,7 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 7. ทิ้งอาหารที่ Garbage Zone
+        // 7. ทิ้งขยะ Garbage Zone
         foreach (var hit in hits)
         {
             GarbageZone garbage = hit.GetComponent<GarbageZone>();
@@ -228,7 +205,7 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 8. หยิบ/วาง/swap อาหารจาก TraySlot
+        // 8. หยิบ/วาง TraySlot
         foreach (var hit in hits)
         {
             TraySlot tray = hit.GetComponent<TraySlot>();
@@ -260,27 +237,32 @@ public class PlayerInteract2D : MonoBehaviour
         {
             NPCController npcCtrl = closestNPC.GetComponent<NPCController>();
 
-            // 🟢 1. ถ้ายืนประจำจุด InteractionZone และปลดล็อคสิทธิ์แล้ว -> เปิดหน้า Choice / QTE
+            // 🟢 เช็คพิเศษ: ถ้ายืนใกล้แมวที่หลงทางหน้าร้าน และยังไม่ได้กดพาเดินตาม
+            if (npcCtrl != null && npcCtrl.currentState == NPCController.NPCState.InQueue && npcCtrl.isLostInQueue && !npcCtrl.isBeingEscorted)
+            {
+                Debug.Log($"[TRACE_INPUT] 🗺️ Start escorting lost cat: {closestNPC.gameObject.name}");
+                npcCtrl.StartEscort(transform); // เริ่มต้นระบบพาเดินตาม
+                return;
+            }
+
+            // ถ้ายืนประจำจุด InteractionZone
             if (npcCtrl != null && npcCtrl.isInteractionAllowed && npcCtrl.currentState == NPCController.NPCState.AtInteractionZone)
             {
-                Debug.Log($"[TRACE_INPUT] ✅ Triggering Zone QTE for: {closestNPC.gameObject.name}");
                 closestNPC.RequestZoneInteraction();
                 return;
             }
-            // 🟢 2. ถ้านั่งที่โต๊ะอาหารอยู่ (Sitting) -> เปิดหน้า Relationship Book เท่านั้น
+            // ถ้านั่งที่โต๊ะอาหาร
             else if (closestNPC.CanInteract())
             {
                 PlayerInventory playerInvRef = GetComponent<PlayerInventory>();
-                if (playerInvRef != null && playerInvRef.HasItem()) return; // ถ้าถืออาหารอยู่ให้ Bypass ไปเสิร์ฟ
+                if (playerInvRef != null && playerInvRef.HasItem()) return;
 
-                Debug.Log($"[TRACE_INPUT] ❤️ Opening Relationship for Sitting Cat: {closestNPC.gameObject.name}");
                 closestNPC.RelationShip();
                 return;
             }
-            // 🟢 3. ถ้ารอคิวหน้าร้าน -> เรียกเข้าคิว
+            // คิวปกติหน้าร้าน
             else if (npcCtrl != null && npcCtrl.currentState == NPCController.NPCState.InQueue)
             {
-                Debug.Log($"[TRACE_INPUT] 📋 Inviting Queue NPC: {closestNPC.gameObject.name}");
                 closestNPC.Interact();
                 return;
             }
@@ -293,12 +275,19 @@ public class PlayerInteract2D : MonoBehaviour
         }
     }
 
+    private void assignedTableRemove(NPCController npcCtrl)
+    {
+        if (npcCtrl.assignedTable != null)
+        {
+            npcCtrl.assignedTable.RemoveNPCFromTable(npcCtrl);
+        }
+    }
+
     private void SpawnAndSetupDataCat1AtZone(InteractionZone zone, Sprite catSprite)
     {
         if (dataCat1Prefab != null)
         {
             Vector3 spawnPos = zone.point.position;
-
             if (UnityEngine.AI.NavMesh.SamplePosition(spawnPos, out UnityEngine.AI.NavMeshHit hit, 1.5f, UnityEngine.AI.NavMesh.AllAreas))
             {
                 spawnPos = hit.position;
@@ -306,14 +295,7 @@ public class PlayerInteract2D : MonoBehaviour
 
             GameObject spawnedCat = Instantiate(dataCat1Prefab, spawnPos, Quaternion.identity);
             NPCController newNpc = spawnedCat.GetComponent<NPCController>();
-            if (newNpc != null)
-            {
-                newNpc.InitAtInteractionZone(zone);
-            }
-        }
-        else
-        {
-            Debug.LogWarning("PlayerInteract2D: ยังไม่ได้ลาก Prefab ของ DATACAT1 มาใส่ที่ช่อง dataCat1Prefab ใน Inspector!");
+            if (newNpc != null) newNpc.InitAtInteractionZone(zone);
         }
     }
 
@@ -356,5 +338,44 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
         return closest;
+    }
+
+    public void TrySeatEscortedCat()
+    {
+        NPCController[] allNPCs = FindObjectsOfType<NPCController>();
+        foreach (var npc in allNPCs)
+        {
+            if (npc != null && npc.isBeingEscorted)
+            {
+                CustomerTable[] tables = FindObjectsOfType<CustomerTable>();
+                CustomerTable closestTable = null;
+                float minDist = 3.0f;
+
+                foreach (var t in tables)
+                {
+                    if (t != null && !t.isFull)
+                    {
+                        float d = Vector2.Distance(transform.position, t.transform.position);
+                        if (d < minDist)
+                        {
+                            minDist = d;
+                            closestTable = t;
+                        }
+                    }
+                }
+
+                if (closestTable != null)
+                {
+                    Transform seat = closestTable.GetAvailableSeat();
+                    if (seat != null)
+                    {
+                        // 🟢 ตัด assignedTable.AssignNPCToTable ออก ให้ ArriveAndSitAtTable จัดการทีเดียวจบ
+                        npc.ArriveAndSitAtTable(closestTable, seat);
+                        Debug.Log("[PlayerInteract2D] ✅ พาแมวหลงทางนั่งโต๊ะสำเร็จ!");
+                        return;
+                    }
+                }
+            }
+        }
     }
 }
