@@ -78,6 +78,13 @@ public class ScreenSmudgeManager : MonoBehaviour
             return;
         }
 
+        // 🟢 ตรวจสอบว่า DATACAT นั่งอยู่ที่โต๊ะแล้วจริงๆ หรือไม่
+        if (!IsDataCatSitting())
+        {
+            Debug.Log("[ScreenSmudge] ⏳ DATACAT ยังไม่ได้นั่งที่โต๊ะ ข้ามการทำงานซอสป่วน");
+            return;
+        }
+
         CancelActiveSmudge();
 
         float roll = Random.Range(0f, 100f);
@@ -85,6 +92,40 @@ public class ScreenSmudgeManager : MonoBehaviour
         {
             activeSequenceCoroutine = StartCoroutine(SmudgeSequenceRoutine());
         }
+    }
+
+    /// <summary>
+    /// ฟังก์ชันเช็กว่ามี DATACAT นั่งอยู่ที่โต๊ะใดโต๊ะหนึ่งในร้านแล้วหรือยัง
+    /// </summary>
+    bool IsDataCatSitting()
+    {
+        CustomerTable[] tables = Object.FindObjectsOfType<CustomerTable>();
+        foreach (var table in tables)
+        {
+            if (table.sittingNPCs != null)
+            {
+                foreach (var npc in table.sittingNPCs)
+                {
+                    if (npc != null && npc.currentState == NPCController.NPCState.Sitting)
+                    {
+                        CatIdentity identity = npc.GetComponent<CatIdentity>();
+                        if (identity != null && identity.catData != null)
+                        {
+                            string id = identity.catData.catID;
+                            string name = identity.catData.catName;
+
+                            // ตรวจสอบเงื่อนไข DATACAT (รองรับทั้ง AIDum, AIKow หรือชื่อที่มีคำว่า DATACAT)
+                            if (id == "AIDum" || id == "AIKow" || (name != null && name.Contains("DATACAT")))
+                            {
+                                Debug.Log($"[ScreenSmudge] ✅ พบ DATACAT นั่งอยู่ที่โต๊ะแล้ว! (ID: {id}, Name: {name})");
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     IEnumerator SmudgeSequenceRoutine()
@@ -179,7 +220,7 @@ public class ScreenSmudgeManager : MonoBehaviour
         }
 
         if (smudgeRootObject != null) smudgeRootObject.SetActive(false);
-        if (catPopupObject != null) catPopupObject.SetActive(false);
+        if (catPopupObject != null) smudgeRootObject.SetActive(false);
         if (smudgeScreenObject != null) smudgeScreenObject.SetActive(false);
         isMinigameActive = false;
     }
