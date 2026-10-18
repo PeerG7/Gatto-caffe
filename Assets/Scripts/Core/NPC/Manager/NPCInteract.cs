@@ -83,13 +83,16 @@ public class NPCInteract : MonoBehaviour
     }
 
     /// <summary>
-    /// 🟢 เช็คว่าแมวตัวนี้อยู่ในจุด InteractionZone และได้รับการปลดล็อคสิทธิ์แล้วหรือไม่
+    /// 🟢 เช็คว่าแมวตัวนี้อยู่ในจุด InteractionZone และอยู่ใน Playing Phase เรียบร้อยแล้วหรือไม่
     /// </summary>
     public bool CanRequestZoneInteraction()
     {
         if (npc == null) return false;
 
-        return npc.currentState == NPCController.NPCState.AtInteractionZone && npc.isInteractionAllowed;
+        // 🟢 2-PHASE GUARD: สิทธิ์เปิด QTE เกิดขึ้นได้เฉพาะเมื่ออยู่ใน PlayingPhase เท่านั้น
+        return npc.CurrentPhase == NPCController.CatPhase.PlayingPhase &&
+               npc.currentState == NPCController.NPCState.AtInteractionZone &&
+               npc.isInteractionAllowed;
     }
 
     /// <summary>
@@ -197,60 +200,17 @@ public class NPCInteract : MonoBehaviour
     }
 
     /// <summary>
-    /// 🟢 เรียกเปิดหน้า Relationship สำหรับแมวที่นั่งโต๊ะอาหาร (บล็อกครอบคลุมทุกรอยต่ออนิเมชัน)
+    /// 🟢 เรียกเปิดหน้า Relationship (ตัดขาดโหมด Dining บล็อกไม่ให้เปิดระหว่างแมวนั่งโต๊ะอาหารเด็ดขาด)
     /// </summary>
     public void RelationShip()
     {
         if (npc == null) return;
 
-        if (npc.currentState != NPCController.NPCState.Sitting)
+        // 🔴 2-PHASE HARD GUARD: บล็อกการเปิด Relationship Canvas เด็ดขาดถ้า NPC ยังอยู่ใน Dining Phase (ช่วงสั่งอาหาร/อ่านเมนู/คุยกัน)
+        if (npc.CurrentPhase != NPCController.CatPhase.PlayingPhase || !npc.isInteractionAllowed)
         {
-            Debug.Log("❌ NPC not sitting — state: " + npc.currentState);
+            Debug.Log($"⏳ [NPCInteract] บล็อก Relationship! แมว {gameObject.name} ยังอยู่ในช่วง Dining Phase หรือยังไม่อยู่ ณ จุด Playing Zone");
             return;
-        }
-
-        // 🔴 1. บล็อกถ้าแมวตัวนี้กำลังเปิดป้ายออร์เดอร์อยู่
-        if (npc.orderCanvas != null && npc.orderCanvas.activeSelf)
-        {
-            Debug.Log("⏳ แมวกำลังอยู่ในช่วงสั่งอาหาร ไม่สามารถเปิดหน้า Relationship ได้");
-            return;
-        }
-
-        // 🔴 2. บล็อกถ้าแมวกำลังทำกิจกรรม / Performing / QTE อยู่
-        if (npc.IsPerforming || npc.currentState == NPCController.NPCState.Performing)
-        {
-            Debug.Log("⏳ แมวกำลังทำกิจกรรม/QTE อยู่ ไม่สามารถเปิดหน้า Relationship ได้");
-            return;
-        }
-
-        // 🔴 3. เพิ่มการเช็คอนิเมชันปัจจุบัน (Animator State): ห้ามเปิดถ้ากำลังเล่นอนิเมชันอ่านเมนู คุยกัน หรือสเตทอื่นๆ ที่ไม่ใช่ท่านั่งปกติ
-        Animator animator = npc.GetComponentInChildren<Animator>();
-        if (animator != null)
-        {
-            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
-            // ตรวจสอบชื่อ State ที่ตั้งไว้ใน Animator (เช่น ReadingMenu, Chatting, SitingAngry ฯลฯ)
-            if (stateInfo.IsName("ReadingMenu") || stateInfo.IsName("Chatting") || stateInfo.IsName("SitingAngry"))
-            {
-                Debug.Log("⏳ แมวกำลังอยู่ในช่วงรอยต่ออนิเมชัน (อ่านเมนู/คุยกัน/โกรธ) บล็อกการเปิดหน้า Relationship");
-                return;
-            }
-        }
-
-        // 🔴 4. เช็คโต๊ะ 2 ที่นั่ง: ถ้ามีแมวตัวอื่นบนโต๊ะเดียวกันกำลังสั่งอาหารอยู่
-        if (npc.assignedTable != null)
-        {
-            foreach (var tableNPC in npc.assignedTable.sittingNPCs)
-            {
-                if (tableNPC != null)
-                {
-                    if (tableNPC.orderCanvas != null && tableNPC.orderCanvas.activeSelf)
-                    {
-                        Debug.Log("⏳ มีแมวบนโต๊ะเดียวกันกำลังสั่งอาหารอยู่ บล็อกการเปิดหนังสือความสัมพันธ์");
-                        return;
-                    }
-                }
-            }
         }
 
         // สั่งเคลียร์ปิด UI QTE ทั้งหมดใน Scene ทันที
@@ -283,6 +243,7 @@ public class NPCInteract : MonoBehaviour
         if (DayNightManager.Instance != null && !DayNightManager.Instance.isPaused)
             DayNightManager.Instance.PauseGame();
     }
+
     /// <summary>
     /// 🟢 สั่งปิดหน้า Relationship และ Resume เวลาในเกมกลับสู่สภาวะปกติ
     /// </summary>

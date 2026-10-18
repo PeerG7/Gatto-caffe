@@ -75,6 +75,22 @@ public class NPCController : MonoBehaviour
     public enum NPCState { InQueue, GoingToSeat, Sitting, Eating, GoingToInteractionZone, AtInteractionZone, GoingToDamage, Leaving, Performing }
     public NPCState currentState = NPCState.InQueue;
 
+    // 🟢 2-PHASE ARCHITECTURE ENUM
+    public enum CatPhase { DiningPhase, PlayingPhase }
+
+    /// <summary>
+    /// 🟢 ดึง Phase ปัจจุบันของ NPC เพื่อควบคุมการอนุญาตเปิด QTE/Relationship UI
+    /// </summary>
+    public CatPhase CurrentPhase
+    {
+        get
+        {
+            if (currentState == NPCState.AtInteractionZone || currentState == NPCState.Performing)
+                return CatPhase.PlayingPhase;
+            return CatPhase.DiningPhase;
+        }
+    }
+
     [Header("Order System")]
     public GameObject orderCanvas;
     public SpriteRenderer orderIcon;
@@ -364,7 +380,7 @@ public class NPCController : MonoBehaviour
 
     public void SetQueueTarget(Transform target)
     {
-        isInteractionAllowed = false; // 🔴
+        isInteractionAllowed = false; // 🔴 DINING PHASE
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         if (agent != null)
         {
@@ -378,7 +394,7 @@ public class NPCController : MonoBehaviour
 
     public void SetQueueTargetCustom(Vector3 targetPosition)
     {
-        isInteractionAllowed = false; // 🔴
+        isInteractionAllowed = false; // 🔴 DINING PHASE
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         if (agent != null && agent.isOnNavMesh)
         {
@@ -769,7 +785,7 @@ public class NPCController : MonoBehaviour
         if (agent != null && agent.isOnNavMesh) agent.isStopped = true;
         SetAnimState(AnimState.Sit);
 
-        // 🟢 เปิดสิทธิ์ Interaction เมื่อเดินมาถึง InteractionZone สำเร็จแล้วเท่านั้น!
+        // 🟢 PLAYING PHASE ACTIVATED: เปิดสิทธิ์ Interaction เมื่อเดินมาถึง InteractionZone สำเร็จแล้วเท่านั้น!
         isInteractionAllowed = true;
 
         var cb = onArrivedAtInteractionZone;
@@ -785,7 +801,7 @@ public class NPCController : MonoBehaviour
         zone.Occupy(this);
         currentState = NPCState.AtInteractionZone;
 
-        // 🟢 เปิดสิทธิ์ Interaction เฉพาะตอนประจำตำแหน่ง InteractionZone สำเร็จแล้วเท่านั้น!
+        // 🟢 PLAYING PHASE ACTIVATED
         isInteractionAllowed = true;
 
         if (agent != null)
@@ -826,8 +842,8 @@ public class NPCController : MonoBehaviour
 
     public bool CanRequestInteractionChoice()
     {
-        // 🟢 ขอแค่อยู่ในสถานะ AtInteractionZone, มี isInteractionAllowed == true และไม่ได้นั่งโต๊ะอาหาร ก็เปิดได้เลย
-        return isInteractionAllowed && currentState == NPCState.AtInteractionZone && assignedTable == null;
+        // 🟢 ARCHITECTURAL GUARD: ต้องอยู่ใน PlayingPhase + AtInteractionZone + isInteractionAllowed == true เท่านั้น
+        return CurrentPhase == CatPhase.PlayingPhase && isInteractionAllowed && currentState == NPCState.AtInteractionZone && assignedTable == null;
     }
 
     public void RequestInteractionChoice()
@@ -841,10 +857,8 @@ public class NPCController : MonoBehaviour
 
         StopInteractionTimeout();
 
-        // 🔴 ปิดการใช้งาน Canvas ติดหัวแมวใน Prefab (ป้องกัน UI ซ้อน/หลอกหลอน)
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
-        // 🟢 เรียกให้ UI Scene หลัก (CatSystemManager) แสดงผลปุ่มช้อยส์แทน
         CatSystemManager.Instance?.ShowInteractionChoice(this);
     }
 
@@ -859,7 +873,6 @@ public class NPCController : MonoBehaviour
 
     public void OpenQTECanvas()
     {
-        // 🔴 ไม่ต้องสั่งเปิด qteCanvasInPrefab แล้ว ให้ CatSystemManager จัดการ UI หลักใน Scene ตัวเดียวพอ
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
         QTEZoomController.Instance?.ZoomInToQTE(transform, true);
@@ -972,8 +985,7 @@ public class NPCController : MonoBehaviour
     {
         if (isPerforming) return;
 
-        // 🔴 ตัดสิทธิ์ Interaction เมื่อเสร็จสิ้นกิจกรรม
-        isInteractionAllowed = false;
+        isInteractionAllowed = false; // 🔴 RESET PHASE
 
         StopInteractionTimeout();
 
