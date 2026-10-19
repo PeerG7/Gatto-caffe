@@ -40787,6 +40787,7 @@ GameObject:
   - component: {fileID: 1736537380}
   - component: {fileID: 1736537379}
   - component: {fileID: 1736537378}
+  - component: {fileID: 1736537382}
   m_Layer: 5
   m_Name: QTE interact
   m_TagString: Untagged
@@ -40810,7 +40811,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 209}
+  m_AnchoredPosition: {x: 1185, y: -181}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1736537378
@@ -40911,6 +40912,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1736537376}
   m_CullTransparentMesh: 1
+--- !u!114 &1736537382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736537376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 786a3de5a58c82d4eb68488035123d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverWobble
+  tiltAngle: 8
+  wobbleSpeed: 15
+  hoverSfx: {fileID: 0}
+  sfxVolume: 1
 --- !u!1 &1742297062
 GameObject:
   m_ObjectHideFlags: 0
