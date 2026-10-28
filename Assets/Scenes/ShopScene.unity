@@ -11770,7 +11770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 986e7aa9f3af8c74c987bbb894e0d8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenSmudgeManager
-  triggerChance: 100
+  triggerChance: 30
   requiredPresses: 5
   catRectTransform: {fileID: 1953704935}
   leftOffScreenPos: {x: -1100, y: -200}
