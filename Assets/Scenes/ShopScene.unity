@@ -22599,7 +22599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MoneyFlyEffectManager
   mainCanvas: {fileID: 121730095}
   flyingCoinPrefab: {fileID: 4742432002093652835, guid: 27dfeeec61a323144b9cce5f0663fb41, type: 3}
-  targetUIIconRect: {fileID: 1353073464}
+  targetUIIconRect: {fileID: 730628114}
   flightDuration: 0.6
 --- !u!1 &1118190443
 GameObject:
