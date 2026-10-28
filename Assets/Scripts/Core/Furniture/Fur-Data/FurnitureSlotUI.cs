@@ -9,29 +9,29 @@ public class FurnitureSlotUI : MonoBehaviour
     public TextMeshProUGUI countText;
     public Button selectButton;
 
-    private FurnitureInstanceData currentInstance;
+    private GroupedFurnitureData currentGroupData; // 🌟 เปลี่ยนมารับข้อมูลแบบกลุ่ม
 
-    public void SetupSlot(FurnitureInstanceData instance)
+    public void SetupSlot(GroupedFurnitureData groupData)
     {
-        currentInstance = instance;
-        if (instance == null || instance.itemData == null) return;
+        currentGroupData = groupData;
+        if (groupData == null || groupData.itemData == null) return;
 
         // 1. ตั้งค่ารูปภาพ Icon
         if (iconImage != null)
         {
-            iconImage.sprite = instance.itemData.icon;
+            iconImage.sprite = groupData.itemData.icon;
         }
 
-        // 2. จัดรูปแบบชื่อ + Level ล่าสุด (ขึ้นบรรทัดใหม่ และย่อขนาด Lv. ให้เล็กลง)
+        // 2. จัดรูปแบบชื่อ + Level ล่าสุด
         if (nameText != null)
         {
-            nameText.text = $"{instance.itemData.furnitureName}\n<size=75%>(Lv.{instance.currentLevel})</size>";
+            nameText.text = $"{groupData.itemData.furnitureName}\n<size=75%>(Lv.{groupData.level})</size>";
         }
 
-        // 3. แสดงจำนวนชิ้น
+        // 3. แสดงจำนวนชิ้นที่ Stack กันอยู่ (เช่น x3, x5)
         if (countText != null)
         {
-            countText.text = "x1"; // แต่ละ Slot ถือ 1 Unique Instance
+            countText.text = $"x{groupData.Count}";
         }
 
         // 4. ผูกปุ่มกดเลือกวาง
@@ -44,10 +44,11 @@ public class FurnitureSlotUI : MonoBehaviour
 
     void OnSelect()
     {
-        // เมื่อกดเลือกเฟอร์นิเจอร์ ให้ส่ง Instance ตัวที่มี State เดิมไปเริ่มโหมดวาง
-        if (FurnitureManager.Instance != null && currentInstance != null)
+        // 🌟 เมื่อผู้เล่นกดเลือก จะดึง Instance ชิ้นแรกสุดในกองที่ถูก Stack มาใช้งานวาง
+        if (FurnitureManager.Instance != null && currentGroupData != null && currentGroupData.instances.Count > 0)
         {
-            FurnitureManager.Instance.StartPlacingFurnitureInstance(currentInstance);
+            FurnitureInstanceData instanceToPlace = currentGroupData.instances[0];
+            FurnitureManager.Instance.StartPlacingFurnitureInstance(instanceToPlace);
         }
     }
 }

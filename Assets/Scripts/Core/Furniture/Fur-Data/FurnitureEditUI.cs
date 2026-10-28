@@ -37,7 +37,7 @@ public class FurnitureEditUI : MonoBehaviour
 
     private void Update()
     {
-        // 🟢 เลื่อนตำแหน่ง UI เข้าหา targetPosY อย่าง Smooth
+        // เลื่อนตำแหน่ง UI เข้าหา targetPosY อย่าง Smooth
         if (uiPanelRect != null)
         {
             Vector2 currentPos = uiPanelRect.anchoredPosition;
@@ -88,42 +88,50 @@ public class FurnitureEditUI : MonoBehaviour
 
         if (FurnitureInventory.Instance != null)
         {
-            List<FurnitureInstanceData> items = FurnitureInventory.Instance.storedInstances;
+            // 🌟 เปลี่ยนมาดึงข้อมูลแบบจัดกลุ่ม (Grouped Inventory) ที่ทำการ Stack แล้ว
+            List<GroupedFurnitureData> groupedItems = FurnitureInventory.Instance.GetGroupedInventory();
 
-            foreach (var item in items)
+            foreach (var group in groupedItems)
             {
-                if (item == null || item.itemData == null) continue;
+                if (group == null || group.itemData == null || group.instances.Count == 0) continue;
 
                 GameObject btnObj = Instantiate(furnitureItemButtonPrefab, container);
 
                 FurnitureSlotUI slotUI = btnObj.GetComponent<FurnitureSlotUI>();
                 if (slotUI != null)
                 {
-                    slotUI.SetupSlot(item);
+                    // ส่งข้อมูลกลุ่ม (GroupedFurnitureData) เข้าไปตั้งค่า Slot และปุ่มกด
+                    slotUI.SetupSlot(group);
                 }
 
+                // หากใน FurnitureSlotUI มีการผูก listener ไว้แล้ว สามารถปล่อยผ่าน หรือกำหนด OnClick เพิ่มเติมที่นี่ได้
                 Button btn = btnObj.GetComponent<Button>();
                 if (btn != null)
                 {
                     btn.onClick.RemoveAllListeners();
                     btn.onClick.AddListener(() =>
                     {
-                        OnSelectFurnitureItem(item);
+                        OnSelectGroupedFurniture(group);
                     });
                 }
             }
         }
     }
 
-    public void OnSelectFurnitureItem(FurnitureInstanceData instance)
+    public void OnSelectGroupedFurniture(GroupedFurnitureData group)
     {
+        if (group == null || group.instances.Count == 0) return;
+
         // ย่อ Panel ลงไปที่ Pos Y = -640 แบบ Smooth
         SetPanelPositionY(minimisedPosY);
         ScrollToBottom();
 
-        if (FurnitureManager.Instance != null)
+        // หยิบชิ้นแรกสุดในกลุ่มที่ถูก Stack มาเริ่มวาง
+        FurnitureInstanceData instanceToPlace = group.instances[0];
+
+        if (FurnitureManager.Instance != null && instanceToPlace != null)
         {
-            FurnitureManager.Instance.StartPlacingFurnitureInstance(instance);
+            FurnitureManager.Instance.StartPlacingFurnitureInstance(instanceToPlace);
         }
     }
 

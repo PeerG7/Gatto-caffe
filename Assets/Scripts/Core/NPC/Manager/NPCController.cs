@@ -1374,4 +1374,11 @@ public class NPCController : MonoBehaviour
         }
         return false;
     }
+    public float GetPatienceRatio()
+    {
+        if (actualWaitTime <= 0f) return 1f;
+        // คำนวณจาก waitTimer ที่สะสมไปเทียบกับเวลาอดทนจริง
+        float ratio = 1f - Mathf.Clamp01(waitTimer / actualWaitTime);
+        return ratio;
+    }
 }

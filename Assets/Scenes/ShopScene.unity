@@ -11770,14 +11770,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 986e7aa9f3af8c74c987bbb894e0d8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenSmudgeManager
-  triggerChance: 30
+  triggerChance: 100
   requiredPresses: 5
   catRectTransform: {fileID: 1953704935}
-  leftOffScreenPos: {x: -1100, y: 150}
-  rightTargetPos: {x: -830, y: 150}
-  slideInDuration: 1.5
-  rightStayDuration: 2
-  slideOutDuration: 1.5
+  leftOffScreenPos: {x: -1100, y: -200}
+  rightTargetPos: {x: 0, y: -200}
+  slideInDuration: 1
+  slideOutDuration: 1
   smudgeScreenObject: {fileID: 1382856518}
   smudgeRootObject: {fileID: 330644447}
   smudgeCanvasGroup: {fileID: 1382856520}
@@ -11786,6 +11785,7 @@ MonoBehaviour:
   catSlideSound: {fileID: 0}
   splashSound: {fileID: 0}
   cleanSound: {fileID: 0}
+  normalCatScale: {x: 3, y: 3, z: 3}
 --- !u!1 &467111647
 GameObject:
   m_ObjectHideFlags: 0
@@ -22405,6 +22405,7 @@ GameObject:
   - component: {fileID: 1106574828}
   - component: {fileID: 1106574830}
   - component: {fileID: 1106574829}
+  - component: {fileID: 1106574831}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -22584,6 +22585,22 @@ MonoBehaviour:
     m_Bits: 1024
   validColor: {r: 0, g: 1, b: 0, a: 0.6}
   invalidColor: {r: 1, g: 0, b: 0, a: 0.6}
+--- !u!114 &1106574831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106574819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8dfb5ee250ee1e4ea0b8f19df90340b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoneyFlyEffectManager
+  mainCanvas: {fileID: 121730095}
+  flyingCoinPrefab: {fileID: 4742432002093652835, guid: 27dfeeec61a323144b9cce5f0663fb41, type: 3}
+  targetUIIconRect: {fileID: 1353073464}
+  flightDuration: 0.6
 --- !u!1 &1118190443
 GameObject:
   m_ObjectHideFlags: 0
@@ -43716,7 +43733,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -830, y: 150}
+  m_AnchoredPosition: {x: 30, y: -200}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1953704936

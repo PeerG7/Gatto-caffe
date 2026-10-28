@@ -150,13 +150,16 @@ public class CustomerTable : MonoBehaviour
 
         if (targetNPC != null)
         {
-            // 🟢 เมื่อเสิร์ฟอาหารสำเร็จ ให้ปลดล็อคผู้เล่น และสั่งปิด UI QTE ทันที (ป้องกัน UI เด้งซ้อน)
+            // ปลดล็อคผู้เล่นและปิด UI QTE ทันทีที่เสิร์ฟ
             PlayerController2D.SetLock(false);
             CatSystemManager.Instance?.HideInteractionChoice();
 
             targetNPC.hasBeenServed = true;
             BoostRemainingNPCsPatience(targetNPC);
             player.ClearItem();
+
+            // 🟢 ตรวจสอบค่าความอดทน (Patience) ตอนที่เสิร์ฟ ถ้าเหลือต่ำกว่า 50% มีโอกาสสุ่ม Screen Smudge
+            CheckAndTriggerSmudgeOnServe(targetNPC);
 
             targetNPC.StartEatingProcess();
         }
@@ -167,8 +170,24 @@ public class CustomerTable : MonoBehaviour
     }
 
     /// <summary>
-    /// สะสมเงินไว้ที่โต๊ะเมื่อแมวกินเสร็จทีละตัว (รองรับการ Stack เงินรวมกัน)
+    /// เช็คค่า Patience ของแมวตอนเสิร์ฟ ว่าต่ำกว่า 50% หรือไม่ เพื่อสุ่มทำซอสเลอะหน้าจอ
     /// </summary>
+    private void CheckAndTriggerSmudgeOnServe(NPCController npc)
+    {
+        if (ScreenSmudgeManager.Instance != null && npc != null)
+        {
+            // ดึงค่าสัดส่วนความอดทนปัจจุบัน (เทียบจากฟังก์ชันคำนวณหลอดพลังใน NPCController หรือเช็ค Ratio)
+            float patienceRatio = npc.GetPatienceRatio(); // เดี๋ยวเราจะเพิ่มเมธอดนี้ใน NPCController
+
+            Debug.Log($"[CustomerTable] ตรวจสอบความอดทนของแมว {npc.gameObject.name} ตอนเสิร์ฟ: {patienceRatio * 100f}%");
+
+            // ถ้าความอดทนเหลือน้อยกว่า 50% (0.5) ให้ลองสุ่มเรียก Screen Smudge
+            if (patienceRatio <= 0.5f)
+            {
+                ScreenSmudgeManager.Instance.TryTriggerServeSmudge();
+            }
+        }
+    }
     public void LeaveMoneyOnTable(int reward, bool isVIP)
     {
         int finalReward = isVIP ? Mathf.RoundToInt(reward * 2f) : reward;
@@ -198,6 +217,17 @@ public class CustomerTable : MonoBehaviour
         }
 
         PlayCoinSound();
+
+        // 🟢 เพิ่ม Debug ตรงนี้เพื่อเช็คว่า Manager ถูกเรียกไหม
+        if (MoneyFlyEffectManager.Instance != null)
+        {
+            Debug.Log("[CustomerTable] ✅ สั่งให้เงินบินแล้ว!");
+            MoneyFlyEffectManager.Instance.PlayFlyToUIPool(transform.position);
+        }
+        else
+        {
+            Debug.LogWarning("[CustomerTable] ❌ หา MoneyFlyEffectManager.Instance ไม่พบใน Scene!");
+        }
 
         hasMoneyToCollect = false;
         pendingMoneyReward = 0;
