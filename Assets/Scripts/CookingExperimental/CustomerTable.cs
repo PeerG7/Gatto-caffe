@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class CustomerTable : MonoBehaviour
@@ -108,27 +109,64 @@ public class CustomerTable : MonoBehaviour
         }
     }
 
-    public void TriggerTableChat()
+    private Coroutine chatRoutine;
+    private CatChatBubble activeBubble;
+
+    /// <summary>
+    /// Cats take turns talking. Each speaker shows a bubble with random icons,
+    /// mirrored toward the cat they are talking to.
+    /// NOTE: NPCController already rolls chatTriggerChance before calling this,
+    /// so no second roll here (it used to roll twice = 80% x 80% = 64%).
+    /// </summary>
+    public void TriggerTableChat(float totalDuration = 5f)
     {
-        if (seatPoints.Count >= 2 && sittingNPCs.Count >= 2)
-        {
-            int roll = Random.Range(0, 100);
-            if (roll < chatTriggerChance)
-            {
-                for (int i = 0; i < sittingNPCs.Count; i++)
-                {
-                    if (sittingNPCs[i] != null)
-                    {
-                        CatChatBubble bubble = sittingNPCs[i].GetComponentInChildren<CatChatBubble>();
-                        if (bubble != null)
-                        {
-                            bubble.ShowChatBubble();
-                        }
-                    }
-                }
-            }
-        }
+        if (seatPoints.Count < 2 || sittingNPCs.Count < 2) return;
+
+        if (chatRoutine != null) StopCoroutine(chatRoutine);
+        chatRoutine = StartCoroutine(TableChatRoutine(totalDuration));
     }
+
+    private IEnumerator TableChatRoutine(float totalDuration)
+    {
+        float elapsed = 0f;
+        int turn = Random.Range(0, sittingNPCs.Count);
+
+        while (elapsed < totalDuration)
+        {
+            List<NPCController> chatters = sittingNPCs.FindAll(n =>
+                n != null && n.currentState == NPCController.NPCState.Sitting);
+            if (chatters.Count < 2) break;
+
+            NPCController speaker = chatters[turn % chatters.Count];
+            NPCController listener = chatters[(turn + 1) % chatters.Count];
+
+            bool faceRight = listener.transform.position.x >= speaker.transform.position.x;
+            float duration = Mathf.Min(Random.Range(1.0f, 1.6f), totalDuration - elapsed);
+
+            if (activeBubble != null) activeBubble.HideChatBubble();
+            activeBubble = speaker.GetComponentInChildren<CatChatBubble>(true);
+            if (activeBubble != null) activeBubble.ShowChatBubble(faceRight, duration);
+
+            float t = 0f;
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                yield return null;
+            }
+
+            elapsed += duration;
+            turn++;
+        }
+
+        StopTableChat();
+    }
+
+    private void StopTableChat()
+    {
+        if (chatRoutine != null) { StopCoroutine(chatRoutine); chatRoutine = null; }
+        if (activeBubble != null) { activeBubble.HideChatBubble(); activeBubble = null; }
+    }
+
     public void TryServeFood()
     {
         PlayerInventory player = FindObjectOfType<PlayerInventory>();
@@ -290,6 +328,7 @@ public class CustomerTable : MonoBehaviour
 
     public void ResetTable()
     {
+        StopTableChat();
         wantedItem = "";
         sittingNPCs.Clear();
         hasMoneyToCollect = false;
