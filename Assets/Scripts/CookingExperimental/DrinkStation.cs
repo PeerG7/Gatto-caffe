@@ -39,10 +39,10 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
     public float streamFps = 12f;
     public float streamGrowTime = 0.2f;
     public float streamRetractTime = 0.15f;
-    [Tooltip("Stream length (UI units) from the tap tip to the inside bottom of the glass")]
-    public float streamLengthEmpty = 230f;
-    [Tooltip("Stream length once the tea reached its final level")]
-    public float streamLengthFull = 130f;
+    [Tooltip("OFF: stream retracts up into the tap. ON: the top is cut and the tail falls into the glass")]
+    public bool streamTailFalls = false;
+    // NOTE: the stream keeps the size you set in the scene. It is never resized or squashed;
+    // it is only revealed with Image fill (top -> bottom), so it always looks like the sprite.
 
     [Header("Sprites")]
     public Sprite emptyGlassSprite;
@@ -229,16 +229,17 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
             elapsed += Time.unscaledDeltaTime;
             float p = Mathf.Clamp01(elapsed / Mathf.Max(0.01f, fillDuration));
             teaFillImage.fillAmount = Mathf.Lerp(fillStart, fillTop, p);
-            UpdateStream(elapsed, 1f, p);
+            UpdateStream(elapsed, 1f);
             yield return null;
         }
 
         teaFillImage.fillAmount = 1f;   // show the whole cup sprite
         float r = 0f;
+        if (streamTailFalls && streamImage != null) streamImage.fillOrigin = (int)Image.OriginVertical.Bottom;
         while (r < streamRetractTime)
         {
             r += Time.unscaledDeltaTime;
-            UpdateStream(elapsed + r, 1f - Mathf.Clamp01(r / Mathf.Max(0.01f, streamRetractTime)), 1f);
+            UpdateStream(elapsed + r, 1f - Mathf.Clamp01(r / Mathf.Max(0.01f, streamRetractTime)));
             yield return null;
         }
         StopStream();
@@ -316,25 +317,22 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
     {
         if (streamImage == null) return;
         streamImage.sprite = (streamFrames != null && streamFrames.Length > 0) ? streamFrames[0] : streamStaticSprite;
-        SetStreamLength(0f);
+        // reveal with fill instead of resizing, so the sprite is never squashed
+        streamImage.type = Image.Type.Filled;
+        streamImage.fillMethod = Image.FillMethod.Vertical;
+        streamImage.fillOrigin = (int)Image.OriginVertical.Top;
+        streamImage.fillAmount = 0f;
         streamImage.gameObject.SetActive(streamImage.sprite != null);
     }
 
-    private void UpdateStream(float time, float lengthScale, float fill01)
+    private void UpdateStream(float time, float revealScale)
     {
         if (streamImage == null || !streamImage.gameObject.activeSelf) return;
         if (streamFrames != null && streamFrames.Length > 0)
             streamImage.sprite = streamFrames[Mathf.FloorToInt(time * streamFps) % streamFrames.Length];
 
         float grow = Mathf.Clamp01(time / Mathf.Max(0.01f, streamGrowTime));
-        float target = Mathf.Lerp(streamLengthEmpty, streamLengthFull, fill01);
-        SetStreamLength(target * Mathf.Min(grow, lengthScale));
-    }
-
-    private void SetStreamLength(float length)
-    {
-        RectTransform rt = streamImage.rectTransform;
-        rt.sizeDelta = new Vector2(rt.sizeDelta.x, length);
+        streamImage.fillAmount = Mathf.Min(grow, revealScale);
     }
 
     private void StopStream() { if (streamImage != null) streamImage.gameObject.SetActive(false); }
