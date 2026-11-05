@@ -9,8 +9,10 @@ public class PlayerInteract2D : MonoBehaviour
 {
     public float range = 3.0f;
 
-    [Header("DATACAT 1 Prefab (ลาก Prefab ของ DATACAT1 มาใส่ที่นี่)")]
-    public GameObject dataCat1Prefab;
+    [Header("Data Cat Prefabs (ลาก Prefab ของแมวทั้งหมดมาใส่ในนี้)")]
+    public List<GameObject> dataCatPrefabs = new List<GameObject>();
+    //[Header("DATACAT 1 Prefab (ลาก Prefab ของ DATACAT1 มาใส่ที่นี่)")]
+    //public GameObject dataCat1Prefab;
 
     [Header("Legacy Interact Keys")]
     public KeyCode[] interactKeys = new KeyCode[] { KeyCode.E };
@@ -75,32 +77,42 @@ public class PlayerInteract2D : MonoBehaviour
         PlayerInventory playerInv = GetComponent<PlayerInventory>();
 
         // ==========================================
-        // 0.1 🟢 วาง DATACAT1 ลงใน InteractionZone ที่ใกล้ที่สุดและว่างอยู่
+        // 0.1 🟢 วางแมวลงใน InteractionZone ที่ใกล้ที่สุดและว่างอยู่
         // ==========================================
-        if (playerInv != null && playerInv.GetCurrentItemName() == "DATACAT1")
+        if (playerInv != null && !playerInv.IsEmpty())
         {
-            InteractionZone closestZone = null;
-            float minZoneDist = range;
+            string heldItem = playerInv.GetCurrentItemName();
 
-            foreach (var zone in FindObjectsOfType<InteractionZone>())
+            // 🌟 ปรับเงื่อนไขให้ยืดหยุ่นขึ้น: เช็กว่ามี Prefab ตรงกับชื่อ หรือชื่อมีความเกี่ยวข้องกับ Data Cat
+            bool isCatItem = dataCatPrefabs.Exists(p => p != null && (p.name.Equals(heldItem, System.StringComparison.OrdinalIgnoreCase)
+            || heldItem.Contains("AISom") || heldItem.Contains("AIDum") || heldItem.Contains("AI") || heldItem.Contains("NPC")));
+
+            if (isCatItem)
             {
-                if (zone != null && zone.IsAvailable())
+                InteractionZone closestZone = null;
+                float minZoneDist = range;
+
+                foreach (var zone in FindObjectsOfType<InteractionZone>())
                 {
-                    float dist = Vector2.Distance(transform.position, zone.transform.position);
-                    if (dist <= minZoneDist)
+                    if (zone != null && zone.IsAvailable())
                     {
-                        minZoneDist = dist;
-                        closestZone = zone;
+                        float dist = Vector2.Distance(transform.position, zone.transform.position);
+                        if (dist <= minZoneDist)
+                        {
+                            minZoneDist = dist;
+                            closestZone = zone;
+                        }
                     }
                 }
-            }
 
-            if (closestZone != null)
-            {
-                SpawnAndSetupDataCat1AtZone(closestZone, playerInv.GetCurrentItemSprite());
-                playerInv.ClearItem();
-                PlayerController2D.IsLocked = false;
-                return;
+                if (closestZone != null)
+                {
+                    // ถ้าในกระเป๋าถือ AISom อยู่ แต่ Prefab ใน List มี NPC 1, NPC 2 ให้กำหนดตัวที่จะสปอนให้ถูกต้อง
+                    SpawnAndSetupDataCatAtZone(closestZone, heldItem, playerInv.GetCurrentItemSprite());
+                    playerInv.ClearItem();
+                    PlayerController2D.IsLocked = false;
+                    return;
+                }
             }
         }
 
@@ -116,22 +128,28 @@ public class PlayerInteract2D : MonoBehaviour
         Debug.Log($"[TRACE_INPUT] 🔘 Player Triggered Interact at Time: {Time.time:F2} | Hits Count: {hits.Length}");
 
         // ==========================================
-        // 0.2 🟢 อุ้ม DATACAT1 ขึ้นหัว (ต้องกินอาหารเสร็จแล้วถึงจะอุ้มได้)
+        // 0.2 🟢 อุ้มแมวขึ้นหัว (รองรับทั้ง DATACAT และแมวทั่วไปที่สุ่มเจอ Event ต้องการให้อุ้ม)
         // ==========================================
         if (playerInv != null && playerInv.IsEmpty())
         {
             foreach (var hit in hits)
             {
                 CatIdentity identity = hit.GetComponent<CatIdentity>();
-                if (identity != null && identity.IsDataCat1())
-                {
-                    NPCController npcCtrl = hit.GetComponent<NPCController>();
+                NPCController npcCtrl = hit.GetComponent<NPCController>();
 
-                    if (npcCtrl != null && npcCtrl.hasFinishedEating)
+                if (identity != null && npcCtrl != null)
+                {
+                    // เงื่อนไขการอุ้ม: เป็น DataCat หรือ แมวทั่วไปที่อยู่ในสถานะต้องให้อุ้ม (needsToBeCarried)
+                    bool canCarry = identity.IsDataCat() || npcCtrl.needsToBeCarried;
+
+                    if (canCarry && npcCtrl.hasFinishedEating)
                     {
                         Sprite catSprite = identity.catData != null ? identity.catData.catPortrait : null;
 
-                        playerInv.PickUpItem("DATACAT1", catSprite);
+                        // กำหนดชื่อไอเทมสำหรับเก็บเข้า Inventory
+                        string itemName = hit.gameObject.name.Replace("(Clone)", "").Trim();
+
+                        playerInv.PickUpItem(itemName, catSprite);
 
                         if (npcCtrl.assignedTable != null)
                         {
@@ -293,9 +311,15 @@ public class PlayerInteract2D : MonoBehaviour
         }
     }
 
-    private void SpawnAndSetupDataCat1AtZone(InteractionZone zone, Sprite catSprite)
+    private void SpawnAndSetupDataCatAtZone(InteractionZone zone, string catItemName, Sprite catSprite)
     {
-        if (dataCat1Prefab != null)
+        // 🌟 ค้นหา Prefab จาก List ที่ตรงกับชื่อไอเทม (เช่น "DATACAT 1", "DATACAT", "DATACAT 2")
+        GameObject targetPrefab = dataCatPrefabs.Find(p => p != null && p.name.Equals(catItemName, System.StringComparison.OrdinalIgnoreCase));
+
+        // ถ้าไม่เจอใน List ให้ fallback กลับไปใช้ตัวแรกสุดเพื่อความปลอดภัย
+        if (targetPrefab == null && dataCatPrefabs.Count > 0) targetPrefab = dataCatPrefabs[0];
+
+        if (targetPrefab != null)
         {
             Vector3 spawnPos = zone.point.position;
 
@@ -304,7 +328,7 @@ public class PlayerInteract2D : MonoBehaviour
                 spawnPos = hit.position;
             }
 
-            GameObject spawnedCat = Instantiate(dataCat1Prefab, spawnPos, Quaternion.identity);
+            GameObject spawnedCat = Instantiate(targetPrefab, spawnPos, Quaternion.identity);
             NPCController newNpc = spawnedCat.GetComponent<NPCController>();
             if (newNpc != null)
             {
@@ -313,7 +337,7 @@ public class PlayerInteract2D : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("PlayerInteract2D: ยังไม่ได้ลาก Prefab ของ DATACAT1 มาใส่ที่ช่อง dataCat1Prefab ใน Inspector!");
+            Debug.LogWarning("PlayerInteract2D: ยังไม่ได้ลาก Prefab ของ Data Cat มาใส่ในช่อง dataCatPrefabs ใน Inspector!");
         }
     }
 

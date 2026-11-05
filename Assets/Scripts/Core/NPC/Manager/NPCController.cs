@@ -11,6 +11,11 @@ public class NPCController : MonoBehaviour
     public DamageableObject targetObject;
     public Transform exitPoint;
 
+    [Header("Carry Event Settings (โอกาสแมวต้องการให้อุ้ม)")]
+    [Range(0, 100)] public int carryEventChance = 20; // โอกาส 20%
+    [HideInInspector] public bool needsToBeCarried = false;
+    public GameObject carryIconObject; // ลาก GameObject ของ Icon บนหัวแมวมาใส่ที่นี่
+
     [Header("Group & Table References")]
     [HideInInspector] public CustomerTable assignedTable;
     [HideInInspector] public bool hasBeenServed = false;
@@ -715,12 +720,28 @@ public class NPCController : MonoBehaviour
             int reward = assignedTable.dishReward;
             assignedTable.LeaveMoneyOnTable(reward, isVIP);
 
+            hasFinishedEating = true;
+
+            // 🌟 สุ่มโอกาส 20% ว่าแมวตัวนี้ต้องการให้อุ้มไหม
+            int roll = Random.Range(0, 100);
+            if (roll < carryEventChance)
+            {
+                needsToBeCarried = true;
+                currentState = NPCState.Sitting; // ให้นั่งรออยู่ที่โต๊ะก่อนเพื่อให้ผู้เล่นไปอุ้ม
+
+                // แสดง Icon แจ้งเตือนบนหัวแมว
+                if (carryIconObject != null) carryIconObject.SetActive(true);
+
+                Debug.Log($"[NPCController] 🐱 แมว {gameObject.name} ต้องการให้อุ้มไปส่งที่โซน!");
+                yield break;
+            }
+
+            // ถ้าไม่เข้าเงื่อนไขอุ้ม ให้ทำงานตามปกติ (เดินไปเองหรือออกร้าน)
             CatIdentity identity = GetComponent<CatIdentity>();
             bool isDataCat1 = identity != null && identity.IsDataCat1();
 
             if (isDataCat1)
             {
-                hasFinishedEating = true;
                 currentState = NPCState.Sitting;
                 yield break;
             }
@@ -1012,9 +1033,11 @@ public class NPCController : MonoBehaviour
         isInQTE = false;
         isSittingAngryAnim = false;
         isPlayingSittingFlavor = false;
+        needsToBeCarried = false;
+        if (carryIconObject != null) carryIconObject.SetActive(false);
+
         if (orderCanvas != null) orderCanvas.SetActive(false);
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
-
         if (patienceBarRoot != null) patienceBarRoot.SetActive(false);
 
         if (assignedTable != null)
