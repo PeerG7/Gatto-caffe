@@ -14,9 +14,28 @@ public class MainMenuManager : MonoBehaviour
     public GameObject loadingScreen;
     public Image loadingProgressBar;
 
+    [Header("Screen Fade (จอดำ)")]
+    [Tooltip("เวลา Fade จากดำเป็นใส ตอนเปิดหน้าเมนู")]
+    public float menuFadeInDuration = 1.2f;
+    [Tooltip("เวลา Fade เป็นจอดำ ตอนกดเล่น")]
+    public float fadeToBlackDuration = 1f;
+    [Tooltip("เวลา Fade จากดำเป็นใส ตอนเข้าหน้าเกม")]
+    public float gameFadeInDuration = 1.5f;
+
     [Header("Cat Relationship Data (สำหรับสั่ง New Game)")]
     [Tooltip("ลาก ScriptableObject CatData ของแมวทุกตัวในเกมมาใส่ เพื่อให้รู้ Key ที่ต้องรีเซ็ตตอนกด New Game")]
     public System.Collections.Generic.List<CatRelationshipData> allCats;
+
+    void Start()
+    {
+        // เปิดหน้าเมนู: เริ่มจากจอดำ แล้วค่อยๆ ใสขึ้นจนเห็นหน้าเมนูและข้อความ
+        // ถ้าหน้านี้ใช้ MainMenuIntro ให้ตัวนั้นจัดการ Fade จากดำเอง (กัน Fade ซ้อน)
+        if (MainMenuIntro.Exists) return;
+
+        var fader = ScreenFader.Ensure();
+        fader.SetAlpha(1f);
+        fader.FadeIn(menuFadeInDuration);
+    }
 
     /// <summary>
     /// ผูกปุ่ม New Game บน UI เข้ากับฟังก์ชันนี้
@@ -59,19 +78,33 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
+    bool isStarting = false;
+
     public void OnPlayPressed()
     {
-        if (AudioManager.instance != null && AudioManager.instance.gameMusic != null)
+        if (isStarting) return;   // กันกดซ้ำระหว่าง Fade
+        isStarting = true;
+
+        // จอค่อยๆ ดำ พร้อมกับเพลง Crossfade
+        ScreenFader.Ensure().FadeOut(fadeToBlackDuration);
+
+        if (AudioManager.instance != null)
         {
-            AudioManager.instance.CrossfadeTo(
-                AudioManager.instance.gameMusic,
+            // ✅ สุ่มเพลงเกมตั้งแต่ตอนกดปุ่ม แล้วค่อยโหลด Scene
+            AudioManager.instance.CrossfadeToRandomGameMusic(
                 onComplete: () => StartCoroutine(LoadGameAsync())
             );
         }
         else
         {
-            StartCoroutine(LoadGameAsync());
+            StartCoroutine(LoadGameAfterDelay());
         }
+    }
+
+    IEnumerator LoadGameAfterDelay()
+    {
+        yield return new WaitForSecondsRealtime(fadeToBlackDuration);
+        yield return LoadGameAsync();
     }
 
     public void OnQuitPressed()
@@ -100,13 +133,21 @@ public class MainMenuManager : MonoBehaviour
 
     IEnumerator LoadGameAsync()
     {
-        if (loadingScreen != null) loadingScreen.SetActive(true);
+        var fader = ScreenFader.Ensure();
+
+        // จอดำสนิทแล้ว → เปิด Loading Screen (ถ้ามี) แล้วเอาจอดำออกชั่วคราวให้เห็น Loading
+        if (loadingScreen != null)
+        {
+            loadingScreen.SetActive(true);
+            fader.SetAlpha(0f);
+        }
 
         AsyncOperation op = loadByName
             ? SceneManager.LoadSceneAsync(gameSceneName)
             : SceneManager.LoadSceneAsync(gameSceneIndex);
 
         op.allowSceneActivation = false;
+        bool activating = false;
 
         while (!op.isDone)
         {
@@ -114,9 +155,17 @@ public class MainMenuManager : MonoBehaviour
             if (loadingProgressBar != null)
                 loadingProgressBar.fillAmount = progress;
 
-            if (op.progress >= 0.9f)
+            if (op.progress >= 0.9f && !activating)
             {
-                yield return new WaitForSeconds(0.2f);
+                activating = true;
+                yield return new WaitForSecondsRealtime(0.2f);
+
+                // ดำอีกรอบก่อนสลับ Scene แล้วสั่งให้ใสขึ้นเองเมื่อหน้าเกมโหลดเสร็จ
+                fader.FadeInOnNextScene(gameFadeInDuration);
+                bool done = false;
+                fader.FadeOut(0.3f, () => done = true);
+                while (!done) yield return null;
+
                 op.allowSceneActivation = true;
             }
             yield return null;

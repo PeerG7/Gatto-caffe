@@ -92,7 +92,14 @@ public class AudioManager : MonoBehaviour
         }
         else if (scene.name == gameSceneName)
         {
-            // ✅ สุ่มเพลงเกมใหม่ทุกครั้งที่เข้า GameScene
+            // ✅ ถ้าสุ่มและเล่นมาตั้งแต่หน้าเมนูแล้ว ไม่ต้องสุ่มซ้ำ
+            if (gameMusicPreselected)
+            {
+                gameMusicPreselected = false;
+                return;
+            }
+
+            // กรณีเข้า GameScene ทางอื่น (เช่น เปิดเล่นจาก Editor) ให้สุ่มตามเดิม
             AudioClip pick = PickRandomGameMusic();
             CrossfadeTo(pick);
         }
@@ -123,6 +130,16 @@ public class AudioManager : MonoBehaviour
         lastGameMusicIndex = index;
         gameMusic = gameMusicList[index];   // อัปเดตเพลงปัจจุบัน
         return gameMusic;
+    }
+
+    private bool gameMusicPreselected = false;   // เลือกเพลงเกมไว้แล้วจากหน้าเมนู
+
+    /// <summary>สุ่มเพลงเกม แล้ว Crossfade ไปเลย (ใช้ตอนกด New Game / Play จากเมนู)</summary>
+    public void CrossfadeToRandomGameMusic(System.Action onComplete = null)
+    {
+        AudioClip pick = PickRandomGameMusic();
+        gameMusicPreselected = true;
+        CrossfadeTo(pick, onComplete);
     }
 
     // ── Public BGM API ───────────────────────────────────
