@@ -129,4 +129,8 @@ public class TraySlot : MonoBehaviour
     public bool HasFood() => !isEmpty;
     public bool IsEmpty() => isEmpty;
     public string GetItemName() => heldItemName;
+
+    // 🌟 ฟังก์ชันสำหรับให้ AutoServerBot ดึงข้อมูลชื่อและรูปภาพอาหารใน Slot นี้
+    public string GetFoodItemName() => heldItemName;
+    public Sprite GetFoodSprite() => heldItemSprite;
 }

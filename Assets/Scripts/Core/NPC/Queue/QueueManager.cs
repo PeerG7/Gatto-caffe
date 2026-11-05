@@ -43,21 +43,18 @@ public class QueueManager : MonoBehaviour
         {
             if (queue[i] == null) continue;
 
-            // เช็กว่าเป็นตัวที่ 2 ของกลุ่ม (คู่หู) หรือไม่
             bool isGroupCompanion = (i > 0 && queue[i - 1] != null &&
                                      !string.IsNullOrEmpty(queue[i].groupID) &&
                                      queue[i].groupID == queue[i - 1].groupID);
 
             if (isGroupCompanion && currentQueueIndex > 0)
             {
-                // ถ้าเป็นตัวที่มาคู่กัน ให้ยืนเยื้องไปทางขวาของจุดหลักเล็กน้อย (เช่น 0.8 หน่วย)
                 Transform basePoint = queuePoints[currentQueueIndex - 1];
                 Vector3 sideBySidePos = basePoint.position + new Vector3(1f, 0f, 0f);
                 queue[i].SetQueueTargetCustom(sideBySidePos);
             }
             else
             {
-                // เช็กเพิ่มว่าถ้าตัวถัดไป (i+1) เป็นคู่หูของตัวนี้ ให้ตัวนี้ขยับซ้ายนิดนึง (จะได้ไม่ทับกันตรงกลาง)
                 bool hasCompanionBehind = (i + 1 < queue.Count && queue[i + 1] != null &&
                                            !string.IsNullOrEmpty(queue[i].groupID) &&
                                            queue[i].groupID == queue[i + 1].groupID);
@@ -67,7 +64,6 @@ public class QueueManager : MonoBehaviour
                     Transform basePoint = queuePoints[currentQueueIndex];
                     if (hasCompanionBehind)
                     {
-                        // ถ้ามีเพื่อนตามหลัง ให้ขยับหัวหน้ากลุ่มมาทางซ้ายนิดหน่อย (-0.4 หน่วย)
                         Vector3 splitLeftPos = basePoint.position + new Vector3(-0.6f, 0f, 0f);
                         queue[i].SetQueueTargetCustom(splitLeftPos);
                     }
@@ -91,9 +87,6 @@ public class QueueManager : MonoBehaviour
         return queue.Count > 0 ? queue[0] : null;
     }
 
-    /// <summary>
-    /// ชวนแมวเข้ากลุ่มพร้อมกัน (ดึงตัวที่ groupID ตรงกันที่ต่อคิวอยู่ข้างหลังให้เข้าร้านพร้อมกัน)
-    /// </summary>
     public void InviteGroup(NPCController leaderNPC)
     {
         if (leaderNPC == null) return;

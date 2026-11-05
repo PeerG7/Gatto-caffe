@@ -876,7 +876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCController
   targetObject: {fileID: 0}
   exitPoint: {fileID: 0}
-  guideEventChance: 20
+  guideEventChance: 100
   needsGuidance: 0
   guidanceIconObject: {fileID: 157906316601054193}
   playerTransformToFollow: {fileID: 0}
