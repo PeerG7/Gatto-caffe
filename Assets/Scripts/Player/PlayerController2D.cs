@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // =====================================================================
-// PlayerController2D — v12 (Fixed Walk-Up Flip & Holder Position)
+// PlayerController2D — Integrated Cat Holding & Movement System (Safe Hide/Unhide Fixed)
 // =====================================================================
 public class PlayerController2D : MonoBehaviour
 {
@@ -18,6 +18,7 @@ public class PlayerController2D : MonoBehaviour
 
     public static bool IsLocked = false;
 
+    // ขยาย AnimState รองรับท่าทางแยก Idle และ Walk สำหรับแมวแต่ละ Variant
     public enum AnimState
     {
         Idle = 0,
@@ -25,7 +26,19 @@ public class PlayerController2D : MonoBehaviour
         WalkUp = 2,
         IdleHolding = 3,
         WalkHolding = 4,
-        WalkUpHolding = 5
+        WalkUpHolding = 5,
+
+        // Cat Variant A (เช่น AIKow)
+        HoldCatA_Idle = 6,
+        HoldCatA_Walk = 9,
+
+        // Cat Variant B (เช่น AIDum)
+        HoldCatB_Idle = 7,
+        HoldCatB_Walk = 10,
+
+        // Cat Variant C (เช่น AISom)
+        HoldCatC_Idle = 8,
+        HoldCatC_Walk = 11
     }
 
     private AnimState currentAnim = (AnimState)(-1);
@@ -33,7 +46,12 @@ public class PlayerController2D : MonoBehaviour
 
     [Header("Holding System")]
     public bool isHoldingItem = false;
+    public bool isHoldingCat = false;
+    private CatRelationshipData heldCatData = null;
     private float idleSideInitialLocalX = 0.2f;
+
+    [Header("Cat Tracking System")]
+    private GameObject heldCatObject = null; // เก็บ Reference ตัวจริงของแมวที่กำลังอุ้มอยู่
 
     public static void SetLock(bool value)
     {
@@ -65,7 +83,7 @@ public class PlayerController2D : MonoBehaviour
 
     void Update()
     {
-        if (playerInventory != null)
+        if (playerInventory != null && !isHoldingCat)
         {
             isHoldingItem = playerInventory.HasItem();
         }
@@ -84,13 +102,136 @@ public class PlayerController2D : MonoBehaviour
         UpdateAnimation();
     }
 
+    // 🌟 อุ้มแมวโดยปิดการทำงานและซ่อน Sprite ของตัวจริงไว้ชั่วคราว (ปลอดภัยจาก Prefab Asset Corruption)
+    public void PickUpCat(CatRelationshipData catData, Sprite catSprite, GameObject catGameObject)
+    {
+        isHoldingCat = true;
+        heldCatData = catData;
+        heldCatObject = catGameObject;
+
+        if (heldCatObject != null)
+        {
+            var agent = heldCatObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
+            if (agent != null) agent.enabled = false;
+
+            var rbCat = heldCatObject.GetComponent<Rigidbody2D>();
+            if (rbCat != null) rbCat.simulated = false;
+
+            var colCat = heldCatObject.GetComponent<Collider2D>();
+            if (colCat != null) colCat.enabled = false;
+
+            foreach (var renderer in heldCatObject.GetComponentsInChildren<SpriteRenderer>())
+            {
+                renderer.enabled = false;
+            }
+        }
+
+        if (playerInventory != null)
+        {
+            playerInventory.ClearItem();
+        }
+
+        UpdateAnimation();
+    }
+
+    // 🌟 ปล่อยแมวลงที่ InteractionZone โดยเปิดระบบฟิสิกส์/AI และเปิด Sprite กลับมาแสดงผล
+    public GameObject ReleaseHeldCat(Vector3 targetPosition)
+    {
+        isHoldingCat = false;
+        GameObject releasedCat = heldCatObject;
+
+        if (releasedCat != null)
+        {
+            foreach (var renderer in releasedCat.GetComponentsInChildren<SpriteRenderer>())
+            {
+                renderer.enabled = true;
+            }
+
+            releasedCat.transform.position = targetPosition;
+
+            var colCat = releasedCat.GetComponent<Collider2D>();
+            if (colCat != null) colCat.enabled = true;
+
+            var rbCat = releasedCat.GetComponent<Rigidbody2D>();
+            if (rbCat != null) rbCat.simulated = true;
+
+            var agent = releasedCat.GetComponent<UnityEngine.AI.NavMeshAgent>();
+            if (agent != null)
+            {
+                agent.enabled = true;
+                if (agent.isOnNavMesh) agent.Warp(targetPosition);
+            }
+        }
+
+        heldCatObject = null;
+        heldCatData = null;
+        UpdateAnimation();
+
+        return releasedCat;
+    }
+
+    public void DropCat()
+    {
+        if (heldCatObject != null)
+        {
+            ReleaseHeldCat(transform.position + Vector3.down * 1f);
+        }
+        else
+        {
+            isHoldingCat = false;
+            heldCatData = null;
+            UpdateAnimation();
+        }
+    }
+
+    public CatRelationshipData GetHeldCatData() => heldCatData;
+
+    public string GetHeldCatName()
+    {
+        if (heldCatData != null)
+        {
+            return heldCatData.catID;
+        }
+        return "";
+    }
+
     void UpdateAnimation()
     {
         AnimState targetState = AnimState.Idle;
         bool isMoving = movement.sqrMagnitude > 0.01f;
         bool isWalkUpDirection = false;
 
-        if (!isMoving)
+        if (isHoldingCat)
+        {
+            string variantID = heldCatData != null ? heldCatData.catID : "";
+
+            bool isVariantA = variantID.Contains("Kow") || variantID.Equals("AIKow");
+            bool isVariantB = variantID.Contains("Dum") || variantID.Equals("AIDum");
+            bool isVariantC = variantID.Contains("Som") || variantID.Equals("AISom");
+
+            if (!isMoving)
+            {
+                // --- IDLE HOLDING VARIANTS ---
+                if (isVariantA) targetState = AnimState.HoldCatA_Idle;
+                else if (isVariantB) targetState = AnimState.HoldCatB_Idle;
+                else if (isVariantC) targetState = AnimState.HoldCatC_Idle;
+                else targetState = AnimState.HoldCatA_Idle;
+            }
+            else
+            {
+                // --- WALK HOLDING VARIANTS ---
+                if (isVariantA) targetState = AnimState.HoldCatA_Walk;
+                else if (isVariantB) targetState = AnimState.HoldCatB_Walk;
+                else if (isVariantC) targetState = AnimState.HoldCatC_Walk;
+                else targetState = AnimState.HoldCatA_Walk;
+
+                if (spriteRenderer != null && movement.x != 0)
+                {
+                    spriteRenderer.flipX = movement.x > 0;
+                }
+            }
+        }
+        else if (!isMoving)
         {
             targetState = isHoldingItem ? AnimState.IdleHolding : AnimState.Idle;
             isWalkUpDirection = false;
@@ -99,7 +240,6 @@ public class PlayerController2D : MonoBehaviour
         {
             if (movement.y > 0.1f && Mathf.Abs(movement.y) >= Mathf.Abs(movement.x))
             {
-                // 📌 ท่าเดินขึ้น (Walk Up): ล็อกไม่ให้ตัวละครพลิกซ้าย-ขวา เพื่อื่ให้มือที่ยกขึ้นอยู่ฝั่งเดิมเสมอ
                 targetState = isHoldingItem ? AnimState.WalkUpHolding : AnimState.WalkUp;
                 isWalkUpDirection = true;
 
@@ -110,19 +250,17 @@ public class PlayerController2D : MonoBehaviour
             }
             else
             {
-                // ท่าเดิน ซ้าย / ขวา / ลง
                 targetState = isHoldingItem ? AnimState.WalkHolding : AnimState.Walk;
                 isWalkUpDirection = false;
 
                 if (spriteRenderer != null && movement.x != 0)
                 {
-                    spriteRenderer.flipX = movement.x > 0; // ปรับเป็น < 0 ได้ถ้าภาพหันกลับด้าน
+                    spriteRenderer.flipX = movement.x > 0;
                 }
             }
         }
 
-        // อัปเดตการเปิด/ปิด Holder ตามท่าทาง
-        if (playerInventory != null)
+        if (playerInventory != null && !isHoldingCat)
         {
             playerInventory.UpdateHolderVisibility(isHoldingItem, isWalkUpDirection);
 
@@ -130,14 +268,16 @@ public class PlayerController2D : MonoBehaviour
             {
                 if (!isWalkUpDirection && playerInventory.idleSideRenderer != null)
                 {
-                    // พลิกตำแหน่ง X ของ Holder ด้านข้างตามการหันหน้า
                     Transform holderTransform = playerInventory.idleSideRenderer.transform;
                     Vector3 localPos = holderTransform.localPosition;
                     localPos.x = spriteRenderer.flipX ? -idleSideInitialLocalX : idleSideInitialLocalX;
                     holderTransform.localPosition = localPos;
                 }
-                // *หมายเหตุ: สำหรับ Walk Up ให้ปล่อยตำแหน่งของ Holder_WalkUp นิ่งๆ ตามที่เราจัดไว้ใน Prefab ได้เลย ไม่ต้องคำนวณ FlipX เพิ่ม*
             }
+        }
+        else if (playerInventory != null && isHoldingCat)
+        {
+            playerInventory.UpdateHolderVisibility(false, false);
         }
 
         SetAnimState(targetState);
