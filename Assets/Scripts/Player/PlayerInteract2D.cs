@@ -11,8 +11,6 @@ public class PlayerInteract2D : MonoBehaviour
 
     [Header("Data Cat Prefabs (ลาก Prefab ของแมวทั้งหมดมาใส่ในนี้)")]
     public List<GameObject> dataCatPrefabs = new List<GameObject>();
-    //[Header("DATACAT 1 Prefab (ลาก Prefab ของ DATACAT1 มาใส่ที่นี่)")]
-    //public GameObject dataCat1Prefab;
 
     [Header("Legacy Interact Keys")]
     public KeyCode[] interactKeys = new KeyCode[] { KeyCode.E };
@@ -83,7 +81,6 @@ public class PlayerInteract2D : MonoBehaviour
         {
             string heldItem = playerInv.GetCurrentItemName();
 
-            // 🌟 ปรับเงื่อนไขให้ยืดหยุ่นขึ้น: เช็กว่ามี Prefab ตรงกับชื่อ หรือชื่อมีความเกี่ยวข้องกับ Data Cat
             bool isCatItem = dataCatPrefabs.Exists(p => p != null && (p.name.Equals(heldItem, System.StringComparison.OrdinalIgnoreCase)
             || heldItem.Contains("AISom") || heldItem.Contains("AIDum") || heldItem.Contains("AI") || heldItem.Contains("NPC")));
 
@@ -107,7 +104,6 @@ public class PlayerInteract2D : MonoBehaviour
 
                 if (closestZone != null)
                 {
-                    // ถ้าในกระเป๋าถือ AISom อยู่ แต่ Prefab ใน List มี NPC 1, NPC 2 ให้กำหนดตัวที่จะสปอนให้ถูกต้อง
                     SpawnAndSetupDataCatAtZone(closestZone, heldItem, playerInv.GetCurrentItemSprite());
                     playerInv.ClearItem();
                     PlayerController2D.IsLocked = false;
@@ -127,8 +123,32 @@ public class PlayerInteract2D : MonoBehaviour
 
         Debug.Log($"[TRACE_INPUT] 🔘 Player Triggered Interact at Time: {Time.time:F2} | Hits Count: {hits.Length}");
 
+        // =========================================================================
+        // 🌟 0.1.5: เช็กแมวที่รอจูง (WaitingForGuidance) หรืออยู่ที่ InteractionZone ก่อนอุ้ม
+        // =========================================================================
+        NPCInteract closestNPC = GetClosestNPC(hits);
+        if (closestNPC != null)
+        {
+            NPCController npcCtrl = closestNPC.GetComponent<NPCController>();
+
+            // 1. ถ้าแมวกำลังรอการจูง ให้กด E เพื่อเริ่มจูงเดินตาม
+            if (npcCtrl != null && npcCtrl.currentState == NPCController.NPCState.WaitingForGuidance)
+            {
+                npcCtrl.StartFollowingPlayer(transform);
+                return;
+            }
+
+            // 2. ถ้ายืนประจำจุด InteractionZone และปลดล็อคสิทธิ์แล้ว -> เปิดหน้า Choice / QTE ทันที
+            if (npcCtrl != null && npcCtrl.isInteractionAllowed && npcCtrl.currentState == NPCController.NPCState.AtInteractionZone)
+            {
+                Debug.Log($"[TRACE_INPUT] ✅ Triggering Zone QTE for: {closestNPC.gameObject.name}");
+                closestNPC.RequestZoneInteraction();
+                return;
+            }
+        }
+
         // ==========================================
-        // 0.2 🟢 อุ้มแมวขึ้นหัว (รองรับทั้ง DATACAT และแมวทั่วไปที่สุ่มเจอ Event ต้องการให้อุ้ม)
+        // 0.2 🟢 อุ้มแมวขึ้นหัว (ย้ายลงมาหลังเช็ก InteractionZone แล้ว)
         // ==========================================
         if (playerInv != null && playerInv.IsEmpty())
         {
@@ -139,14 +159,11 @@ public class PlayerInteract2D : MonoBehaviour
 
                 if (identity != null && npcCtrl != null)
                 {
-                    // เงื่อนไขการอุ้ม: เป็น DataCat หรือ แมวทั่วไปที่อยู่ในสถานะต้องให้อุ้ม (needsToBeCarried)
                     bool canCarry = identity.IsDataCat() || npcCtrl.needsToBeCarried;
 
                     if (canCarry && npcCtrl.hasFinishedEating)
                     {
                         Sprite catSprite = identity.catData != null ? identity.catData.catPortrait : null;
-
-                        // กำหนดชื่อไอเทมสำหรับเก็บเข้า Inventory
                         string itemName = hit.gameObject.name.Replace("(Clone)", "").Trim();
 
                         playerInv.PickUpItem(itemName, catSprite);
@@ -258,6 +275,28 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
+        // =========================================================================
+        // 🌟 สั่งให้แมวที่กำลังจูงอยู่ (FollowingPlayer) นั่งลงที่โต๊ะอาหาร (ก่อนอัปเกรดโต๊ะ)
+        // =========================================================================
+        foreach (var hit in hits)
+        {
+            CustomerTable table = hit.GetComponent<CustomerTable>();
+            if (table != null)
+            {
+                NPCController[] allNPCs = FindObjectsOfType<NPCController>();
+                foreach (var npc in allNPCs)
+                {
+                    if (npc != null && npc.currentState == NPCController.NPCState.FollowingPlayer)
+                    {
+                        if (npc.TrySitAtTable(table))
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
         // 9. อัปเกรดเฟอร์นิเจอร์
         foreach (var hit in hits)
         {
@@ -272,30 +311,22 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        // 10. NPC interact
-        NPCInteract closestNPC = GetClosestNPC(hits);
+        // 10. NPC interact (นั่งโต๊ะอาหาร หรือ รอคิวหน้าร้าน)
         if (closestNPC != null)
         {
             NPCController npcCtrl = closestNPC.GetComponent<NPCController>();
 
-            // 🟢 1. ถ้ายืนประจำจุด InteractionZone และปลดล็อคสิทธิ์แล้ว -> เปิดหน้า Choice / QTE
-            if (npcCtrl != null && npcCtrl.isInteractionAllowed && npcCtrl.currentState == NPCController.NPCState.AtInteractionZone)
-            {
-                Debug.Log($"[TRACE_INPUT] ✅ Triggering Zone QTE for: {closestNPC.gameObject.name}");
-                closestNPC.RequestZoneInteraction();
-                return;
-            }
-            // 🟢 2. ถ้านั่งที่โต๊ะอาหารอยู่ (Sitting) -> เปิดหน้า Relationship Book เท่านั้น
-            else if (closestNPC.CanInteract())
+            // ถ้านั่งที่โต๊ะอาหารอยู่ -> เปิดหน้า Relationship Book
+            if (closestNPC.CanInteract())
             {
                 PlayerInventory playerInvRef = GetComponent<PlayerInventory>();
-                if (playerInvRef != null && playerInvRef.HasItem()) return; // ถ้าถืออาหารอยู่ให้ Bypass ไปเสิร์ฟ
+                if (playerInvRef != null && playerInvRef.HasItem()) return;
 
                 Debug.Log($"[TRACE_INPUT] ❤️ Opening Relationship for Sitting Cat: {closestNPC.gameObject.name}");
                 closestNPC.RelationShip();
                 return;
             }
-            // 🟢 3. ถ้ารอคิวหน้าร้าน -> เรียกเข้าคิว
+            // ถ้ารอคิวหน้าร้าน -> เรียกเข้าคิว
             else if (npcCtrl != null && npcCtrl.currentState == NPCController.NPCState.InQueue)
             {
                 Debug.Log($"[TRACE_INPUT] 📋 Inviting Queue NPC: {closestNPC.gameObject.name}");
@@ -313,10 +344,8 @@ public class PlayerInteract2D : MonoBehaviour
 
     private void SpawnAndSetupDataCatAtZone(InteractionZone zone, string catItemName, Sprite catSprite)
     {
-        // 🌟 ค้นหา Prefab จาก List ที่ตรงกับชื่อไอเทม (เช่น "DATACAT 1", "DATACAT", "DATACAT 2")
         GameObject targetPrefab = dataCatPrefabs.Find(p => p != null && p.name.Equals(catItemName, System.StringComparison.OrdinalIgnoreCase));
 
-        // ถ้าไม่เจอใน List ให้ fallback กลับไปใช้ตัวแรกสุดเพื่อความปลอดภัย
         if (targetPrefab == null && dataCatPrefabs.Count > 0) targetPrefab = dataCatPrefabs[0];
 
         if (targetPrefab != null)

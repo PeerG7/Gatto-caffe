@@ -282,7 +282,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2868306804514194809}
-  - component: {fileID: 3602971504963197597}
   - component: {fileID: 5442941034467088408}
   - component: {fileID: 7589385340835988023}
   m_Layer: 0
@@ -311,22 +310,6 @@ Transform:
   - {fileID: 5858076553606017866}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3602971504963197597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7186259758257712089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1148df87c49f7a49a70dc7838e7b01c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FurnitureObject
-  lockedVisual: {fileID: 7325388003326309955}
-  unlockedVisual: {fileID: 0}
-  price: 0
-  isUnlocked: 0
 --- !u!114 &5442941034467088408
 MonoBehaviour:
   m_ObjectHideFlags: 0

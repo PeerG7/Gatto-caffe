@@ -142,9 +142,9 @@ MonoBehaviour:
   marbleChairVisual: {fileID: 1452027964327746234}
   price: 0
   isUnlocked: 0
-  upgradePrice: 0
+  upgradePrice: 1000
   isUpgraded: 0
-  vipChanceBonusOnUpgrade: 15
+  vipChanceBonusOnUpgrade: 2
   furnitureID: TableSet 2 Seat
   furniturePrefab: {fileID: 387129776201575806}
 --- !u!114 &-5448480435023754254

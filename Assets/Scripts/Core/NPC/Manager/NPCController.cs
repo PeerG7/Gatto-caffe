@@ -11,6 +11,12 @@ public class NPCController : MonoBehaviour
     public DamageableObject targetObject;
     public Transform exitPoint;
 
+    [Header("Guide Event Settings (โอกาสแมวไม่รู้ตำแหน่งโต๊ะและต้องให้ Player จูง)")]
+    [Range(0, 100)] public int guideEventChance = 20; // โอกาส 20%
+    [HideInInspector] public bool needsGuidance = false;
+    public GameObject guidanceIconObject; // Icon แจ้งเตือนบนหัวว่าต้องการให้นำทาง
+    [HideInInspector] public Transform playerTransformToFollow;
+
     [Header("Carry Event Settings (โอกาสแมวต้องการให้อุ้ม)")]
     [Range(0, 100)] public int carryEventChance = 20; // โอกาส 20%
     [HideInInspector] public bool needsToBeCarried = false;
@@ -91,7 +97,7 @@ public class NPCController : MonoBehaviour
 
     private bool isChoiceUIVisible = false; // ตัวแปรเช็คว่ากำลังเปิดหน้าจอเลือกช้อยส์อยู่หรือไม่ เพื่อหยุดเวลา timeout
 
-    public enum NPCState { InQueue, GoingToSeat, Sitting, Eating, GoingToInteractionZone, AtInteractionZone, GoingToDamage, Leaving, Performing }
+    public enum NPCState { InQueue, GoingToSeat, Sitting, Eating, GoingToInteractionZone, AtInteractionZone, GoingToDamage, Leaving, Performing, WaitingForGuidance, FollowingPlayer }
     public NPCState currentState = NPCState.InQueue;
 
     [Header("Order System")]
@@ -260,6 +266,16 @@ public class NPCController : MonoBehaviour
             if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
                 ArriveAtDamageTarget();
         }
+
+        if (currentState == NPCState.FollowingPlayer)
+        {
+            if (playerTransformToFollow != null)
+            {
+                agent.SetDestination(playerTransformToFollow.position);
+                UpdateMovementAnimation();
+            }
+            return;
+        }
     }
 
     private void OnQueueWaitTimeout()
@@ -419,7 +435,8 @@ public class NPCController : MonoBehaviour
         int groupSize = GetGroupSize();
         CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
 
-        var availableTables = allTables.Where(t => {
+        var availableTables = allTables.Where(t =>
+        {
             FurnitureObject furniture = t.GetComponent<FurnitureObject>();
             bool isUnlocked = (furniture == null || furniture.isUnlocked);
 
@@ -455,14 +472,11 @@ public class NPCController : MonoBehaviour
 
             if (seat != null)
             {
-                targetTable.AssignNPCToTable(this);
+                // 🌟 ย้ายการ Assign โต๊ะไปทำตอนที่ถึงโต๊ะแล้วแทน เพื่อให้ Player เลือกโต๊ะอิสระตอนนำทาง
                 seatPoint = seat;
-                currentState = NPCState.GoingToSeat;
+                assignedTable = targetTable;
 
                 if (QueueManager.Instance != null) QueueManager.Instance.RemoveFromQueue(this);
-
-                agent.isStopped = false;
-                agent.SetDestination(seatPoint.position);
 
                 if (string.IsNullOrEmpty(targetTable.wantedItem))
                 {
@@ -479,14 +493,31 @@ public class NPCController : MonoBehaviour
                         }
                     }
                 }
-
                 targetTable.SetVIPVisual(isVIP);
+
+                // สุ่มโอกาส 20% รอจูง
+                bool rollGuide = Random.Range(0, 100) < guideEventChance;
+                if (rollGuide)
+                {
+                    needsGuidance = true;
+                    currentState = NPCState.WaitingForGuidance;
+                    if (agent != null) agent.isStopped = true;
+                    if (guidanceIconObject != null) guidanceIconObject.SetActive(true);
+                    Debug.Log($"[NPCController] 🧭 แมว {gameObject.name} ต้องการให้ Player นำทางไปนั่งโต๊ะ!");
+                    return;
+                }
+
+                // พฤติกรรมปกติ
+                targetTable.AssignNPCToTable(this); // จองโต๊ะปกติถ้าเดินไปเอง
+                currentState = NPCState.GoingToSeat;
+                agent.isStopped = false;
+                agent.SetDestination(seatPoint.position);
                 return;
             }
         }
     }
 
-    void GenerateOrderData()
+        void GenerateOrderData()
     {
         if (allRecipes == null || allRecipes.Count == 0) return;
         int randomIndex = Random.Range(0, allRecipes.Count);
@@ -1403,5 +1434,93 @@ public class NPCController : MonoBehaviour
         // คำนวณจาก waitTimer ที่สะสมไปเทียบกับเวลาอดทนจริง
         float ratio = 1f - Mathf.Clamp01(waitTimer / actualWaitTime);
         return ratio;
+    }
+    public void StartFollowingPlayer(Transform player)
+    {
+        if (!needsGuidance) return;
+
+        // 🌟 ค้นหาแมวทุกตัวในกลุ่มเดียวกัน (groupID) ที่กำลังรอจูงอยู่ แล้วสั่งเดินตามพร้อมกัน
+        if (!string.IsNullOrEmpty(groupID))
+        {
+            NPCController[] allNPCs = FindObjectsOfType<NPCController>();
+            foreach (var npc in allNPCs)
+            {
+                if (npc != null && npc != this && npc.groupID == groupID && npc.needsGuidance && npc.currentState == NPCState.WaitingForGuidance)
+                {
+                    npc.StartFollowingPlayerWithoutGroupCheck(player);
+                }
+            }
+        }
+
+        StartFollowingPlayerWithoutGroupCheck(player);
+    }
+
+    // ฟังก์ชันย่อยสำหรับเปิดการเดินตาม (ป้องกันการเรียกวนลูปซ้ำซ้อน)
+    public void StartFollowingPlayerWithoutGroupCheck(Transform player)
+    {
+        playerTransformToFollow = player;
+        currentState = NPCState.FollowingPlayer;
+        if (guidanceIconObject != null) guidanceIconObject.SetActive(false);
+        if (agent != null)
+        {
+            agent.enabled = true;
+            agent.isStopped = false;
+        }
+        Debug.Log($"[NPCController] 🐾 เริ่มจูงแมว {gameObject.name} แล้ว! พาไปนั่งโต๊ะที่ต้องการได้เลย");
+    }
+
+    /// <summary>
+    /// 🌟 ฟังก์ชันให้ Player เรียกเมื่อพาแมวมาถึงโต๊ะที่ต้องการแล้วกด E ซ้ำ
+    /// </summary>
+    public bool TrySitAtTable(CustomerTable targetTable)
+    {
+        if (currentState != NPCState.FollowingPlayer || targetTable == null) return false;
+
+        // ค้นหาแมวทุกตัวใน Scene ที่อยู่ในกลุ่มเดียวกัน (groupID เดียวกัน) และกำลังเดินตาม Player อยู่
+        NPCController[] allNPCs = FindObjectsOfType<NPCController>();
+        List<NPCController> groupMembers = new List<NPCController>();
+
+        foreach (var npc in allNPCs)
+        {
+            if (npc != null && !string.IsNullOrEmpty(groupID) && npc.groupID == groupID && npc.currentState == NPCState.FollowingPlayer)
+            {
+                groupMembers.Add(npc);
+            }
+        }
+
+        // ถ้าไม่เจอในกลุ่ม ให้เพิ่มตัวนี้เข้าไปด้วย
+        if (groupMembers.Count == 0) groupMembers.Add(this);
+
+        // เช็กว่าโต๊ะนี้มีที่นั่งเพียงพอสำหรับแมวทั้งกลุ่มไหม
+        if (targetTable.seatPoints.Count - targetTable.sittingNPCs.Count < groupMembers.Count)
+        {
+            Debug.Log("❌ โต๊ะนี้มีที่นั่งไม่พอสำหรับแมวทั้งกลุ่มนี้!");
+            return false;
+        }
+
+        // สั่งให้สมาชิกในกลุ่มทั้งหมดนั่งลงที่โต๊ะนี้พร้อมกัน
+        foreach (var member in groupMembers)
+        {
+            Transform seat = targetTable.GetAvailableSeat();
+            if (seat != null)
+            {
+                member.assignedTable = targetTable;
+                member.seatPoint = seat;
+                targetTable.AssignNPCToTable(member);
+
+                member.needsGuidance = false;
+                member.playerTransformToFollow = null;
+
+                member.currentState = NPCState.GoingToSeat;
+                if (member.agent != null && member.agent.isOnNavMesh)
+                {
+                    member.agent.isStopped = false;
+                    member.agent.SetDestination(member.seatPoint.position);
+                }
+            }
+        }
+
+        Debug.Log($"[NPCController] ✅ พาแมวกลุ่ม {groupID} (จำนวน {groupMembers.Count} ตัว) มานั่งที่โต๊ะสำเร็จ!");
+        return true;
     }
 }

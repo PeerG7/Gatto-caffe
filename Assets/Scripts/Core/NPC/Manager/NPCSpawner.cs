@@ -19,6 +19,8 @@ public class NPCSpawner : MonoBehaviour
     [Header("VIP Cat Settings")]
     public GameObject[] vipNpcPrefabs;
     [Range(0, 100)] public int vipSpawnChance = 10;
+    [Tooltip("ค่าสูงสุดที่เป็นไปได้ของโอกาสเกิด VIP เพื่อป้องกันไม่ให้แย่งแมวธรรมดา")]
+    [Range(0, 100)] public int maxVipSpawnChance = 40; // 🌟 กำหนดเพดานสูงสุด เช่น 40%
 
     [Header("Scene References")]
     public GameObject relationshipCanvas;

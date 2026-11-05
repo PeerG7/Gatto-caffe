@@ -647,7 +647,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCController
   targetObject: {fileID: 0}
   exitPoint: {fileID: 0}
-  carryEventChance: 100
+  guideEventChance: 100
+  needsGuidance: 0
+  guidanceIconObject: {fileID: 963963172373914755}
+  playerTransformToFollow: {fileID: 0}
+  carryEventChance: 20
   needsToBeCarried: 0
   carryIconObject: {fileID: 963963172373914755}
   assignedTable: {fileID: 0}
