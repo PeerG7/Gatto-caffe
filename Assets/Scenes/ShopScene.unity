@@ -13721,6 +13721,7 @@ GameObject:
   - component: {fileID: 670603336}
   - component: {fileID: 670603338}
   - component: {fileID: 670603337}
+  - component: {fileID: 670603339}
   m_Layer: 0
   m_Name: NotificationText
   m_TagString: Untagged
@@ -13847,6 +13848,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 670603335}
   m_CullTransparentMesh: 1
+--- !u!114 &670603339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670603335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b3a676079c205448c6f8593d057ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NotificationAnimationHelper
 --- !u!1 &672401949
 GameObject:
   m_ObjectHideFlags: 0
