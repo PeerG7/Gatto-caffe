@@ -1,0 +1,559 @@
+fileFormatVersion: 2
+guid: ec0875976cac69248be778c7d915c5de
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2199654358646147588
+    second: IdleSideCatWhi-Sheet_0
+  - first:
+      213: 816472224911752293
+    second: IdleSideCatWhi-Sheet_1
+  - first:
+      213: 7985335466471194624
+    second: IdleSideCatWhi-Sheet_2
+  - first:
+      213: 6330934444203163319
+    second: IdleSideCatWhi-Sheet_3
+  - first:
+      213: -8450703498545542559
+    second: IdleSideCatWhi-Sheet_4
+  - first:
+      213: -4148324900180213116
+    second: IdleSideCatWhi-Sheet_5
+  - first:
+      213: 5435120447879073774
+    second: IdleSideCatWhi-Sheet_6
+  - first:
+      213: 3668252974062824362
+    second: IdleSideCatWhi-Sheet_7
+  - first:
+      213: 8620844202890958045
+    second: IdleSideCatWhi-Sheet_8
+  - first:
+      213: -8839327079403692639
+    second: IdleSideCatWhi-Sheet_9
+  - first:
+      213: -2152096588378385649
+    second: IdleSideCatWhi-Sheet_10
+  - first:
+      213: 1955633980097857721
+    second: IdleSideCatWhi-Sheet_11
+  - first:
+      213: 9077028981757349911
+    second: IdleSideCatWhi-Sheet_12
+  - first:
+      213: -2174696517075208971
+    second: IdleSideCatWhi-Sheet_13
+  - first:
+      213: 989202027467436591
+    second: IdleSideCatWhi-Sheet_14
+  - first:
+      213: -340218797619971758
+    second: IdleSideCatWhi-Sheet_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 600
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 6367
+        width: 713
+        height: 1606
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40a4eb32cfdb68e10800000000000000
+      internalID: 2199654358646147588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 2746
+        y: 6367
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56c76d6a921b45b00800000000000000
+      internalID: 816472224911752293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 4784
+        y: 6366
+        width: 737
+        height: 1574
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00008537c4c91de60800000000000000
+      internalID: 7985335466471194624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 6845
+        y: 6367
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7beb303955ffbd750800000000000000
+      internalID: 6330934444203163319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 4319
+        width: 713
+        height: 1605
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16aca0b11f119ba80800000000000000
+      internalID: -8450703498545542559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 2746
+        y: 4319
+        width: 718
+        height: 1579
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 482c9d76b703e66c0800000000000000
+      internalID: -4148324900180213116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 4785
+        y: 4318
+        width: 737
+        height: 1568
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eef4b47304d6d6b40800000000000000
+      internalID: 5435120447879073774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 6845
+        y: 4319
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aabe84905a048e230800000000000000
+      internalID: 3668252974062824362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 2271
+        width: 713
+        height: 1605
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd41d49902463a770800000000000000
+      internalID: 8620844202890958045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 2749
+        y: 2271
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1add6a2aad6645580800000000000000
+      internalID: -8839327079403692639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 4785
+        y: 2270
+        width: 737
+        height: 1568
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f03506f1e873222e0800000000000000
+      internalID: -2152096588378385649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 6845
+        y: 2271
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b88a665ebec32b10800000000000000
+      internalID: 1955633980097857721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 223
+        width: 713
+        height: 1605
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 710929944c518fd70800000000000000
+      internalID: 9077028981757349911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 2749
+        y: 223
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f4f37d2a0de1d1e0800000000000000
+      internalID: -2174696517075208971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 4785
+        y: 222
+        width: 737
+        height: 1568
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f22fa42c00a5abd00800000000000000
+      internalID: 989202027467436591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatWhi-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 6842
+        y: 223
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25973fd5ecc474bf0800000000000000
+      internalID: -340218797619971758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      IdleSideCatWhi-Sheet_0: 2199654358646147588
+      IdleSideCatWhi-Sheet_1: 816472224911752293
+      IdleSideCatWhi-Sheet_10: -2152096588378385649
+      IdleSideCatWhi-Sheet_11: 1955633980097857721
+      IdleSideCatWhi-Sheet_12: 9077028981757349911
+      IdleSideCatWhi-Sheet_13: -2174696517075208971
+      IdleSideCatWhi-Sheet_14: 989202027467436591
+      IdleSideCatWhi-Sheet_15: -340218797619971758
+      IdleSideCatWhi-Sheet_2: 7985335466471194624
+      IdleSideCatWhi-Sheet_3: 6330934444203163319
+      IdleSideCatWhi-Sheet_4: -8450703498545542559
+      IdleSideCatWhi-Sheet_5: -4148324900180213116
+      IdleSideCatWhi-Sheet_6: 5435120447879073774
+      IdleSideCatWhi-Sheet_7: 3668252974062824362
+      IdleSideCatWhi-Sheet_8: 8620844202890958045
+      IdleSideCatWhi-Sheet_9: -8839327079403692639
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

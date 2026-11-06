@@ -1,0 +1,559 @@
+fileFormatVersion: 2
+guid: f892cbdfb9d8ae448b797dc9639a1306
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4416281714395210188
+    second: IdleSideCatBla-Sheet_0
+  - first:
+      213: 4565507416660300479
+    second: IdleSideCatBla-Sheet_1
+  - first:
+      213: 390413466707244293
+    second: IdleSideCatBla-Sheet_2
+  - first:
+      213: 3676631529093270767
+    second: IdleSideCatBla-Sheet_3
+  - first:
+      213: 4137781313721202087
+    second: IdleSideCatBla-Sheet_4
+  - first:
+      213: 2959705794051932856
+    second: IdleSideCatBla-Sheet_5
+  - first:
+      213: 4618332944743120103
+    second: IdleSideCatBla-Sheet_6
+  - first:
+      213: 7221530871583142431
+    second: IdleSideCatBla-Sheet_7
+  - first:
+      213: -2508028227262558822
+    second: IdleSideCatBla-Sheet_8
+  - first:
+      213: 7138507288524481600
+    second: IdleSideCatBla-Sheet_9
+  - first:
+      213: -4017958705048364012
+    second: IdleSideCatBla-Sheet_10
+  - first:
+      213: 6351265620865883021
+    second: IdleSideCatBla-Sheet_11
+  - first:
+      213: -7737638961915366321
+    second: IdleSideCatBla-Sheet_12
+  - first:
+      213: 651504466599445014
+    second: IdleSideCatBla-Sheet_13
+  - first:
+      213: -5994780863624355486
+    second: IdleSideCatBla-Sheet_14
+  - first:
+      213: -1072313634092560218
+    second: IdleSideCatBla-Sheet_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 600
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 6367
+        width: 713
+        height: 1606
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43e9b61ed2736b2c0800000000000000
+      internalID: -4416281714395210188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 2746
+        y: 6367
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb2d27d6ec0fb5f30800000000000000
+      internalID: 4565507416660300479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 4784
+        y: 6366
+        width: 737
+        height: 1574
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5053d9ebaf60b6500800000000000000
+      internalID: 390413466707244293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 6845
+        y: 6367
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fec0b9565e4060330800000000000000
+      internalID: 3676631529093270767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 4319
+        width: 713
+        height: 1605
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a5f9929e2a5c6930800000000000000
+      internalID: 4137781313721202087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 2746
+        y: 4319
+        width: 718
+        height: 1579
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b2812e0dbcf21920800000000000000
+      internalID: 2959705794051932856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 4785
+        y: 4318
+        width: 737
+        height: 1568
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ecb5e1285d971040800000000000000
+      internalID: 4618332944743120103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 6845
+        y: 4319
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f12fa3ff018083460800000000000000
+      internalID: 7221530871583142431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 2271
+        width: 713
+        height: 1605
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9dcc5b8d91b13dd0800000000000000
+      internalID: -2508028227262558822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 2749
+        y: 2271
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 044e907be82111360800000000000000
+      internalID: 7138507288524481600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 4785
+        y: 2270
+        width: 737
+        height: 1568
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41c576788d75d38c0800000000000000
+      internalID: -4017958705048364012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 6845
+        y: 2271
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8b9cd58e6a342850800000000000000
+      internalID: 6351265620865883021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 223
+        width: 713
+        height: 1605
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f44ffc22c526e9490800000000000000
+      internalID: -7737638961915366321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 2749
+        y: 223
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6128d3d4cdb9a0900800000000000000
+      internalID: 651504466599445014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 4785
+        y: 222
+        width: 737
+        height: 1568
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2616c55f0924ecca0800000000000000
+      internalID: -5994780863624355486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IdleSideCatBla-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 6842
+        y: 223
+        width: 718
+        height: 1584
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a0da106e606e11f0800000000000000
+      internalID: -1072313634092560218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      IdleSideCatBla-Sheet_0: -4416281714395210188
+      IdleSideCatBla-Sheet_1: 4565507416660300479
+      IdleSideCatBla-Sheet_10: -4017958705048364012
+      IdleSideCatBla-Sheet_11: 6351265620865883021
+      IdleSideCatBla-Sheet_12: -7737638961915366321
+      IdleSideCatBla-Sheet_13: 651504466599445014
+      IdleSideCatBla-Sheet_14: -5994780863624355486
+      IdleSideCatBla-Sheet_15: -1072313634092560218
+      IdleSideCatBla-Sheet_2: 390413466707244293
+      IdleSideCatBla-Sheet_3: 3676631529093270767
+      IdleSideCatBla-Sheet_4: 4137781313721202087
+      IdleSideCatBla-Sheet_5: 2959705794051932856
+      IdleSideCatBla-Sheet_6: 4618332944743120103
+      IdleSideCatBla-Sheet_7: 7221530871583142431
+      IdleSideCatBla-Sheet_8: -2508028227262558822
+      IdleSideCatBla-Sheet_9: 7138507288524481600
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

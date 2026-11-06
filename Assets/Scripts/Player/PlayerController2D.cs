@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 // =====================================================================
-// PlayerController2D — Integrated Cat Holding & Movement System (Safe Hide/Unhide Fixed)
+// PlayerController2D — Inspector-Driven Cat Animation Mapping System
 // =====================================================================
 public class PlayerController2D : MonoBehaviour
 {
@@ -18,7 +19,6 @@ public class PlayerController2D : MonoBehaviour
 
     public static bool IsLocked = false;
 
-    // ขยาย AnimState รองรับท่าทางแยก Idle และ Walk สำหรับแมวแต่ละ Variant
     public enum AnimState
     {
         Idle = 0,
@@ -28,16 +28,11 @@ public class PlayerController2D : MonoBehaviour
         WalkHolding = 4,
         WalkUpHolding = 5,
 
-        // Cat Variant A (เช่น AIKow)
         HoldCatA_Idle = 6,
-        HoldCatA_Walk = 9,
-
-        // Cat Variant B (เช่น AIDum)
         HoldCatB_Idle = 7,
-        HoldCatB_Walk = 10,
-
-        // Cat Variant C (เช่น AISom)
         HoldCatC_Idle = 8,
+        HoldCatA_Walk = 9,
+        HoldCatB_Walk = 10,
         HoldCatC_Walk = 11
     }
 
@@ -51,15 +46,24 @@ public class PlayerController2D : MonoBehaviour
     private float idleSideInitialLocalX = 0.2f;
 
     [Header("Cat Tracking System")]
-    private GameObject heldCatObject = null; // เก็บ Reference ตัวจริงของแมวที่กำลังอุ้มอยู่
+    private GameObject heldCatObject = null;
+
+    [System.Serializable]
+    public struct CatAnimationMapping
+    {
+        [Tooltip("พิมพ์ Variant ID เช่น AIKow, AIDum, AISom")]
+        public string variantID;
+        public AnimState idleAnimState;
+        public AnimState walkAnimState;
+    }
+
+    [Header("Inspector-Driven Cat Variant Animation Mappings")]
+    public List<CatAnimationMapping> catAnimationMappings = new List<CatAnimationMapping>();
 
     public static void SetLock(bool value)
     {
         IsLocked = value;
     }
-
-    private static bool IsGamePaused =>
-        DayNightManager.Instance != null && DayNightManager.Instance.isPaused;
 
     void Awake()
     {
@@ -88,7 +92,6 @@ public class PlayerController2D : MonoBehaviour
             isHoldingItem = playerInventory.HasItem();
         }
 
-        // 🟢 แก้ไขตรงนี้: เอา || IsGamePaused ออก ให้ล็อกเฉพาะตอน IsLocked เป็นจริงเท่านั้น
         if (IsLocked)
         {
             movement = Vector2.zero;
@@ -103,7 +106,6 @@ public class PlayerController2D : MonoBehaviour
         UpdateAnimation();
     }
 
-    // 🌟 อุ้มแมวโดยปิดการทำงานและซ่อน Sprite ของตัวจริงไว้ชั่วคราว (ปลอดภัยจาก Prefab Asset Corruption)
     public void PickUpCat(CatRelationshipData catData, Sprite catSprite, GameObject catGameObject)
     {
         isHoldingCat = true;
@@ -135,7 +137,6 @@ public class PlayerController2D : MonoBehaviour
         UpdateAnimation();
     }
 
-    // 🌟 ปล่อยแมวลงที่ InteractionZone โดยเปิดระบบฟิสิกส์/AI และเปิด Sprite กลับมาแสดงผล
     public GameObject ReleaseHeldCat(Vector3 targetPosition)
     {
         isHoldingCat = false;
@@ -206,25 +207,21 @@ public class PlayerController2D : MonoBehaviour
         {
             string variantID = heldCatData != null ? heldCatData.catID : "";
 
-            bool isVariantA = variantID.Contains("Kow") || variantID.Equals("AIKow");
-            bool isVariantB = variantID.Contains("Dum") || variantID.Equals("AIDum");
-            bool isVariantC = variantID.Contains("Som") || variantID.Equals("AISom");
+            // ค้นหาค่า Mapping จาก Inspector List
+            CatAnimationMapping matchedMapping = catAnimationMappings.Find(m => !string.IsNullOrEmpty(variantID) && variantID.Contains(m.variantID));
+
+            if (string.IsNullOrEmpty(matchedMapping.variantID) && catAnimationMappings.Count > 0)
+            {
+                matchedMapping = catAnimationMappings[0]; // Fallback ตัวแรก
+            }
 
             if (!isMoving)
             {
-                // --- IDLE HOLDING VARIANTS ---
-                if (isVariantA) targetState = AnimState.HoldCatA_Idle;
-                else if (isVariantB) targetState = AnimState.HoldCatB_Idle;
-                else if (isVariantC) targetState = AnimState.HoldCatC_Idle;
-                else targetState = AnimState.HoldCatA_Idle;
+                targetState = matchedMapping.idleAnimState;
             }
             else
             {
-                // --- WALK HOLDING VARIANTS ---
-                if (isVariantA) targetState = AnimState.HoldCatA_Walk;
-                else if (isVariantB) targetState = AnimState.HoldCatB_Walk;
-                else if (isVariantC) targetState = AnimState.HoldCatC_Walk;
-                else targetState = AnimState.HoldCatA_Walk;
+                targetState = matchedMapping.walkAnimState;
 
                 if (spriteRenderer != null && movement.x != 0)
                 {
@@ -297,7 +294,6 @@ public class PlayerController2D : MonoBehaviour
 
     void FixedUpdate()
     {
-        // 🟢 แก้ไขตรงนี้เช่นกัน: เอา || IsGamePaused ออก
         if (IsLocked)
         {
             rb.linearVelocity = Vector2.zero;

@@ -1,0 +1,403 @@
+fileFormatVersion: 2
+guid: b30a59c925b2c524a826dc0faec73af7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5528774565922434239
+    second: WalkSideCatWhi-Sheet_0
+  - first:
+      213: -7087247830683023665
+    second: WalkSideCatWhi-Sheet_1
+  - first:
+      213: 7419018901718806252
+    second: WalkSideCatWhi-Sheet_2
+  - first:
+      213: 5211067335275550123
+    second: WalkSideCatWhi-Sheet_3
+  - first:
+      213: 2160610131639610450
+    second: WalkSideCatWhi-Sheet_4
+  - first:
+      213: 437029658307420857
+    second: WalkSideCatWhi-Sheet_5
+  - first:
+      213: -8193588070051710095
+    second: WalkSideCatWhi-Sheet_6
+  - first:
+      213: 2681461087655037340
+    second: WalkSideCatWhi-Sheet_7
+  - first:
+      213: -4671851660834482373
+    second: WalkSideCatWhi-Sheet_8
+  - first:
+      213: -7623795562833356452
+    second: WalkSideCatWhi-Sheet_9
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 600
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: WalkSideCatWhi-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 6364
+        width: 713
+        height: 1589
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1439af233d8d543b0800000000000000
+      internalID: -5528774565922434239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkSideCatWhi-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 2746
+        y: 6369
+        width: 718
+        height: 1599
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc60bf8d5a905ad90800000000000000
+      internalID: -7087247830683023665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkSideCatWhi-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 4785
+        y: 6365
+        width: 737
+        height: 1603
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ceeabda2266a5f660800000000000000
+      internalID: 7419018901718806252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkSideCatWhi-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 701
+        y: 4332
+        width: 718
+        height: 1571
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba59dbbc12e615840800000000000000
+      internalID: 5211067335275550123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkSideCatWhi-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 2750
+        y: 4322
+        width: 713
+        height: 1583
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25c2d72a7770cfd10800000000000000
+      internalID: 2160610131639610450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkSideCatWhi-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 4798
+        y: 4362
+        width: 713
+        height: 1563
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b269b3a824a01600800000000000000
+      internalID: 437029658307420857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkSideCatWhi-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 2274
+        width: 718
+        height: 1576
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17b70b0df078a4e80800000000000000
+      internalID: -8193588070051710095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkSideCatWhi-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 2737
+        y: 2295
+        width: 737
+        height: 1543
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9906b8f6a6763520800000000000000
+      internalID: 2681461087655037340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkSideCatWhi-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 4797
+        y: 2268
+        width: 718
+        height: 1587
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3754a0caaf3a2fb0800000000000000
+      internalID: -4671851660834482373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkSideCatWhi-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 225
+        width: 713
+        height: 1604
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c595e150456d23690800000000000000
+      internalID: -7623795562833356452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      WalkSideCatWhi-Sheet_0: -5528774565922434239
+      WalkSideCatWhi-Sheet_1: -7087247830683023665
+      WalkSideCatWhi-Sheet_2: 7419018901718806252
+      WalkSideCatWhi-Sheet_3: 5211067335275550123
+      WalkSideCatWhi-Sheet_4: 2160610131639610450
+      WalkSideCatWhi-Sheet_5: 437029658307420857
+      WalkSideCatWhi-Sheet_6: -8193588070051710095
+      WalkSideCatWhi-Sheet_7: 2681461087655037340
+      WalkSideCatWhi-Sheet_8: -4671851660834482373
+      WalkSideCatWhi-Sheet_9: -7623795562833356452
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
