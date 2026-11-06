@@ -7,15 +7,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 #endif
 
-/// <summary>
-/// Boba station.
-///  Display layers (stay at the slot):  glassImage, teaFillImage
-///  Fly proxies (hidden until click):   flyGlassImage, flyBobaImage
-///  Stream:                             streamImage (behind everything except the background)
-///
-/// Click -> glass + boba proxies fly to the slot -> display glass shows "empty", then "glass + boba"
-///       -> stream pours (behind all layers) while the tea fills -> final cup -> inventory.
-/// </summary>
 public class DrinkStation : MonoBehaviour, IGamepadNavigable
 {
     [Header("Canvas / Button")]
@@ -25,8 +16,8 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
     public RectTransform bobaSource;
 
     [Header("Display layers (placed at the slot, same size & pivot)")]
-    public Image glassImage;      // empty glass -> glass+boba -> final cup
-    public Image teaFillImage;    // Cup sprite, revealed bottom -> top
+    public Image glassImage;
+    public Image teaFillImage;
 
     [Header("Fly proxies (hidden by default, same size & pivot as glassImage)")]
     public Image flyGlassImage;
@@ -39,10 +30,7 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
     public float streamFps = 12f;
     public float streamGrowTime = 0.2f;
     public float streamRetractTime = 0.15f;
-    [Tooltip("OFF: stream retracts up into the tap. ON: the top is cut and the tail falls into the glass")]
     public bool streamTailFalls = false;
-    // NOTE: the stream keeps the size you set in the scene. It is never resized or squashed;
-    // it is only revealed with Image fill (top -> bottom), so it always looks like the sprite.
 
     [Header("Sprites")]
     public Sprite emptyGlassSprite;
@@ -56,21 +44,18 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
 
     [Header("Timing")]
     public float glassFlyDuration = 0.45f;
-    public float bobaFlyDelay = 0.15f;      // 0 = glass and boba fly together
+    public float bobaFlyDelay = 0.15f;
     public float bobaFlyDuration = 0.4f;
     public float waitAfterLand = 0.3f;
     public float fillDuration = 3f;
     public float finishDelay = 0.5f;
     public float flyArcHeight = 80f;
-    [Tooltip("Flying objects start at this fraction of the slot size and grow to 100%")]
     [Range(0.2f, 1f)] public float flyStartScale = 0.7f;
 
     [Header("Sizing")]
-    [Tooltip("Copies GlassImage's size/pivot/scale onto the fly proxies and the tea layer at runtime")]
     public bool matchSlotSize = true;
 
     [Header("Layer order")]
-    [Tooltip("Reorders the siblings: stream (back) > glass > tea > fly proxies (front). All must share one parent")]
     public bool autoOrderLayers = true;
 
     [Header("Drink")]
@@ -102,8 +87,6 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
         if (emptyGlassButton != null) emptyGlassButton.onClick.AddListener(OnEmptyGlassClicked);
     }
 
-    // stream at the back, then glass, tea, and the flying proxies on top.
-    // Uses the lowest sibling index of the group so the background stays behind them.
     void OrderLayers()
     {
         Image[] order = { streamImage, glassImage, teaFillImage, flyGlassImage, flyBobaImage };
@@ -112,8 +95,7 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
         {
             if (img == null) continue;
             if (parent == null) parent = img.transform.parent;
-            else if (img.transform.parent != parent)
-            { Debug.LogWarning("DrinkStation: layer images must share one parent to auto-order."); return; }
+            else if (img.transform.parent != parent) return;
             min = Mathf.Min(min, img.transform.GetSiblingIndex());
         }
         if (parent == null) return;
@@ -153,7 +135,6 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
     public void OnBack() => CloseCanvas();
     public void OnNavigate(Vector2 direction) { }
 
-    // ---------- Open / Close ----------
     public void OpenCanvas()
     {
         if (stationDrinksCanvas != null) stationDrinksCanvas.SetActive(true);
@@ -177,7 +158,6 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
         DayNightManager.Instance?.ResumeGame();
     }
 
-    // ---------- Main flow ----------
     public void OnEmptyGlassClicked()
     {
         if (isProcessing) return;
@@ -191,15 +171,13 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
         glassLanded = bobaLanded = false;
         pendingFlights = 2;
 
-        Vector3 slot = glassImage.rectTransform.position;   // the display layer IS the slot
+        Vector3 slot = glassImage.rectTransform.position;
         if (matchSlotSize)
         {
             MatchToSlot(flyGlassImage);
             MatchToSlot(flyBobaImage);
-            MatchToSlot(teaFillImage);
         }
 
-        // 1) both proxies fly to the slot (boba can start a moment later)
         flyGlassImage.sprite = emptyGlassSprite;
         flyBobaImage.sprite = bobaSprite;
         StartCoroutine(Fly(flyGlassImage.rectTransform, emptyGlassButton.transform.position, slot,
@@ -216,6 +194,7 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
         teaFillImage.fillMethod = Image.FillMethod.Vertical;
         teaFillImage.fillOrigin = (int)Image.OriginVertical.Bottom;
         teaFillImage.fillAmount = fillStart;
+
         teaFillImage.rectTransform.position = slot;
         teaFillImage.gameObject.SetActive(true);
 
@@ -233,7 +212,7 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
             yield return null;
         }
 
-        teaFillImage.fillAmount = 1f;   // show the whole cup sprite
+        teaFillImage.fillAmount = 1f;
         float r = 0f;
         if (streamTailFalls && streamImage != null) streamImage.fillOrigin = (int)Image.OriginVertical.Bottom;
         while (r < streamRetractTime)
@@ -245,9 +224,7 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
         StopStream();
         if (sfxSource != null && sfxSource.isPlaying) sfxSource.Stop();
 
-        // 3) done
-        glassImage.sprite = cupSprite;
-        teaFillImage.gameObject.SetActive(false);
+        // 3) done (จบที่กระบวนการเติมน้ำชาเรียบร้อย)
         PlaySfx(completeSoundClip);
         yield return WaitUnscaled(finishDelay);
 
@@ -256,11 +233,9 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
         CloseCanvas();
     }
 
-    // ---------- Landing ----------
     private void OnGlassLanded() { glassLanded = true; PlaySfx(glassPlaceClip); RefreshDisplay(); }
     private void OnBobaLanded() { bobaLanded = true; PlaySfx(bobaDropClip); RefreshDisplay(); }
 
-    // display glass shows empty first, then swaps to glass+boba; proxies hide once they landed
     private void RefreshDisplay()
     {
         if (glassLanded)
@@ -278,7 +253,7 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
         rt.gameObject.SetActive(false);
         if (delay > 0f) yield return WaitUnscaled(delay);
         rt.gameObject.SetActive(true);
-        Vector3 endScale = glassImage.rectTransform.localScale;   // same scale as the slot
+        Vector3 endScale = glassImage.rectTransform.localScale;
         rt.position = from;
         rt.localScale = endScale * flyStartScale;
 
@@ -299,25 +274,23 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
         onLand?.Invoke();
     }
 
-    // make a proxy exactly the size of the display glass (works with any anchor setup)
     private void MatchToSlot(Image img)
     {
         if (img == null || glassImage == null) return;
         RectTransform src = glassImage.rectTransform, dst = img.rectTransform;
         dst.pivot = src.pivot;
+        dst.anchorMin = src.anchorMin;
+        dst.anchorMax = src.anchorMax;
         dst.localScale = src.localScale;
-        dst.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, src.rect.width);
-        dst.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, src.rect.height);
+        dst.sizeDelta = src.sizeDelta;
         img.preserveAspect = glassImage.preserveAspect;
         img.raycastTarget = false;
     }
 
-    // ---------- Stream ----------
     private void StartStream()
     {
         if (streamImage == null) return;
         streamImage.sprite = (streamFrames != null && streamFrames.Length > 0) ? streamFrames[0] : streamStaticSprite;
-        // reveal with fill instead of resizing, so the sprite is never squashed
         streamImage.type = Image.Type.Filled;
         streamImage.fillMethod = Image.FillMethod.Vertical;
         streamImage.fillOrigin = (int)Image.OriginVertical.Top;
@@ -337,7 +310,6 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
 
     private void StopStream() { if (streamImage != null) streamImage.gameObject.SetActive(false); }
 
-    // ---------- Helpers ----------
     private IEnumerator WaitUnscaled(float seconds)
     {
         float t = 0f;

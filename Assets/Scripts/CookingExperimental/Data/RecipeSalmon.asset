@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbda87dc25d8d26408284c36c8144e95, type: 3}
-  m_Name: Recipe3
+  m_Name: RecipeSalmon
   m_EditorClassIdentifier: Assembly-CSharp::RecipeSO
-  recipeName: BreadPizza
+  recipeName: SalmonCannedSeasoning
   requiredIngredients:
-  - Bread
+  - Salmon
+  - Onion
   - Tomato
-  - Cheese
-  finalDishSprite: {fileID: 21300000, guid: 76acb612419cbd140bdcfe20fc282640, type: 3}
+  finalDishSprite: {fileID: 21300000, guid: e3f5c181369f1e94192d25fe8d977a45, type: 3}

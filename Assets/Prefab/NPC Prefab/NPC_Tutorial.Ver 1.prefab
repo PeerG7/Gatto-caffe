@@ -551,7 +551,7 @@ SpriteRenderer:
   m_SortingOrder: -1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6548814692687787910, guid: 6b15e1b94dd8dc64989b822bfe89e2d6, type: 3}
-  m_Color: {r: 1, g: 0.82810515, b: 0.5896226, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -689,10 +689,7 @@ MonoBehaviour:
   orderIcon: {fileID: 1790485472768442124}
   requestedRecipe: {fileID: 0}
   allRecipes:
-  - {fileID: 11400000, guid: 10c4d66a0285b4249b647e71f5334fa1, type: 2}
   - {fileID: 11400000, guid: a51d8199a988c9746ae1f4b920e00e9d, type: 2}
-  - {fileID: 11400000, guid: 0ca36e83b1abe984bb2cd2068d6c15fd, type: 2}
-  - {fileID: 11400000, guid: 739149515113ffe4f817909b02c5f075, type: 2}
   animator: {fileID: 0}
   bodySpriteRenderer: {fileID: 0}
   idleBeforeSitDuration: 0.4

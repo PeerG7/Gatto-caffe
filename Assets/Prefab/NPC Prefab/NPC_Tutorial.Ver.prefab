@@ -690,9 +690,6 @@ MonoBehaviour:
   requestedRecipe: {fileID: 0}
   allRecipes:
   - {fileID: 11400000, guid: 10c4d66a0285b4249b647e71f5334fa1, type: 2}
-  - {fileID: 11400000, guid: a51d8199a988c9746ae1f4b920e00e9d, type: 2}
-  - {fileID: 11400000, guid: 0ca36e83b1abe984bb2cd2068d6c15fd, type: 2}
-  - {fileID: 11400000, guid: 739149515113ffe4f817909b02c5f075, type: 2}
   animator: {fileID: 0}
   bodySpriteRenderer: {fileID: 0}
   idleBeforeSitDuration: 0.4

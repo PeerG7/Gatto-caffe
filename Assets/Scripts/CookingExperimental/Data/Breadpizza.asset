@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbda87dc25d8d26408284c36c8144e95, type: 3}
-  m_Name: Recipe2
+  m_Name: Breadpizza
   m_EditorClassIdentifier: Assembly-CSharp::RecipeSO
-  recipeName: Tempura
+  recipeName: BreadPizza
   requiredIngredients:
-  - Tempura
-  - Tempura
-  - Tempura
-  finalDishSprite: {fileID: 21300000, guid: 4c149a5652f10fd47b53db856f79353e, type: 3}
+  - Bread
+  - Tomato
+  - Cheese
+  finalDishSprite: {fileID: 21300000, guid: 76acb612419cbd140bdcfe20fc282640, type: 3}

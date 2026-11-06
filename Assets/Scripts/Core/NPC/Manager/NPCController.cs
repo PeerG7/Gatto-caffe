@@ -115,6 +115,9 @@ public class NPCController : MonoBehaviour
     public RecipeSO requestedRecipe;
     public List<RecipeSO> allRecipes;
 
+    [Header("Menu Chat Bubble Reference")]
+    public CatMenuChatBubble menuChatBubble;
+
     [Header("Animation Settings")]
     public Animator animator;
     public SpriteRenderer bodySpriteRenderer;
@@ -214,7 +217,6 @@ public class NPCController : MonoBehaviour
 
     void Update()
     {
-        // 🌟 ถ้าเกม Pause แต่แมวตัวนี้เปิดสิทธิ์ให้เดินได้ (ignorePauseForWalking = true) จะข้ามการหยุดนี้ไป
         if (GameIsPaused && !ignorePauseForWalking)
         {
             if (agent != null && agent.enabled && agent.isOnNavMesh) agent.isStopped = true;
@@ -228,7 +230,6 @@ public class NPCController : MonoBehaviour
             }
         }
 
-        // 🌟 ป้องกัน Error เมื่อ Agent ถูกปิดใช้งานหรือไม่อยู่บน NavMesh (เช่น ตอนอุ้มแมว)
         if (agent == null || !agent.enabled || !agent.isOnNavMesh) return;
 
         UpdateMovementAnimation();
@@ -236,10 +237,8 @@ public class NPCController : MonoBehaviour
 
         if (currentState == NPCState.InQueue)
         {
-            // 🟢 ป้องกันไม่ให้บล็อกคิวทำงานทับซ้อนถ้าระบบเริ่มสั่งให้เดินไปโต๊ะแล้ว
             if (currentState != NPCState.InQueue) return;
 
-            // เช็กว่าเดินมาถึงจุดคิวหรือยัง
             bool isAtCurrentQueuePoint = !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
 
             if (isAtCurrentQueuePoint)
@@ -249,7 +248,6 @@ public class NPCController : MonoBehaviour
                     hasReachedQueueOnce = true;
                     ignorePauseForWalking = false;
 
-                    // สั่งให้ Agent หยุดนิ่งสนิทและเคลียร์ความเร็วเมื่อเข้ามายืนประจำที่ในคิวสำเร็จ
                     if (agent != null && agent.enabled && agent.isOnNavMesh)
                     {
                         agent.isStopped = true;
@@ -259,7 +257,6 @@ public class NPCController : MonoBehaviour
             }
             else
             {
-                // ถ้ายังเดินมาไม่ถึง ให้มั่นใจว่า Agent ยังอนุญาตให้เดินต่อ
                 if (agent != null && agent.enabled && agent.isOnNavMesh && agent.isStopped)
                 {
                     agent.isStopped = false;
@@ -302,7 +299,6 @@ public class NPCController : MonoBehaviour
                 ArriveAtDamageTarget();
         }
 
-        // 🟢 GUIDE EVENT: แมวยืนรอให้ Player มากด E เพื่อจูง (มี Alert บนหัว)
         if (currentState == NPCState.WaitingForGuidance)
         {
             if (!GameIsPaused) guidanceWaitTimer += Time.deltaTime;
@@ -480,18 +476,10 @@ public class NPCController : MonoBehaviour
         }
     }
 
-    // =====================================================================
-    // 🟢 GUIDE EVENT SYSTEM
-    // =====================================================================
-
-    /// <summary>
-    /// สุ่ม Guide Event ตอนถูกเชิญ (สุ่มครั้งเดียวต่อกลุ่ม) — คืน true ถ้าแมวต้องรอให้ Player จูง
-    /// </summary>
     private bool TryStartGuidanceEvent()
     {
         if (hasRolledGuidance) return false;
 
-        // ไม่มีโต๊ะว่าง → ไม่ต้องสุ่ม ปล่อยให้ logic เดิมจัดการ (แมวยืนรอในคิวต่อ)
         if (!HasAvailableTableForGroup(GetGroupSize())) return false;
 
         bool needGuide = Random.Range(0, 100) < guideEventChance;
@@ -535,8 +523,6 @@ public class NPCController : MonoBehaviour
 
         SetAnimState(AnimState.Idle);
         if (guidanceIconObject != null) guidanceIconObject.SetActive(true);
-
-        Debug.Log($"[NPCController] ❗ แมว {gameObject.name} ไม่รู้ตำแหน่งโต๊ะ รอให้ Player มาจูง");
     }
 
     private void OnGuidanceTimeout()
@@ -559,9 +545,6 @@ public class NPCController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// ตั้งค่าออเดอร์/ภาพบนโต๊ะ (แยกออกมาจาก GoToTableDirectly เพื่อให้ TrySitAtTable ใช้ร่วมกันได้)
-    /// </summary>
     private void PrepareOrderForTable(CustomerTable targetTable)
     {
         if (targetTable == null) return;
@@ -582,10 +565,6 @@ public class NPCController : MonoBehaviour
         targetTable.SetVIPVisual(isVIP);
     }
 
-    /// <summary>
-    /// 🟢 FIX: ถ้าเกมยัง Pause อยู่ (ช่วง Tutorial/MainQuest) ให้แมวที่ถูกเชิญ/ถูกจูงเดินต่อได้
-    /// เพราะตอนถึงจุดคิว flag ignorePauseForWalking ถูกรีเซ็ตเป็น false ทำให้ Update() หยุด Agent ทุกเฟรม
-    /// </summary>
     private void AllowWalkingWhilePausedIfTutorial()
     {
         bool tutorialActive = MainQuestManager.Instance != null &&
@@ -598,10 +577,8 @@ public class NPCController : MonoBehaviour
     {
         isInteractionAllowed = false;
 
-        // 🟢 กำลังรอให้จูง/ถูกจูงอยู่แล้ว ไม่ต้องสั่งซ้ำ
         if (currentState == NPCState.WaitingForGuidance || currentState == NPCState.FollowingPlayer) return;
 
-        // 🟢 GUIDE EVENT: สุ่มตามค่า guideEventChance ถ้าติด แมวจะรอให้ Player มาจูงแทนการเดินไปโต๊ะเอง
         if (TryStartGuidanceEvent()) return;
 
         int groupSize = GetGroupSize();
@@ -609,7 +586,6 @@ public class NPCController : MonoBehaviour
 
         var availableTables = allTables.Where(t =>
         {
-            // 🌟 ปรับปรุงการเช็ค FurnitureObject ให้ปลอดภัยยิ่งขึ้น (ป้องกันกรณีหาไม่เจอแล้วให้ถือว่าปลดล็อกแล้ว)
             FurnitureObject furniture = t.GetComponent<FurnitureObject>();
             if (furniture == null) furniture = t.GetComponentInChildren<FurnitureObject>();
 
@@ -641,18 +617,12 @@ public class NPCController : MonoBehaviour
                 .FirstOrDefault();
         }
 
-        // 🌟 เช็กก่อนว่ามีโต๊ะว่างจริงไหม ถ้าไม่มีโต๊ะ ให้ยกเลิกการเชิญและปล่อยให้แมวยืนรอในคิวตามเดิม ไม่ค้างแข็ง
-        if (targetTable == null)
-        {
-            Debug.LogWarning($"[NPCController] ❌ ไม่พบโต๊ะว่างสำหรับแมว {gameObject.name} (Group Size: {groupSize})");
-            return;
-        }
+        if (targetTable == null) return;
 
-        // ถ้ามีโต๊ะว่าง ค่อยถอดออกจากคิวและพาเดินไปโต๊ะ
         if (QueueManager.Instance != null) QueueManager.Instance.RemoveFromQueue(this);
         if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
         hasReachedQueueOnce = false;
-        AllowWalkingWhilePausedIfTutorial(); // 🟢 FIX: ปลดล็อกให้เดินได้แม้เกม Pause
+        AllowWalkingWhilePausedIfTutorial();
 
         if (agent != null)
         {
@@ -677,7 +647,6 @@ public class NPCController : MonoBehaviour
             {
                 agent.isStopped = false;
                 agent.SetDestination(seatPoint.position);
-                Debug.Log($"[NPCController] 🟢 สั่งให้แมว {gameObject.name} เดินไปโต๊ะสำเร็จ");
             }
         }
     }
@@ -759,11 +728,9 @@ public class NPCController : MonoBehaviour
         currentState = NPCState.Sitting;
         if (agent != null && agent.enabled) agent.isStopped = true;
 
-        // 🌟 แก้ไขให้เช็คเฉพาะ QuestStep.GuideCat2ToTable ที่ถูกต้อง
         if (MainQuestManager.Instance != null && MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.GuideCat2ToTable)
         {
             MainQuestManager.Instance.AdvanceQuest();
-            Debug.Log($"[NPCController] ✅ แมว {gameObject.name} นั่งลงที่โต๊ะเรียบร้อย — อัปเดตเควสเป็นสเต็ปทำอาหารต่อ!");
         }
 
         StartCoroutine(EnterSeatRoutine());
@@ -797,6 +764,14 @@ public class NPCController : MonoBehaviour
             }
 
             SetAnimState(AnimState.ReadingMenu);
+
+            // 🌟 IMPLEMENTED: Trigger food menu chat bubble here
+            if (menuChatBubble != null)
+            {
+                bool faceRight = (bodySpriteRenderer != null) ? !bodySpriteRenderer.flipX : true;
+                menuChatBubble.ShowFoodMenuBubble(faceRight, 2.0f, allRecipes);
+            }
+
             yield return new WaitForSeconds(2.0f);
 
             if (bodySpriteRenderer != null)
@@ -914,7 +889,6 @@ public class NPCController : MonoBehaviour
 
         while (eatTimer < eatDuration)
         {
-            // 🌟 เช็คว่าถ้าเกม Pause แต่ยังอยู่ในช่วง Tutorial/MainQuest ยอมให้เวลาเดินต่อได้
             bool tutorialActive = MainQuestManager.Instance != null &&
                                   MainQuestManager.Instance.currentQuest != MainQuestManager.QuestStep.Completed;
 
@@ -939,8 +913,6 @@ public class NPCController : MonoBehaviour
                 currentState = NPCState.Sitting;
 
                 if (carryIconObject != null) carryIconObject.SetActive(true);
-
-                Debug.Log($"[NPCController] 🐱 แมว {gameObject.name} ต้องการให้อุ้มไปส่งที่โซน!");
                 yield break;
             }
 
@@ -1073,6 +1045,15 @@ public class NPCController : MonoBehaviour
 
     public bool CanRequestInteractionChoice()
     {
+        NPCController[] allNPCs = FindObjectsOfType<NPCController>();
+        foreach (var npc in allNPCs)
+        {
+            if (npc != null && npc != this && npc.IsPerforming)
+            {
+                return false;
+            }
+        }
+
         return CurrentPhase == CatPhase.PlayingPhase && isInteractionAllowed && currentState == NPCState.AtInteractionZone && assignedTable == null;
     }
 
@@ -1080,7 +1061,6 @@ public class NPCController : MonoBehaviour
     {
         if (!CanRequestInteractionChoice())
         {
-            Debug.LogWarning($"[NPCController] บล็อกการ Request Interaction บน {gameObject.name}");
             PlayerController2D.SetLock(false);
             return;
         }
@@ -1181,7 +1161,6 @@ public class NPCController : MonoBehaviour
         float timer = 0f;
         while (timer < safePlayDuration)
         {
-            // 🌟 เพิ่มการเช็ค tutorialActive เพื่อให้เวลานับต่อได้แม้เกม Pause ช่วงทำเควส
             bool tutorialActive = MainQuestManager.Instance != null &&
                                   MainQuestManager.Instance.currentQuest != MainQuestManager.QuestStep.Completed;
 
@@ -1238,11 +1217,9 @@ public class NPCController : MonoBehaviour
             currentZone = null;
         }
 
-        // 🌟 เพิ่มตรงนี้: ถ้ากำลังอยู่ในสเต็ปอุ้มแมวส่งโซน ให้สั่งจบเควสหลักทันทีเมื่อโต้ตอบเสร็จ
         if (MainQuestManager.Instance != null && MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.CarryCat2ToZone)
         {
             MainQuestManager.Instance.AdvanceQuest();
-            Debug.Log("[NPCController] ✅ ทำภารกิจอุ้มแมวส่ง Interaction Zone สำเร็จ — เปลี่ยนสถานะเควสเป็น Completed!");
         }
 
         GoExit();
@@ -1539,7 +1516,6 @@ public class NPCController : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"[NPCController] ไม่พบ GameObject ชื่อ 'ExitPoint' ใน Scene!");
                 Destroy(gameObject);
                 return;
             }
@@ -1624,12 +1600,14 @@ public class NPCController : MonoBehaviour
         }
         return false;
     }
+
     public float GetPatienceRatio()
     {
         if (actualWaitTime <= 0f) return 1f;
         float ratio = 1f - Mathf.Clamp01(waitTimer / actualWaitTime);
         return ratio;
     }
+
     public void StartFollowingPlayer(Transform player)
     {
         if (!needsGuidance) return;
@@ -1665,7 +1643,6 @@ public class NPCController : MonoBehaviour
             agent.enabled = true;
             agent.isStopped = false;
         }
-        Debug.Log($"[NPCController] 🐾 เริ่มจูงแมว {gameObject.name} แล้ว!");
     }
 
     public bool TrySitAtTable(CustomerTable targetTable)
@@ -1687,7 +1664,6 @@ public class NPCController : MonoBehaviour
 
         if (targetTable.seatPoints.Count - targetTable.sittingNPCs.Count < groupMembers.Count)
         {
-            Debug.Log("❌ โต๊ะนี้มีที่นั่งไม่พอสำหรับแมวทั้งกลุ่มนี้!");
             return false;
         }
 
@@ -1704,7 +1680,7 @@ public class NPCController : MonoBehaviour
                 member.needsGuidance = false;
                 member.playerTransformToFollow = null;
 
-                member.AllowWalkingWhilePausedIfTutorial(); // 🟢 FIX
+                member.AllowWalkingWhilePausedIfTutorial();
                 member.currentState = NPCState.GoingToSeat;
                 if (member.agent != null && member.agent.enabled && member.agent.isOnNavMesh)
                 {
@@ -1714,7 +1690,6 @@ public class NPCController : MonoBehaviour
             }
         }
 
-        Debug.Log($"[NPCController] ✅ พาแมวกลุ่ม {groupID} (จำนวน {groupMembers.Count} ตัว) มานั่งที่โต๊ะสำเร็จ!");
         return true;
     }
 }

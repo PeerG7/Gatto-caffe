@@ -699,6 +699,7 @@ GameObject:
   - component: {fileID: -5356403157017444377}
   - component: {fileID: -5958677009853110603}
   - component: {fileID: 1524529875071597017}
+  - component: {fileID: 3464412744040750348}
   m_Layer: 0
   m_Name: NPC 3
   m_TagString: Untagged
@@ -876,13 +877,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCController
   targetObject: {fileID: 0}
   exitPoint: {fileID: 0}
-  guideEventChance: 0
+  guideEventChance: 20
   needsGuidance: 0
   guidanceIconObject: {fileID: 157906316601054193}
   playerTransformToFollow: {fileID: 0}
   followStopDistance: 1.2
   guidanceWaitTimeout: 30
-  carryEventChance: 20
+  carryEventChance: 10
   needsToBeCarried: 0
   carryIconObject: {fileID: 157906316601054193}
   ignorePauseForWalking: 0
@@ -922,7 +923,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 10c4d66a0285b4249b647e71f5334fa1, type: 2}
   - {fileID: 11400000, guid: a51d8199a988c9746ae1f4b920e00e9d, type: 2}
   - {fileID: 11400000, guid: 0ca36e83b1abe984bb2cd2068d6c15fd, type: 2}
-  - {fileID: 11400000, guid: 739149515113ffe4f817909b02c5f075, type: 2}
+  menuChatBubble: {fileID: 3464412744040750348}
   animator: {fileID: 0}
   bodySpriteRenderer: {fileID: 0}
   idleBeforeSitDuration: 0.4
@@ -1146,6 +1147,31 @@ MonoBehaviour:
   displayDuration: 3.5
   iconSwapInterval: 1
   avoidRepeatingIcon: 1
+  artTailPointsRight: 1
+  mirrorPosition: 1
+  popDuration: 0.15
+  bobAmount: 0.03
+  bobSpeed: 6
+--- !u!114 &3464412744040750348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500671038587446994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60a87a4794c5d76419d6a179f0d98fd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatMenuChatBubble
+  bubbleCanvas: {fileID: 158404477161058095}
+  iconImage: {fileID: 1223381438868679956}
+  foodIcons:
+  - {fileID: 21300000, guid: ae9cc373eba0d744299193b754956386, type: 3}
+  - {fileID: 21300000, guid: 4c149a5652f10fd47b53db856f79353e, type: 3}
+  - {fileID: 21300000, guid: e3f5c181369f1e94192d25fe8d977a45, type: 3}
+  - {fileID: 21300000, guid: b82d3632ccf06ae4ba0189dd02cf3ce0, type: 3}
+  iconSwapInterval: 1
   artTailPointsRight: 1
   mirrorPosition: 1
   popDuration: 0.15

@@ -15,4 +15,4 @@ MonoBehaviour:
   recipeName: Milk
   requiredIngredients:
   - Milk
-  finalDishSprite: {fileID: 21300000, guid: b82d3632ccf06ae4ba0189dd02cf3ce0, type: 3}
+  finalDishSprite: {fileID: 21300000, guid: c4a30bb36bceb6748ba70aa7f1d7ae6f, type: 3}

@@ -699,6 +699,7 @@ GameObject:
   - component: {fileID: -5356403157017444377}
   - component: {fileID: -5958677009853110603}
   - component: {fileID: 1524529875071597017}
+  - component: {fileID: 1604063150532982097}
   m_Layer: 0
   m_Name: NPC 1
   m_TagString: Untagged
@@ -911,6 +912,7 @@ MonoBehaviour:
   absoluteMaxSitTime: 120
   isVIP: 0
   vipMoneyMultiplier: 2
+  menuChatBubble: {fileID: 1604063150532982097}
   isInQTE: 0
   isInteractionAllowed: 0
   currentState: 0
@@ -919,8 +921,6 @@ MonoBehaviour:
   requestedRecipe: {fileID: 0}
   allRecipes:
   - {fileID: 11400000, guid: f2c6a9269f681e941ad28820d8a5a292, type: 2}
-  - {fileID: 11400000, guid: 10c4d66a0285b4249b647e71f5334fa1, type: 2}
-  - {fileID: 11400000, guid: a51d8199a988c9746ae1f4b920e00e9d, type: 2}
   - {fileID: 11400000, guid: 0ca36e83b1abe984bb2cd2068d6c15fd, type: 2}
   - {fileID: 11400000, guid: 739149515113ffe4f817909b02c5f075, type: 2}
   animator: {fileID: 0}
@@ -1146,6 +1146,30 @@ MonoBehaviour:
   displayDuration: 3.5
   iconSwapInterval: 1
   avoidRepeatingIcon: 1
+  artTailPointsRight: 1
+  mirrorPosition: 1
+  popDuration: 0.15
+  bobAmount: 0.03
+  bobSpeed: 6
+--- !u!114 &1604063150532982097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500671038587446994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60a87a4794c5d76419d6a179f0d98fd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatMenuChatBubble
+  bubbleCanvas: {fileID: 158404477161058095}
+  iconImage: {fileID: 1223381438868679956}
+  foodIcons:
+  - {fileID: 21300000, guid: b82d3632ccf06ae4ba0189dd02cf3ce0, type: 3}
+  - {fileID: 21300000, guid: 76acb612419cbd140bdcfe20fc282640, type: 3}
+  - {fileID: 21300000, guid: 4c149a5652f10fd47b53db856f79353e, type: 3}
+  iconSwapInterval: 1
   artTailPointsRight: 1
   mirrorPosition: 1
   popDuration: 0.15
