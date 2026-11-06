@@ -76,7 +76,6 @@ public class DeepFryStation : MonoBehaviour
         isProcessing = true;
         if (fryButton != null) fryButton.interactable = false;
 
-        // Store original position prior to shaking
         if (shakeTarget != null)
             originalPosition = shakeTarget.anchoredPosition;
 
@@ -102,7 +101,6 @@ public class DeepFryStation : MonoBehaviour
             if (fillImage != null)
                 fillImage.fillAmount = elapsed / fryDuration;
 
-            // Apply slight random offset each frame
             if (shakeTarget != null)
             {
                 shakeTarget.anchoredPosition = originalPosition + (Random.insideUnitCircle * shakeIntensity);
@@ -121,6 +119,12 @@ public class DeepFryStation : MonoBehaviour
         PlayerInventory player = FindObjectOfType<PlayerInventory>();
         if (player != null)
             player.PickUpItem(foodName, foodSprite);
+
+        // 🌟 เช็คเควสทำอาหารสำเร็จตรงนี้ (ตอนทอดเสร็จเรียบร้อย)
+        if (MainQuestManager.Instance != null && MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.CookFood)
+        {
+            MainQuestManager.Instance.AdvanceQuest();
+        }
 
         ResetStation();
     }

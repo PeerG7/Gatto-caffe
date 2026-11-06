@@ -1,20 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro; // ใช้ TextMeshPro
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 
 public class DialogueController : MonoBehaviour
 {
     public static DialogueController Instance;
 
     [Header("UI Components")]
-    public GameObject dialoguePanel;       // ลาก Panel กล่องข้อความมาใส่
-    public TextMeshProUGUI dialogueText;   // ลาก Text ("New Text") มาใส่
-    public Image portraitImage;            // ลาก Image ช่องรูปภาพมาใส่
+    public GameObject dialoguePanel;
+    public TextMeshProUGUI dialogueText;
+    public Image portraitImage;
 
     [Header("Settings")]
-    public float typingSpeed = 0.04f;      // ความเร็วในการพิมพ์ข้อความทีละตัวอักษร
+    public float typingSpeed = 0.04f;
 
     private Queue<string> sentences = new Queue<string>();
     private bool isTyping = false;
@@ -29,7 +29,18 @@ public class DialogueController : MonoBehaviour
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
     }
 
-    // ฟังก์ชันเริ่มบทสนทนา (ส่ง Array ของประโยคเข้ามา)
+    void Update()
+    {
+        // 🟢 เพิ่มตรงนี้: ให้เช็กว่าถ้ากล่องข้อความเปิดอยู่ และผู้เล่นคลิกเมาส์ซ้าย หรือกด Space/Enter
+        if (dialoguePanel != null && dialoguePanel.activeSelf)
+        {
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            {
+                DisplayNextSentence();
+            }
+        }
+    }
+
     public void StartDialogue(string[] newSentences, Sprite portrait = null)
     {
         if (dialoguePanel != null) dialoguePanel.SetActive(true);
@@ -58,7 +69,6 @@ public class DialogueController : MonoBehaviour
 
     public void DisplayNextSentence()
     {
-        // ถ้ากำลังพิมพ์อยู่แล้วผู้เล่นกดคลิก/กดปุ่ม ให้แสดงข้อความทั้งหมดทันที
         if (isTyping)
         {
             if (typingCoroutine != null) StopCoroutine(typingCoroutine);
@@ -67,7 +77,6 @@ public class DialogueController : MonoBehaviour
             return;
         }
 
-        // ถ้าหมดประโยคแล้ว ให้ปิดกล่องข้อความ
         if (sentences.Count == 0)
         {
             EndDialogue();
@@ -96,7 +105,6 @@ public class DialogueController : MonoBehaviour
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
         Debug.Log("[Dialogue] จบบทสนทนาแล้ว!");
 
-        // ตรงนี้สามารถเรียกให้ไปทำขั้นตอนต่อไป (เช่น เริ่มเข้าสเต็ปที่ 2) ได้เลย
-        // เช่น IntroSequenceManager.Instance.OnDialogueFinished();
+        // ตรงนี้สามารถเรียกให้ไปทำขั้นตอนต่อไปได้ (เช่น โหลดฉาก Tutorial ต่อไป)
     }
 }

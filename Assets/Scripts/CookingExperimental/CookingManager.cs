@@ -316,6 +316,11 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
             yield return null;
         }
 
+        if (MainQuestManager.Instance != null && MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.CookFood)
+        {
+            MainQuestManager.Instance.AdvanceQuest();
+        }
+
         cookCoroutine = null;
         isCooking = false;
         if (sfxSource != null && sfxSource.isPlaying) sfxSource.Stop();

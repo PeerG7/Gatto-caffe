@@ -112,6 +112,8 @@ public class QueueManager : MonoBehaviour
             {
                 NPCInteract interact = npc.GetComponent<NPCInteract>();
                 if (interact != null) interact.isInStore = true;
+
+                // 🌟 เรียกสั่งงานให้เดินเข้าโต๊ะโดยตรง
                 npc.GoToTableDirectly();
             }
         }

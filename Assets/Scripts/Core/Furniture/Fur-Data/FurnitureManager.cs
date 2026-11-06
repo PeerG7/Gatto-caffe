@@ -197,6 +197,11 @@ public class FurnitureManager : MonoBehaviour
                 FurnitureEditUI.Instance.RestorePanelPosition();
                 FurnitureEditUI.Instance.RefreshUI();
             }
+
+            if (MainQuestManager.Instance != null && MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.BuyFurniture)
+            {
+                MainQuestManager.Instance.AdvanceQuest();
+            }
         }
         else
         {

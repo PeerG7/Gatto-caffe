@@ -196,10 +196,15 @@ public class CustomerTable : MonoBehaviour
             BoostRemainingNPCsPatience(targetNPC);
             player.ClearItem();
 
-            // 🟢 ตรวจสอบค่าความอดทน (Patience) ตอนที่เสิร์ฟ ถ้าเหลือต่ำกว่า 50% มีโอกาสสุ่ม Screen Smudge
             CheckAndTriggerSmudgeOnServe(targetNPC);
 
             targetNPC.StartEatingProcess();
+
+            // 🌟 ย้ายมาไว้ข้างในนี้ (อัปเดตเควสเฉพาะตอนเสิร์ฟสำเร็จจริงๆ เท่านั้น)
+            if (MainQuestManager.Instance != null && MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.ServeFood)
+            {
+                MainQuestManager.Instance.AdvanceQuest();
+            }
         }
         else
         {

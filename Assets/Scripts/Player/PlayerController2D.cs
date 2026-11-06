@@ -88,7 +88,8 @@ public class PlayerController2D : MonoBehaviour
             isHoldingItem = playerInventory.HasItem();
         }
 
-        if (IsLocked || IsGamePaused)
+        // 🟢 แก้ไขตรงนี้: เอา || IsGamePaused ออก ให้ล็อกเฉพาะตอน IsLocked เป็นจริงเท่านั้น
+        if (IsLocked)
         {
             movement = Vector2.zero;
             UpdateAnimation();
@@ -296,7 +297,8 @@ public class PlayerController2D : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (IsLocked || IsGamePaused)
+        // 🟢 แก้ไขตรงนี้เช่นกัน: เอา || IsGamePaused ออก
+        if (IsLocked)
         {
             rb.linearVelocity = Vector2.zero;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;

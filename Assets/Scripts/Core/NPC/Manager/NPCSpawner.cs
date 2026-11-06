@@ -11,16 +11,21 @@ public class NPCSpawner : MonoBehaviour
     public Transform exitPoint;
 
     [Header("Group Spawn Settings")]
-    [Tooltip("โอกาส % ที่ NPC จะเกิดพร้อมกันเป็นกลุ่ม")]
     [Range(0, 100)] public int groupSpawnChance = 40;
-    [Tooltip("ขนาดกลุ่มขั้นต่ำ")] public int minGroupSize = 2;
-    [Tooltip("ขนาดกลุ่มสูงสุด")] public int maxGroupSize = 2;
+    public int minGroupSize = 2;
+    public int maxGroupSize = 2;
 
     [Header("VIP Cat Settings")]
     public GameObject[] vipNpcPrefabs;
     [Range(0, 100)] public int vipSpawnChance = 10;
-    [Tooltip("ค่าสูงสุดที่เป็นไปได้ของโอกาสเกิด VIP เพื่อป้องกันไม่ให้แย่งแมวธรรมดา")]
-    [Range(0, 100)] public int maxVipSpawnChance = 40; // 🌟 กำหนดเพดานสูงสุด เช่น 40%
+    [Range(0, 100)] public int maxVipSpawnChance = 40;
+
+    [Header("Tutorial Spawn Settings (ตั้งค่าแมวเจาะจงช่วง Tutorial)")]
+    [Tooltip("Element 0 = แมวตัวที่ 1 | Element 1 = แมวตัวที่ 2 (SHO IKEDA)")]
+    public GameObject[] tutorialOrderedPrefabs;
+
+    private bool cat1Spawned = false;
+    private bool cat2Spawned = false;
 
     [Header("Scene References")]
     public GameObject relationshipCanvas;
@@ -36,6 +41,44 @@ public class NPCSpawner : MonoBehaviour
 
     void Update()
     {
+        if (MainQuestManager.Instance != null)
+        {
+            var currentQ = MainQuestManager.Instance.currentQuest;
+
+            // 1. สเต็ป InviteCat1: เสกแมวตัวแรก
+            if (currentQ == MainQuestManager.QuestStep.InviteCat1 && !cat1Spawned)
+            {
+                if (tutorialOrderedPrefabs != null && tutorialOrderedPrefabs.Length > 0 && tutorialOrderedPrefabs[0] != null)
+                {
+                    SpawnSpecificNPC(tutorialOrderedPrefabs[0], System.Guid.NewGuid().ToString());
+                }
+                else if (npcPrefabs.Length > 0)
+                {
+                    SpawnSingleNPC(System.Guid.NewGuid().ToString());
+                }
+                cat1Spawned = true;
+                return;
+            }
+
+            // 2. สเต็ป InviteCat2: เสกแมวตัวที่ 2 (SHO IKEDA)
+            if (currentQ == MainQuestManager.QuestStep.InviteCat2 && !cat2Spawned)
+            {
+                if (tutorialOrderedPrefabs != null && tutorialOrderedPrefabs.Length > 1 && tutorialOrderedPrefabs[1] != null)
+                {
+                    SpawnSpecificNPC(tutorialOrderedPrefabs[1], System.Guid.NewGuid().ToString());
+                    Debug.Log("[NPCSpawner] 🐱 แมวตัวที่ 2 (SHO IKEDA) ปรากฏตัวแล้ว!");
+                }
+                cat2Spawned = true;
+                return;
+            }
+
+            if (currentQ != MainQuestManager.QuestStep.Completed)
+            {
+                return;
+            }
+        }
+
+        // --- การทำงานปกติหลังจบ Tutorial ---
         bool isPaused = DayNightManager.Instance != null && DayNightManager.Instance.isPaused;
         bool isNotWork = DayNightManager.Instance != null && !DayNightManager.Instance.isWorkTime;
 
@@ -71,6 +114,13 @@ public class NPCSpawner : MonoBehaviour
             ? vipNpcPrefabs[Random.Range(0, vipNpcPrefabs.Length)]
             : npcPrefabs[Random.Range(0, npcPrefabs.Length)];
 
+        return SpawnSpecificNPC(prefabToSpawn, groupID);
+    }
+
+    NPCController SpawnSpecificNPC(GameObject prefabToSpawn, string groupID)
+    {
+        if (prefabToSpawn == null) return null;
+
         Vector3 spawnOffset = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), 0);
         GameObject npc = Instantiate(prefabToSpawn, spawnPoint.position + spawnOffset, Quaternion.identity);
 
@@ -82,9 +132,14 @@ public class NPCSpawner : MonoBehaviour
         {
             controller.exitPoint = exitPoint;
             controller.groupID = groupID;
-            if (spawnVIP) controller.isVIP = true;
 
-            // ส่งแมวเข้าคิวรอเสมอ เพื่อให้แมวหยุดรอผู้เล่นมากดคิว/กด E
+            bool isInTutorialQuest = MainQuestManager.Instance != null &&
+                                     MainQuestManager.Instance.currentQuest != MainQuestManager.QuestStep.Completed;
+            if (isInTutorialQuest)
+            {
+                controller.ignorePauseForWalking = true;
+            }
+
             if (QueueManager.Instance != null)
             {
                 QueueManager.Instance.AddToQueue(controller);

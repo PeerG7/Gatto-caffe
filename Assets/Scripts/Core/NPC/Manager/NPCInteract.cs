@@ -117,11 +117,6 @@ public class NPCInteract : MonoBehaviour
     {
         if (npc == null) return;
 
-        if (npc.currentState != NPCController.NPCState.InQueue)
-        {
-            return;
-        }
-
         NPCController frontNPC = QueueManager.Instance?.GetFrontNPC();
 
         bool isFrontOrSameGroup = (frontNPC == npc) ||
@@ -148,6 +143,15 @@ public class NPCInteract : MonoBehaviour
         if (QueueManager.Instance != null)
         {
             QueueManager.Instance.InviteGroup(frontNPC);
+
+            if (MainQuestManager.Instance != null)
+            {
+                if (MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.InviteCat1 ||
+                    MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.InviteCat2)
+                {
+                    MainQuestManager.Instance.AdvanceQuest();
+                }
+            }
         }
         else
         {

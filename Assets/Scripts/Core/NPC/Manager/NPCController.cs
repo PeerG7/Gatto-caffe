@@ -16,11 +16,20 @@ public class NPCController : MonoBehaviour
     [HideInInspector] public bool needsGuidance = false;
     public GameObject guidanceIconObject; // Icon แจ้งเตือนบนหัวว่าต้องการให้นำทาง
     [HideInInspector] public Transform playerTransformToFollow;
+    [Tooltip("ระยะที่แมวหยุดเดินตาม Player (หน่วย Unity)")]
+    public float followStopDistance = 1.2f;
+    [Tooltip("เวลารอให้ Player มาจูงสูงสุด (วินาที) ก่อนแมวหงุดหงิดแล้วเดินออก — นับเฉพาะตอนเกมไม่ Pause")]
+    public float guidanceWaitTimeout = 30f;
+    private float guidanceWaitTimer = 0f;
+    private bool hasRolledGuidance = false;
 
     [Header("Carry Event Settings (โอกาสแมวต้องการให้อุ้ม)")]
     [Range(0, 100)] public int carryEventChance = 20; // โอกาส 20%
     [HideInInspector] public bool needsToBeCarried = false;
     public GameObject carryIconObject; // ลาก GameObject ของ Icon บนหัวแมวมาใส่ที่นี่
+
+    [Header("Tutorial / Quest Settings")]
+    [HideInInspector] public bool ignorePauseForWalking = false; // 🌟 อนุญาตให้เดินได้แม้เกมจะ Pause
 
     [Header("Group & Table References")]
     [HideInInspector] public CustomerTable assignedTable;
@@ -180,6 +189,7 @@ public class NPCController : MonoBehaviour
 
         isInteractionAllowed = false;
         isChoiceUIVisible = false;
+        if (guidanceIconObject != null) guidanceIconObject.SetActive(false);
 
         SetWorldSpaceCamera();
     }
@@ -204,14 +214,15 @@ public class NPCController : MonoBehaviour
 
     void Update()
     {
-        if (GameIsPaused)
+        // 🌟 ถ้าเกม Pause แต่แมวตัวนี้เปิดสิทธิ์ให้เดินได้ (ignorePauseForWalking = true) จะข้ามการหยุดนี้ไป
+        if (GameIsPaused && !ignorePauseForWalking)
         {
             if (agent != null && agent.enabled && agent.isOnNavMesh) agent.isStopped = true;
             return;
         }
         else if (agent != null && agent.enabled && agent.isOnNavMesh)
         {
-            if (currentState != NPCState.Performing && currentState != NPCState.Sitting && currentState != NPCState.AtInteractionZone && currentState != NPCState.Eating)
+            if (currentState != NPCState.Performing && currentState != NPCState.Sitting && currentState != NPCState.AtInteractionZone && currentState != NPCState.Eating && currentState != NPCState.WaitingForGuidance)
             {
                 agent.isStopped = false;
             }
@@ -225,11 +236,34 @@ public class NPCController : MonoBehaviour
 
         if (currentState == NPCState.InQueue)
         {
+            // 🟢 ป้องกันไม่ให้บล็อกคิวทำงานทับซ้อนถ้าระบบเริ่มสั่งให้เดินไปโต๊ะแล้ว
+            if (currentState != NPCState.InQueue) return;
+
+            // เช็กว่าเดินมาถึงจุดคิวหรือยัง
             bool isAtCurrentQueuePoint = !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
 
             if (isAtCurrentQueuePoint)
             {
-                hasReachedQueueOnce = true;
+                if (!hasReachedQueueOnce)
+                {
+                    hasReachedQueueOnce = true;
+                    ignorePauseForWalking = false;
+
+                    // สั่งให้ Agent หยุดนิ่งสนิทและเคลียร์ความเร็วเมื่อเข้ามายืนประจำที่ในคิวสำเร็จ
+                    if (agent != null && agent.enabled && agent.isOnNavMesh)
+                    {
+                        agent.isStopped = true;
+                        agent.velocity = Vector3.zero;
+                    }
+                }
+            }
+            else
+            {
+                // ถ้ายังเดินมาไม่ถึง ให้มั่นใจว่า Agent ยังอนุญาตให้เดินต่อ
+                if (agent != null && agent.enabled && agent.isOnNavMesh && agent.isStopped)
+                {
+                    agent.isStopped = false;
+                }
             }
 
             if (hasReachedQueueOnce)
@@ -268,11 +302,31 @@ public class NPCController : MonoBehaviour
                 ArriveAtDamageTarget();
         }
 
+        // 🟢 GUIDE EVENT: แมวยืนรอให้ Player มากด E เพื่อจูง (มี Alert บนหัว)
+        if (currentState == NPCState.WaitingForGuidance)
+        {
+            if (!GameIsPaused) guidanceWaitTimer += Time.deltaTime;
+            if (guidanceWaitTimer >= guidanceWaitTimeout)
+            {
+                OnGuidanceTimeout();
+            }
+            return;
+        }
+
         if (currentState == NPCState.FollowingPlayer)
         {
             if (playerTransformToFollow != null)
             {
-                agent.SetDestination(playerTransformToFollow.position);
+                float distToPlayer = Vector2.Distance(transform.position, playerTransformToFollow.position);
+                if (distToPlayer > followStopDistance)
+                {
+                    agent.isStopped = false;
+                    agent.SetDestination(playerTransformToFollow.position);
+                }
+                else
+                {
+                    agent.isStopped = true;
+                }
                 UpdateMovementAnimation();
             }
             return;
@@ -426,20 +480,139 @@ public class NPCController : MonoBehaviour
         }
     }
 
+    // =====================================================================
+    // 🟢 GUIDE EVENT SYSTEM
+    // =====================================================================
+
+    /// <summary>
+    /// สุ่ม Guide Event ตอนถูกเชิญ (สุ่มครั้งเดียวต่อกลุ่ม) — คืน true ถ้าแมวต้องรอให้ Player จูง
+    /// </summary>
+    private bool TryStartGuidanceEvent()
+    {
+        if (hasRolledGuidance) return false;
+
+        // ไม่มีโต๊ะว่าง → ไม่ต้องสุ่ม ปล่อยให้ logic เดิมจัดการ (แมวยืนรอในคิวต่อ)
+        if (!HasAvailableTableForGroup(GetGroupSize())) return false;
+
+        bool needGuide = Random.Range(0, 100) < guideEventChance;
+
+        List<NPCController> members = new List<NPCController>();
+        if (!string.IsNullOrEmpty(groupID))
+        {
+            members = FindObjectsOfType<NPCController>()
+                .Where(n => n != null && n.groupID == groupID &&
+                            (n == this || n.currentState == NPCState.InQueue))
+                .ToList();
+        }
+        if (!members.Contains(this)) members.Add(this);
+
+        foreach (var m in members) m.hasRolledGuidance = true;
+
+        if (!needGuide) return false;
+
+        foreach (var m in members) m.EnterWaitingForGuidance();
+        return true;
+    }
+
+    private void EnterWaitingForGuidance()
+    {
+        if (QueueManager.Instance != null) QueueManager.Instance.RemoveFromQueue(this);
+        if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
+        hasReachedQueueOnce = false;
+        queueWaitTimer = 0f;
+
+        needsGuidance = true;
+        guidanceWaitTimer = 0f;
+        currentState = NPCState.WaitingForGuidance;
+        AllowWalkingWhilePausedIfTutorial();
+
+        if (agent != null && agent.enabled && agent.isOnNavMesh)
+        {
+            agent.ResetPath();
+            agent.velocity = Vector3.zero;
+            agent.isStopped = true;
+        }
+
+        SetAnimState(AnimState.Idle);
+        if (guidanceIconObject != null) guidanceIconObject.SetActive(true);
+
+        Debug.Log($"[NPCController] ❗ แมว {gameObject.name} ไม่รู้ตำแหน่งโต๊ะ รอให้ Player มาจูง");
+    }
+
+    private void OnGuidanceTimeout()
+    {
+        var waiting = FindObjectsOfType<NPCController>()
+            .Where(n => n != null && n.currentState == NPCState.WaitingForGuidance &&
+                        (n == this || (!string.IsNullOrEmpty(groupID) && n.groupID == groupID)))
+            .ToList();
+
+        foreach (var m in waiting)
+        {
+            m.needsGuidance = false;
+            if (m.guidanceIconObject != null) m.guidanceIconObject.SetActive(false);
+            if (GuidanceZoneManager.Instance != null) GuidanceZoneManager.Instance.ReleasePoint(m);
+
+            NPCInteract inter = m.GetComponent<NPCInteract>();
+            if (inter != null) inter.PlayAngry();
+
+            m.GoExit();
+        }
+    }
+
+    /// <summary>
+    /// ตั้งค่าออเดอร์/ภาพบนโต๊ะ (แยกออกมาจาก GoToTableDirectly เพื่อให้ TrySitAtTable ใช้ร่วมกันได้)
+    /// </summary>
+    private void PrepareOrderForTable(CustomerTable targetTable)
+    {
+        if (targetTable == null) return;
+
+        if (string.IsNullOrEmpty(targetTable.wantedItem))
+        {
+            GenerateOrderData();
+            if (requestedRecipe != null)
+            {
+                targetTable.wantedItem = requestedRecipe.recipeName;
+                if (targetTable.tableItemRenderer != null)
+                {
+                    targetTable.tableItemRenderer.sprite = requestedRecipe.finalDishSprite;
+                    targetTable.tableItemRenderer.enabled = true;
+                }
+            }
+        }
+        targetTable.SetVIPVisual(isVIP);
+    }
+
+    /// <summary>
+    /// 🟢 FIX: ถ้าเกมยัง Pause อยู่ (ช่วง Tutorial/MainQuest) ให้แมวที่ถูกเชิญ/ถูกจูงเดินต่อได้
+    /// เพราะตอนถึงจุดคิว flag ignorePauseForWalking ถูกรีเซ็ตเป็น false ทำให้ Update() หยุด Agent ทุกเฟรม
+    /// </summary>
+    private void AllowWalkingWhilePausedIfTutorial()
+    {
+        bool tutorialActive = MainQuestManager.Instance != null &&
+                              MainQuestManager.Instance.currentQuest != MainQuestManager.QuestStep.Completed;
+        if (tutorialActive || GameIsPaused)
+            ignorePauseForWalking = true;
+    }
+
     public void GoToTableDirectly()
     {
         isInteractionAllowed = false;
-        if (currentState != NPCState.InQueue) return;
 
-        if (QueueManager.Instance != null) QueueManager.Instance.RemoveFromQueue(this);
-        if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
+        // 🟢 กำลังรอให้จูง/ถูกจูงอยู่แล้ว ไม่ต้องสั่งซ้ำ
+        if (currentState == NPCState.WaitingForGuidance || currentState == NPCState.FollowingPlayer) return;
+
+        // 🟢 GUIDE EVENT: สุ่มตามค่า guideEventChance ถ้าติด แมวจะรอให้ Player มาจูงแทนการเดินไปโต๊ะเอง
+        if (TryStartGuidanceEvent()) return;
 
         int groupSize = GetGroupSize();
         CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
 
         var availableTables = allTables.Where(t =>
         {
+            // 🌟 ปรับปรุงการเช็ค FurnitureObject ให้ปลอดภัยยิ่งขึ้น (ป้องกันกรณีหาไม่เจอแล้วให้ถือว่าปลดล็อกแล้ว)
             FurnitureObject furniture = t.GetComponent<FurnitureObject>();
+            if (furniture == null) furniture = t.GetComponentInChildren<FurnitureObject>();
+
             bool isUnlocked = (furniture == null || furniture.isUnlocked);
 
             bool isSameGroup = t.sittingNPCs.Count > 0 &&
@@ -468,56 +641,43 @@ public class NPCController : MonoBehaviour
                 .FirstOrDefault();
         }
 
-        if (targetTable != null)
+        // 🌟 เช็กก่อนว่ามีโต๊ะว่างจริงไหม ถ้าไม่มีโต๊ะ ให้ยกเลิกการเชิญและปล่อยให้แมวยืนรอในคิวตามเดิม ไม่ค้างแข็ง
+        if (targetTable == null)
         {
-            Transform seat = targetTable.GetAvailableSeat();
+            Debug.LogWarning($"[NPCController] ❌ ไม่พบโต๊ะว่างสำหรับแมว {gameObject.name} (Group Size: {groupSize})");
+            return;
+        }
 
-            if (seat != null)
+        // ถ้ามีโต๊ะว่าง ค่อยถอดออกจากคิวและพาเดินไปโต๊ะ
+        if (QueueManager.Instance != null) QueueManager.Instance.RemoveFromQueue(this);
+        if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
+        hasReachedQueueOnce = false;
+        AllowWalkingWhilePausedIfTutorial(); // 🟢 FIX: ปลดล็อกให้เดินได้แม้เกม Pause
+
+        if (agent != null)
+        {
+            agent.enabled = true;
+            if (!agent.isOnNavMesh) agent.Warp(transform.position);
+            agent.ResetPath();
+            agent.isStopped = false;
+        }
+
+        Transform seat = targetTable.GetAvailableSeat();
+        if (seat != null)
+        {
+            seatPoint = seat;
+            assignedTable = targetTable;
+
+            PrepareOrderForTable(targetTable);
+
+            targetTable.AssignNPCToTable(this);
+            currentState = NPCState.GoingToSeat;
+
+            if (agent != null && agent.enabled && agent.isOnNavMesh)
             {
-                seatPoint = seat;
-                assignedTable = targetTable;
-
-                if (string.IsNullOrEmpty(targetTable.wantedItem))
-                {
-                    GenerateOrderData();
-
-                    if (requestedRecipe != null)
-                    {
-                        targetTable.wantedItem = requestedRecipe.recipeName;
-
-                        if (targetTable.tableItemRenderer != null)
-                        {
-                            targetTable.tableItemRenderer.sprite = requestedRecipe.finalDishSprite;
-                            targetTable.tableItemRenderer.enabled = true;
-                        }
-                    }
-                }
-                targetTable.SetVIPVisual(isVIP);
-
-                bool rollGuide = Random.Range(0, 100) < guideEventChance;
-                if (rollGuide)
-                {
-                    needsGuidance = true;
-                    currentState = NPCState.WaitingForGuidance;
-
-                    if (agent != null && agent.enabled && agent.isOnNavMesh)
-                    {
-                        agent.isStopped = true;
-                    }
-
-                    if (guidanceIconObject != null) guidanceIconObject.SetActive(true);
-                    Debug.Log($"[NPCController] 🧭 แมว {gameObject.name} หลงทางและรอให้ผู้เล่นมาจูง!");
-                    return;
-                }
-
-                targetTable.AssignNPCToTable(this);
-                currentState = NPCState.GoingToSeat;
-                if (agent != null && agent.enabled)
-                {
-                    agent.isStopped = false;
-                    agent.SetDestination(seatPoint.position);
-                }
-                return;
+                agent.isStopped = false;
+                agent.SetDestination(seatPoint.position);
+                Debug.Log($"[NPCController] 🟢 สั่งให้แมว {gameObject.name} เดินไปโต๊ะสำเร็จ");
             }
         }
     }
@@ -598,6 +758,13 @@ public class NPCController : MonoBehaviour
         if (currentState == NPCState.Sitting) return;
         currentState = NPCState.Sitting;
         if (agent != null && agent.enabled) agent.isStopped = true;
+
+        // 🌟 แก้ไขให้เช็คเฉพาะ QuestStep.GuideCat2ToTable ที่ถูกต้อง
+        if (MainQuestManager.Instance != null && MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.GuideCat2ToTable)
+        {
+            MainQuestManager.Instance.AdvanceQuest();
+            Debug.Log($"[NPCController] ✅ แมว {gameObject.name} นั่งลงที่โต๊ะเรียบร้อย — อัปเดตเควสเป็นสเต็ปทำอาหารต่อ!");
+        }
 
         StartCoroutine(EnterSeatRoutine());
     }
@@ -747,7 +914,14 @@ public class NPCController : MonoBehaviour
 
         while (eatTimer < eatDuration)
         {
-            if (!GameIsPaused) eatTimer += Time.deltaTime;
+            // 🌟 เช็คว่าถ้าเกม Pause แต่ยังอยู่ในช่วง Tutorial/MainQuest ยอมให้เวลาเดินต่อได้
+            bool tutorialActive = MainQuestManager.Instance != null &&
+                                  MainQuestManager.Instance.currentQuest != MainQuestManager.QuestStep.Completed;
+
+            if (!GameIsPaused || tutorialActive)
+            {
+                eatTimer += Time.deltaTime;
+            }
             yield return null;
         }
 
@@ -851,7 +1025,6 @@ public class NPCController : MonoBehaviour
         zone.Occupy(this);
         currentState = NPCState.AtInteractionZone;
 
-        // 🌟 รีเซ็ตสถานะอุ้มและซ่อน Icon ทันทีเมื่อวางลงในโซน ป้องกันบั๊กค้างขอให้อุ้มซ้ำ
         needsToBeCarried = false;
         if (carryIconObject != null) carryIconObject.SetActive(false);
 
@@ -987,7 +1160,9 @@ public class NPCController : MonoBehaviour
         float transitionWait = 1.0f;
         while (animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName(targetStateName) && transitionWait > 0f)
         {
-            if (!GameIsPaused) transitionWait -= Time.deltaTime;
+            bool tutorialActive = MainQuestManager.Instance != null &&
+                                  MainQuestManager.Instance.currentQuest != MainQuestManager.QuestStep.Completed;
+            if (!GameIsPaused || tutorialActive) transitionWait -= Time.deltaTime;
             yield return null;
         }
 
@@ -1006,7 +1181,11 @@ public class NPCController : MonoBehaviour
         float timer = 0f;
         while (timer < safePlayDuration)
         {
-            if (!GameIsPaused)
+            // 🌟 เพิ่มการเช็ค tutorialActive เพื่อให้เวลานับต่อได้แม้เกม Pause ช่วงทำเควส
+            bool tutorialActive = MainQuestManager.Instance != null &&
+                                  MainQuestManager.Instance.currentQuest != MainQuestManager.QuestStep.Completed;
+
+            if (!GameIsPaused || tutorialActive)
             {
                 timer += Time.deltaTime;
                 if (agent != null && agent.enabled && agent.isOnNavMesh)
@@ -1023,7 +1202,9 @@ public class NPCController : MonoBehaviour
             float delayTimer = 0f;
             while (delayTimer < postPerformZoomDelay)
             {
-                if (!GameIsPaused) delayTimer += Time.deltaTime;
+                bool tutorialActive = MainQuestManager.Instance != null &&
+                                      MainQuestManager.Instance.currentQuest != MainQuestManager.QuestStep.Completed;
+                if (!GameIsPaused || tutorialActive) delayTimer += Time.deltaTime;
                 yield return null;
             }
         }
@@ -1055,6 +1236,13 @@ public class NPCController : MonoBehaviour
         {
             currentZone.Release();
             currentZone = null;
+        }
+
+        // 🌟 เพิ่มตรงนี้: ถ้ากำลังอยู่ในสเต็ปอุ้มแมวส่งโซน ให้สั่งจบเควสหลักทันทีเมื่อโต้ตอบเสร็จ
+        if (MainQuestManager.Instance != null && MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.CarryCat2ToZone)
+        {
+            MainQuestManager.Instance.AdvanceQuest();
+            Debug.Log("[NPCController] ✅ ทำภารกิจอุ้มแมวส่ง Interaction Zone สำเร็จ — เปลี่ยนสถานะเควสเป็น Completed!");
         }
 
         GoExit();
@@ -1358,6 +1546,8 @@ public class NPCController : MonoBehaviour
         }
 
         if (queuePatienceBarRoot != null) queuePatienceBarRoot.SetActive(false);
+        needsGuidance = false;
+        if (guidanceIconObject != null) guidanceIconObject.SetActive(false);
 
         StopInteractionTimeout();
         onArrivedAtInteractionZone = null;
@@ -1468,6 +1658,7 @@ public class NPCController : MonoBehaviour
 
         playerTransformToFollow = player;
         currentState = NPCState.FollowingPlayer;
+        AllowWalkingWhilePausedIfTutorial();
         if (guidanceIconObject != null) guidanceIconObject.SetActive(false);
         if (agent != null && agent.enabled)
         {
@@ -1507,11 +1698,13 @@ public class NPCController : MonoBehaviour
             {
                 member.assignedTable = targetTable;
                 member.seatPoint = seat;
+                member.PrepareOrderForTable(targetTable);
                 targetTable.AssignNPCToTable(member);
 
                 member.needsGuidance = false;
                 member.playerTransformToFollow = null;
 
+                member.AllowWalkingWhilePausedIfTutorial(); // 🟢 FIX
                 member.currentState = NPCState.GoingToSeat;
                 if (member.agent != null && member.agent.enabled && member.agent.isOnNavMesh)
                 {
