@@ -129,7 +129,7 @@ public class AutoServerBot : MonoBehaviour
             {
                 playerInventory.PickUpItem(itemName, itemSprite);
                 targetTraySlot.ClearSlot();
-                Debug.Log($"[AutoServerBot] 🤖 หยิบอาหาร '{itemName}' จาก Tray ขึ้นมือสำเร็จ!");
+                Debug.Log($"[AutoServerBot] หยิบอาหาร '{itemName}' จาก Tray ขึ้นมือสำเร็จ!");
             }
 
             currentState = BotState.GoingToTable;
@@ -156,7 +156,7 @@ public class AutoServerBot : MonoBehaviour
             {
                 targetTable.TryServeFood();
                 playerInventory.ClearItem();
-                Debug.Log($"[AutoServerBot] 🤖 เสิร์ฟอาหารสำเร็จที่โต๊ะเรียบร้อย!");
+                Debug.Log($"[AutoServerBot] เสิร์ฟอาหารสำเร็จที่โต๊ะเรียบร้อย!");
             }
 
             targetTraySlot = null;
@@ -199,7 +199,7 @@ public class AutoServerBot : MonoBehaviour
     {
         isActivated = true;
         UpdateVisualState();
-        Debug.Log("[AutoServerBot] 🤖 เปิดใช้งานบอทเสิร์ฟอาหารแล้ว!");
+        Debug.Log("[AutoServerBot] เปิดใช้งานบอทเสิร์ฟอาหารแล้ว!");
     }
 
     void UpdateVisualState()

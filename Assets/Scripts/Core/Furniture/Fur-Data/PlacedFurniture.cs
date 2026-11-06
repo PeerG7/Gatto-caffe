@@ -162,7 +162,16 @@ public class PlacedFurniture : MonoBehaviour
         if (FurnitureInventory.Instance != null)
         {
             FurnitureInventory.Instance.AddInstance(instanceData);
-            Debug.Log($"[PlacedFurniture] เก็บ {gameObject.name} (Level: {currentLevel}) เข้า Inventory");
+            Debug.Log($"[PlacedFurniture] Store {gameObject.name} (Level: {currentLevel})in Inventory");
+
+            // 🌟 [เพิ่มตรงนี้] แสดง UI Notification ตอนเก็บโต๊ะเข้าคลัง
+            if (UINotificationManager.Instance != null)
+            {
+                string tableName = itemData != null ? itemData.name : gameObject.name;
+                // ตัดคำว่า "(Clone)" ออกจากชื่อ GameObject ถ้ามี เพื่อความสวยงาม
+                tableName = tableName.Replace("(Clone)", "").Trim();
+                UINotificationManager.Instance.ShowNotification($"Store {tableName} Inventory");
+            }
 
             if (FurnitureEditUI.Instance != null)
             {

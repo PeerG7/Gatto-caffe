@@ -176,6 +176,13 @@ public class FurnitureManager : MonoBehaviour
             // เล่นเสียงวางเฟอร์นิเจอร์ (วางจากคลังสำเร็จ)
             AudioManager.instance?.PlayPlaceFurniture();
 
+            // 🌟 [เพิ่มตรงนี้] แสดง UI Notification ตอนวางโต๊ะสำเร็จ
+            if (UINotificationManager.Instance != null)
+            {
+                string tableName = currentPlacingInstance.itemData != null ? currentPlacingInstance.itemData.name : "โต๊ะ";
+                UINotificationManager.Instance.ShowNotification($"Place {tableName} Complete");
+            }
+
             // 🌟 [JUICE] เล่นอนิเมชันเด้งดึ๋งนุ่มนวลตอนวางเฟอร์นิเจอร์
             StartCoroutine(AnimatePlacementBounce(currentPlacingObject.transform));
 
