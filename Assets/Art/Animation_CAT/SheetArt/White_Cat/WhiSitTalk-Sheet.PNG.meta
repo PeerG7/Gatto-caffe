@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: 172c1141368e0514d9710217fc9b354d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1218751111014461044
+    second: WhiSitTalk-Sheet_0
+  - first:
+      213: -1311168747331739013
+    second: WhiSitTalk-Sheet_1
+  - first:
+      213: -4610016009187435911
+    second: WhiSitTalk-Sheet_2
+  - first:
+      213: 5717344844233281830
+    second: WhiSitTalk-Sheet_3
+  - first:
+      213: -1461478913642880847
+    second: WhiSitTalk-Sheet_4
+  - first:
+      213: -3685825917395827263
+    second: WhiSitTalk-Sheet_5
+  - first:
+      213: -3558723991866212971
+    second: WhiSitTalk-Sheet_6
+  - first:
+      213: 1703435968776901037
+    second: WhiSitTalk-Sheet_7
+  - first:
+      213: -5767406831482046671
+    second: WhiSitTalk-Sheet_8
+  - first:
+      213: -8481985601153392951
+    second: WhiSitTalk-Sheet_9
+  - first:
+      213: 7503705800437061966
+    second: WhiSitTalk-Sheet_10
+  - first:
+      213: 897123613858337695
+    second: WhiSitTalk-Sheet_11
+  - first:
+      213: 9028700927391105865
+    second: WhiSitTalk-Sheet_12
+  - first:
+      213: -5526189824551690547
+    second: WhiSitTalk-Sheet_13
+  - first:
+      213: 6987329913334525647
+    second: WhiSitTalk-Sheet_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 3544
+        width: 1138
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c81de5e5250261fe0800000000000000
+      internalID: -1218751111014461044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 3548
+        width: 1117
+        height: 1163
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b72a2be98facdcde0800000000000000
+      internalID: -1311168747331739013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 3544
+        width: 1117
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97ad4835ddee500c0800000000000000
+      internalID: -4610016009187435911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 3559
+        y: 3550
+        width: 1117
+        height: 1161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6219fe218d6185f40800000000000000
+      internalID: 5717344844233281830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 2369
+        width: 1103
+        height: 1162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b0a799dba8c7bbe0800000000000000
+      internalID: -1461478913642880847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 2364
+        width: 1116
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c581b14bd059dcc0800000000000000
+      internalID: -3685825917395827263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 2369
+        width: 1103
+        height: 1162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59d7723626fdc9ec0800000000000000
+      internalID: -3558723991866212971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 3559
+        y: 2364
+        width: 1116
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da112980df1d3a710800000000000000
+      internalID: 1703435968776901037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 1192
+        width: 1116
+        height: 1159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 137f9563b0e06ffa0800000000000000
+      internalID: -5767406831482046671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 1184
+        width: 1112
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ce1645090fe94a80800000000000000
+      internalID: -8481985601153392951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 1192
+        width: 1116
+        height: 1159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e49d61e4ba4822860800000000000000
+      internalID: 7503705800437061966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 3559
+        y: 1195
+        width: 1117
+        height: 1156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9314a37c29337c00800000000000000
+      internalID: 897123613858337695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 4
+        width: 1117
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 943036848a36c4d70800000000000000
+      internalID: 9028700927391105865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 12
+        width: 1095
+        height: 1159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dced73232a70f43b0800000000000000
+      internalID: -5526189824551690547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiSitTalk-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 4
+        width: 1138
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fcee3c4298bf7f060800000000000000
+      internalID: 6987329913334525647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      WhiSitTalk-Sheet_0: -1218751111014461044
+      WhiSitTalk-Sheet_1: -1311168747331739013
+      WhiSitTalk-Sheet_10: 7503705800437061966
+      WhiSitTalk-Sheet_11: 897123613858337695
+      WhiSitTalk-Sheet_12: 9028700927391105865
+      WhiSitTalk-Sheet_13: -5526189824551690547
+      WhiSitTalk-Sheet_14: 6987329913334525647
+      WhiSitTalk-Sheet_2: -4610016009187435911
+      WhiSitTalk-Sheet_3: 5717344844233281830
+      WhiSitTalk-Sheet_4: -1461478913642880847
+      WhiSitTalk-Sheet_5: -3685825917395827263
+      WhiSitTalk-Sheet_6: -3558723991866212971
+      WhiSitTalk-Sheet_7: 1703435968776901037
+      WhiSitTalk-Sheet_8: -5767406831482046671
+      WhiSitTalk-Sheet_9: -8481985601153392951
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

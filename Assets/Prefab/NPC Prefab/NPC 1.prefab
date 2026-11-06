@@ -779,8 +779,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -6548814692687787910, guid: 6b15e1b94dd8dc64989b822bfe89e2d6, type: 3}
-  m_Color: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 1}
+  m_Sprite: {fileID: -4837123982989593577, guid: 184d30e9456ab2e40aae9a033f23d7e7, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -827,7 +827,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.636, y: 1.7653333}
+    oldSize: {x: 1.636, y: 1.7653334}
     newSize: {x: 20.48, y: 20.48}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -880,6 +880,8 @@ MonoBehaviour:
   needsGuidance: 0
   guidanceIconObject: {fileID: 157906316601054193}
   playerTransformToFollow: {fileID: 0}
+  followStopDistance: 1.2
+  guidanceWaitTimeout: 30
   carryEventChance: 20
   needsToBeCarried: 0
   carryIconObject: {fileID: 157906316601054193}
@@ -1110,7 +1112,7 @@ Animator:
   m_GameObject: {fileID: 1500671038587446994}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fbf3b8a0094e6a64ab72dfa0d7477882, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2bc7cda2fa692ae4ca7d6808915bf2fd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1142,7 +1144,7 @@ MonoBehaviour:
   - {fileID: -3257299401724005321, guid: a4a857ed2aa550b418a3ce1d3e0432aa, type: 3}
   - {fileID: -5208451633205415386, guid: bf8a77fc4fb30fe4ba99836479b830dc, type: 3}
   displayDuration: 3.5
-  iconSwapInterval: 0.55
+  iconSwapInterval: 1
   avoidRepeatingIcon: 1
   artTailPointsRight: 1
   mirrorPosition: 1

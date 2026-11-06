@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd68240ee7bb69d4b8efe01efc6d0dcd, type: 3}
+  m_Name: DATACAT 3
+  m_EditorClassIdentifier: Assembly-CSharp::CatRelationshipData
+  catName: White
+  catPortrait: {fileID: 5176143971043220730, guid: d5dbc7198febfa34b977c44bccf87155, type: 3}
+  catID: AIkow
+  maxRelationship: 100

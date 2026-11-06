@@ -551,7 +551,7 @@ SpriteRenderer:
   m_SortingOrder: -1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6548814692687787910, guid: 6b15e1b94dd8dc64989b822bfe89e2d6, type: 3}
-  m_Color: {r: 0.9857062, g: 0.6462264, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.82810515, b: 0.5896226, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -774,7 +774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8534fd6632748aa4e9a1e5fdbd4f8564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CatIdentity
-  catData: {fileID: 11400000, guid: ab32bc05e151f514a9c6ea9331a115fe, type: 2}
+  catData: {fileID: 11400000, guid: 4b9a5721912a33740b4f7313ea1f02cf, type: 2}
 --- !u!82 &-3636977929279035644
 AudioSource:
   m_ObjectHideFlags: 0
@@ -882,7 +882,7 @@ Animator:
   m_GameObject: {fileID: 1500671038587446994}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fbf3b8a0094e6a64ab72dfa0d7477882, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2bc7cda2fa692ae4ca7d6808915bf2fd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -914,7 +914,7 @@ MonoBehaviour:
   - {fileID: -5208451633205415386, guid: bf8a77fc4fb30fe4ba99836479b830dc, type: 3}
   - {fileID: 21300000, guid: 2194a1f5170254f42978f5e1fbb67d0c, type: 3}
   displayDuration: 3.5
-  iconSwapInterval: 0.55
+  iconSwapInterval: 1
   avoidRepeatingIcon: 1
   artTailPointsRight: 1
   mirrorPosition: 1

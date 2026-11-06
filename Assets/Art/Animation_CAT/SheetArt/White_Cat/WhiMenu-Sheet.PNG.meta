@@ -1,0 +1,493 @@
+fileFormatVersion: 2
+guid: f8e29d23ac0a35b419805f63a646efa0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1289953717251300183
+    second: WhiMenu-Sheet_0
+  - first:
+      213: 5727501854540020796
+    second: WhiMenu-Sheet_1
+  - first:
+      213: -3224186813570840972
+    second: WhiMenu-Sheet_2
+  - first:
+      213: 5188147815738632636
+    second: WhiMenu-Sheet_3
+  - first:
+      213: -370799297656411284
+    second: WhiMenu-Sheet_4
+  - first:
+      213: -1369393631947211690
+    second: WhiMenu-Sheet_5
+  - first:
+      213: 1358743419648720627
+    second: WhiMenu-Sheet_6
+  - first:
+      213: 3067851938061169219
+    second: WhiMenu-Sheet_7
+  - first:
+      213: 3027386270883590930
+    second: WhiMenu-Sheet_8
+  - first:
+      213: 2425893142143687873
+    second: WhiMenu-Sheet_9
+  - first:
+      213: 4201080190193604885
+    second: WhiMenu-Sheet_10
+  - first:
+      213: 7739175162238123025
+    second: WhiMenu-Sheet_11
+  - first:
+      213: -153429703151341407
+    second: WhiMenu-Sheet_12
+  - first:
+      213: 6766756567307114642
+    second: WhiMenu-Sheet_13
+  - first:
+      213: 6345074374575698642
+    second: WhiMenu-Sheet_14
+  - first:
+      213: -3447761794112447306
+    second: WhiMenu-Sheet_15
+  - first:
+      213: -1464872244498130643
+    second: WhiMenu-Sheet_16
+  - first:
+      213: 3324876778098034319
+    second: WhiMenu-Sheet_17
+  - first:
+      213: 5546953493856048701
+    second: WhiMenu-Sheet_18
+  - first:
+      213: 4784142893921910102
+    second: WhiMenu-Sheet_19
+  - first:
+      213: -7914300635590696728
+    second: WhiMenu-Sheet_20
+  - first:
+      213: -101287304531136884
+    second: WhiMenu-Sheet_21
+  - first:
+      213: 4814425733084891342
+    second: WhiMenu-Sheet_22
+  - first:
+      213: 5608427200522025250
+    second: WhiMenu-Sheet_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: WhiMenu-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4950
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a4aa8abde9291ee0800000000000000
+      internalID: -1289953717251300183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiMenu-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 4950
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3cbf32579c2c7f40800000000000000
+      internalID: 5727501854540020796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiMenu-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 4950
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4768c9fec236143d0800000000000000
+      internalID: -3224186813570840972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiMenu-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3300
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb9e15f43f0000840800000000000000
+      internalID: 5188147815738632636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiMenu-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 3300
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6ba93cd008aadaf0800000000000000
+      internalID: -370799297656411284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiMenu-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 3300
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65cba124fbfeefce0800000000000000
+      internalID: -1369393631947211690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiMenu-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1650
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3febf05f0f93bd210800000000000000
+      internalID: 1358743419648720627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiMenu-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 1650
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34231af5513339a20800000000000000
+      internalID: 3067851938061169219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiMenu-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 1650
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21339e906cf630a20800000000000000
+      internalID: 3027386270883590930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiMenu-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ccd788b5f08aa120800000000000000
+      internalID: 2425893142143687873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiMenu-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 0
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5199b69bc2c3d4a30800000000000000
+      internalID: 4201080190193604885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiMenu-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 0
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11cbabf5ec2176b60800000000000000
+      internalID: 7739175162238123025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 7c580b79aa4c37d47a5a5f65095e2472
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":4.0},"gridSpriteSize":{"x":1650.0,"y":1650.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      WhiMenu-Sheet_0: -1289953717251300183
+      WhiMenu-Sheet_1: 5727501854540020796
+      WhiMenu-Sheet_10: 4201080190193604885
+      WhiMenu-Sheet_11: 7739175162238123025
+      WhiMenu-Sheet_2: -3224186813570840972
+      WhiMenu-Sheet_3: 5188147815738632636
+      WhiMenu-Sheet_4: -370799297656411284
+      WhiMenu-Sheet_5: -1369393631947211690
+      WhiMenu-Sheet_6: 1358743419648720627
+      WhiMenu-Sheet_7: 3067851938061169219
+      WhiMenu-Sheet_8: 3027386270883590930
+      WhiMenu-Sheet_9: 2425893142143687873
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

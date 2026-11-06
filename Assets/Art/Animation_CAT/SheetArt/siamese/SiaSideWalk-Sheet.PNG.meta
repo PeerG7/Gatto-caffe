@@ -1,0 +1,403 @@
+fileFormatVersion: 2
+guid: f55cde1f34888994e9d08908a5add5f2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4981747724123517228
+    second: SiaSideWalk-Sheet_0
+  - first:
+      213: -3992522415138437627
+    second: SiaSideWalk-Sheet_1
+  - first:
+      213: 2713317749647033903
+    second: SiaSideWalk-Sheet_2
+  - first:
+      213: 7386576815986133270
+    second: SiaSideWalk-Sheet_3
+  - first:
+      213: 2785456113678533143
+    second: SiaSideWalk-Sheet_4
+  - first:
+      213: -2603112123251283754
+    second: SiaSideWalk-Sheet_5
+  - first:
+      213: -2457514797987555169
+    second: SiaSideWalk-Sheet_6
+  - first:
+      213: 2923555326676625029
+    second: SiaSideWalk-Sheet_7
+  - first:
+      213: -3390155816797450558
+    second: SiaSideWalk-Sheet_8
+  - first:
+      213: -1537509690104450139
+    second: SiaSideWalk-Sheet_9
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SiaSideWalk-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 4415
+        width: 1273
+        height: 992
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c213ef02929b22540800000000000000
+      internalID: 4981747724123517228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaSideWalk-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1496
+        y: 4423
+        width: 1284
+        height: 1033
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50683e74406b798c0800000000000000
+      internalID: -3992522415138437627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaSideWalk-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 2916
+        y: 4406
+        width: 1268
+        height: 1108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2649761e14a7a520800000000000000
+      internalID: 2713317749647033903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaSideWalk-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 3001
+        width: 1272
+        height: 1045
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6194df67a74628660800000000000000
+      internalID: 7386576815986133270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaSideWalk-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 1496
+        y: 3000
+        width: 1261
+        height: 1094
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 712cf31d39de7a620800000000000000
+      internalID: 2785456113678533143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaSideWalk-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 2908
+        y: 2994
+        width: 1289
+        height: 1042
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d82817d053efdbd0800000000000000
+      internalID: -2603112123251283754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaSideWalk-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 1575
+        width: 1275
+        height: 1032
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f989fabcf4725edd0800000000000000
+      internalID: -2457514797987555169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaSideWalk-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 1488
+        y: 1574
+        width: 1289
+        height: 968
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 586e2c7741e829820800000000000000
+      internalID: 2923555326676625029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaSideWalk-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 2916
+        y: 1580
+        width: 1266
+        height: 976
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ce40961f3fb3f0d0800000000000000
+      internalID: -3390155816797450558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SiaSideWalk-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 2916
+        y: 163
+        width: 1267
+        height: 1074
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a37a9a351ba9aae0800000000000000
+      internalID: -1537509690104450139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      SiaSideWalk-Sheet_0: 4981747724123517228
+      SiaSideWalk-Sheet_1: -3992522415138437627
+      SiaSideWalk-Sheet_2: 2713317749647033903
+      SiaSideWalk-Sheet_3: 7386576815986133270
+      SiaSideWalk-Sheet_4: 2785456113678533143
+      SiaSideWalk-Sheet_5: -2603112123251283754
+      SiaSideWalk-Sheet_6: -2457514797987555169
+      SiaSideWalk-Sheet_7: 2923555326676625029
+      SiaSideWalk-Sheet_8: -3390155816797450558
+      SiaSideWalk-Sheet_9: -1537509690104450139
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DATACAT
   m_EditorClassIdentifier: Assembly-CSharp::CatRelationshipData
   catName: Blacky
-  catPortrait: {fileID: -6548814692687787910, guid: 6b15e1b94dd8dc64989b822bfe89e2d6, type: 3}
+  catPortrait: {fileID: -4837123982989593577, guid: 184d30e9456ab2e40aae9a033f23d7e7, type: 3}
   catID: AIDum
   maxRelationship: 100

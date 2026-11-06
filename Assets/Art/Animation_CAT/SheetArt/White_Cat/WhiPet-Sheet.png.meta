@@ -1,0 +1,948 @@
+fileFormatVersion: 2
+guid: 2205842a52a107c45b1496e18dd4455d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3410529122590435832
+    second: WhiPet-Sheet_0
+  - first:
+      213: -7666349741422600849
+    second: WhiPet-Sheet_1
+  - first:
+      213: 5037138904884605385
+    second: WhiPet-Sheet_2
+  - first:
+      213: -1760529024241687042
+    second: WhiPet-Sheet_3
+  - first:
+      213: -6808377103653877445
+    second: WhiPet-Sheet_4
+  - first:
+      213: -1999626742845268480
+    second: WhiPet-Sheet_5
+  - first:
+      213: -7224676980923508323
+    second: WhiPet-Sheet_6
+  - first:
+      213: 5754207177373022220
+    second: WhiPet-Sheet_7
+  - first:
+      213: 6334480348406756699
+    second: WhiPet-Sheet_8
+  - first:
+      213: 2399175590894553881
+    second: WhiPet-Sheet_9
+  - first:
+      213: -3492604404837809997
+    second: WhiPet-Sheet_10
+  - first:
+      213: 3576269823490472091
+    second: WhiPet-Sheet_11
+  - first:
+      213: -993769292006898410
+    second: WhiPet-Sheet_12
+  - first:
+      213: -1637318794455341950
+    second: WhiPet-Sheet_13
+  - first:
+      213: 6111802678966145359
+    second: WhiPet-Sheet_14
+  - first:
+      213: -961128746585235824
+    second: WhiPet-Sheet_15
+  - first:
+      213: -988291529812838616
+    second: WhiPet-Sheet_16
+  - first:
+      213: 3221508531476183875
+    second: WhiPet-Sheet_17
+  - first:
+      213: 1756077701229293613
+    second: WhiPet-Sheet_18
+  - first:
+      213: 6225327725833893709
+    second: WhiPet-Sheet_19
+  - first:
+      213: 2270809632238349322
+    second: WhiPet-Sheet_20
+  - first:
+      213: -8485197572863478673
+    second: WhiPet-Sheet_21
+  - first:
+      213: -5669514715414948271
+    second: WhiPet-Sheet_22
+  - first:
+      213: 6186790183373990271
+    second: WhiPet-Sheet_23
+  - first:
+      213: -3633081707077367997
+    second: WhiPet-Sheet_24
+  - first:
+      213: 184422260002143614
+    second: WhiPet-Sheet_25
+  - first:
+      213: -3824923027150722413
+    second: WhiPet-Sheet_26
+  - first:
+      213: -7526435939573943793
+    second: WhiPet-Sheet_27
+  - first:
+      213: 6271295851682009813
+    second: WhiPet-Sheet_28
+  - first:
+      213: -2430197054286154876
+    second: WhiPet-Sheet_29
+  - first:
+      213: 3613633770609103184
+    second: WhiPet-Sheet_30
+  - first:
+      213: -2463108311504727748
+    second: WhiPet-Sheet_31
+  - first:
+      213: 7821606419829482729
+    second: WhiPet-Sheet_32
+  - first:
+      213: -7533058359821328361
+    second: WhiPet-Sheet_33
+  - first:
+      213: 4103866470280587012
+    second: WhiPet-Sheet_34
+  - first:
+      213: -3711474787587158921
+    second: WhiPet-Sheet_35
+  - first:
+      213: 4746037554051118404
+    second: WhiPet-Sheet_36
+  - first:
+      213: 2654163346137552756
+    second: WhiPet-Sheet_37
+  - first:
+      213: -8523442049238623191
+    second: WhiPet-Sheet_38
+  - first:
+      213: -4507282438908464230
+    second: WhiPet-Sheet_39
+  - first:
+      213: -2373624757593753132
+    second: WhiPet-Sheet_40
+  - first:
+      213: -1446863713986996741
+    second: WhiPet-Sheet_41
+  - first:
+      213: -1871393626063411115
+    second: WhiPet-Sheet_42
+  - first:
+      213: 4635106630072090368
+    second: WhiPet-Sheet_43
+  - first:
+      213: -1149282479068788768
+    second: WhiPet-Sheet_44
+  - first:
+      213: -2402856971730181649
+    second: WhiPet-Sheet_45
+  - first:
+      213: 6700327364766656536
+    second: WhiPet-Sheet_46
+  - first:
+      213: 513301785276846251
+    second: WhiPet-Sheet_47
+  - first:
+      213: 7412227469247907902
+    second: WhiPet-Sheet_48
+  - first:
+      213: -1936345992818282844
+    second: WhiPet-Sheet_49
+  - first:
+      213: 5457561702697886094
+    second: WhiPet-Sheet_50
+  - first:
+      213: -650966330187624051
+    second: WhiPet-Sheet_51
+  - first:
+      213: -3417064797851746487
+    second: WhiPet-Sheet_52
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: WhiPet-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 10240
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8065fdf25dd5ba0d0800000000000000
+      internalID: -3410529122590435832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 10240
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6d199a3787ab9590800000000000000
+      internalID: -7666349741422600849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 10240
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c172f5652387e540800000000000000
+      internalID: 5037138904884605385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 10240
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef52f4d1e285197e0800000000000000
+      internalID: -1760529024241687042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 8192
+        y: 10240
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b39cec7b819c381a0800000000000000
+      internalID: -6808377103653877445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8192
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00e16556216ef34e0800000000000000
+      internalID: -1999626742845268480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 8192
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d99dc17509accbb90800000000000000
+      internalID: -7224676980923508323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 8192
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c087253d0fc0bdf40800000000000000
+      internalID: 5754207177373022220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 8192
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b553a7bb05898e750800000000000000
+      internalID: 6334480348406756699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 8192
+        y: 8192
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91bce011d759b4120800000000000000
+      internalID: 2399175590894553881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6144
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b08da46cc6c78fc0800000000000000
+      internalID: -3492604404837809997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 6144
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b983912e47671a130800000000000000
+      internalID: 3576269823490472091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 6144
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 615cc39181c6532f0800000000000000
+      internalID: -993769292006898410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 6144
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2842b683b331749e0800000000000000
+      internalID: -1637318794455341950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 8192
+        y: 6144
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f41de01a72c71d450800000000000000
+      internalID: 6111802678966145359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4096
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09ede5c4f7269a2f0800000000000000
+      internalID: -961128746585235824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 4096
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8277afef612e842f0800000000000000
+      internalID: -988291529812838616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 4096
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34b378be0f815bc20800000000000000
+      internalID: 3221508531476183875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 4096
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d20b1cb7d57de5810800000000000000
+      internalID: 1756077701229293613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 8192
+        y: 4096
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4738bc559ec46650800000000000000
+      internalID: 6225327725833893709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2048
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0c2a1a4459838f10800000000000000
+      internalID: 2270809632238349322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 2048
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f64377493c58e3a80800000000000000
+      internalID: -8485197572863478673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 2048
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15697da9766d151b0800000000000000
+      internalID: -5669514715414948271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 2048
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7961eb84e4ebd550800000000000000
+      internalID: 6186790183373990271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 8192
+        y: 2048
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3470fa1bf63b49dc0800000000000000
+      internalID: -3633081707077367997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7d3a1081133f8200800000000000000
+      internalID: 184422260002143614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 0
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39a2879a5c42beac0800000000000000
+      internalID: -3824923027150722413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiPet-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 0
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0236f4c36abc8790800000000000000
+      internalID: -7526435939573943793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 2d5ec3e4c09fa3e4ab1aa9504ee20db8
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":6.0},"gridSpriteSize":{"x":2048.0,"y":2048.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      WhiPet-Sheet_0: -3410529122590435832
+      WhiPet-Sheet_1: -7666349741422600849
+      WhiPet-Sheet_10: -3492604404837809997
+      WhiPet-Sheet_11: 3576269823490472091
+      WhiPet-Sheet_12: -993769292006898410
+      WhiPet-Sheet_13: -1637318794455341950
+      WhiPet-Sheet_14: 6111802678966145359
+      WhiPet-Sheet_15: -961128746585235824
+      WhiPet-Sheet_16: -988291529812838616
+      WhiPet-Sheet_17: 3221508531476183875
+      WhiPet-Sheet_18: 1756077701229293613
+      WhiPet-Sheet_19: 6225327725833893709
+      WhiPet-Sheet_2: 5037138904884605385
+      WhiPet-Sheet_20: 2270809632238349322
+      WhiPet-Sheet_21: -8485197572863478673
+      WhiPet-Sheet_22: -5669514715414948271
+      WhiPet-Sheet_23: 6186790183373990271
+      WhiPet-Sheet_24: -3633081707077367997
+      WhiPet-Sheet_25: 184422260002143614
+      WhiPet-Sheet_26: -3824923027150722413
+      WhiPet-Sheet_27: -7526435939573943793
+      WhiPet-Sheet_3: -1760529024241687042
+      WhiPet-Sheet_4: -6808377103653877445
+      WhiPet-Sheet_5: -1999626742845268480
+      WhiPet-Sheet_6: -7224676980923508323
+      WhiPet-Sheet_7: 5754207177373022220
+      WhiPet-Sheet_8: 6334480348406756699
+      WhiPet-Sheet_9: 2399175590894553881
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

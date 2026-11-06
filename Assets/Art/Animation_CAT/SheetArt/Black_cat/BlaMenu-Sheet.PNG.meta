@@ -1,0 +1,493 @@
+fileFormatVersion: 2
+guid: 6ffcea90d249a1a4d8613682c7b439df
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7024868919987199076
+    second: BlaMenu-Sheet_0
+  - first:
+      213: -5886273744907819043
+    second: BlaMenu-Sheet_1
+  - first:
+      213: -4319215012228203365
+    second: BlaMenu-Sheet_2
+  - first:
+      213: -1563702021603368454
+    second: BlaMenu-Sheet_3
+  - first:
+      213: 805380879161319150
+    second: BlaMenu-Sheet_4
+  - first:
+      213: 5464229417484899908
+    second: BlaMenu-Sheet_5
+  - first:
+      213: -6998869241529023654
+    second: BlaMenu-Sheet_6
+  - first:
+      213: 7241397844652978608
+    second: BlaMenu-Sheet_7
+  - first:
+      213: -8391320313022410146
+    second: BlaMenu-Sheet_8
+  - first:
+      213: -6538860026096679709
+    second: BlaMenu-Sheet_9
+  - first:
+      213: -3564749492414639140
+    second: BlaMenu-Sheet_10
+  - first:
+      213: -4369900678083605142
+    second: BlaMenu-Sheet_11
+  - first:
+      213: -5732274996895367919
+    second: BlaMenu-Sheet_12
+  - first:
+      213: -4455516540573919332
+    second: BlaMenu-Sheet_13
+  - first:
+      213: -4080900423763971705
+    second: BlaMenu-Sheet_14
+  - first:
+      213: -4883924213781455351
+    second: BlaMenu-Sheet_15
+  - first:
+      213: 6001563194705926655
+    second: BlaMenu-Sheet_16
+  - first:
+      213: 123276788701483951
+    second: BlaMenu-Sheet_17
+  - first:
+      213: 2956659867175093872
+    second: BlaMenu-Sheet_18
+  - first:
+      213: 3150563445052340083
+    second: BlaMenu-Sheet_19
+  - first:
+      213: -1823811149365881622
+    second: BlaMenu-Sheet_20
+  - first:
+      213: -1409752852525918485
+    second: BlaMenu-Sheet_21
+  - first:
+      213: -3789951552505924939
+    second: BlaMenu-Sheet_22
+  - first:
+      213: 3987537514457394183
+    second: BlaMenu-Sheet_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BlaMenu-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4950
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c932b76cfe6a28e90800000000000000
+      internalID: -7024868919987199076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaMenu-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 4950
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd7af004731cf4ea0800000000000000
+      internalID: -5886273744907819043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaMenu-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 4950
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9c7a9f94d01f04c0800000000000000
+      internalID: -4319215012228203365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaMenu-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3300
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af165c3db4d9c4ae0800000000000000
+      internalID: -1563702021603368454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaMenu-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 3300
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eee5d4b74a94d2b00800000000000000
+      internalID: 805380879161319150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaMenu-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 3312
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4465d6854b7d4db40800000000000000
+      internalID: 5464229417484899908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaMenu-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1650
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a534145a1850fde90800000000000000
+      internalID: -6998869241529023654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaMenu-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 1650
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b1f1df19fc9e7460800000000000000
+      internalID: 7241397844652978608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaMenu-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 1650
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5297c962aa0c8b80800000000000000
+      internalID: -8391320313022410146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaMenu-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e4818c537d4145a0800000000000000
+      internalID: -6538860026096679709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaMenu-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 0
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd31f573937778ec0800000000000000
+      internalID: -3564749492414639140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaMenu-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 0
+        width: 1650
+        height: 1650
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6d861b6c7efa53c0800000000000000
+      internalID: -4369900678083605142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: e3ab9dbee52bd0343920c38cb2dca719
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":4.0},"gridSpriteSize":{"x":1650.0,"y":1650.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      BlaMenu-Sheet_0: -7024868919987199076
+      BlaMenu-Sheet_1: -5886273744907819043
+      BlaMenu-Sheet_10: -3564749492414639140
+      BlaMenu-Sheet_11: -4369900678083605142
+      BlaMenu-Sheet_2: -4319215012228203365
+      BlaMenu-Sheet_3: -1563702021603368454
+      BlaMenu-Sheet_4: 805380879161319150
+      BlaMenu-Sheet_5: 5464229417484899908
+      BlaMenu-Sheet_6: -6998869241529023654
+      BlaMenu-Sheet_7: 7241397844652978608
+      BlaMenu-Sheet_8: -8391320313022410146
+      BlaMenu-Sheet_9: -6538860026096679709
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

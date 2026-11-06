@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: 0fbf4b0571804574c97b8200f1cc93e2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5693088788261159340
+    second: BlaSitTalk-Sheet_0
+  - first:
+      213: -7405831165293463426
+    second: BlaSitTalk-Sheet_1
+  - first:
+      213: 7982928607007613301
+    second: BlaSitTalk-Sheet_2
+  - first:
+      213: 7109721957999661002
+    second: BlaSitTalk-Sheet_3
+  - first:
+      213: -7648499788366079179
+    second: BlaSitTalk-Sheet_4
+  - first:
+      213: -7062681773043900701
+    second: BlaSitTalk-Sheet_5
+  - first:
+      213: 9012360736824621716
+    second: BlaSitTalk-Sheet_6
+  - first:
+      213: -8802153903128647634
+    second: BlaSitTalk-Sheet_7
+  - first:
+      213: 6477682167116211975
+    second: BlaSitTalk-Sheet_8
+  - first:
+      213: 904186073542332109
+    second: BlaSitTalk-Sheet_9
+  - first:
+      213: 2112249290669278967
+    second: BlaSitTalk-Sheet_10
+  - first:
+      213: -7465590642905056419
+    second: BlaSitTalk-Sheet_11
+  - first:
+      213: 4232474515998912706
+    second: BlaSitTalk-Sheet_12
+  - first:
+      213: -5610808995258285406
+    second: BlaSitTalk-Sheet_13
+  - first:
+      213: 4703875207108212046
+    second: BlaSitTalk-Sheet_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 3544
+        width: 1138
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45e3fec09e51ef0b0800000000000000
+      internalID: -5693088788261159340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 3548
+        width: 1117
+        height: 1163
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e787a2efac3393990800000000000000
+      internalID: -7405831165293463426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 3544
+        width: 1117
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5712effc54f09ce60800000000000000
+      internalID: 7982928607007613301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 3559
+        y: 3550
+        width: 1117
+        height: 1161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acf4d5ea37ecaa260800000000000000
+      internalID: 7109721957999661002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 2369
+        width: 1103
+        height: 1162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53b1ac947f11bd590800000000000000
+      internalID: -7648499788366079179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 2364
+        width: 1116
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ee971cd8505cfd90800000000000000
+      internalID: -7062681773043900701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 2369
+        width: 1103
+        height: 1162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49afb123756521d70800000000000000
+      internalID: 9012360736824621716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 3559
+        y: 2364
+        width: 1116
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e28e2b139a778d580800000000000000
+      internalID: -8802153903128647634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 1192
+        width: 1116
+        height: 1159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70728da5c9955e950800000000000000
+      internalID: 6477682167116211975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 1184
+        width: 1112
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dce885c71705c8c00800000000000000
+      internalID: 904186073542332109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 1192
+        width: 1116
+        height: 1159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f6c967e987305d10800000000000000
+      internalID: 2112249290669278967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 3559
+        y: 1195
+        width: 1117
+        height: 1156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5bf92b5dd4e46890800000000000000
+      internalID: -7465590642905056419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 4
+        width: 1117
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c0320fc525ccba30800000000000000
+      internalID: 4232474515998912706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 12
+        width: 1095
+        height: 1159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a2401732f66222b0800000000000000
+      internalID: -5610808995258285406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaSitTalk-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 4
+        width: 1138
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e45b3732495874140800000000000000
+      internalID: 4703875207108212046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      BlaSitTalk-Sheet_0: -5693088788261159340
+      BlaSitTalk-Sheet_1: -7405831165293463426
+      BlaSitTalk-Sheet_10: 2112249290669278967
+      BlaSitTalk-Sheet_11: -7465590642905056419
+      BlaSitTalk-Sheet_12: 4232474515998912706
+      BlaSitTalk-Sheet_13: -5610808995258285406
+      BlaSitTalk-Sheet_14: 4703875207108212046
+      BlaSitTalk-Sheet_2: 7982928607007613301
+      BlaSitTalk-Sheet_3: 7109721957999661002
+      BlaSitTalk-Sheet_4: -7648499788366079179
+      BlaSitTalk-Sheet_5: -7062681773043900701
+      BlaSitTalk-Sheet_6: 9012360736824621716
+      BlaSitTalk-Sheet_7: -8802153903128647634
+      BlaSitTalk-Sheet_8: 6477682167116211975
+      BlaSitTalk-Sheet_9: 904186073542332109
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

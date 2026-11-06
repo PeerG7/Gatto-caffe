@@ -1,0 +1,1911 @@
+fileFormatVersion: 2
+guid: a12b3f5f2b1d4b447a8a27b08a69a596
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -740119512982448820
+    second: BlaWaitinLine-Sheet_0
+  - first:
+      213: 3824096185434121628
+    second: BlaWaitinLine-Sheet_1
+  - first:
+      213: 9082565849483100479
+    second: BlaWaitinLine-Sheet_2
+  - first:
+      213: -3473614520468400223
+    second: BlaWaitinLine-Sheet_3
+  - first:
+      213: 6184136839860211282
+    second: BlaWaitinLine-Sheet_4
+  - first:
+      213: 7471832987435794328
+    second: BlaWaitinLine-Sheet_5
+  - first:
+      213: 1213180615608436871
+    second: BlaWaitinLine-Sheet_6
+  - first:
+      213: -9105384580175291021
+    second: BlaWaitinLine-Sheet_7
+  - first:
+      213: 3730502379094959384
+    second: BlaWaitinLine-Sheet_8
+  - first:
+      213: 2985823835955580075
+    second: BlaWaitinLine-Sheet_9
+  - first:
+      213: -926448894493277413
+    second: BlaWaitinLine-Sheet_10
+  - first:
+      213: -6657026638950386741
+    second: BlaWaitinLine-Sheet_11
+  - first:
+      213: 3396461090274210052
+    second: BlaWaitinLine-Sheet_12
+  - first:
+      213: -5939031175310883177
+    second: BlaWaitinLine-Sheet_13
+  - first:
+      213: -1341005168143497531
+    second: BlaWaitinLine-Sheet_14
+  - first:
+      213: -153226723749029870
+    second: BlaWaitinLine-Sheet_15
+  - first:
+      213: 4628905019713198070
+    second: BlaWaitinLine-Sheet_16
+  - first:
+      213: -4362829317609777133
+    second: BlaWaitinLine-Sheet_17
+  - first:
+      213: 6334651897494598120
+    second: BlaWaitinLine-Sheet_18
+  - first:
+      213: -1733435321234113330
+    second: BlaWaitinLine-Sheet_19
+  - first:
+      213: -5254763281652095179
+    second: BlaWaitinLine-Sheet_20
+  - first:
+      213: 3162573274336347946
+    second: BlaWaitinLine-Sheet_21
+  - first:
+      213: -1822776028242951846
+    second: BlaWaitinLine-Sheet_22
+  - first:
+      213: 5666238030900321526
+    second: BlaWaitinLine-Sheet_23
+  - first:
+      213: 8325664376482114403
+    second: BlaWaitinLine-Sheet_24
+  - first:
+      213: -7826546500362740967
+    second: BlaWaitinLine-Sheet_25
+  - first:
+      213: -8694369113609238554
+    second: BlaWaitinLine-Sheet_26
+  - first:
+      213: 807506769077936846
+    second: BlaWaitinLine-Sheet_27
+  - first:
+      213: 4924353571458077238
+    second: BlaWaitinLine-Sheet_28
+  - first:
+      213: -8222360385770687787
+    second: BlaWaitinLine-Sheet_29
+  - first:
+      213: -444766534710860119
+    second: BlaWaitinLine-Sheet_30
+  - first:
+      213: -1350445890189592691
+    second: BlaWaitinLine-Sheet_31
+  - first:
+      213: 38943826903674321
+    second: BlaWaitinLine-Sheet_32
+  - first:
+      213: -3850779709951134203
+    second: BlaWaitinLine-Sheet_33
+  - first:
+      213: 4212171704013207181
+    second: BlaWaitinLine-Sheet_34
+  - first:
+      213: -4005646094707011962
+    second: BlaWaitinLine-Sheet_35
+  - first:
+      213: -8374217563457083927
+    second: BlaWaitinLine-Sheet_36
+  - first:
+      213: -3218184194314558153
+    second: BlaWaitinLine-Sheet_37
+  - first:
+      213: 2272360024609901273
+    second: BlaWaitinLine-Sheet_38
+  - first:
+      213: 5165183629231328899
+    second: BlaWaitinLine-Sheet_39
+  - first:
+      213: -1376887691934574103
+    second: BlaWaitinLine-Sheet_40
+  - first:
+      213: -4231885777107701849
+    second: BlaWaitinLine-Sheet_41
+  - first:
+      213: -8800182159540582900
+    second: BlaWaitinLine-Sheet_42
+  - first:
+      213: -5904931042456682778
+    second: BlaWaitinLine-Sheet_43
+  - first:
+      213: 9030467912196361332
+    second: BlaWaitinLine-Sheet_44
+  - first:
+      213: -8915053002781363642
+    second: BlaWaitinLine-Sheet_45
+  - first:
+      213: 383356993759160819
+    second: BlaWaitinLine-Sheet_46
+  - first:
+      213: -6987731381920977374
+    second: BlaWaitinLine-Sheet_47
+  - first:
+      213: 2327672726521579730
+    second: BlaWaitinLine-Sheet_48
+  - first:
+      213: -1924195294051317569
+    second: BlaWaitinLine-Sheet_49
+  - first:
+      213: -4475755221768686469
+    second: BlaWaitinLine-Sheet_50
+  - first:
+      213: 966076406361553367
+    second: BlaWaitinLine-Sheet_51
+  - first:
+      213: 1581703719757878144
+    second: BlaWaitinLine-Sheet_52
+  - first:
+      213: 7842925370279682150
+    second: BlaWaitinLine-Sheet_53
+  - first:
+      213: 8677442322178561306
+    second: BlaWaitinLine-Sheet_54
+  - first:
+      213: -3177060505394929406
+    second: BlaWaitinLine-Sheet_55
+  - first:
+      213: 4469839990053147208
+    second: BlaWaitinLine-Sheet_56
+  - first:
+      213: -5974768195039750072
+    second: BlaWaitinLine-Sheet_57
+  - first:
+      213: -2500514332244533572
+    second: BlaWaitinLine-Sheet_58
+  - first:
+      213: -8796480401120065514
+    second: BlaWaitinLine-Sheet_59
+  - first:
+      213: -3225883654435056433
+    second: BlaWaitinLine-Sheet_60
+  - first:
+      213: 124878774890203212
+    second: BlaWaitinLine-Sheet_61
+  - first:
+      213: -5635882706333704372
+    second: BlaWaitinLine-Sheet_62
+  - first:
+      213: -5396256400168419316
+    second: BlaWaitinLine-Sheet_63
+  - first:
+      213: 4248233063771008191
+    second: BlaWaitinLine-Sheet_64
+  - first:
+      213: -3336370398447578417
+    second: BlaWaitinLine-Sheet_65
+  - first:
+      213: 3530521013449785802
+    second: BlaWaitinLine-Sheet_66
+  - first:
+      213: 935591193341915316
+    second: BlaWaitinLine-Sheet_67
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 9452
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c45985969319ab5f0800000000000000
+      internalID: -740119512982448820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1478
+        y: 9452
+        width: 1145
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c952abf383be11530800000000000000
+      internalID: 3824096185434121628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 2830
+        y: 9452
+        width: 1144
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f31c883c481cb0e70800000000000000
+      internalID: 9082565849483100479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 4192
+        y: 9452
+        width: 1146
+        height: 1335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a797d46ffd3bcfc0800000000000000
+      internalID: -3473614520468400223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 5551
+        y: 9452
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25e464ed0b772d550800000000000000
+      internalID: 6184136839860211282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 6901
+        y: 9452
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89ff72db38841b760800000000000000
+      internalID: 7471832987435794328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 8251
+        y: 9452
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7880bb9975516d010800000000000000
+      internalID: 1213180615608436871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 9592
+        y: 9452
+        width: 1146
+        height: 1335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37d155b77fc23a180800000000000000
+      internalID: -9105384580175291021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 10930
+        y: 9452
+        width: 1144
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81564b3162865c330800000000000000
+      internalID: 3730502379094959384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 8102
+        width: 1145
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bacc60095f6cf6920800000000000000
+      internalID: 2985823835955580075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 1398
+        y: 8102
+        width: 1231
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b13cc2593a79423f0800000000000000
+      internalID: -926448894493277413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 2759
+        y: 8102
+        width: 1145
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc3bc05da8d7d93a0800000000000000
+      internalID: -6657026638950386741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 4110
+        y: 8102
+        width: 1144
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 401fa3bcd57a22f20800000000000000
+      internalID: 3396461090274210052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 5450
+        y: 8102
+        width: 1146
+        height: 1335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 796cf95cc92549da0800000000000000
+      internalID: -5939031175310883177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 6786
+        y: 8102
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c608de87eac36de0800000000000000
+      internalID: -1341005168143497531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 8136
+        y: 8102
+        width: 1161
+        height: 1329
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21897d84b11afddf0800000000000000
+      internalID: -153226723749029870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 9486
+        y: 8102
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f71707279c2d3040800000000000000
+      internalID: 4628905019713198070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 10850
+        y: 8102
+        width: 1146
+        height: 1335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3189534d9dd1473c0800000000000000
+      internalID: -4362829317609777133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 6752
+        width: 1144
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e17bed965439e750800000000000000
+      internalID: 6334651897494598120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 1409
+        y: 6752
+        width: 1145
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eccb9bc62c991f7e0800000000000000
+      internalID: -1733435321234113330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 2748
+        y: 6752
+        width: 1231
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5376c52e2a45317b0800000000000000
+      internalID: -5254763281652095179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 4178
+        y: 6752
+        width: 1145
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2746f013a7b3eb20800000000000000
+      internalID: 3162573274336347946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 5530
+        y: 6752
+        width: 1144
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a514b7b1cd234b6e0800000000000000
+      internalID: -1822776028242951846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 6880
+        y: 6752
+        width: 1147
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fc5f94d77582ae40800000000000000
+      internalID: 5666238030900321526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 8226
+        y: 6752
+        width: 1090
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36b275f93a3ba8370800000000000000
+      internalID: 8325664376482114403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 9576
+        y: 6752
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91b5dcbbc65826390800000000000000
+      internalID: -7826546500362740967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 10926
+        y: 6752
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e7813d1b55675780800000000000000
+      internalID: -8694369113609238554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 5402
+        width: 1145
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec22d9cc027d43b00800000000000000
+      internalID: 807506769077936846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 1476
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6325f2f9b71d65440800000000000000
+      internalID: 4924353571458077238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 2826
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d2f4e60bce44ed80800000000000000
+      internalID: -8222360385770687787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 4176
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a6e392713fd3d9f0800000000000000
+      internalID: -444766534710860119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 5526
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d87fcda2e90424de0800000000000000
+      internalID: -1350445890189592691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 6876
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dda9c8443b5a8000800000000000000
+      internalID: 38943826903674321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 8226
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 506b41091484f8ac0800000000000000
+      internalID: -3850779709951134203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 9576
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d86b8a609d3a47a30800000000000000
+      internalID: 4212171704013207181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 10926
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68ece0589161968c0800000000000000
+      internalID: -4005646094707011962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e5ad4a9e7dc8cb80800000000000000
+      internalID: -8374217563457083927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 1476
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 735aa14a686b653d0800000000000000
+      internalID: -3218184194314558153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 2826
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dacba4276b098f10800000000000000
+      internalID: 2272360024609901273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 4176
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38e0ffbf42b6ea740800000000000000
+      internalID: 5165183629231328899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 5526
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e9d1a270ff44ece0800000000000000
+      internalID: -1376887691934574103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 6876
+        y: 4052
+        width: 1090
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7afa775ae425545c0800000000000000
+      internalID: -4231885777107701849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 8230
+        y: 4052
+        width: 1147
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c068ad583f87fd580800000000000000
+      internalID: -8800182159540582900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 9580
+        y: 4052
+        width: 1144
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ee3137a0887d0ea0800000000000000
+      internalID: -5904931042456682778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 10850
+        y: 4052
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47c070e78baa25d70800000000000000
+      internalID: 9030467912196361332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 2702
+        width: 1227
+        height: 1298
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 642ff67278e574480800000000000000
+      internalID: -8915053002781363642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_46
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 2702
+        width: 1227
+        height: 1298
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f92d2b9725f15500800000000000000
+      internalID: 383356993759160819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_47
+      rect:
+        serializedVersion: 2
+        x: 2750
+        y: 2702
+        width: 1227
+        height: 1268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22e20caa457960f90800000000000000
+      internalID: -6987731381920977374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_48
+      rect:
+        serializedVersion: 2
+        x: 4100
+        y: 2702
+        width: 1227
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d80fa1230e8d4020800000000000000
+      internalID: 2327672726521579730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_49
+      rect:
+        serializedVersion: 2
+        x: 5450
+        y: 2702
+        width: 1227
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb8c79b2392eb45e0800000000000000
+      internalID: -1924195294051317569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_50
+      rect:
+        serializedVersion: 2
+        x: 6800
+        y: 2702
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b74b0e0e65ce2e1c0800000000000000
+      internalID: -4475755221768686469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_51
+      rect:
+        serializedVersion: 2
+        x: 8150
+        y: 2702
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d9f0138f51386d00800000000000000
+      internalID: 966076406361553367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_52
+      rect:
+        serializedVersion: 2
+        x: 9495
+        y: 2702
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0831514272753f510800000000000000
+      internalID: 1581703719757878144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_53
+      rect:
+        serializedVersion: 2
+        x: 10845
+        y: 2702
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6606b67121ba7dc60800000000000000
+      internalID: 7842925370279682150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_54
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 1352
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a15d46421d77c6870800000000000000
+      internalID: 8677442322178561306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 1352
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 201230a9d40d8e3d0800000000000000
+      internalID: -3177060505394929406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_56
+      rect:
+        serializedVersion: 2
+        x: 2745
+        y: 1352
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84214f9e9cf080e30800000000000000
+      internalID: 4469839990053147208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_57
+      rect:
+        serializedVersion: 2
+        x: 4095
+        y: 1352
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8489a577bfb551da0800000000000000
+      internalID: -5974768195039750072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_58
+      rect:
+        serializedVersion: 2
+        x: 5450
+        y: 1352
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbe9ace86736c4dd0800000000000000
+      internalID: -2500514332244533572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 6800
+        y: 1352
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6188d815eaf9ce580800000000000000
+      internalID: -8796480401120065514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 8145
+        y: 1352
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc4d8a268eb5b33d0800000000000000
+      internalID: -3225883654435056433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 9495
+        y: 1352
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4801598598abb100800000000000000
+      internalID: 124878774890203212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 10850
+        y: 1352
+        width: 1227
+        height: 1268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4f563de98259c1b0800000000000000
+      internalID: -5635882706333704372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 2
+        width: 1227
+        height: 1298
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0088070565ac15b0800000000000000
+      internalID: -5396256400168419316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_64
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 2
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbce321a671c4fa30800000000000000
+      internalID: 4248233063771008191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_65
+      rect:
+        serializedVersion: 2
+        x: 2750
+        y: 2
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc25769acc4d2b1d0800000000000000
+      internalID: -3336370398447578417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_66
+      rect:
+        serializedVersion: 2
+        x: 4100
+        y: 2
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac10abef72eeef030800000000000000
+      internalID: 3530521013449785802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaWaitinLine-Sheet_67
+      rect:
+        serializedVersion: 2
+        x: 5450
+        y: 2
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b0f02ebb33ebfc00800000000000000
+      internalID: 935591193341915316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      BlaWaitinLine-Sheet_0: -740119512982448820
+      BlaWaitinLine-Sheet_1: 3824096185434121628
+      BlaWaitinLine-Sheet_10: -926448894493277413
+      BlaWaitinLine-Sheet_11: -6657026638950386741
+      BlaWaitinLine-Sheet_12: 3396461090274210052
+      BlaWaitinLine-Sheet_13: -5939031175310883177
+      BlaWaitinLine-Sheet_14: -1341005168143497531
+      BlaWaitinLine-Sheet_15: -153226723749029870
+      BlaWaitinLine-Sheet_16: 4628905019713198070
+      BlaWaitinLine-Sheet_17: -4362829317609777133
+      BlaWaitinLine-Sheet_18: 6334651897494598120
+      BlaWaitinLine-Sheet_19: -1733435321234113330
+      BlaWaitinLine-Sheet_2: 9082565849483100479
+      BlaWaitinLine-Sheet_20: -5254763281652095179
+      BlaWaitinLine-Sheet_21: 3162573274336347946
+      BlaWaitinLine-Sheet_22: -1822776028242951846
+      BlaWaitinLine-Sheet_23: 5666238030900321526
+      BlaWaitinLine-Sheet_24: 8325664376482114403
+      BlaWaitinLine-Sheet_25: -7826546500362740967
+      BlaWaitinLine-Sheet_26: -8694369113609238554
+      BlaWaitinLine-Sheet_27: 807506769077936846
+      BlaWaitinLine-Sheet_28: 4924353571458077238
+      BlaWaitinLine-Sheet_29: -8222360385770687787
+      BlaWaitinLine-Sheet_3: -3473614520468400223
+      BlaWaitinLine-Sheet_30: -444766534710860119
+      BlaWaitinLine-Sheet_31: -1350445890189592691
+      BlaWaitinLine-Sheet_32: 38943826903674321
+      BlaWaitinLine-Sheet_33: -3850779709951134203
+      BlaWaitinLine-Sheet_34: 4212171704013207181
+      BlaWaitinLine-Sheet_35: -4005646094707011962
+      BlaWaitinLine-Sheet_36: -8374217563457083927
+      BlaWaitinLine-Sheet_37: -3218184194314558153
+      BlaWaitinLine-Sheet_38: 2272360024609901273
+      BlaWaitinLine-Sheet_39: 5165183629231328899
+      BlaWaitinLine-Sheet_4: 6184136839860211282
+      BlaWaitinLine-Sheet_40: -1376887691934574103
+      BlaWaitinLine-Sheet_41: -4231885777107701849
+      BlaWaitinLine-Sheet_42: -8800182159540582900
+      BlaWaitinLine-Sheet_43: -5904931042456682778
+      BlaWaitinLine-Sheet_44: 9030467912196361332
+      BlaWaitinLine-Sheet_45: -8915053002781363642
+      BlaWaitinLine-Sheet_46: 383356993759160819
+      BlaWaitinLine-Sheet_47: -6987731381920977374
+      BlaWaitinLine-Sheet_48: 2327672726521579730
+      BlaWaitinLine-Sheet_49: -1924195294051317569
+      BlaWaitinLine-Sheet_5: 7471832987435794328
+      BlaWaitinLine-Sheet_50: -4475755221768686469
+      BlaWaitinLine-Sheet_51: 966076406361553367
+      BlaWaitinLine-Sheet_52: 1581703719757878144
+      BlaWaitinLine-Sheet_53: 7842925370279682150
+      BlaWaitinLine-Sheet_54: 8677442322178561306
+      BlaWaitinLine-Sheet_55: -3177060505394929406
+      BlaWaitinLine-Sheet_56: 4469839990053147208
+      BlaWaitinLine-Sheet_57: -5974768195039750072
+      BlaWaitinLine-Sheet_58: -2500514332244533572
+      BlaWaitinLine-Sheet_59: -8796480401120065514
+      BlaWaitinLine-Sheet_6: 1213180615608436871
+      BlaWaitinLine-Sheet_60: -3225883654435056433
+      BlaWaitinLine-Sheet_61: 124878774890203212
+      BlaWaitinLine-Sheet_62: -5635882706333704372
+      BlaWaitinLine-Sheet_63: -5396256400168419316
+      BlaWaitinLine-Sheet_64: 4248233063771008191
+      BlaWaitinLine-Sheet_65: -3336370398447578417
+      BlaWaitinLine-Sheet_66: 3530521013449785802
+      BlaWaitinLine-Sheet_67: 935591193341915316
+      BlaWaitinLine-Sheet_7: -9105384580175291021
+      BlaWaitinLine-Sheet_8: 3730502379094959384
+      BlaWaitinLine-Sheet_9: 2985823835955580075
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

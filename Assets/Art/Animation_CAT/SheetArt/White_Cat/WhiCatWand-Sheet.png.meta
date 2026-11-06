@@ -1,0 +1,979 @@
+fileFormatVersion: 2
+guid: 67c453c8668ea864cb0440cc4dbba0e9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8772613165684571885
+    second: WhiCatWand-Sheet_0
+  - first:
+      213: 1089960282403147030
+    second: WhiCatWand-Sheet_1
+  - first:
+      213: 4898832470393897309
+    second: WhiCatWand-Sheet_2
+  - first:
+      213: -4507773516535020339
+    second: WhiCatWand-Sheet_3
+  - first:
+      213: -7152111585175674010
+    second: WhiCatWand-Sheet_4
+  - first:
+      213: 3423433305578959854
+    second: WhiCatWand-Sheet_5
+  - first:
+      213: 1432860515877040790
+    second: WhiCatWand-Sheet_6
+  - first:
+      213: 964258861142805654
+    second: WhiCatWand-Sheet_7
+  - first:
+      213: 4891069314732392571
+    second: WhiCatWand-Sheet_8
+  - first:
+      213: -8751646016597880044
+    second: WhiCatWand-Sheet_9
+  - first:
+      213: -3737132050241594272
+    second: WhiCatWand-Sheet_10
+  - first:
+      213: 1356639525561908841
+    second: WhiCatWand-Sheet_11
+  - first:
+      213: -2340787203004503192
+    second: WhiCatWand-Sheet_12
+  - first:
+      213: 4249781890009898965
+    second: WhiCatWand-Sheet_13
+  - first:
+      213: 6342390677509880227
+    second: WhiCatWand-Sheet_14
+  - first:
+      213: 7532431432376875888
+    second: WhiCatWand-Sheet_15
+  - first:
+      213: 6945268989727003183
+    second: WhiCatWand-Sheet_16
+  - first:
+      213: -5670724412448218648
+    second: WhiCatWand-Sheet_17
+  - first:
+      213: 4532609440476328413
+    second: WhiCatWand-Sheet_18
+  - first:
+      213: -2627757207167157840
+    second: WhiCatWand-Sheet_19
+  - first:
+      213: -6672762138058255649
+    second: WhiCatWand-Sheet_20
+  - first:
+      213: 6911939571488028175
+    second: WhiCatWand-Sheet_21
+  - first:
+      213: -2485673665699733934
+    second: WhiCatWand-Sheet_22
+  - first:
+      213: -4716707607378059139
+    second: WhiCatWand-Sheet_23
+  - first:
+      213: -9007377299188293426
+    second: WhiCatWand-Sheet_24
+  - first:
+      213: 2444228016806649677
+    second: WhiCatWand-Sheet_25
+  - first:
+      213: -403218123031198823
+    second: WhiCatWand-Sheet_26
+  - first:
+      213: 8559672873623124157
+    second: WhiCatWand-Sheet_27
+  - first:
+      213: 8696772861294329649
+    second: WhiCatWand-Sheet_28
+  - first:
+      213: 4781010544150796268
+    second: WhiCatWand-Sheet_29
+  - first:
+      213: 6643657755403861467
+    second: WhiCatWand-Sheet_30
+  - first:
+      213: 6703181741804527885
+    second: WhiCatWand-Sheet_31
+  - first:
+      213: 6741230599528527871
+    second: WhiCatWand-Sheet_32
+  - first:
+      213: -8808827371223964847
+    second: WhiCatWand-Sheet_33
+  - first:
+      213: -1175767088648522105
+    second: WhiCatWand-Sheet_34
+  - first:
+      213: 6523606968813657018
+    second: WhiCatWand-Sheet_35
+  - first:
+      213: -64457747176877971
+    second: WhiCatWand-Sheet_36
+  - first:
+      213: -4375131891744509422
+    second: WhiCatWand-Sheet_37
+  - first:
+      213: -7982801764574449970
+    second: WhiCatWand-Sheet_38
+  - first:
+      213: -4624889157604563359
+    second: WhiCatWand-Sheet_39
+  - first:
+      213: -5094523331680690408
+    second: WhiCatWand-Sheet_40
+  - first:
+      213: -7089269359026071379
+    second: WhiCatWand-Sheet_41
+  - first:
+      213: -1426471536407517918
+    second: WhiCatWand-Sheet_42
+  - first:
+      213: -1779403206930113171
+    second: WhiCatWand-Sheet_43
+  - first:
+      213: -8958814850853435879
+    second: WhiCatWand-Sheet_44
+  - first:
+      213: -5688698100436462763
+    second: WhiCatWand-Sheet_45
+  - first:
+      213: -6018659725535817911
+    second: WhiCatWand-Sheet_46
+  - first:
+      213: 2866872890108762856
+    second: WhiCatWand-Sheet_47
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dee3b84e1359eb970800000000000000
+      internalID: 8772613165684571885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61d8ceb1a11502f00800000000000000
+      internalID: 1089960282403147030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d514afb3d262cf340800000000000000
+      internalID: 4898832470393897309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc44403bedb2171c0800000000000000
+      internalID: -4507773516535020339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 663e5a328689ebc90800000000000000
+      internalID: -7152111585175674010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee3764b047a728f20800000000000000
+      internalID: 3423433305578959854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 692b88d2c0b82e310800000000000000
+      internalID: 1432860515877040790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69c80f9435cb16d00800000000000000
+      internalID: 964258861142805654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b700074b0a190e340800000000000000
+      internalID: 4891069314732392571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41398bce058eb8680800000000000000
+      internalID: -8751646016597880044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06c5f92533a032cc0800000000000000
+      internalID: -3737132050241594272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96e3f51f570c3d210800000000000000
+      internalID: 1356639525561908841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86be22ed07ad38fd0800000000000000
+      internalID: -2340787203004503192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5df9de6dc124afa30800000000000000
+      internalID: 4249781890009898965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a9b9bfb7b2b40850800000000000000
+      internalID: 6342390677509880227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07b7fcdaa72988860800000000000000
+      internalID: 7532431432376875888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f22d63a395d826060800000000000000
+      internalID: 6945268989727003183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e163e0113a8d41b0800000000000000
+      internalID: -5670724412448218648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd17c25754017ee30800000000000000
+      internalID: 4532609440476328413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b934d61eb4588bd0800000000000000
+      internalID: -2627757207167157840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd29c5270369563a0800000000000000
+      internalID: -6672762138058255649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0672835b642cef50800000000000000
+      internalID: 6911939571488028175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25e9c6088fc118dd0800000000000000
+      internalID: -2485673665699733934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7029d8db63ea8eb0800000000000000
+      internalID: -4716707607378059139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec0e6fbc11e5ff280800000000000000
+      internalID: -9007377299188293426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4f51d36e64abe120800000000000000
+      internalID: 2444228016806649677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 993c9b1e04b776af0800000000000000
+      internalID: -403218123031198823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db87ad1a0211ac670800000000000000
+      internalID: 8559672873623124157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13fb4b107d421b870800000000000000
+      internalID: 8696772861294329649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiCatWand-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce7518f42cf895240800000000000000
+      internalID: 4781010544150796268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: f10bec08e923d394b94000f025118147
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":6.0},"gridSpriteSize":{"x":1800.0,"y":1800.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      WhiCatWand-Sheet_0: 8772613165684571885
+      WhiCatWand-Sheet_1: 1089960282403147030
+      WhiCatWand-Sheet_10: -3737132050241594272
+      WhiCatWand-Sheet_11: 1356639525561908841
+      WhiCatWand-Sheet_12: -2340787203004503192
+      WhiCatWand-Sheet_13: 4249781890009898965
+      WhiCatWand-Sheet_14: 6342390677509880227
+      WhiCatWand-Sheet_15: 7532431432376875888
+      WhiCatWand-Sheet_16: 6945268989727003183
+      WhiCatWand-Sheet_17: -5670724412448218648
+      WhiCatWand-Sheet_18: 4532609440476328413
+      WhiCatWand-Sheet_19: -2627757207167157840
+      WhiCatWand-Sheet_2: 4898832470393897309
+      WhiCatWand-Sheet_20: -6672762138058255649
+      WhiCatWand-Sheet_21: 6911939571488028175
+      WhiCatWand-Sheet_22: -2485673665699733934
+      WhiCatWand-Sheet_23: -4716707607378059139
+      WhiCatWand-Sheet_24: -9007377299188293426
+      WhiCatWand-Sheet_25: 2444228016806649677
+      WhiCatWand-Sheet_26: -403218123031198823
+      WhiCatWand-Sheet_27: 8559672873623124157
+      WhiCatWand-Sheet_28: 8696772861294329649
+      WhiCatWand-Sheet_29: 4781010544150796268
+      WhiCatWand-Sheet_3: -4507773516535020339
+      WhiCatWand-Sheet_4: -7152111585175674010
+      WhiCatWand-Sheet_5: 3423433305578959854
+      WhiCatWand-Sheet_6: 1432860515877040790
+      WhiCatWand-Sheet_7: 964258861142805654
+      WhiCatWand-Sheet_8: 4891069314732392571
+      WhiCatWand-Sheet_9: -8751646016597880044
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

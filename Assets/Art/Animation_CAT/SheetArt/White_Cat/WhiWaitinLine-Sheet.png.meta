@@ -1,0 +1,1911 @@
+fileFormatVersion: 2
+guid: 38e01fbc9e7ebe3488b39a1e97c0822b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 947805183701964291
+    second: WhiWaitinLine-Sheet_0
+  - first:
+      213: -285270853429377600
+    second: WhiWaitinLine-Sheet_1
+  - first:
+      213: -4278620015922726035
+    second: WhiWaitinLine-Sheet_2
+  - first:
+      213: -8031213060176447660
+    second: WhiWaitinLine-Sheet_3
+  - first:
+      213: 4873215031502445956
+    second: WhiWaitinLine-Sheet_4
+  - first:
+      213: 7609417331327720286
+    second: WhiWaitinLine-Sheet_5
+  - first:
+      213: -8568493172918688435
+    second: WhiWaitinLine-Sheet_6
+  - first:
+      213: 7343308502818803318
+    second: WhiWaitinLine-Sheet_7
+  - first:
+      213: 3114668094610423409
+    second: WhiWaitinLine-Sheet_8
+  - first:
+      213: 695192230448052548
+    second: WhiWaitinLine-Sheet_9
+  - first:
+      213: 5802859735338165716
+    second: WhiWaitinLine-Sheet_10
+  - first:
+      213: 5098270151191031540
+    second: WhiWaitinLine-Sheet_11
+  - first:
+      213: 8977603990560686963
+    second: WhiWaitinLine-Sheet_12
+  - first:
+      213: -2653419167643608279
+    second: WhiWaitinLine-Sheet_13
+  - first:
+      213: 4010469839465912790
+    second: WhiWaitinLine-Sheet_14
+  - first:
+      213: 93651662966788176
+    second: WhiWaitinLine-Sheet_15
+  - first:
+      213: -2274027595009960040
+    second: WhiWaitinLine-Sheet_16
+  - first:
+      213: -532408587334608412
+    second: WhiWaitinLine-Sheet_17
+  - first:
+      213: 6488949490636281883
+    second: WhiWaitinLine-Sheet_18
+  - first:
+      213: 4673059402446429281
+    second: WhiWaitinLine-Sheet_19
+  - first:
+      213: -8827041941283605713
+    second: WhiWaitinLine-Sheet_20
+  - first:
+      213: -2270313694124966342
+    second: WhiWaitinLine-Sheet_21
+  - first:
+      213: -2180784271698817893
+    second: WhiWaitinLine-Sheet_22
+  - first:
+      213: -6871827630970445264
+    second: WhiWaitinLine-Sheet_23
+  - first:
+      213: 1694599746480775606
+    second: WhiWaitinLine-Sheet_24
+  - first:
+      213: 3425357000582186470
+    second: WhiWaitinLine-Sheet_25
+  - first:
+      213: 7252467445301142852
+    second: WhiWaitinLine-Sheet_26
+  - first:
+      213: -4358387574206983901
+    second: WhiWaitinLine-Sheet_27
+  - first:
+      213: -5490331132638902547
+    second: WhiWaitinLine-Sheet_28
+  - first:
+      213: -8164096256009918915
+    second: WhiWaitinLine-Sheet_29
+  - first:
+      213: 7181528373534274102
+    second: WhiWaitinLine-Sheet_30
+  - first:
+      213: 8126335701727866994
+    second: WhiWaitinLine-Sheet_31
+  - first:
+      213: 3349644997765112524
+    second: WhiWaitinLine-Sheet_32
+  - first:
+      213: 152286047489570453
+    second: WhiWaitinLine-Sheet_33
+  - first:
+      213: -264154314255970238
+    second: WhiWaitinLine-Sheet_34
+  - first:
+      213: 6056353200256935313
+    second: WhiWaitinLine-Sheet_35
+  - first:
+      213: 4610287359773375174
+    second: WhiWaitinLine-Sheet_36
+  - first:
+      213: 4001704225912348897
+    second: WhiWaitinLine-Sheet_37
+  - first:
+      213: 1692208941739367558
+    second: WhiWaitinLine-Sheet_38
+  - first:
+      213: -6777126668439205166
+    second: WhiWaitinLine-Sheet_39
+  - first:
+      213: 6644885284851634555
+    second: WhiWaitinLine-Sheet_40
+  - first:
+      213: 6221190812118847995
+    second: WhiWaitinLine-Sheet_41
+  - first:
+      213: 6301830820829101537
+    second: WhiWaitinLine-Sheet_42
+  - first:
+      213: -4065716379709792898
+    second: WhiWaitinLine-Sheet_43
+  - first:
+      213: -6320804921274518416
+    second: WhiWaitinLine-Sheet_44
+  - first:
+      213: -6274199219806813652
+    second: WhiWaitinLine-Sheet_45
+  - first:
+      213: 7724142642369551648
+    second: WhiWaitinLine-Sheet_46
+  - first:
+      213: -3489716716560605814
+    second: WhiWaitinLine-Sheet_47
+  - first:
+      213: -2752333212498774652
+    second: WhiWaitinLine-Sheet_48
+  - first:
+      213: 7785486056504827721
+    second: WhiWaitinLine-Sheet_49
+  - first:
+      213: -4017209579091516358
+    second: WhiWaitinLine-Sheet_50
+  - first:
+      213: -3584060550205863323
+    second: WhiWaitinLine-Sheet_51
+  - first:
+      213: -8416382954776278016
+    second: WhiWaitinLine-Sheet_52
+  - first:
+      213: -1891266734568232277
+    second: WhiWaitinLine-Sheet_53
+  - first:
+      213: -1322282343695081276
+    second: WhiWaitinLine-Sheet_54
+  - first:
+      213: 6669116757245232010
+    second: WhiWaitinLine-Sheet_55
+  - first:
+      213: 6083042768230652159
+    second: WhiWaitinLine-Sheet_56
+  - first:
+      213: 3685603212997914284
+    second: WhiWaitinLine-Sheet_57
+  - first:
+      213: 8931432306087637668
+    second: WhiWaitinLine-Sheet_58
+  - first:
+      213: -556909061798522327
+    second: WhiWaitinLine-Sheet_59
+  - first:
+      213: -5150227581617123372
+    second: WhiWaitinLine-Sheet_60
+  - first:
+      213: 6030167755959227936
+    second: WhiWaitinLine-Sheet_61
+  - first:
+      213: -8586954691776595774
+    second: WhiWaitinLine-Sheet_62
+  - first:
+      213: 4626273849285802652
+    second: WhiWaitinLine-Sheet_63
+  - first:
+      213: -5988261061877358102
+    second: WhiWaitinLine-Sheet_64
+  - first:
+      213: -5503780428047520877
+    second: WhiWaitinLine-Sheet_65
+  - first:
+      213: -5861910687157586760
+    second: WhiWaitinLine-Sheet_66
+  - first:
+      213: -8379954723191960380
+    second: WhiWaitinLine-Sheet_67
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 9452
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30654dafac7472d00800000000000000
+      internalID: 947805183701964291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1478
+        y: 9452
+        width: 1145
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c5c1949ba38a0cf0800000000000000
+      internalID: -285270853429377600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 2830
+        y: 9452
+        width: 1144
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6bbc0eb3c94f94c0800000000000000
+      internalID: -4278620015922726035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 4192
+        y: 9452
+        width: 1146
+        height: 1335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45774b0e5466b8090800000000000000
+      internalID: -8031213060176447660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 5551
+        y: 9452
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48d1cc2704321a340800000000000000
+      internalID: 4873215031502445956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 6901
+        y: 9452
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5b5d751fb41a9960800000000000000
+      internalID: 7609417331327720286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 8251
+        y: 9452
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4562d76bd8961980800000000000000
+      internalID: -8568493172918688435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 9592
+        y: 9452
+        width: 1146
+        height: 1335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67ece924d2ca8e560800000000000000
+      internalID: 7343308502818803318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 10930
+        y: 9452
+        width: 1144
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17e3f7c3126893b20800000000000000
+      internalID: 3114668094610423409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 8102
+        width: 1145
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 449b77a76a1d5a900800000000000000
+      internalID: 695192230448052548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 1398
+        y: 8102
+        width: 1231
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d5af363f26e78050800000000000000
+      internalID: 5802859735338165716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 2759
+        y: 8102
+        width: 1145
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fee7b2d0b1b0c640800000000000000
+      internalID: 5098270151191031540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 4110
+        y: 8102
+        width: 1144
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 373cf77934bd69c70800000000000000
+      internalID: 8977603990560686963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 5450
+        y: 8102
+        width: 1146
+        height: 1335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92bd36053592d2bd0800000000000000
+      internalID: -2653419167643608279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 6786
+        y: 8102
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d998c3121d08a730800000000000000
+      internalID: 4010469839465912790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 8136
+        y: 8102
+        width: 1161
+        height: 1329
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05092c7f0b7bc4100800000000000000
+      internalID: 93651662966788176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 9486
+        y: 8102
+        width: 1161
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 897defd53f70170e0800000000000000
+      internalID: -2274027595009960040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 10850
+        y: 8102
+        width: 1146
+        height: 1335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e99d8ce5318c98f0800000000000000
+      internalID: -532408587334608412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 6752
+        width: 1144
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b18d3da8e216d0a50800000000000000
+      internalID: 6488949490636281883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 1409
+        y: 6752
+        width: 1145
+        height: 1328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16c5e1184ca0ad040800000000000000
+      internalID: 4673059402446429281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 2748
+        y: 6752
+        width: 1231
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f23f0504f1c008580800000000000000
+      internalID: -8827041941283605713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 4178
+        y: 6752
+        width: 1145
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3ef9fc49b93e70e0800000000000000
+      internalID: -2270313694124966342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 5530
+        y: 6752
+        width: 1144
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9c02a9524c4cb1e0800000000000000
+      internalID: -2180784271698817893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 6880
+        y: 6752
+        width: 1147
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 032ea4a9d2d52a0a0800000000000000
+      internalID: -6871827630970445264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 8226
+        y: 6752
+        width: 1090
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b12475bd7d648710800000000000000
+      internalID: 1694599746480775606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 9576
+        y: 6752
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e549903b00598f20800000000000000
+      internalID: 3425357000582186470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 10926
+        y: 6752
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 445624e57b0f5a460800000000000000
+      internalID: 7252467445301142852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 5402
+        width: 1145
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3219aedc795e383c0800000000000000
+      internalID: -4358387574206983901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 1476
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de64ac38cec6ec3b0800000000000000
+      internalID: -5490331132638902547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 2826
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d36ae6cd5bd43be80800000000000000
+      internalID: -8164096256009918915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 4176
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63236e0a10ae9a360800000000000000
+      internalID: 7181528373534274102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 5526
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 270701bf34b86c070800000000000000
+      internalID: 8126335701727866994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 6876
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc22477d0645c7e20800000000000000
+      internalID: 3349644997765112524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 8226
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5963dd47a570d1200800000000000000
+      internalID: 152286047489570453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 9576
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 240d2ecfc09855cf0800000000000000
+      internalID: -264154314255970238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 10926
+        y: 5402
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1956d9fc52d7c0450800000000000000
+      internalID: 6056353200256935313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6caf3c76de70bff30800000000000000
+      internalID: 4610287359773375174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 1476
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e06fa1aac8e88730800000000000000
+      internalID: 4001704225912348897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 2826
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68c5d1a111feb7710800000000000000
+      internalID: 1692208941739367558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 4176
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2dacad9a33fc2f1a0800000000000000
+      internalID: -6777126668439205166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 5526
+        y: 4052
+        width: 1143
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b715dc0e5ff573c50800000000000000
+      internalID: 6644885284851634555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 6876
+        y: 4052
+        width: 1090
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf19444151c165650800000000000000
+      internalID: 6221190812118847995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 8230
+        y: 4052
+        width: 1147
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ed70263eb9947750800000000000000
+      internalID: 6301830820829101537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 9580
+        y: 4052
+        width: 1144
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7d19e56e7ca397c0800000000000000
+      internalID: -4065716379709792898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 10850
+        y: 4052
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07434e4c96df748a0800000000000000
+      internalID: -6320804921274518416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 2702
+        width: 1227
+        height: 1298
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c22c16d3d019de8a0800000000000000
+      internalID: -6274199219806813652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_46
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 2702
+        width: 1227
+        height: 1298
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02d52e81fcaa13b60800000000000000
+      internalID: 7724142642369551648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_47
+      rect:
+        serializedVersion: 2
+        x: 2750
+        y: 2702
+        width: 1227
+        height: 1268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8d99a6b229029fc0800000000000000
+      internalID: -3489716716560605814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_48
+      rect:
+        serializedVersion: 2
+        x: 4100
+        y: 2702
+        width: 1227
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4853085968fbdc9d0800000000000000
+      internalID: -2752333212498774652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_49
+      rect:
+        serializedVersion: 2
+        x: 5450
+        y: 2702
+        width: 1227
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94f1ab1b15a9b0c60800000000000000
+      internalID: 7785486056504827721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_50
+      rect:
+        serializedVersion: 2
+        x: 6800
+        y: 2702
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3424f10c210048c0800000000000000
+      internalID: -4017209579091516358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_51
+      rect:
+        serializedVersion: 2
+        x: 8150
+        y: 2702
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56a0d733bebd24ec0800000000000000
+      internalID: -3584060550205863323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_52
+      rect:
+        serializedVersion: 2
+        x: 9495
+        y: 2702
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00c48e66b40033b80800000000000000
+      internalID: -8416382954776278016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_53
+      rect:
+        serializedVersion: 2
+        x: 10845
+        y: 2702
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: baa2c8edceed0c5e0800000000000000
+      internalID: -1891266734568232277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_54
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 1352
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c0a843d63f46ade0800000000000000
+      internalID: -1322282343695081276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 1352
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8305313b567d8c50800000000000000
+      internalID: 6669116757245232010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_56
+      rect:
+        serializedVersion: 2
+        x: 2745
+        y: 1352
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff895e91b2f4b6450800000000000000
+      internalID: 6083042768230652159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_57
+      rect:
+        serializedVersion: 2
+        x: 4095
+        y: 1352
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cae67c55894e52330800000000000000
+      internalID: 3685603212997914284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_58
+      rect:
+        serializedVersion: 2
+        x: 5450
+        y: 1352
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a23dc39c52d2fb70800000000000000
+      internalID: 8931432306087637668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 6800
+        y: 1352
+        width: 1227
+        height: 1203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9229d4fa8267548f0800000000000000
+      internalID: -556909061798522327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 8145
+        y: 1352
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4dfca453d47b688b0800000000000000
+      internalID: -5150227581617123372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 9495
+        y: 1352
+        width: 1238
+        height: 1248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 026d6f5ff957fa350800000000000000
+      internalID: 6030167755959227936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 10850
+        y: 1352
+        width: 1227
+        height: 1268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c83846143205d880800000000000000
+      internalID: -8586954691776595774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 2
+        width: 1227
+        height: 1298
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9afb5c0e83d33040800000000000000
+      internalID: 4626273849285802652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_64
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 2
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae12f789a4c65eca0800000000000000
+      internalID: -5988261061877358102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_65
+      rect:
+        serializedVersion: 2
+        x: 2750
+        y: 2
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39bea786cd4ae93b0800000000000000
+      internalID: -5503780428047520877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_66
+      rect:
+        serializedVersion: 2
+        x: 4100
+        y: 2
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b4f7eaa94f46aea0800000000000000
+      internalID: -5861910687157586760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WhiWaitinLine-Sheet_67
+      rect:
+        serializedVersion: 2
+        x: 5450
+        y: 2
+        width: 1227
+        height: 1324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cc4942049b64bb80800000000000000
+      internalID: -8379954723191960380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      WhiWaitinLine-Sheet_0: 947805183701964291
+      WhiWaitinLine-Sheet_1: -285270853429377600
+      WhiWaitinLine-Sheet_10: 5802859735338165716
+      WhiWaitinLine-Sheet_11: 5098270151191031540
+      WhiWaitinLine-Sheet_12: 8977603990560686963
+      WhiWaitinLine-Sheet_13: -2653419167643608279
+      WhiWaitinLine-Sheet_14: 4010469839465912790
+      WhiWaitinLine-Sheet_15: 93651662966788176
+      WhiWaitinLine-Sheet_16: -2274027595009960040
+      WhiWaitinLine-Sheet_17: -532408587334608412
+      WhiWaitinLine-Sheet_18: 6488949490636281883
+      WhiWaitinLine-Sheet_19: 4673059402446429281
+      WhiWaitinLine-Sheet_2: -4278620015922726035
+      WhiWaitinLine-Sheet_20: -8827041941283605713
+      WhiWaitinLine-Sheet_21: -2270313694124966342
+      WhiWaitinLine-Sheet_22: -2180784271698817893
+      WhiWaitinLine-Sheet_23: -6871827630970445264
+      WhiWaitinLine-Sheet_24: 1694599746480775606
+      WhiWaitinLine-Sheet_25: 3425357000582186470
+      WhiWaitinLine-Sheet_26: 7252467445301142852
+      WhiWaitinLine-Sheet_27: -4358387574206983901
+      WhiWaitinLine-Sheet_28: -5490331132638902547
+      WhiWaitinLine-Sheet_29: -8164096256009918915
+      WhiWaitinLine-Sheet_3: -8031213060176447660
+      WhiWaitinLine-Sheet_30: 7181528373534274102
+      WhiWaitinLine-Sheet_31: 8126335701727866994
+      WhiWaitinLine-Sheet_32: 3349644997765112524
+      WhiWaitinLine-Sheet_33: 152286047489570453
+      WhiWaitinLine-Sheet_34: -264154314255970238
+      WhiWaitinLine-Sheet_35: 6056353200256935313
+      WhiWaitinLine-Sheet_36: 4610287359773375174
+      WhiWaitinLine-Sheet_37: 4001704225912348897
+      WhiWaitinLine-Sheet_38: 1692208941739367558
+      WhiWaitinLine-Sheet_39: -6777126668439205166
+      WhiWaitinLine-Sheet_4: 4873215031502445956
+      WhiWaitinLine-Sheet_40: 6644885284851634555
+      WhiWaitinLine-Sheet_41: 6221190812118847995
+      WhiWaitinLine-Sheet_42: 6301830820829101537
+      WhiWaitinLine-Sheet_43: -4065716379709792898
+      WhiWaitinLine-Sheet_44: -6320804921274518416
+      WhiWaitinLine-Sheet_45: -6274199219806813652
+      WhiWaitinLine-Sheet_46: 7724142642369551648
+      WhiWaitinLine-Sheet_47: -3489716716560605814
+      WhiWaitinLine-Sheet_48: -2752333212498774652
+      WhiWaitinLine-Sheet_49: 7785486056504827721
+      WhiWaitinLine-Sheet_5: 7609417331327720286
+      WhiWaitinLine-Sheet_50: -4017209579091516358
+      WhiWaitinLine-Sheet_51: -3584060550205863323
+      WhiWaitinLine-Sheet_52: -8416382954776278016
+      WhiWaitinLine-Sheet_53: -1891266734568232277
+      WhiWaitinLine-Sheet_54: -1322282343695081276
+      WhiWaitinLine-Sheet_55: 6669116757245232010
+      WhiWaitinLine-Sheet_56: 6083042768230652159
+      WhiWaitinLine-Sheet_57: 3685603212997914284
+      WhiWaitinLine-Sheet_58: 8931432306087637668
+      WhiWaitinLine-Sheet_59: -556909061798522327
+      WhiWaitinLine-Sheet_6: -8568493172918688435
+      WhiWaitinLine-Sheet_60: -5150227581617123372
+      WhiWaitinLine-Sheet_61: 6030167755959227936
+      WhiWaitinLine-Sheet_62: -8586954691776595774
+      WhiWaitinLine-Sheet_63: 4626273849285802652
+      WhiWaitinLine-Sheet_64: -5988261061877358102
+      WhiWaitinLine-Sheet_65: -5503780428047520877
+      WhiWaitinLine-Sheet_66: -5861910687157586760
+      WhiWaitinLine-Sheet_67: -8379954723191960380
+      WhiWaitinLine-Sheet_7: 7343308502818803318
+      WhiWaitinLine-Sheet_8: 3114668094610423409
+      WhiWaitinLine-Sheet_9: 695192230448052548
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

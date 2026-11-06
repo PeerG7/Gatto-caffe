@@ -1,0 +1,948 @@
+fileFormatVersion: 2
+guid: 6d37e16a31a7dc2419ab02a957abcc09
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4377820845710929991
+    second: BlaPet-Sheet_0
+  - first:
+      213: -4291690859062643002
+    second: BlaPet-Sheet_1
+  - first:
+      213: 3861137064491602301
+    second: BlaPet-Sheet_2
+  - first:
+      213: -3691115924391467
+    second: BlaPet-Sheet_3
+  - first:
+      213: -7388535293156555658
+    second: BlaPet-Sheet_4
+  - first:
+      213: 2431827837880483661
+    second: BlaPet-Sheet_5
+  - first:
+      213: 2990182114205906519
+    second: BlaPet-Sheet_6
+  - first:
+      213: -7771656900457122142
+    second: BlaPet-Sheet_7
+  - first:
+      213: -1996188329373164073
+    second: BlaPet-Sheet_8
+  - first:
+      213: -688654306229444010
+    second: BlaPet-Sheet_9
+  - first:
+      213: -4648449154818399562
+    second: BlaPet-Sheet_10
+  - first:
+      213: 859124251511211616
+    second: BlaPet-Sheet_11
+  - first:
+      213: -6056331925356047617
+    second: BlaPet-Sheet_12
+  - first:
+      213: 5209368889200575678
+    second: BlaPet-Sheet_13
+  - first:
+      213: 3159586267410840604
+    second: BlaPet-Sheet_14
+  - first:
+      213: -518286491907266474
+    second: BlaPet-Sheet_15
+  - first:
+      213: -7781806599490007047
+    second: BlaPet-Sheet_16
+  - first:
+      213: -2451638361494886822
+    second: BlaPet-Sheet_17
+  - first:
+      213: 622233692223743836
+    second: BlaPet-Sheet_18
+  - first:
+      213: -5675156220850246529
+    second: BlaPet-Sheet_19
+  - first:
+      213: -2794380188506481874
+    second: BlaPet-Sheet_20
+  - first:
+      213: 6503530440753354977
+    second: BlaPet-Sheet_21
+  - first:
+      213: 1164812394832102121
+    second: BlaPet-Sheet_22
+  - first:
+      213: -294095772591177707
+    second: BlaPet-Sheet_23
+  - first:
+      213: 2463669856556896017
+    second: BlaPet-Sheet_24
+  - first:
+      213: 7066896724888203066
+    second: BlaPet-Sheet_25
+  - first:
+      213: -6093531297780476557
+    second: BlaPet-Sheet_26
+  - first:
+      213: -1285282565451541091
+    second: BlaPet-Sheet_27
+  - first:
+      213: -4325245043912729923
+    second: BlaPet-Sheet_28
+  - first:
+      213: 3689162899908198405
+    second: BlaPet-Sheet_29
+  - first:
+      213: 7174493940515535958
+    second: BlaPet-Sheet_30
+  - first:
+      213: -4609540388272264855
+    second: BlaPet-Sheet_31
+  - first:
+      213: 7079260193623332468
+    second: BlaPet-Sheet_32
+  - first:
+      213: -4426512690813499340
+    second: BlaPet-Sheet_33
+  - first:
+      213: 7478438210262463971
+    second: BlaPet-Sheet_34
+  - first:
+      213: -518288813720647490
+    second: BlaPet-Sheet_35
+  - first:
+      213: -1743531415502458032
+    second: BlaPet-Sheet_36
+  - first:
+      213: -8326009461170272349
+    second: BlaPet-Sheet_37
+  - first:
+      213: -7529790410724037660
+    second: BlaPet-Sheet_38
+  - first:
+      213: -4592870675978879229
+    second: BlaPet-Sheet_39
+  - first:
+      213: 7570820291492237055
+    second: BlaPet-Sheet_40
+  - first:
+      213: -5810603068461950529
+    second: BlaPet-Sheet_41
+  - first:
+      213: -3757226515934997710
+    second: BlaPet-Sheet_42
+  - first:
+      213: 6260028621779426909
+    second: BlaPet-Sheet_43
+  - first:
+      213: 7390451556422857539
+    second: BlaPet-Sheet_44
+  - first:
+      213: -2882917728166397763
+    second: BlaPet-Sheet_45
+  - first:
+      213: -8137318788229081441
+    second: BlaPet-Sheet_46
+  - first:
+      213: -2177319824314932790
+    second: BlaPet-Sheet_47
+  - first:
+      213: 5097018222610655001
+    second: BlaPet-Sheet_48
+  - first:
+      213: 3611381708446419621
+    second: BlaPet-Sheet_49
+  - first:
+      213: 3979877367612585690
+    second: BlaPet-Sheet_50
+  - first:
+      213: 8989342075709465645
+    second: BlaPet-Sheet_51
+  - first:
+      213: -4437652682968741756
+    second: BlaPet-Sheet_52
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BlaPet-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 10240
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bf8911b22bde33c0800000000000000
+      internalID: -4377820845710929991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 10240
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c6b7cbe6e9d074c0800000000000000
+      internalID: -4291690859062643002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 10240
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d71dd16f3b3859530800000000000000
+      internalID: 3861137064491602301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 10240
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d9708a13f2e2fff0800000000000000
+      internalID: -3691115924391467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 8192
+        y: 10240
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67487f80c46a67990800000000000000
+      internalID: -7388535293156555658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8192
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4fb5cfb8869fb120800000000000000
+      internalID: 2431827837880483661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 8192
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75638fa4ac24f7920800000000000000
+      internalID: 2990182114205906519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 8192
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a63a0c9937852490800000000000000
+      internalID: -7771656900457122142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 8192
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dd9eea6a4d1c44e0800000000000000
+      internalID: -1996188329373164073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 8192
+        y: 8192
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 652a620ae886176f0800000000000000
+      internalID: -688654306229444010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6144
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b2a59a4f146d7fb0800000000000000
+      internalID: -4648449154818399562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 6144
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 066cf3574f83ceb00800000000000000
+      internalID: 859124251511211616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 6144
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff29b43a33693fba0800000000000000
+      internalID: -6056331925356047617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 6144
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb485c087656b4840800000000000000
+      internalID: 5209368889200575678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 8192
+        y: 6144
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1cb93258fa19db20800000000000000
+      internalID: 3159586267410840604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4096
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 658ebfd7e2daec8f0800000000000000
+      internalID: -518286491907266474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 4096
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ff8b96a028710490800000000000000
+      internalID: -7781806599490007047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 4096
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a56606946e70afdd0800000000000000
+      internalID: -2451638361494886822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 4096
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c57a6401f3e92a800800000000000000
+      internalID: 622233692223743836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 8192
+        y: 4096
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7c6f534c7bcd31b0800000000000000
+      internalID: -5675156220850246529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2048
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2b9ea8160e5839d0800000000000000
+      internalID: -2794380188506481874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 2048
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e81b0b8a7e214a50800000000000000
+      internalID: 6503530440753354977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 2048
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e280ff93be3a2010800000000000000
+      internalID: 1164812394832102121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 2048
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51042c8f3792bebf0800000000000000
+      internalID: -294095772591177707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 8192
+        y: 2048
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11f49e37ea6b03220800000000000000
+      internalID: 2463669856556896017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3f25571129a21260800000000000000
+      internalID: 7066896724888203066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 0
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 375d110d19d6f6ba0800000000000000
+      internalID: -6093531297780476557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaPet-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 0
+        width: 2048
+        height: 2048
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9512420152c92ee0800000000000000
+      internalID: -1285282565451541091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: eb1a8815c78915946ab96ffa12bd5b95
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":6.0},"gridSpriteSize":{"x":2048.0,"y":2048.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      BlaPet-Sheet_0: -4377820845710929991
+      BlaPet-Sheet_1: -4291690859062643002
+      BlaPet-Sheet_10: -4648449154818399562
+      BlaPet-Sheet_11: 859124251511211616
+      BlaPet-Sheet_12: -6056331925356047617
+      BlaPet-Sheet_13: 5209368889200575678
+      BlaPet-Sheet_14: 3159586267410840604
+      BlaPet-Sheet_15: -518286491907266474
+      BlaPet-Sheet_16: -7781806599490007047
+      BlaPet-Sheet_17: -2451638361494886822
+      BlaPet-Sheet_18: 622233692223743836
+      BlaPet-Sheet_19: -5675156220850246529
+      BlaPet-Sheet_2: 3861137064491602301
+      BlaPet-Sheet_20: -2794380188506481874
+      BlaPet-Sheet_21: 6503530440753354977
+      BlaPet-Sheet_22: 1164812394832102121
+      BlaPet-Sheet_23: -294095772591177707
+      BlaPet-Sheet_24: 2463669856556896017
+      BlaPet-Sheet_25: 7066896724888203066
+      BlaPet-Sheet_26: -6093531297780476557
+      BlaPet-Sheet_27: -1285282565451541091
+      BlaPet-Sheet_3: -3691115924391467
+      BlaPet-Sheet_4: -7388535293156555658
+      BlaPet-Sheet_5: 2431827837880483661
+      BlaPet-Sheet_6: 2990182114205906519
+      BlaPet-Sheet_7: -7771656900457122142
+      BlaPet-Sheet_8: -1996188329373164073
+      BlaPet-Sheet_9: -688654306229444010
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

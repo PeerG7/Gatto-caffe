@@ -1,0 +1,979 @@
+fileFormatVersion: 2
+guid: 6f58f1142e5c57d4a966210de55842b9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5858598212927272388
+    second: BlaCatWand-Sheet_0
+  - first:
+      213: -3202902109924443454
+    second: BlaCatWand-Sheet_1
+  - first:
+      213: -8587730067667855384
+    second: BlaCatWand-Sheet_2
+  - first:
+      213: -5542164273747515479
+    second: BlaCatWand-Sheet_3
+  - first:
+      213: -6829779888135220109
+    second: BlaCatWand-Sheet_4
+  - first:
+      213: 1051690590348350626
+    second: BlaCatWand-Sheet_5
+  - first:
+      213: 8108076142720247510
+    second: BlaCatWand-Sheet_6
+  - first:
+      213: -4488585909321616697
+    second: BlaCatWand-Sheet_7
+  - first:
+      213: 6964624574435736010
+    second: BlaCatWand-Sheet_8
+  - first:
+      213: -3059862809383771305
+    second: BlaCatWand-Sheet_9
+  - first:
+      213: 6494193397267212632
+    second: BlaCatWand-Sheet_10
+  - first:
+      213: 3150174760035465227
+    second: BlaCatWand-Sheet_11
+  - first:
+      213: -8955752678441886697
+    second: BlaCatWand-Sheet_12
+  - first:
+      213: -5694824639212972694
+    second: BlaCatWand-Sheet_13
+  - first:
+      213: 6765216790135002268
+    second: BlaCatWand-Sheet_14
+  - first:
+      213: 3042651545535793158
+    second: BlaCatWand-Sheet_15
+  - first:
+      213: -7718887928123788090
+    second: BlaCatWand-Sheet_16
+  - first:
+      213: 1257782274589809047
+    second: BlaCatWand-Sheet_17
+  - first:
+      213: -2205601712437481509
+    second: BlaCatWand-Sheet_18
+  - first:
+      213: -4903861437304612895
+    second: BlaCatWand-Sheet_19
+  - first:
+      213: -8951487516746385563
+    second: BlaCatWand-Sheet_20
+  - first:
+      213: -2595390845389720013
+    second: BlaCatWand-Sheet_21
+  - first:
+      213: -1628921640387455181
+    second: BlaCatWand-Sheet_22
+  - first:
+      213: 7622705693370276850
+    second: BlaCatWand-Sheet_23
+  - first:
+      213: 5724145600696485701
+    second: BlaCatWand-Sheet_24
+  - first:
+      213: -5077396920515269295
+    second: BlaCatWand-Sheet_25
+  - first:
+      213: -418347967357088474
+    second: BlaCatWand-Sheet_26
+  - first:
+      213: 8462775332116612629
+    second: BlaCatWand-Sheet_27
+  - first:
+      213: -38565496702140078
+    second: BlaCatWand-Sheet_28
+  - first:
+      213: 2752568523969107317
+    second: BlaCatWand-Sheet_29
+  - first:
+      213: 8674163680196176505
+    second: BlaCatWand-Sheet_30
+  - first:
+      213: 8465384362646499149
+    second: BlaCatWand-Sheet_31
+  - first:
+      213: 2657728748999930255
+    second: BlaCatWand-Sheet_32
+  - first:
+      213: 4638353299175223205
+    second: BlaCatWand-Sheet_33
+  - first:
+      213: -3146818757812315772
+    second: BlaCatWand-Sheet_34
+  - first:
+      213: 5870647249535279617
+    second: BlaCatWand-Sheet_35
+  - first:
+      213: 1834899957508142015
+    second: BlaCatWand-Sheet_36
+  - first:
+      213: -5068258227125982565
+    second: BlaCatWand-Sheet_37
+  - first:
+      213: 5426640176797368243
+    second: BlaCatWand-Sheet_38
+  - first:
+      213: 3429453441681567447
+    second: BlaCatWand-Sheet_39
+  - first:
+      213: -7309652525113709508
+    second: BlaCatWand-Sheet_40
+  - first:
+      213: 5802679146964103286
+    second: BlaCatWand-Sheet_41
+  - first:
+      213: 6126632951608447305
+    second: BlaCatWand-Sheet_42
+  - first:
+      213: 1666282390524628259
+    second: BlaCatWand-Sheet_43
+  - first:
+      213: 2622053168556629452
+    second: BlaCatWand-Sheet_44
+  - first:
+      213: -5001458054703300872
+    second: BlaCatWand-Sheet_45
+  - first:
+      213: -6951004338950776607
+    second: BlaCatWand-Sheet_46
+  - first:
+      213: 3475154335289082358
+    second: BlaCatWand-Sheet_47
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c5b443d80ced4150800000000000000
+      internalID: 5858598212927272388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2caba9f20810d83d0800000000000000
+      internalID: -3202902109924443454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e757b1d00142d880800000000000000
+      internalID: -8587730067667855384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a72b68e4f64613b0800000000000000
+      internalID: -5542164273747515479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 374d791a06fb731a0800000000000000
+      internalID: -6829779888135220109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a49553150b589e00800000000000000
+      internalID: 1051690590348350626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d6e8aa1b4ca58070800000000000000
+      internalID: 8108076142720247510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c2bf03a5e655b1c0800000000000000
+      internalID: -4488585909321616697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac9b239762157a060800000000000000
+      internalID: 6964624574435736010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75360499cfe2985d0800000000000000
+      internalID: -3059862809383771305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 859acc2bc72002a50800000000000000
+      internalID: 6494193397267212632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b08b050014ba7bb20800000000000000
+      internalID: 3150174760035465227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71cd7397366c6b380800000000000000
+      internalID: -8955752678441886697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a659191c92be7f0b0800000000000000
+      internalID: -5694824639212972694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c945184b3d0e2ed50800000000000000
+      internalID: 6765216790135002268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60844f2c57ba93a20800000000000000
+      internalID: 3042651545535793158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c47127635001e490800000000000000
+      internalID: -7718887928123788090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79955b1905a847110800000000000000
+      internalID: 1257782274589809047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdfab26ade02461e0800000000000000
+      internalID: -2205601712437481509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e7d8b9210cf1fbb0800000000000000
+      internalID: -4903861437304612895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 567fcf0d78de5c380800000000000000
+      internalID: -8951487516746385563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 336be3fe6c15bfbd0800000000000000
+      internalID: -2595390845389720013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33752c10668e469e0800000000000000
+      internalID: -1628921640387455181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fbdea8f07a49c960800000000000000
+      internalID: 7622705693370276850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54701249810407f40800000000000000
+      internalID: 5724145600696485701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15d6609e6667989b0800000000000000
+      internalID: -5077396920515269295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62d8c2d7dbab13af0800000000000000
+      internalID: -418347967357088474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 516cfbca351d17570800000000000000
+      internalID: 8462775332116612629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2518b7492ecf67ff0800000000000000
+      internalID: -38565496702140078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlaCatWand-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57599132d76133620800000000000000
+      internalID: 2752568523969107317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1363684833c97b64f81122bb594d1add
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":6.0},"gridSpriteSize":{"x":1800.0,"y":1800.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      BlaCatWand-Sheet_0: 5858598212927272388
+      BlaCatWand-Sheet_1: -3202902109924443454
+      BlaCatWand-Sheet_10: 6494193397267212632
+      BlaCatWand-Sheet_11: 3150174760035465227
+      BlaCatWand-Sheet_12: -8955752678441886697
+      BlaCatWand-Sheet_13: -5694824639212972694
+      BlaCatWand-Sheet_14: 6765216790135002268
+      BlaCatWand-Sheet_15: 3042651545535793158
+      BlaCatWand-Sheet_16: -7718887928123788090
+      BlaCatWand-Sheet_17: 1257782274589809047
+      BlaCatWand-Sheet_18: -2205601712437481509
+      BlaCatWand-Sheet_19: -4903861437304612895
+      BlaCatWand-Sheet_2: -8587730067667855384
+      BlaCatWand-Sheet_20: -8951487516746385563
+      BlaCatWand-Sheet_21: -2595390845389720013
+      BlaCatWand-Sheet_22: -1628921640387455181
+      BlaCatWand-Sheet_23: 7622705693370276850
+      BlaCatWand-Sheet_24: 5724145600696485701
+      BlaCatWand-Sheet_25: -5077396920515269295
+      BlaCatWand-Sheet_26: -418347967357088474
+      BlaCatWand-Sheet_27: 8462775332116612629
+      BlaCatWand-Sheet_28: -38565496702140078
+      BlaCatWand-Sheet_29: 2752568523969107317
+      BlaCatWand-Sheet_3: -5542164273747515479
+      BlaCatWand-Sheet_4: -6829779888135220109
+      BlaCatWand-Sheet_5: 1051690590348350626
+      BlaCatWand-Sheet_6: 8108076142720247510
+      BlaCatWand-Sheet_7: -4488585909321616697
+      BlaCatWand-Sheet_8: 6964624574435736010
+      BlaCatWand-Sheet_9: -3059862809383771305
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
