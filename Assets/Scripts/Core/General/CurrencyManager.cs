@@ -20,17 +20,45 @@ public class CurrencyManager : MonoBehaviour
     // ตัวแปรสำหรับควบคุมการวิ่งของตัวเลข
     private Coroutine rollMoneyCoroutine;
 
+    // 🔑 ต้องตรงกับ Key ที่ MainMenuManager / NewGameIntroDialogue ลบตอนกด New Game
+    private const string MoneySaveKey = "SavedMoney";
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+
+            // 🟢 FIX: เอา DontDestroyOnLoad ออก
+            // เดิม Manager ตัวเก่าค้างข้ามฉาก พอกลับมาเข้าเกมใหม่ (Continue) ตัวใหม่ในฉากจะถูก Destroy
+            // ทำให้ moneyText / Animator ที่ลากไว้ใน Inspector ชี้ไปที่ UI เก่าที่ถูกทำลายไปแล้ว
+            // ตัวเลขเงินจึงไม่ขึ้น — ตอนนี้ให้ Manager เกิดใหม่พร้อม UI ของฉากทุกครั้ง แล้วโหลดเงินจากเซฟแทน
+            LoadMoney();
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    // ── Save / Load ────────────────────────────────────────────────
+    /// <summary>
+    /// โหลดเงินที่เซฟไว้ (ถ้าไม่มีเซฟ = New Game ใช้ค่าเริ่มต้นจาก Inspector)
+    /// </summary>
+    void LoadMoney()
+    {
+        if (PlayerPrefs.HasKey(MoneySaveKey))
+            currentMoney = PlayerPrefs.GetInt(MoneySaveKey, currentMoney);
+    }
+
+    /// <summary>
+    /// บันทึกเงินปัจจุบัน — DayNightManager.SaveDayProgress() เรียกให้ (ขึ้นวันใหม่ / กด Title / กด Exit)
+    /// </summary>
+    public void SaveMoney()
+    {
+        PlayerPrefs.SetInt(MoneySaveKey, currentMoney);
+        PlayerPrefs.Save();
+        Debug.Log($"💾 [CurrencyManager] บันทึกเงิน {currentMoney} เรียบร้อยแล้ว");
     }
 
     void Start()

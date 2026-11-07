@@ -6,23 +6,30 @@ public class TutorialPointerManager : MonoBehaviour
     public static TutorialPointerManager Instance;
 
     [Header("UI References")]
-    public GameObject pointerCanvasObject; // ลาก GameObject ของนิ้วชี้มาใส่ (หรือตัว Canvas)
-    public RectTransform pointerRectTransform; // RectTransform ของรูปนิ้วชี้
+    public GameObject pointerCanvasObject;
+    public RectTransform pointerRectTransform;
 
     [Header("Target Stations (กำหนดตำแหน่งของสถานีต่างๆ ในฉาก)")]
-    public Transform computerDeskTarget;    // สำหรับสเต็ป BuyFurniture (โต๊ะคอมพิวเตอร์)
-    public Transform queueAreaTarget;       // สำหรับสเต็ป InviteCat1 / InviteCat2 (จุดยืนรอคิวหน้าร้าน)
-    public Transform stoveTarget;           // สำหรับสเต็ป CookFood (เตาทำอาหาร)
-    public Transform servingTableTarget;    // สำหรับสเต็ป ServeFood (โต๊ะอาหารที่มีแมวรอรับอาหาร)
-    public Transform interactionZoneTarget; // 🌟 สำหรับสเต็ป CarryCat2ToZone (โซนสำหรับอุ้มแมวไปส่ง)
+    public Transform computerDeskTarget;
+    public Transform queueAreaTarget;
+    public Transform stoveTarget;
+    public Transform servingTableTarget;
+    public Transform interactionZoneTarget;
 
     [Header("Animation Offset")]
-    public Vector3 worldOffset = new Vector3(0, 1.2f, 0); // ให้ชี้ลอยเหนือหัววัตถุเล็กน้อย
+    public Vector3 worldOffset = new Vector3(0, 1.2f, 0);
     public float floatSpeed = 5f;
-    public float floatHeight = 15f; // ขยับขึ้นลงนิดหน่อยให้ดูมีชีวิตชีวา
+    public float floatHeight = 15f;
+
+    [Header("Refresh")]
+    [Tooltip("ความถี่ในการเช็กว่าควรชี้ที่ไหน/ควรซ่อนหรือไม่ (วินาที)")]
+    public float refreshInterval = 0.25f;
 
     private Camera mainCamera;
     private Vector3 baseLocalPosition;
+    private Transform _currentTarget;
+    private float _refreshTimer = 0f;
+    private CanvasGroup _selfCanvasGroup; // ใช้ซ่อนด้วย alpha ในกรณีที่สคริปต์นี้อยู่บน Canvas ของ Pointer เอง
 
     void Awake()
     {
@@ -42,30 +49,34 @@ public class TutorialPointerManager : MonoBehaviour
 
     void Update()
     {
-        if (pointerCanvasObject == null || !pointerCanvasObject.activeSelf) return;
+        if (pointerCanvasObject == null) return;
 
-        Transform currentTarget = GetCurrentTargetTransform();
-        if (currentTarget != null)
+        // 🟢 FIX: เช็กเป้าหมายเป็นระยะ และ "ซ่อน" Pointer เมื่อไม่มีเป้าหมายแล้ว (เช่น เควสจบ)
+        // เดิม Update() จะ return ทันทีเมื่อไม่มีเป้าหมาย ทำให้ Pointer ค้างอยู่บนหน้าจอ
+        _refreshTimer -= Time.unscaledDeltaTime;
+        if (_refreshTimer <= 0f)
         {
-            // แปลงพิกัด World Position ของ Station ให้เป็นพิกัดหน้าจอ (Screen Point)
-            Vector3 screenPoint = mainCamera.WorldToScreenPoint(currentTarget.position + worldOffset);
+            _refreshTimer = refreshInterval;
+            RefreshTarget();
+        }
 
-            // เช็คว่าเป้าหมายอยู่หน้ากล้องหรือไม่
-            if (screenPoint.z > 0)
-            {
-                // ขยับนิ้วชี้ไปตามตำแหน่งจอ + ทำอนิเมชันขยับขึ้นลงเบาๆ
-                float yOffset = Mathf.Sin(Time.time * floatSpeed) * floatHeight;
-                pointerRectTransform.position = screenPoint + new Vector3(0, yOffset, 0);
-            }
+        if (_currentTarget == null || !IsPointerVisible()) return;
+
+        if (mainCamera == null) mainCamera = Camera.main;
+        if (mainCamera == null || pointerRectTransform == null) return;
+
+        Vector3 screenPoint = mainCamera.WorldToScreenPoint(_currentTarget.position + worldOffset);
+
+        if (screenPoint.z > 0)
+        {
+            float yOffset = Mathf.Sin(Time.unscaledTime * floatSpeed) * floatHeight;
+            pointerRectTransform.position = screenPoint + new Vector3(0, yOffset, 0);
         }
     }
 
     Transform GetCurrentTargetTransform()
     {
         if (MainQuestManager.Instance == null) return null;
-
-        // 🌟 ประกาศและดึงข้อมูลโต๊ะทั้งหมดไว้ตรงนี้ที่เดียว เพื่อให้ทุกเคสเรียกใช้ได้อย่างปลอดภัย
-        CustomerTable[] allTables = FindObjectsOfType<CustomerTable>();
 
         var step = MainQuestManager.Instance.currentQuest;
         switch (step)
@@ -78,8 +89,8 @@ public class TutorialPointerManager : MonoBehaviour
                 return queueAreaTarget;
 
             case MainQuestManager.QuestStep.GuideCat2ToTable:
-                // 🌟 ค้นหาโต๊ะที่ว่างและปลดล็อกแล้วในฉาก เพื่อให้นิ้วชี้ไปที่โต๊ะสำหรับพาแมวไปส่ง
-                foreach (var table in allTables)
+                // ค้นหาโต๊ะที่ว่างและปลดล็อกแล้วให้นิ้วชี้ไปชี้
+                foreach (var table in FindObjectsOfType<CustomerTable>())
                 {
                     if (table != null)
                     {
@@ -89,7 +100,7 @@ public class TutorialPointerManager : MonoBehaviour
 
                         if (isUnlocked && !table.isOccupied)
                         {
-                            return table.transform; // นิ้วชี้จะพุ่งไปชี้โต๊ะที่ว่างทันที
+                            return table.transform;
                         }
                     }
                 }
@@ -99,18 +110,16 @@ public class TutorialPointerManager : MonoBehaviour
                 return stoveTarget;
 
             case MainQuestManager.QuestStep.ServeFood:
-                // 🌟 ระบบอัจฉริยะ: ค้นหาโต๊ะที่ผู้เล่นวางเอง ที่มีแมวรอรับอาหารอยู่จริง ๆ ในฉาก
-                foreach (var table in allTables)
+                foreach (var table in FindObjectsOfType<CustomerTable>())
                 {
                     if (table != null && table.HasAnyNPCWaiting())
                     {
-                        return table.transform; // นิ้วชี้จะวิ่งไปชี้โต๊ะตัวที่แมวกำลังรออาหารทันที!
+                        return table.transform;
                     }
                 }
                 return servingTableTarget;
 
             case MainQuestManager.QuestStep.CarryCat2ToZone:
-                // 🌟 เมื่อถึงสเต็ปอุ้มแมวไปส่งโซน ให้ชี้ไปที่ Interaction Zone
                 if (interactionZoneTarget != null) return interactionZoneTarget;
 
                 InteractionZone zone = FindObjectOfType<InteractionZone>();
@@ -124,12 +133,48 @@ public class TutorialPointerManager : MonoBehaviour
         }
     }
 
+    void RefreshTarget()
+    {
+        _currentTarget = GetCurrentTargetTransform();
+        SetPointerVisible(_currentTarget != null);
+    }
+
+    /// <summary>
+    /// เรียกทันทีเมื่อเควสเปลี่ยนขั้น (MainQuestManager.AdvanceQuest เรียกให้)
+    /// </summary>
     public void UpdatePointerState()
     {
-        Transform target = GetCurrentTargetTransform();
-        if (pointerCanvasObject != null)
+        _refreshTimer = refreshInterval;
+        RefreshTarget();
+    }
+
+    // ── Visibility helpers ─────────────────────────────────────────
+    bool IsPointerVisible()
+    {
+        if (pointerCanvasObject == null) return false;
+        if (_selfCanvasGroup != null) return _selfCanvasGroup.alpha > 0f;
+        return pointerCanvasObject.activeSelf;
+    }
+
+    void SetPointerVisible(bool visible)
+    {
+        if (pointerCanvasObject == null) return;
+
+        // ถ้าสคริปต์นี้อยู่บน/ใต้ Canvas ของ Pointer เอง การ SetActive(false) จะทำให้ Update() หยุด
+        // และ Pointer จะไม่กลับมาแสดงอีก → ใช้ CanvasGroup alpha แทน
+        bool selfInside = transform.IsChildOf(pointerCanvasObject.transform);
+        if (selfInside)
         {
-            pointerCanvasObject.SetActive(target != null);
+            if (_selfCanvasGroup == null)
+            {
+                _selfCanvasGroup = pointerCanvasObject.GetComponent<CanvasGroup>();
+                if (_selfCanvasGroup == null) _selfCanvasGroup = pointerCanvasObject.AddComponent<CanvasGroup>();
+            }
+            _selfCanvasGroup.alpha = visible ? 1f : 0f;
+            return;
         }
+
+        if (pointerCanvasObject.activeSelf != visible)
+            pointerCanvasObject.SetActive(visible);
     }
 }

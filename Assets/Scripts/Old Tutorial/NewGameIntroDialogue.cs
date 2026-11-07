@@ -19,15 +19,13 @@ public class NewGameIntroDialogue : MonoBehaviour
     /// </summary>
     public void OnNewGameButtonClicked()
     {
-        // 🌟 1. สั่งล้างค่าความสัมพันธ์ของแมวทั้งหมดใหม่ทันทีเมื่อกด New Game
+        // 🌟 1. สั่งล้างค่าความสัมพันธ์, เควส และวันที่ทั้งหมดใหม่ทันทีเมื่อกด New Game
         ResetRelationships();
 
         // 2. เรียกเปิดระบบ DialogueBox เพื่อรันบทสนทนาเปิดฉาก
         if (DialogueController.Instance != null)
         {
             DialogueController.Instance.StartDialogue(introSentences);
-
-            // หมายเหตุ: เมื่อคุยจบและปิด Dialogue ลง คุณสามารถสั่งโหลดเข้าเกมต่อได้ที่นี่
         }
         else
         {
@@ -38,11 +36,17 @@ public class NewGameIntroDialogue : MonoBehaviour
 
     void ResetRelationships()
     {
+        // 🌟 ล้างข้อมูลเซฟเควสและวันที่ใน PlayerPrefs ทันที
+        PlayerPrefs.DeleteKey("SavedMainQuestStep");
+        PlayerPrefs.DeleteKey("SavedGameDay");
+        PlayerPrefs.DeleteKey("SavedMoney"); // 🟢 รีเซ็ตเงินด้วยตอนกด New Game
+        PlayerPrefs.Save();
+
         // วิธีที่ 1: เรียกผ่าน RelationshipManager โดยตรง (ถ้ามีอยู่ในฉาก Main Menu)
         if (RelationshipManager.Instance != null)
         {
             RelationshipManager.Instance.ResetAllRelationships();
-            Debug.Log("✅ [NewGameIntro] ล้างค่าความสัมพันธ์ผ่าน RelationshipManager เรียบร้อย");
+            Debug.Log("✅ [NewGameIntro] ล้างค่าความสัมพันธ์, เควส และวัน เรียบร้อย");
             return;
         }
 
@@ -57,7 +61,7 @@ public class NewGameIntroDialogue : MonoBehaviour
                 }
             }
             PlayerPrefs.Save();
-            Debug.Log("✅ [NewGameIntro] ล้างค่าความสัมพันธ์ผ่าน PlayerPrefs เรียบร้อย");
+            Debug.Log("✅ [NewGameIntro] ล้างค่าความสัมพันธ์, เควส และวัน ผ่าน PlayerPrefs เรียบร้อย");
         }
     }
 }

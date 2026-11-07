@@ -2,14 +2,7 @@
 using UnityEngine.Rendering.Universal;
 
 // =====================================================================
-// DayNightManager — v3 (Pause Counter)
-//
-// ใช้ _pauseCount แทน bool เดียว
-// ป้องกัน canvas หลายตัวซ้อนกัน แล้ว ResumeGame() ตัวแรกทำให้เวลาเดิน
-//
-//   PauseGame()   → _pauseCount++
-//   ResumeGame()  → _pauseCount-- (resume จริงเมื่อถึง 0)
-//   ForceResume() → reset เป็น 0 ทันที (ใช้ตอน ResetNewDay)
+// DayNightManager — v3 (Pause Counter & Save System Integrated)
 // =====================================================================
 public class DayNightManager : MonoBehaviour
 {
@@ -47,6 +40,8 @@ public class DayNightManager : MonoBehaviour
     private bool isEnding = false;
     public int currentDay = 1;
 
+    private const string DaySaveKey = "SavedGameDay"; // 🔑 Key สำหรับเซฟวันลง PlayerPrefs
+
     [HideInInspector] public int catsServedToday = 0;
     [HideInInspector] public int moneyEarnedToday = 0;
 
@@ -57,37 +52,33 @@ public class DayNightManager : MonoBehaviour
     [Header("References")]
     public UISummaryController summaryUI;
 
-    // ── ใหม่: event สำหรับ sunrise transition ─────────────────────
-    // ยิงตอน ResetNewDay() ทำงาน — ให้ UI ฟังแล้วเล่น night → sunrise → day
+    // ── event สำหรับ sunrise transition ─────────────────────
     public event System.Action OnNewDayStarted;
 
     [Header("End-of-Day Audio Settings")]
     public float endOfDayWarningTime = 10f;
     private bool endOfDayAudioTriggered = false;
 
-    // ── ใหม่: In-Game Clock (แปลง timer จริง -> เวลาในเกม) ─────────
+    // ── In-Game Clock ─────────────────────────
     [Header("In-Game Clock Settings")]
     [Tooltip("ชั่วโมงเริ่มต้นของวัน (24hr) เช่น 8 = 8 โมงเช้า — ตอน timer = 0")]
     public int gameOpenHour = 8;
     [Tooltip("ชั่วโมงสิ้นสุดของวัน (24hr) เช่น 22 = 4 ทุ่ม — ตอน timer = dayDuration")]
     public int gameCloseHour = 22;
 
-    // ── ใหม่: ชื่อวันในสัปดาห์ — Day 1 = จันทร์เสมอ แล้ววนทุก 7 วัน ──
     private static readonly string[] WeekdayAbbrev =
         { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
 
-    /// <summary>ชื่อวันย่อ (MON/TUE/...) ของ currentDay ปัจจุบัน — Day 1 = จันทร์เสมอ</summary>
     public string CurrentWeekdayAbbrev
     {
         get
         {
             int index = (currentDay - 1) % 7;
-            if (index < 0) index += 7; // กันเผื่อ currentDay ผิดปกติเป็นค่าติดลบ
+            if (index < 0) index += 7;
             return WeekdayAbbrev[index];
         }
     }
 
-    /// <summary>ชั่วโมงปัจจุบันแบบทศนิยม (เช่น 9.5 = 9:30) ตาม gameOpenHour/gameCloseHour ที่ตั้งไว้ — ใช้ภายในร่วมกันทั้ง label และไอคอน</summary>
     private float ComputeCurrentHourFloat()
     {
         float ratio = dayDuration > 0f ? Mathf.Clamp01(timer / dayDuration) : 0f;
@@ -95,13 +86,8 @@ public class DayNightManager : MonoBehaviour
         return gameOpenHour + ratio * totalGameHours;
     }
 
-    /// <summary>ชั่วโมงปัจจุบันแบบทศนิยม (0-24) — ให้ UI อื่น (เช่น DayNightIconUI) เอาไปคำนวณเองได้</summary>
     public float GetCurrentGameHour24() => ComputeCurrentHourFloat();
 
-    /// <summary>
-    /// แปลง timer (0 → dayDuration วินาทีจริง) เป็นข้อความเวลาในเกมแบบ 12 ชม.
-    /// เช่น "8:00 AM" → "10:00 PM" ตาม gameOpenHour/gameCloseHour ที่ตั้งไว้
-    /// </summary>
     public string GetCurrentClockLabel()
     {
         float currentHourFloat = ComputeCurrentHourFloat();
@@ -117,9 +103,6 @@ public class DayNightManager : MonoBehaviour
         return $"{hour12}:{minute:00} {(isAM ? "AM" : "PM")}";
     }
 
-    // ── ใหม่: Day/Night Icon Gauge (0-1) ──────────────────────────
-    // 1 = เต็ม (day icon ปิด night icon ไว้ทั้งหมด)
-    // ค่อยๆลดลงเหลือ 0 ระหว่าง warning window แล้วเผย night icon
     public float DayIconFillAmount
     {
         get
@@ -136,15 +119,40 @@ public class DayNightManager : MonoBehaviour
 
     void Awake()
     {
+        // ↩️ คืนเป็นพฤติกรรมเดิม (ตัวแรกชนะ) — เวอร์ชัน "ตัวใหม่ชนะ" ที่เคยใส่ไปทำลาย Component ของตัวที่ค้างอยู่บน GameManager
+        // รอดูโครงสร้าง GameManager / DontDestroyOnLoad ก่อนแล้วค่อยแก้ที่ต้นเหตุ
         if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        else
+        {
+            Debug.LogWarning("[DayNightManager] พบ DayNightManager ซ้ำ (น่าจะเป็นตัวเก่าที่ค้างข้ามฉาก) — ตัวใหม่ถูกทำลาย");
+            Destroy(gameObject);
+        }
+    }
+
+    void Start()
+    {
+        // 🌟 โหลดวันที่ล่าสุดที่ผู้เล่นเซฟไว้ตอนกด Continue
+        if (PlayerPrefs.HasKey(DaySaveKey))
+        {
+            currentDay = PlayerPrefs.GetInt(DaySaveKey);
+        }
+        else
+        {
+            currentDay = 1;
+        }
+
+        Debug.Log($"[DayNightManager] โหลดข้อมูลสำเร็จ — วันปัจจุบันคือ: วันที่ {currentDay}");
+
+        // 🟢 ตั้งสีแสงตามเวลาเริ่มวันทันที (เดิมไม่ได้ตั้ง ทำให้ใช้สีที่ค้างอยู่ในฉากจนกว่าเกมจะเลิก Pause)
+        UpdateLightColor();
     }
 
     void Update()
     {
-        if (isPaused) return;
-
+        // 🟢 อัปเดตแสงทุกเฟรมแม้เกม Pause อยู่ (เช่น ช่วง Tutorial) ไม่งั้นแสงจะค้างเป็นสีเดิมของฉาก
         UpdateLightColor();
+
+        if (isPaused) return;
         if (!isWorkTime) return;
 
         timer += Time.deltaTime;
@@ -194,15 +202,27 @@ public class DayNightManager : MonoBehaviour
         catsServedToday = 0;
         moneyEarnedToday = 0;
 
-        // ✅ Force reset เพราะขึ้นวันใหม่ทุก canvas ปิดหมดแล้ว
+        SaveDayProgress(); // 🌟 บันทึกวันใหม่ทันทีที่ขึ้นวันใหม่
+
         ForceResume();
 
         if (AudioManager.instance != null)
             AudioManager.instance.ResumeGameMusic();
 
         UpdateLightColor();
-
-        // ✅ ใหม่: บอก UI ให้เล่น sunrise transition
         OnNewDayStarted?.Invoke();
+    }
+
+    /// <summary>
+    /// ฟังก์ชันบันทึกวันที่ปัจจุบันลงใน PlayerPrefs (ใช้ร่วมกับ PauseMenuManager)
+    /// </summary>
+    public void SaveDayProgress()
+    {
+        PlayerPrefs.SetInt(DaySaveKey, currentDay);
+        PlayerPrefs.Save();
+
+        // 🟢 เซฟเงินพร้อมวันที่ เพื่อให้เป็น Snapshot ชุดเดียวกัน
+        if (CurrencyManager.Instance != null) CurrencyManager.Instance.SaveMoney();
+        Debug.Log($"💾 [DayNightManager] บันทึกวันที่ปัจจุบัน (วันที่ {currentDay}) เรียบร้อยแล้ว");
     }
 }

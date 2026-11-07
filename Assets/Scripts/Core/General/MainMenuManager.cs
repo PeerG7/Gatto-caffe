@@ -28,8 +28,6 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
-        // เปิดหน้าเมนู: เริ่มจากจอดำ แล้วค่อยๆ ใสขึ้นจนเห็นหน้าเมนูและข้อความ
-        // ถ้าหน้านี้ใช้ MainMenuIntro ให้ตัวนั้นจัดการ Fade จากดำเอง (กัน Fade ซ้อน)
         if (MainMenuIntro.Exists) return;
 
         var fader = ScreenFader.Ensure();
@@ -47,14 +45,21 @@ public class MainMenuManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ฟังก์ชันลบค่า Relationship Progression ใน PlayerPrefs ของแมวทุกตัว
+    /// ฟังก์ชันลบค่า Progression ทั้งหมด (Relationship, Quest Step, Day) เมื่อกด New Game
     /// </summary>
     private void ResetAllRelationshipData()
     {
+        // 🌟 ล้างข้อมูลเซฟเควสและวันที่ใน PlayerPrefs ทันที
+        PlayerPrefs.DeleteKey("SavedMainQuestStep");
+        PlayerPrefs.DeleteKey("SavedGameDay");
+        PlayerPrefs.DeleteKey("SavedMoney"); // 🟢 รีเซ็ตเงินด้วยตอนกด New Game
+        PlayerPrefs.Save();
+
         // 1. ถ้า RelationshipManager มีอยู่ในฉาก ให้เรียกใช้ ResetAllRelationships() โดยตรง
         if (RelationshipManager.Instance != null)
         {
             RelationshipManager.Instance.ResetAllRelationships();
+            Debug.Log("✅ [MainMenu] Reset Quest, Day และ Relationships เรียบร้อยแล้ว");
             return;
         }
 
@@ -69,11 +74,10 @@ public class MainMenuManager : MonoBehaviour
                 }
             }
             PlayerPrefs.Save();
-            Debug.Log("✅ [MainMenu] Reset Relationship Progression เรียบร้อยแล้ว");
+            Debug.Log("✅ [MainMenu] Reset Relationship Progression, Quest และ Day เรียบร้อยแล้ว");
         }
         else
         {
-            // Fallback: หากไม่ได้ใส่ allCats ใน Inspector
             Debug.LogWarning("⚠️ [MainMenu] ไม่พบรายการ allCats! แนะนำให้ลาก CatData ใส่ใน Inspector ของ MainMenuManager");
         }
     }
@@ -82,15 +86,13 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnPlayPressed()
     {
-        if (isStarting) return;   // กันกดซ้ำระหว่าง Fade
+        if (isStarting) return;
         isStarting = true;
 
-        // จอค่อยๆ ดำ พร้อมกับเพลง Crossfade
         ScreenFader.Ensure().FadeOut(fadeToBlackDuration);
 
         if (AudioManager.instance != null)
         {
-            // ✅ สุ่มเพลงเกมตั้งแต่ตอนกดปุ่ม แล้วค่อยโหลด Scene
             AudioManager.instance.CrossfadeToRandomGameMusic(
                 onComplete: () => StartCoroutine(LoadGameAsync())
             );
@@ -135,7 +137,6 @@ public class MainMenuManager : MonoBehaviour
     {
         var fader = ScreenFader.Ensure();
 
-        // จอดำสนิทแล้ว → เปิด Loading Screen (ถ้ามี) แล้วเอาจอดำออกชั่วคราวให้เห็น Loading
         if (loadingScreen != null)
         {
             loadingScreen.SetActive(true);
@@ -160,7 +161,6 @@ public class MainMenuManager : MonoBehaviour
                 activating = true;
                 yield return new WaitForSecondsRealtime(0.2f);
 
-                // ดำอีกรอบก่อนสลับ Scene แล้วสั่งให้ใสขึ้นเองเมื่อหน้าเกมโหลดเสร็จ
                 fader.FadeInOnNextScene(gameFadeInDuration);
                 bool done = false;
                 fader.FadeOut(0.3f, () => done = true);
@@ -170,5 +170,11 @@ public class MainMenuManager : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    public void OnContinuePressed()
+    {
+        // โหลดเกมต่อจากเซฟเดิมโดยตรงทันที ไม่ล้างข้อมูลเซฟ
+        OnPlayPressed();
     }
 }

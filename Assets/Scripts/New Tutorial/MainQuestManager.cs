@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
-using System.Collections;
-using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class MainQuestManager : MonoBehaviour
 {
@@ -9,42 +8,80 @@ public class MainQuestManager : MonoBehaviour
 
     [Header("UI Reference")]
     public TMP_Text questDisplayText;
-    public GameObject questBackground; // 🌟 Background image/panel for the main quest
 
+    [Header("Quest Panel Fade (ตอนเควสเสร็จหมดแล้ว)")]
+    [Tooltip("กล่องเควสทั้งกล่อง (พื้นหลัง + ข้อความ) ที่จะ Fade ออก — แนะนำให้ลากใส่เอง ถ้าเว้นว่างจะใช้ parent ของ questDisplayText")]
+    public GameObject questPanelRoot;
+    [Tooltip("ชิ้นส่วน UI อื่นของเควสที่ต้องหายไปพร้อมกัน เช่น Board (กรอบสีน้ำตาลที่มีคำว่า Quest) — ลากมาใส่ได้หลายตัว")]
+    public GameObject[] additionalFadeObjects;
+    [Tooltip("โชว์ข้อความ 'ทำเควสเสร็จแล้ว' ค้างไว้กี่วินาทีก่อนเริ่ม Fade")]
+    public float completedShowDuration = 3f;
+    [Tooltip("ระยะเวลา Fade ออก (วินาที)")]
+    public float fadeOutDuration = 1.5f;
+
+    // 🌟 เพิ่มสถานะ InviteCat2 เข้ามาเป็นลำดับที่ 2
+    // 🟢 เพิ่ม GuideCat2ToTable (จูงแมวตัวที่ 2 ไปโต๊ะ) และ CarryCat2ToZone (อุ้มแมวตัวที่ 2 ไปวางที่ Zone)
+    // ที่ NPCController อ้างถึงอยู่ — ถ้า Enum ไม่มีค่าเหล่านี้จะขึ้นแดง
     public enum QuestStep { BuyFurniture, InviteCat1, InviteCat2, GuideCat2ToTable, CookFood, ServeFood, CarryCat2ToZone, Completed }
     public QuestStep currentQuest = QuestStep.BuyFurniture;
 
+    // 🔑 ต้องตรงกับ Key ที่ MainMenuManager / NewGameIntroDialogue ลบตอนกด New Game
+    private const string QuestSaveKey = "SavedMainQuestStep";
+    private const string DaySaveKey = "SavedGameDay"; // ต้องตรงกับ DayNightManager
+
+    // true = เราเป็นคนเรียก PauseGame() ไว้ และยังไม่ได้ ResumeGame() (กัน Pause ค้าง/Resume เกิน)
+    private bool _holdingTutorialPause = false;
+
     void Awake()
     {
-        if (Instance == null) Instance = this;
+        // ↩️ คืนเป็นพฤติกรรมเดิม (ตัวแรกชนะ) — ดูคำอธิบายที่ DayNightManager.Awake()
+        if (Instance == null)
+        {
+            Instance = this;
+            LoadQuestProgress(); // Continue = ข้าม Tutorial / New Game = เริ่ม Tutorial ใหม่
+        }
         else Destroy(gameObject);
     }
 
     void Start()
     {
-        if (questBackground != null) questBackground.SetActive(true);
         UpdateQuestUI();
 
-        if (DayNightManager.Instance != null)
+        // 🟢 Continue หลังเควสเสร็จหมดแล้ว → ซ่อนกล่องเควสทันที ไม่ต้องโชว์ซ้ำ
+        if (currentQuest == QuestStep.Completed) HideQuestPanelImmediate();
+
+        // 🟢 FIX: Pause เกมเฉพาะตอน Tutorial ยังไม่จบเท่านั้น
+        // (เดิม Pause ทุกครั้งที่เข้าเกม รวมถึง Continue ทำให้เวลาหยุดค้างตลอดเพราะเควสเริ่มใหม่เสมอ)
+        if (currentQuest != QuestStep.Completed && DayNightManager.Instance != null)
         {
             DayNightManager.Instance.PauseGame();
+            _holdingTutorialPause = true;
         }
         PlayerController2D.SetLock(false);
+    }
+
+    void LoadQuestProgress()
+    {
+        // 🟢 SKIP TUTORIAL: ถ้ามีเซฟวันอยู่ (= เคยเล่นแล้วและกลับมากด Continue) หรือเควสเคยจบแล้ว → ข้าม Tutorial ทั้งหมด
+        // ส่วน New Game จะลบทั้ง SavedGameDay และ SavedMainQuestStep ไปแล้ว จึงเริ่ม Tutorial ใหม่ตามปกติ
+        bool isReturningPlayer = PlayerPrefs.HasKey(DaySaveKey);
+        bool questAlreadyCompleted = PlayerPrefs.GetInt(QuestSaveKey, 0) == (int)QuestStep.Completed
+                                     && PlayerPrefs.HasKey(QuestSaveKey);
+
+        currentQuest = (isReturningPlayer || questAlreadyCompleted)
+            ? QuestStep.Completed
+            : QuestStep.BuyFurniture;
+    }
+
+    void SaveQuestProgress()
+    {
+        PlayerPrefs.SetInt(QuestSaveKey, (int)currentQuest);
+        PlayerPrefs.Save();
     }
 
     public void UpdateQuestUI()
     {
         if (questDisplayText == null) return;
-
-        // รีเซ็ตค่า Alpha ของข้อความให้ชัดเจน (1) เสมอก่อนเปลี่ยนข้อความสเต็ปใหม่
-        Color c = questDisplayText.color;
-        c.a = 1f;
-        questDisplayText.color = c;
-
-        if (questBackground != null)
-        {
-            questBackground.SetActive(currentQuest != QuestStep.Completed);
-        }
 
         switch (currentQuest)
         {
@@ -55,10 +92,10 @@ public class MainQuestManager : MonoBehaviour
                 questDisplayText.text = "MainQuest: Invite the Cats in front Cafe";
                 break;
             case QuestStep.InviteCat2:
-                questDisplayText.text = "MainQuest: Invite the second cat to the Cafe.";
+                questDisplayText.text = "Main mission: Invite the second cat to the restaurant. (NeedyCat)";
                 break;
             case QuestStep.GuideCat2ToTable:
-                questDisplayText.text = "MainQuest: Guide the second cat to the table and verify it has taken a seat.";
+                questDisplayText.text = "MainQuest: Press E near the cat to guide it, then lead it to a table.";
                 break;
             case QuestStep.CookFood:
                 questDisplayText.text = "MainQuest: Cook the food according to the cat's order";
@@ -67,49 +104,12 @@ public class MainQuestManager : MonoBehaviour
                 questDisplayText.text = "MainQuest: Serve the cat food at the table.";
                 break;
             case QuestStep.CarryCat2ToZone:
-                questDisplayText.text = "MainQuest: Carry the second cat to the Interaction Zone!";
+                questDisplayText.text = "MainQuest: Pick up the cat and place it in the Interaction Zone.";
                 break;
             case QuestStep.Completed:
                 questDisplayText.text = "All initial missions have been successfully completed!";
-                StartCoroutine(FadeOutQuestTextRoutine()); // 🌟 สั่งให้ข้อความและ Background ค่อยๆ Fade ออกเมื่อเควสเสร็จสมบูรณ์
                 break;
         }
-
-        if (TutorialPointerManager.Instance != null)
-        {
-            TutorialPointerManager.Instance.UpdatePointerState();
-        }
-    }
-
-    // 🌟 Coroutine สำหรับทำเอฟเฟกต์ค่อยๆ จางหาย (Fade Out) ของตัวอักษรและ Background
-    private IEnumerator FadeOutQuestTextRoutine()
-    {
-        float duration = 1.5f;
-        float elapsed = 0f;
-        Color startColor = questDisplayText.color;
-
-        Image bgImage = questBackground != null ? questBackground.GetComponent<Image>() : null;
-        Color bgStartColor = bgImage != null ? bgImage.color : Color.white;
-
-        yield return new WaitForSecondsRealtime(1.0f);
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.unscaledDeltaTime;
-            float alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
-
-            questDisplayText.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
-
-            if (bgImage != null)
-            {
-                bgImage.color = new Color(bgStartColor.r, bgStartColor.g, bgStartColor.b, alpha);
-            }
-
-            yield return null;
-        }
-
-        questDisplayText.color = new Color(startColor.r, startColor.g, startColor.b, 0f);
-        if (questBackground != null) questBackground.SetActive(false);
     }
 
     public void AdvanceQuest()
@@ -123,12 +123,96 @@ public class MainQuestManager : MonoBehaviour
         else if (currentQuest == QuestStep.CarryCat2ToZone)
         {
             currentQuest = QuestStep.Completed;
-            if (DayNightManager.Instance != null)
+            if (_holdingTutorialPause && DayNightManager.Instance != null)
             {
                 DayNightManager.Instance.ResumeGame();
+                _holdingTutorialPause = false;
             }
         }
 
+        SaveQuestProgress(); // 🟢 FIX: เซฟทุกครั้งที่เควสขยับ
         UpdateQuestUI();
+
+        // 🟢 สั่งให้ Pointer ชี้เป้าใหม่ / ซ่อนทันทีเมื่อเควสเปลี่ยน
+        if (TutorialPointerManager.Instance != null)
+            TutorialPointerManager.Instance.UpdatePointerState();
+
+        // 🟢 เควสเสร็จหมด → โชว์ข้อความสักพักแล้วค่อยๆ Fade กล่องเควสออก
+        if (currentQuest == QuestStep.Completed)
+            StartCoroutine(FadeOutQuestPanelRoutine());
+    }
+
+    // ── Quest Panel helpers ────────────────────────────────────────
+    GameObject GetQuestPanelRoot()
+    {
+        if (questPanelRoot != null) return questPanelRoot;
+        if (questDisplayText == null) return null;
+
+        // ถ้า parent เป็น Canvas หลัก ห้ามใช้ (จะ Fade UI ทั้งหน้าจอ) ให้ใช้ตัวข้อความเอง
+        Transform parent = questDisplayText.transform.parent;
+        if (parent != null && parent.GetComponent<Canvas>() == null)
+            return parent.gameObject;
+        return questDisplayText.gameObject;
+    }
+
+    // รวมทุกชิ้นของ UI เควสที่ต้องซ่อน: Panel หลัก + Board/ชิ้นอื่นที่ลากใส่ additionalFadeObjects
+    List<GameObject> GetFadeTargets()
+    {
+        List<GameObject> targets = new List<GameObject>();
+
+        GameObject main = GetQuestPanelRoot();
+        if (main != null) targets.Add(main);
+
+        if (additionalFadeObjects != null)
+        {
+            foreach (var go in additionalFadeObjects)
+                if (go != null && !targets.Contains(go)) targets.Add(go);
+        }
+        return targets;
+    }
+
+    // ถ้า UI เควสเป็นพ่อของ GameObject ที่มีสคริปต์นี้ ห้ามปิด (ไม่งั้น Coroutine/สคริปต์หยุดทำงาน) ให้ซ่อนด้วย alpha แทน
+    void DeactivateTarget(GameObject go, CanvasGroup cg)
+    {
+        if (cg != null) { cg.alpha = 0f; cg.blocksRaycasts = false; cg.interactable = false; }
+        if (!transform.IsChildOf(go.transform)) go.SetActive(false);
+    }
+
+    void HideQuestPanelImmediate()
+    {
+        foreach (var go in GetFadeTargets())
+        {
+            CanvasGroup cg = go.GetComponent<CanvasGroup>();
+            if (cg == null) cg = go.AddComponent<CanvasGroup>();
+            DeactivateTarget(go, cg);
+        }
+    }
+
+    System.Collections.IEnumerator FadeOutQuestPanelRoutine()
+    {
+        yield return new WaitForSecondsRealtime(completedShowDuration);
+
+        List<GameObject> targets = GetFadeTargets();
+        if (targets.Count == 0) yield break;
+
+        List<CanvasGroup> groups = new List<CanvasGroup>();
+        foreach (var go in targets)
+        {
+            CanvasGroup cg = go.GetComponent<CanvasGroup>();
+            if (cg == null) cg = go.AddComponent<CanvasGroup>();
+            groups.Add(cg);
+        }
+
+        float t = 0f;
+        while (t < fadeOutDuration)
+        {
+            t += Time.unscaledDeltaTime;
+            float a = Mathf.Clamp01(1f - t / fadeOutDuration);
+            foreach (var cg in groups) if (cg != null) cg.alpha = a;
+            yield return null;
+        }
+
+        for (int i = 0; i < targets.Count; i++)
+            if (targets[i] != null) DeactivateTarget(targets[i], groups[i]);
     }
 }
