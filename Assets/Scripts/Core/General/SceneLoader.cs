@@ -11,15 +11,12 @@ public class SceneLoader : MonoBehaviour
     {
         relationshipSceneName = "RelationshipScene";
 
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        // 🟢 FIX (ต้นเหตุหลัก): เอา DontDestroyOnLoad ออก
+        // เดิม GameManager ทั้งก้อน (DayNightManager, PauseMenuManager, FurnitureInventory ฯลฯ) ค้างข้ามฉาก
+        // พอกลับเข้า ShopScene อีกรอบ GameManager ตัวใหม่ในฉากถูก Destroy ทิ้ง เหลือตัวเก่าที่ชี้ Light/UI ของฉากเก่าที่ตายไปแล้ว
+        // → จอมืด (Light ไม่ถูกอัปเดต), Timer นับต่อ, ESC เปิด Pause ไม่ได้, เฟอร์นิเจอร์/เงินเพี้ยน
+        // ตอนนี้ GameManager เกิดใหม่พร้อม reference ของฉากทุกครั้ง ส่วนข้อมูลที่ต้องเก็บ (วัน/เงิน/เฟอร์นิเจอร์) เซฟลง PlayerPrefs แทน
+        Instance = this;
     }
 
     public void LoadRelationshipScene()

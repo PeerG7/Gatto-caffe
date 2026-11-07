@@ -40,6 +40,7 @@ public class NewGameIntroDialogue : MonoBehaviour
         PlayerPrefs.DeleteKey("SavedMainQuestStep");
         PlayerPrefs.DeleteKey("SavedGameDay");
         PlayerPrefs.DeleteKey("SavedMoney"); // 🟢 รีเซ็ตเงินด้วยตอนกด New Game
+        PlayerPrefs.DeleteKey("SavedFurniture"); // 🟢 รีเซ็ตเฟอร์นิเจอร์ด้วยตอนกด New Game
         PlayerPrefs.Save();
 
         // วิธีที่ 1: เรียกผ่าน RelationshipManager โดยตรง (ถ้ามีอยู่ในฉาก Main Menu)

@@ -223,6 +223,9 @@ public class DayNightManager : MonoBehaviour
 
         // 🟢 เซฟเงินพร้อมวันที่ เพื่อให้เป็น Snapshot ชุดเดียวกัน
         if (CurrencyManager.Instance != null) CurrencyManager.Instance.SaveMoney();
+
+        // 🟢 เซฟเฟอร์นิเจอร์ (คลัง + ที่วางไว้ในฉาก) เป็น Snapshot ชุดเดียวกัน
+        FurnitureSaveSystem.SaveIfAvailable();
         Debug.Log($"💾 [DayNightManager] บันทึกวันที่ปัจจุบัน (วันที่ {currentDay}) เรียบร้อยแล้ว");
     }
 }

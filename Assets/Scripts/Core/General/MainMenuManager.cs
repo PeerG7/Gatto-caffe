@@ -53,6 +53,7 @@ public class MainMenuManager : MonoBehaviour
         PlayerPrefs.DeleteKey("SavedMainQuestStep");
         PlayerPrefs.DeleteKey("SavedGameDay");
         PlayerPrefs.DeleteKey("SavedMoney"); // 🟢 รีเซ็ตเงินด้วยตอนกด New Game
+        PlayerPrefs.DeleteKey("SavedFurniture"); // 🟢 รีเซ็ตเฟอร์นิเจอร์ด้วยตอนกด New Game
         PlayerPrefs.Save();
 
         // 1. ถ้า RelationshipManager มีอยู่ในฉาก ให้เรียกใช้ ResetAllRelationships() โดยตรง
