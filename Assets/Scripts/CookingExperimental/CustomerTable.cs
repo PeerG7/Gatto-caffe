@@ -28,6 +28,20 @@ public class CustomerTable : MonoBehaviour
     [HideInInspector] public bool hasMoneyToCollect = false;
     private int pendingMoneyReward = 0;
 
+    [Header("Money Pop Animation")]
+    [Tooltip("เวลาที่เหรียญเด้งขึ้นมา (วินาที)")]
+    public float popDuration = 0.55f;
+    [Tooltip("ความสูงที่เหรียญกระโดดขึ้นตอนเด้ง (หน่วยโลก)")]
+    public float popHopHeight = 0.35f;
+    [Tooltip("ความสูงที่เหรียญโยกขึ้นลงตอนวางรออยู่")]
+    public float idleBobHeight = 0.04f;
+    [Tooltip("ความเร็วการโยก")]
+    public float idleBobSpeed = 4f;
+
+    private Vector3 moneyIconBaseScale = Vector3.one;
+    private Vector3 moneyIconBasePos;
+    private Coroutine moneyAnimRoutine;
+
     [Header("Interaction Chance")]
     [Range(0, 100)] public int interactionChance = 70;
 
@@ -46,7 +60,12 @@ public class CustomerTable : MonoBehaviour
     {
         SetWorldSpaceCamera();
         AutoFindSeatPoints();
-        if (moneyIconOnTable != null) moneyIconOnTable.SetActive(false);
+        if (moneyIconOnTable != null)
+        {
+            moneyIconBaseScale = moneyIconOnTable.transform.localScale;
+            moneyIconBasePos = moneyIconOnTable.transform.localPosition;
+            moneyIconOnTable.SetActive(false);
+        }
     }
 
     private void Start()
@@ -235,10 +254,11 @@ public class CustomerTable : MonoBehaviour
     {
         int finalReward = isVIP ? Mathf.RoundToInt(reward * 2f) : reward;
         pendingMoneyReward += finalReward;
+
+        bool alreadyVisible = hasMoneyToCollect; // แมวตัวที่ 2+ จ่ายเพิ่ม -> เด้งเบาๆ
         hasMoneyToCollect = true;
 
-        if (moneyIconOnTable != null)
-            moneyIconOnTable.SetActive(true);
+        ShowMoneyIcon(alreadyVisible);
 
         if (DayNightManager.Instance != null)
         {
@@ -274,8 +294,7 @@ public class CustomerTable : MonoBehaviour
 
         hasMoneyToCollect = false;
         pendingMoneyReward = 0;
-        if (moneyIconOnTable != null)
-            moneyIconOnTable.SetActive(false);
+        HideMoneyIcon();
 
         if (sittingNPCs.Count == 0)
         {
@@ -339,7 +358,7 @@ public class CustomerTable : MonoBehaviour
         hasMoneyToCollect = false;
         pendingMoneyReward = 0;
         if (tableItemRenderer != null) tableItemRenderer.enabled = false;
-        if (moneyIconOnTable != null) moneyIconOnTable.SetActive(false);
+        HideMoneyIcon();
         SetVIPVisual(false);
     }
 
@@ -360,5 +379,91 @@ public class CustomerTable : MonoBehaviour
             }
         }
         return false;
+    }
+
+    // ---------------------------------------------------------------
+    //  Money Pop Animation
+    // ---------------------------------------------------------------
+    private void ShowMoneyIcon(bool bumpOnly)
+    {
+        if (moneyIconOnTable == null) return;
+
+        if (moneyAnimRoutine != null) StopCoroutine(moneyAnimRoutine);
+        moneyIconOnTable.SetActive(true);
+        moneyAnimRoutine = StartCoroutine(MoneyPopRoutine(bumpOnly));
+    }
+
+    private void HideMoneyIcon()
+    {
+        if (moneyAnimRoutine != null)
+        {
+            StopCoroutine(moneyAnimRoutine);
+            moneyAnimRoutine = null;
+        }
+
+        if (moneyIconOnTable != null)
+        {
+            // คืนค่าเดิม เพื่อให้รอบหน้าเริ่มจากจุดเดิมเสมอ
+            moneyIconOnTable.transform.localScale = moneyIconBaseScale;
+            moneyIconOnTable.transform.localPosition = moneyIconBasePos;
+            moneyIconOnTable.SetActive(false);
+        }
+    }
+
+    private IEnumerator MoneyPopRoutine(bool bumpOnly)
+    {
+        Transform icon = moneyIconOnTable.transform;
+
+        float duration = bumpOnly ? popDuration * 0.6f : popDuration;
+        float startMul = bumpOnly ? 0.8f : 0f;
+
+        icon.localScale = moneyIconBaseScale * startMul;
+        icon.localPosition = moneyIconBasePos;
+
+        // ---------- 1) เด้งขึ้นมา ----------
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / Mathf.Max(0.01f, duration);
+            float k = Mathf.Clamp01(t);
+
+            // โตแบบเด้งเกินแล้วหดกลับ
+            float mul = startMul + (1f - startMul) * EaseOutBackMoney(k);
+
+            // ยืด-หด (squash & stretch) ให้ดูนุ่มๆ น่ารัก
+            float stretch = 1f + Mathf.Sin(k * Mathf.PI * 2f) * 0.15f * (1f - k);
+            Vector3 scaleMul = new Vector3(mul / stretch, mul * stretch, mul);
+            icon.localScale = Vector3.Scale(moneyIconBaseScale, scaleMul);
+
+            // กระโดดขึ้นเป็นวงโค้งเล็กๆ
+            float hop = Mathf.Sin(k * Mathf.PI) * popHopHeight * (bumpOnly ? 0.5f : 1f);
+            icon.localPosition = moneyIconBasePos + Vector3.up * hop;
+
+            yield return null;
+        }
+
+        icon.localScale = moneyIconBaseScale;
+        icon.localPosition = moneyIconBasePos;
+
+        // ---------- 2) โยกดุ๊กดิ๊กรอให้เก็บ ----------
+        float time = 0f;
+        while (true)
+        {
+            time += Time.deltaTime;
+            float bob = Mathf.Sin(time * idleBobSpeed);
+            icon.localPosition = moneyIconBasePos + Vector3.up * (bob * idleBobHeight);
+
+            float pulse = 1f + Mathf.Sin(time * idleBobSpeed + Mathf.PI * 0.5f) * 0.04f;
+            icon.localScale = moneyIconBaseScale * pulse;
+
+            yield return null;
+        }
+    }
+
+    private float EaseOutBackMoney(float x)
+    {
+        const float c1 = 1.70158f;
+        const float c3 = c1 + 1f;
+        return 1f + c3 * Mathf.Pow(x - 1f, 3f) + c1 * Mathf.Pow(x - 1f, 2f);
     }
 }
