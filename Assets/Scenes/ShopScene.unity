@@ -17168,7 +17168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinFlipAnimator
   coinRect: {fileID: 730628114}
-  duration: 0.4
+  duration: 0.8
   fullRotations: 1
 --- !u!1 &733464645
 GameObject:
@@ -25758,7 +25758,7 @@ MonoBehaviour:
   mainCanvas: {fileID: 121730095}
   flyingCoinPrefab: {fileID: 4742432002093652835, guid: 27dfeeec61a323144b9cce5f0663fb41, type: 3}
   targetUIIconRect: {fileID: 730628114}
-  flightDuration: 0.6
+  flightDuration: 0.9
 --- !u!114 &1106574832
 MonoBehaviour:
   m_ObjectHideFlags: 0
