@@ -6,6 +6,11 @@ public class NPCInteract : MonoBehaviour
 {
     private NPCController npc;
 
+    // กลุ่มที่กำลังโดนปฏิเสธ (รอเดินออก) — กันกด E ซ้ำแล้วขึ้นแจ้งเตือน/เริ่ม Coroutine ซ้อนกัน
+    // เก็บเวลาที่กลุ่มนั้น "พ้นช่วงปฏิเสธ" (ใช้เวลาแทนการลบทีหลัง เผื่อ Coroutine ถูกหยุดเพราะ Object ถูกทำลายกลางคัน)
+    private static readonly Dictionary<string, float> rejectingUntil = new Dictionary<string, float>();
+    private const float RejectLockSeconds = 3f;
+
     public bool isInStore = false;
 
     [Header("Relationship Canvas (ลาก RelationshipCanvas หรือ BookCanvas ใน Scene มาใส่ตรงนี้)")]
@@ -132,7 +137,16 @@ public class NPCInteract : MonoBehaviour
 
         if (groupSize >= 2 && !NPCController.HasAvailableTableForGroup(groupSize))
         {
+            // กดซ้ำระหว่างที่กลุ่มนี้กำลังหงุดหงิดรอเดินออก → ไม่ต้องทำซ้ำ
+            if (rejectingUntil.TryGetValue(frontNPC.groupID, out float until) && Time.time < until) return;
+            rejectingUntil[frontNPC.groupID] = Time.time + RejectLockSeconds;
+
             Debug.Log("❌ ไม่มีโต๊ะเพียงพอสำหรับกลุ่มนี้ — เล่นอนิเมชันหงุดหงิดแล้วเดินออก");
+
+            // 🟢 แจ้งเตือนผู้เล่นว่าทำไมแมวถึงเดินออกไป
+            if (UINotificationManager.Instance != null)
+                UINotificationManager.Instance.ShowNotification($"No table for {groupSize} cats! They left the cafe.");
+
             StartCoroutine(HandleGroupRejectAndExit(frontNPC.groupID));
             return;
         }
