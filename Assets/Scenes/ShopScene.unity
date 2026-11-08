@@ -1481,8 +1481,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Table For 2 Cat
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9756,8 +9756,8 @@ MonoBehaviour:
   m_text: Book                                                         went to near
     to book and press E to open  press ESC to close  use A / D to swap page
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9897,8 +9897,8 @@ MonoBehaviour:
     you  press E while heart appear  then ther will be 3 choice to play with \nuse
     1 to 3  to pick and  use spacebar to perform"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -12040,8 +12040,8 @@ MonoBehaviour:
   m_text: Tray                                                         went to  nearby 
     and press E to place food
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -12649,8 +12649,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13817,8 +13817,8 @@ MonoBehaviour:
   m_text: "Becareful don't let our customer wait too long they  may head to destroy 
     our FURniture \npress E to fix or claim our "
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -14170,8 +14170,8 @@ MonoBehaviour:
     went to  nearby  and press E to invite to table  while ourcustommer order the
     food handed the  right order     and press E to serve '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -14738,7 +14738,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 265, y: 42}
+  m_AnchoredPosition: {x: 286, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &610939301
@@ -15965,7 +15965,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 617, y: -183.15}
+  m_AnchoredPosition: {x: 638, y: -234.15}
   m_SizeDelta: {x: 374.27, y: 74.173}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670603337
@@ -15990,8 +15990,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: NOTI
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -16015,8 +16015,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 47
+  m_fontSizeBase: 47
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -17884,8 +17884,8 @@ MonoBehaviour:
   m_text: "Becareful don't let our customer wait too long they  may head to destroy 
     our FURniture \npress E to fix or claim our "
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -18024,8 +18024,8 @@ MonoBehaviour:
     near to Beverage station and press E to open  press ESC to close   prees E to
     fill  the   glasses
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -22613,8 +22613,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 856, y: -471}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 882, y: -468}
+  m_SizeDelta: {x: 73.233, y: 81.765}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &977614115
 MonoBehaviour:
@@ -25128,8 +25128,8 @@ MonoBehaviour:
   m_text: Book                                                         went to near
     to book and press E to open  press ESC to close  use A / D to swap page
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -40017,7 +40017,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 617, y: -195}
+  m_AnchoredPosition: {x: 638, y: -246}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1398543642
@@ -40120,8 +40120,8 @@ MonoBehaviour:
     near to stove and press E to open  press ESC to close   use 1 to 7  to select
     ingredient and prees E to cook again  press F for deepfry tempura
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -41233,8 +41233,8 @@ MonoBehaviour:
     you  press E while heart appear  then ther will be 3 choice to play with \nuse
     1 to 3  to pick and  use spacebar to perform"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -44549,8 +44549,8 @@ MonoBehaviour:
   m_text: Tray                                                         went to  nearby 
     and press E to place food
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -45979,8 +45979,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Bot
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -46282,8 +46282,8 @@ MonoBehaviour:
     went to  nearby  and press E to invite to table  while ourcustommer order the
     food handed the  right order     and press E to serve '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -47526,8 +47526,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Quest
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -47551,8 +47551,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 45
+  m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -47794,7 +47794,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 265, y: 42}
+  m_AnchoredPosition: {x: 284, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1784286090
@@ -48899,8 +48899,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Table For 1 Cat
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -50118,8 +50118,8 @@ MonoBehaviour:
     near to stove and press E to open  press ESC to close   use 1 to 7  to select
     ingredient and prees E to cook again  press F for deepfry tempura
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -50871,8 +50871,8 @@ MonoBehaviour:
     near to Beverage station and press E to open  press ESC to close   prees E to
     fill  the   glasses
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -51431,7 +51431,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1962400456
 RectTransform:
   m_ObjectHideFlags: 0
@@ -51473,8 +51473,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Bonsai
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
-  m_sharedMaterial: {fileID: -1715619880235905553, guid: 48446ff28fbc5dc43b5055edd5323e7f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
+  m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
