@@ -180,7 +180,7 @@ public class AutoCooking : MonoBehaviour
         bool success = TrayManager.instance != null &&
                        TrayManager.instance.ReceiveFood(recipe.recipeName, recipe.finalDishSprite);
         if (success)
-            Debug.Log($"[AutoCooking Bot] 🍳 ทำเมนู [{recipe.recipeName}] สำเร็จ และโยนลง Tray แล้ว");
+            Debug.Log($"[AutoCooking Bot] 🍳 menu [{recipe.recipeName}] is now on Tray ");
 
         isCooking = false;
     }
@@ -265,7 +265,7 @@ public class AutoCooking : MonoBehaviour
             else
             {
                 if (UINotificationManager.Instance != null)
-                    UINotificationManager.Instance.ShowNotification("เงินไม่พอ! ต้องการ " + botPrice + " $");
+                    UINotificationManager.Instance.ShowNotification("Not Enough Money we need " + botPrice + " $");
             }
         }
     }
@@ -274,7 +274,7 @@ public class AutoCooking : MonoBehaviour
     {
         isActivated = true;
         UpdateVisualState();
-        Debug.Log("[AutoCooking Bot] 🍳 เปิดใช้งานบอททำอาหาร AutoCooking แล้ว!");
+        Debug.Log("[AutoCooking Bot] 🍳 chef is arrive AutoCooking ");
     }
 
     void UpdateVisualState()

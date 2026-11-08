@@ -207,12 +207,11 @@ public class PlayerController2D : MonoBehaviour
         {
             string variantID = heldCatData != null ? heldCatData.catID : "";
 
-            // ค้นหาค่า Mapping จาก Inspector List
             CatAnimationMapping matchedMapping = catAnimationMappings.Find(m => !string.IsNullOrEmpty(variantID) && variantID.Contains(m.variantID));
 
             if (string.IsNullOrEmpty(matchedMapping.variantID) && catAnimationMappings.Count > 0)
             {
-                matchedMapping = catAnimationMappings[0]; // Fallback ตัวแรก
+                matchedMapping = catAnimationMappings[0];
             }
 
             if (!isMoving)
@@ -225,6 +224,7 @@ public class PlayerController2D : MonoBehaviour
 
                 if (spriteRenderer != null && movement.x != 0)
                 {
+                    // 🟢 Reverted back to > 0 for left-facing art sheets
                     spriteRenderer.flipX = movement.x > 0;
                 }
             }
@@ -241,9 +241,9 @@ public class PlayerController2D : MonoBehaviour
                 targetState = isHoldingItem ? AnimState.WalkUpHolding : AnimState.WalkUp;
                 isWalkUpDirection = true;
 
-                if (spriteRenderer != null)
+                if (spriteRenderer != null && movement.x != 0)
                 {
-                    spriteRenderer.flipX = false;
+                    spriteRenderer.flipX = movement.x > 0;
                 }
             }
             else

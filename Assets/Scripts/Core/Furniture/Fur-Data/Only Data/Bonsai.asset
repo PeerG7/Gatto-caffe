@@ -15,5 +15,5 @@ MonoBehaviour:
   id: 3
   furnitureName: bonsai
   icon: {fileID: 356316440201032689, guid: 25c1012ee60267a4bbe56bcd1d6d86c7, type: 3}
-  price: 0
+  price: 500
   prefab: {fileID: 526646423858515346, guid: f7d9562a6d3b5874db646581b634bedb, type: 3}

@@ -12,10 +12,22 @@ public class ScreenSmudgeManager : MonoBehaviour
 
     [Header("Cat Slide Animation Settings (ใช้เฉพาะตอนทำอาหาร)")]
     public RectTransform catRectTransform;               // ลาก CatPopUp มาใส่
+    public Image catImage;                               // ลาก Image component บน CatPopUp มาใส่
     public Vector2 leftOffScreenPos = new Vector2(-1300f, 690f); // จุดเริ่มต้นนอกจอฝั่งซ้าย
     public Vector2 rightTargetPos = new Vector2(-830f, 150f);    // ตำแหน่งเป้าหมายด้านขวา
     public float slideInDuration = 0.8f;                         // เวลาตอนแมวสไลด์เข้ามา
     public float slideOutDuration = 0.8f;                        // เวลาตอนแมวสไลด์ออก
+
+    [Header("Cat Manual Direction Controls")]
+    [Tooltip("ติ๊กถูกถ้าอยากให้ตอนเดินเข้าจอหันหน้าไปทางขวา / เอาออกถ้าอยากให้หันซ้าย")]
+    public bool faceRightWhenWalkingIn = true;            // 🟢 ควบคุมทิศทางตอนเดินเข้า
+
+    [Header("Cat Animation Sprites")]
+    [Tooltip("Frames played during sliding in/out (Walking animation)")]
+    public Sprite[] catWalkSprites;                      // ใส่ Sprite Walking 2+ เฟรม
+    [Tooltip("Frames played while waiting / talking (Idle animation)")]
+    public Sprite[] catChattingSprites;                  // ใส่ Sprite Chatting 2+ เฟรม
+    public float animationFrameRate = 0.15f;             // ความเร็วการเปลี่ยนเฟรม (วินาทีต่อเฟรม)
 
     [Header("UI References (ลากใส่ให้ครบ)")]
     public GameObject smudgeScreenObject;  // ลาก SmudgeScreen (ตัวแม่) มาใส่
@@ -30,29 +42,33 @@ public class ScreenSmudgeManager : MonoBehaviour
     public AudioClip cleanSound;
 
     [Header("Cat Normal Size Adjustment")]
-    public Vector3 normalCatScale = new Vector3(5f, 5f, 5f); // 🟢 ขนาดปกติของแมว (ปรับเพิ่ม/ลดได้ตามต้องการ)
+    public Vector3 normalCatScale = new Vector3(5f, 5f, 5f); // ขนาดปกติของแมว
 
     private int currentPresses = 0;
     private bool isMinigameActive = false;
     private Coroutine activeSequenceCoroutine;
     private Coroutine punchScaleCoroutine;
+    private Coroutine spriteAnimCoroutine;
 
     void Awake()
     {
         if (Instance == null) Instance = this;
         else { Destroy(gameObject); return; }
 
-        // ปิดทั้งหมดตอนเริ่มเกม
         if (smudgeScreenObject != null) smudgeScreenObject.SetActive(false);
         if (smudgeRootObject != null) smudgeRootObject.SetActive(false);
         if (catPopupObject != null) catPopupObject.SetActive(false);
+
+        if (catImage == null && catPopupObject != null)
+        {
+            catImage = catPopupObject.GetComponent<Image>();
+        }
     }
 
     void Update()
     {
         if (!isMinigameActive) return;
 
-        // รองรับทั้งกด Space bar หรือคลิกซ้ายเมาส์รัวๆ
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             currentPresses++;
@@ -61,21 +77,18 @@ public class ScreenSmudgeManager : MonoBehaviour
             if (sfxSource != null && cleanSound != null)
                 sfxSource.PlayOneShot(cleanSound);
 
-            // 1. ถ้าเป็นหน้าทำอาหาร (มีแมวอยู่) ให้แมวเด้งดั๊บ
             if (catPopupObject != null && catPopupObject.activeSelf && catRectTransform != null)
             {
                 if (punchScaleCoroutine != null) StopCoroutine(punchScaleCoroutine);
                 punchScaleCoroutine = StartCoroutine(PunchScaleRoutine());
             }
 
-            // 2. ถ้าเป็นซอสเลอะ (มี smudgeRootObject เปิดอยู่) ให้ซอสค่อยๆ จางลงตามจำนวนครั้งที่กด
             if (smudgeRootObject != null && smudgeRootObject.activeSelf && smudgeCanvasGroup != null)
             {
                 float alpha = 1f - ((float)currentPresses / requiredPresses);
                 smudgeCanvasGroup.alpha = Mathf.Clamp01(alpha);
             }
 
-            // เมื่อกดครบจำนวนครั้งที่กำหนด
             if (currentPresses >= requiredPresses)
             {
                 StartCoroutine(EndMinigameRoutine());
@@ -83,12 +96,11 @@ public class ScreenSmudgeManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 🟢 เอฟเฟกต์ทำให้แมวเด้งขยายแล้วหดกลับขนาดเดิมพอดี
-    /// </summary>
     IEnumerator PunchScaleRoutine()
     {
-        Vector3 targetScale = normalCatScale * 1.15f; // ขยายขึ้น 15%
+        float currentSign = Mathf.Sign(catRectTransform.localScale.x);
+        Vector3 baseScale = new Vector3(Mathf.Abs(normalCatScale.x) * currentSign, normalCatScale.y, normalCatScale.z);
+        Vector3 targetScale = new Vector3(Mathf.Abs(normalCatScale.x * 1.15f) * currentSign, normalCatScale.y * 1.15f, normalCatScale.z);
 
         float duration = 0.08f;
         float elapsed = 0f;
@@ -97,7 +109,7 @@ public class ScreenSmudgeManager : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = elapsed / duration;
-            catRectTransform.localScale = Vector3.Lerp(normalCatScale, targetScale, t);
+            catRectTransform.localScale = Vector3.Lerp(baseScale, targetScale, t);
             yield return null;
         }
 
@@ -106,16 +118,13 @@ public class ScreenSmudgeManager : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = elapsed / duration;
-            catRectTransform.localScale = Vector3.Lerp(targetScale, normalCatScale, t);
+            catRectTransform.localScale = Vector3.Lerp(targetScale, baseScale, t);
             yield return null;
         }
 
-        catRectTransform.localScale = normalCatScale;
+        catRectTransform.localScale = baseScale;
     }
 
-    /// <summary>
-    /// 🟢 1. เรียกใช้งานตอนเปิดหน้าทำอาหาร
-    /// </summary>
     public void TryTriggerCookingSmudge()
     {
         if (smudgeScreenObject == null || catRectTransform == null || catPopupObject == null)
@@ -139,9 +148,6 @@ public class ScreenSmudgeManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 🟢 2. เรียกใช้งานตอน Serve อาหารให้ลูกค้า (เมื่อความอดทน <= 50%)
-    /// </summary>
     public void TryTriggerServeSmudge()
     {
         if (smudgeScreenObject == null || smudgeRootObject == null)
@@ -195,6 +201,14 @@ public class ScreenSmudgeManager : MonoBehaviour
         return false;
     }
 
+    // 🟢 ตั้งค่าการหันหน้าแบบแมนนวลผ่าน Inspector
+    private void ApplyCatFacing(bool faceRight)
+    {
+        if (catRectTransform == null) return;
+        float scaleX = faceRight ? Mathf.Abs(normalCatScale.x) : -Mathf.Abs(normalCatScale.x);
+        catRectTransform.localScale = new Vector3(scaleX, normalCatScale.y, normalCatScale.z);
+    }
+
     IEnumerator CookingCatOnlySequenceRoutine()
     {
         isMinigameActive = true;
@@ -204,11 +218,10 @@ public class ScreenSmudgeManager : MonoBehaviour
 
         if (smudgeScreenObject != null) smudgeScreenObject.SetActive(true);
         if (catPopupObject != null) catPopupObject.SetActive(true);
-        if (smudgeRootObject != null) smudgeRootObject.SetActive(false); // ปิดซอส
+        if (smudgeRootObject != null) smudgeRootObject.SetActive(false);
 
         if (catRectTransform != null)
         {
-            catRectTransform.localScale = normalCatScale;
             catRectTransform.anchoredPosition = leftOffScreenPos;
             Canvas.ForceUpdateCanvases();
         }
@@ -218,7 +231,16 @@ public class ScreenSmudgeManager : MonoBehaviour
             if (sfxSource != null && catSlideSound != null)
                 sfxSource.PlayOneShot(catSlideSound);
 
+            // 🟢 กำหนดทิศทางตอนเดินเข้า (ตั้งค่าได้จาก Inspector)
+            ApplyCatFacing(faceRightWhenWalkingIn);
+            StartSpriteAnimation(catWalkSprites);
+
             yield return StartCoroutine(SlideToPosition(leftOffScreenPos, rightTargetPos, slideInDuration));
+
+            StopSpriteAnimation();
+            // เมื่อถึงจุดหมาย ให้หันหน้ากลับมามองตรงปกติ (ถ้าต้องการให้หันขวาตอนคุย ให้แก้ตรงนี้ได้)
+            ApplyCatFacing(faceRightWhenWalkingIn);
+            StartSpriteAnimation(catChattingSprites);
         }
     }
 
@@ -230,7 +252,7 @@ public class ScreenSmudgeManager : MonoBehaviour
         PlayerController2D.IsLocked = true;
 
         if (smudgeScreenObject != null) smudgeScreenObject.SetActive(true);
-        if (catPopupObject != null) catPopupObject.SetActive(false); // ปิดแมว
+        if (catPopupObject != null) catPopupObject.SetActive(false);
 
         if (smudgeRootObject != null) smudgeRootObject.SetActive(true);
         if (smudgeCanvasGroup != null) smudgeCanvasGroup.alpha = 1f;
@@ -241,9 +263,6 @@ public class ScreenSmudgeManager : MonoBehaviour
         yield break;
     }
 
-    /// <summary>
-    /// 🟢 เมื่อกดครบ 5 ครั้ง: แยกการทำงานระหว่างแมวกับซอส
-    /// </summary>
     IEnumerator EndMinigameRoutine()
     {
         isMinigameActive = false;
@@ -251,18 +270,23 @@ public class ScreenSmudgeManager : MonoBehaviour
         if (sfxSource != null && cleanSound != null)
             sfxSource.PlayOneShot(cleanSound);
 
-        // กรณีมีแมว (หน้าทำอาหาร): สไลด์แมวกลับออกไปทันที (ไม่มีการ Fade ตัวแมว)
         if (catPopupObject != null && catPopupObject.activeSelf && catRectTransform != null)
         {
-            catRectTransform.localScale = normalCatScale;
             if (sfxSource != null && catSlideSound != null)
                 sfxSource.PlayOneShot(catSlideSound);
 
+            StopSpriteAnimation();
+
+            // 🟢 ตอนเดินกลับออกจอ ให้กลับด้านจากขามาโดยอัตโนมัติ
+            ApplyCatFacing(!faceRightWhenWalkingIn);
+            StartSpriteAnimation(catWalkSprites);
+
             yield return StartCoroutine(SlideToPosition(rightTargetPos, leftOffScreenPos, slideOutDuration));
+
+            StopSpriteAnimation();
             catPopupObject.SetActive(false);
         }
 
-        // กรณีมีซอส (หน้าเสิร์ฟอาหาร): ให้ซอสค่อยๆ Fade จางออก
         if (smudgeRootObject != null && smudgeRootObject.activeSelf)
         {
             float fadeTimer = 0.2f;
@@ -303,8 +327,43 @@ public class ScreenSmudgeManager : MonoBehaviour
         catRectTransform.anchoredPosition = toPos;
     }
 
+    private void StartSpriteAnimation(Sprite[] spriteArray)
+    {
+        StopSpriteAnimation();
+
+        if (spriteArray != null && spriteArray.Length > 0 && catImage != null)
+        {
+            spriteAnimCoroutine = StartCoroutine(PlaySpriteAnimationRoutine(spriteArray));
+        }
+    }
+
+    private void StopSpriteAnimation()
+    {
+        if (spriteAnimCoroutine != null)
+        {
+            StopCoroutine(spriteAnimCoroutine);
+            spriteAnimCoroutine = null;
+        }
+    }
+
+    IEnumerator PlaySpriteAnimationRoutine(Sprite[] spriteArray)
+    {
+        int index = 0;
+        while (true)
+        {
+            if (catImage != null && spriteArray.Length > 0)
+            {
+                catImage.sprite = spriteArray[index];
+                index = (index + 1) % spriteArray.Length;
+            }
+            yield return new WaitForSeconds(animationFrameRate);
+        }
+    }
+
     public void CancelActiveSmudge()
     {
+        StopSpriteAnimation();
+
         if (activeSequenceCoroutine != null)
         {
             StopCoroutine(activeSequenceCoroutine);
