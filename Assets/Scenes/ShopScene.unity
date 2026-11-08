@@ -52371,7 +52371,7 @@ MonoBehaviour:
   maxGroupSize: 2
   vipNpcPrefabs:
   - {fileID: 1500671038587446994, guid: 674566b583f6fde4bb238e43d4da9724, type: 3}
-  vipSpawnChance: 100
+  vipSpawnChance: 0
   maxVipSpawnChance: 20
   tutorialOrderedPrefabs:
   - {fileID: 1500671038587446994, guid: 68e5d63e9a92d1548a67806337d48737, type: 3}

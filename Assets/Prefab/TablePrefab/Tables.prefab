@@ -85,6 +85,10 @@ MonoBehaviour:
   vipBadgeIcon: {fileID: 0}
   moneyIconOnTable: {fileID: 6606337077697849601}
   hasMoneyToCollect: 0
+  popDuration: 0.55
+  popHopHeight: 0.35
+  idleBobHeight: 0.04
+  idleBobSpeed: 4
   interactionChance: 100
   chatTriggerChance: 0
   coinSoundClip: {fileID: 0}

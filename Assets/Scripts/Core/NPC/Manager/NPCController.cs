@@ -1258,7 +1258,7 @@ public class NPCController : MonoBehaviour
         float nextFlavorInterval = Random.Range(minSitAnimInterval, maxSitAnimInterval);
 
         CatIdentity identity = GetComponent<CatIdentity>();
-        bool isDataCat1 = identity != null && identity.IsDataCat1();
+        bool isDataCat1 = !isVIP && identity != null && identity.IsDataCat1();
 
         while (waitTimer < actualWaitTime)
         {

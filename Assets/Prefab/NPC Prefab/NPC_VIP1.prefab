@@ -643,7 +643,7 @@ MonoBehaviour:
   normalSprite2: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   maxRepSprite2: {fileID: 3497078342218366529, guid: 4711f703b8f3cfc4186f39d95da701ac, type: 3}
   absoluteMaxSitTime: 120
-  isVIP: 0
+  isVIP: 1
   vipMoneyMultiplier: 2
   isInQTE: 0
   isInteractionAllowed: 0

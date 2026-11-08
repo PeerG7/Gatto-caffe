@@ -118,6 +118,10 @@ MonoBehaviour:
   vipBadgeIcon: {fileID: 0}
   moneyIconOnTable: {fileID: 3495521842385552981}
   hasMoneyToCollect: 0
+  popDuration: 0.55
+  popHopHeight: 0.35
+  idleBobHeight: 0.04
+  idleBobSpeed: 4
   interactionChance: 100
   chatTriggerChance: 100
   coinSoundClip: {fileID: 0}
@@ -144,7 +148,7 @@ MonoBehaviour:
   isUnlocked: 0
   upgradePrice: 1000
   isUpgraded: 0
-  vipChanceBonusOnUpgrade: 2
+  vipChanceBonusOnUpgrade: 5
   furnitureID: TableSet 2 Seat
   furniturePrefab: {fileID: 387129776201575806}
 --- !u!114 &-5448480435023754254

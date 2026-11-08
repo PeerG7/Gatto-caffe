@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CatRelationshipData
   catName: AlienCat
   catPortrait: {fileID: -6548814692687787910, guid: a25236f4b21e7094d9dcd2106f9c4a6b, type: 3}
-  catID: AIKow
+  catID: Airaiwa
   maxRelationship: 100
