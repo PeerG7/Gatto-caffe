@@ -41,6 +41,20 @@ public class ScreenSmudgeManager : MonoBehaviour
     public AudioClip splashSound;
     public AudioClip cleanSound;
 
+    [Header("Cleaning Sauce Sounds (เสียงตอนเช็ดซอส)")]
+    [Tooltip("ใส่ cleaningsauce 1-2 สุ่มเล่นทุกครั้งที่กดเช็ดซอส (ถ้าว่างจะใช้ Clean Sound เดิม)")]
+    public AudioClip[] cleaningSauceSounds;
+    [Range(0f, 1f)] public float cleaningSauceVolume = 1f;
+
+    [Header("Cat Voice (เสียงแมวตอนกด)")]
+    [Tooltip("ใส่ catattention 1-3 เล่นแบบสุ่มทุกครั้งที่กดแมว (กดครั้งใหม่จะตัดเสียงเก่า)")]
+    public AudioClip[] catAttentionSounds;
+    [Tooltip("cat_happy เล่นตอนกดครบจำนวน")]
+    public AudioClip catHappySound;
+    [Range(0f, 1f)] public float catVoiceVolume = 1f;
+    [Tooltip("ถ้าไม่ลากใส่ โค้ดจะสร้าง AudioSource ให้เองอัตโนมัติ")]
+    public AudioSource catVoiceSource;
+
     [Header("Cat Normal Size Adjustment")]
     public Vector3 normalCatScale = new Vector3(5f, 5f, 5f); // ขนาดปกติของแมว
 
@@ -63,6 +77,52 @@ public class ScreenSmudgeManager : MonoBehaviour
         {
             catImage = catPopupObject.GetComponent<Image>();
         }
+
+        // AudioSource แยกสำหรับเสียงแมว เพื่อให้สั่ง Stop เสียงเก่าได้
+        if (catVoiceSource == null)
+        {
+            catVoiceSource = gameObject.AddComponent<AudioSource>();
+            catVoiceSource.playOnAwake = false;
+            catVoiceSource.loop = false;
+            catVoiceSource.spatialBlend = 0f; // 2D sound
+        }
+    }
+
+    void PlayRandomCleaningSauce()
+    {
+        if (sfxSource == null) return;
+        AudioClip clip = cleaningSauceSounds[Random.Range(0, cleaningSauceSounds.Length)];
+        if (clip != null) sfxSource.PlayOneShot(clip, cleaningSauceVolume);
+    }
+
+    // ---------------------------------------------------------------
+    //  Cat Voice
+    // ---------------------------------------------------------------
+    void PlayCatVoice(AudioClip clip)
+    {
+        if (catVoiceSource == null || clip == null) return;
+
+        catVoiceSource.Stop();          // ตัดเสียงของครั้งก่อน
+        catVoiceSource.clip = clip;
+        catVoiceSource.volume = catVoiceVolume;
+        catVoiceSource.Play();
+    }
+
+    void PlayRandomCatAttention()
+    {
+        if (catAttentionSounds == null || catAttentionSounds.Length == 0) return;
+        AudioClip clip = catAttentionSounds[Random.Range(0, catAttentionSounds.Length)];
+        PlayCatVoice(clip);
+    }
+
+    void PlayCatHappy()
+    {
+        PlayCatVoice(catHappySound);
+    }
+
+    void StopCatVoice()
+    {
+        if (catVoiceSource != null && catVoiceSource.isPlaying) catVoiceSource.Stop();
     }
 
     void Update()
@@ -74,13 +134,21 @@ public class ScreenSmudgeManager : MonoBehaviour
             currentPresses++;
             Debug.Log($"[ScreenSmudge] กด/คลิก แล้ว! ({currentPresses}/{requiredPresses})");
 
-            if (sfxSource != null && cleanSound != null)
+            // ตอนเช็ดซอส: สุ่มเสียง cleaningsauce / ตอนแมว: ใช้ cleanSound เดิม
+            bool isSauceMode = smudgeRootObject != null && smudgeRootObject.activeSelf;
+            if (isSauceMode && cleaningSauceSounds != null && cleaningSauceSounds.Length > 0)
+                PlayRandomCleaningSauce();
+            else if (sfxSource != null && cleanSound != null)
                 sfxSource.PlayOneShot(cleanSound);
 
             if (catPopupObject != null && catPopupObject.activeSelf && catRectTransform != null)
             {
                 if (punchScaleCoroutine != null) StopCoroutine(punchScaleCoroutine);
                 punchScaleCoroutine = StartCoroutine(PunchScaleRoutine());
+
+                // เสียงแมว: กดครบแล้วเล่น happy, ยังไม่ครบสุ่ม attention (ตัดเสียงเก่าทุกครั้ง)
+                if (currentPresses >= requiredPresses) PlayCatHappy();
+                else PlayRandomCatAttention();
             }
 
             if (smudgeRootObject != null && smudgeRootObject.activeSelf && smudgeCanvasGroup != null)
@@ -363,6 +431,7 @@ public class ScreenSmudgeManager : MonoBehaviour
     public void CancelActiveSmudge()
     {
         StopSpriteAnimation();
+        StopCatVoice();
 
         if (activeSequenceCoroutine != null)
         {

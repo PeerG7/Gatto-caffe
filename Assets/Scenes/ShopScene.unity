@@ -11345,8 +11345,19 @@ MonoBehaviour:
   catPopupObject: {fileID: 1953704934}
   sfxSource: {fileID: 0}
   catSlideSound: {fileID: 0}
-  splashSound: {fileID: 0}
+  splashSound: {fileID: 8300000, guid: a33f3500e2e5ecc4691caff43023e3d0, type: 3}
   cleanSound: {fileID: 0}
+  cleaningSauceSounds:
+  - {fileID: 8300000, guid: 7863b330cae8ec24ba769c0a70beacde, type: 3}
+  - {fileID: 8300000, guid: 497e03b15ad08a04aaa1b7a0ae5f6547, type: 3}
+  cleaningSauceVolume: 1
+  catAttentionSounds:
+  - {fileID: 8300000, guid: 4eeba4a5acb778d47a6ae6b1bf356ead, type: 3}
+  - {fileID: 8300000, guid: df9d8719db428354a8af8a8a33aabd28, type: 3}
+  - {fileID: 8300000, guid: 8684080c91ed0954790c540ad8ac4ad4, type: 3}
+  catHappySound: {fileID: 8300000, guid: a95029b5943c56b448f20d5ee860edcc, type: 3}
+  catVoiceVolume: 1
+  catVoiceSource: {fileID: 0}
   normalCatScale: {x: 3, y: 3, z: 3}
 --- !u!1 &467111647
 GameObject:
@@ -22430,12 +22441,16 @@ MonoBehaviour:
   isActivated: 0
   checkInterval: 10
   cookPoint: {fileID: 0}
-  cookDuration: 1.2
+  cookDuration: 2.5
   tossDuration: 0.6
   arcHeight: 1.5
   iconScale: 1
   spinTurns: 1
   sortingOrder: 50
+  cookClip: {fileID: 8300000, guid: 052e34ad86ae6c34fa38d3ebdf344513, type: 3}
+  bellClip: {fileID: 8300000, guid: 1f0492c95348685468f3e911068d4065, type: 3}
+  cookVolume: 0.7
+  bellVolume: 1
 --- !u!1 &962968724
 GameObject:
   m_ObjectHideFlags: 0
@@ -37724,8 +37739,8 @@ MonoBehaviour:
   autoOrderLayers: 1
   drinkName: Milk
   sfxSource: {fileID: 1312205194}
-  glassPlaceClip: {fileID: 0}
-  bobaDropClip: {fileID: 0}
+  glassPlaceClip: {fileID: 8300000, guid: 6e1c6160e1967b148a149d3d12a3e86e, type: 3}
+  bobaDropClip: {fileID: 8300000, guid: 2a6007fdd19610746aa3464d5b9787a0, type: 3}
   pourSoundClip: {fileID: 8300000, guid: 4eb888a94d7d8c64780079e780b33dd7, type: 3}
   completeSoundClip: {fileID: 8300000, guid: 1f0492c95348685468f3e911068d4065, type: 3}
   backAction: {fileID: 0}

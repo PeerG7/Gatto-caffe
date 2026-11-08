@@ -29,8 +29,33 @@ public class AutoCooking : MonoBehaviour
     [Tooltip("Sorting Order ของไอคอน (กรณีเป็น World Sprite)")]
     public int sortingOrder = 50;
 
+    [Header("Sound")]
+    [Tooltip("เสียงตอนบอทกำลังทำอาหาร (cook_mix_bot.mp3) เล่นวนจนทำเสร็จ")]
+    public AudioClip cookClip;
+    [Tooltip("เสียงกริ่งตอนทำอาหารเสร็จ (clear_bell.mp3)")]
+    public AudioClip bellClip;
+    [Range(0f, 1f)] public float cookVolume = 0.7f;
+    [Range(0f, 1f)] public float bellVolume = 1f;
+
+    private AudioSource cookSource;
+    private AudioSource bellSource;
+
     private bool isCooking = false;
     private GameObject currentIcon;
+
+    void Awake()
+    {
+        cookSource = gameObject.AddComponent<AudioSource>();
+        cookSource.playOnAwake = false;
+        cookSource.loop = true;          // วนจนกว่าจะทำเสร็จ
+        cookSource.spatialBlend = 0f;    // 2D sound
+        cookSource.clip = cookClip;
+        cookSource.volume = cookVolume;
+
+        bellSource = gameObject.AddComponent<AudioSource>();
+        bellSource.playOnAwake = false;
+        bellSource.spatialBlend = 0f;
+    }
 
     void Start()
     {
@@ -39,7 +64,8 @@ public class AutoCooking : MonoBehaviour
 
     void OnDisable()
     {
-        // กันไอคอนค้างถ้าบอทถูกปิดกลางทาง
+        // กันเสียงและไอคอนค้างถ้าบอทถูกปิดกลางทาง
+        StopCookSound();
         if (currentIcon != null) Destroy(currentIcon);
         currentIcon = null;
         isCooking = false;
@@ -98,11 +124,36 @@ public class AutoCooking : MonoBehaviour
     }
 
     // ---------------------------------------------------------------
+    //  Sound
+    // ---------------------------------------------------------------
+    void StartCookSound()
+    {
+        if (cookSource != null && cookClip != null)
+        {
+            cookSource.clip = cookClip;
+            cookSource.volume = cookVolume;
+            cookSource.Play();
+        }
+    }
+
+    void StopCookSound()
+    {
+        if (cookSource != null && cookSource.isPlaying) cookSource.Stop();
+    }
+
+    void PlayBell()
+    {
+        if (bellSource != null && bellClip != null)
+            bellSource.PlayOneShot(bellClip, bellVolume);
+    }
+
+    // ---------------------------------------------------------------
     //  Animation
     // ---------------------------------------------------------------
     IEnumerator CookAndTossRoutine(RecipeSO recipe)
     {
         isCooking = true;
+        StartCookSound(); // เริ่มเสียงทำอาหาร
 
         Transform origin = cookPoint != null ? cookPoint : transform;
 
@@ -140,16 +191,22 @@ public class AutoCooking : MonoBehaviour
         icon.localScale = Vector3.one * iconScale;
         SetAlpha(sr, uiGraphic, 1f);
 
+        // ทำเสร็จ: ตัดเสียงทำอาหาร
+        StopCookSound();
+
         // ---------- 2) หาช่อง Tray ที่ว่าง ณ ตอนนี้ ----------
         Transform target = FindEmptySlotTransform();
         if (target == null)
         {
-            // Tray เต็มระหว่างทำ -> ยกเลิกจานนี้
+            // Tray เต็มระหว่างทำ -> ยกเลิกจานนี้ (ไม่เล่นเสียง bell)
             Destroy(currentIcon);
             currentIcon = null;
             isCooking = false;
             yield break;
         }
+
+        // มีที่ว่างจริง -> เล่นเสียง bell
+        PlayBell();
 
         // ---------- 3) โยนเป็นวงโค้งไปที่ Tray ----------
         Vector3 from = icon.position;
