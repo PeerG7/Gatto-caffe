@@ -105,13 +105,12 @@ public class PauseMenuManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ปุ่ม Title: บันทึกวันที่ปัจจุบันลง PlayerPrefs แล้วกลับไปหน้า Main Menu ทันที
+    /// ปุ่ม Title: กลับหน้า Main Menu (ไม่เซฟกลางวัน — Continue จะกลับไปจุดเริ่มต้นของวันที่เซฟไว้ล่าสุด)
     /// </summary>
     public void OnTitlePressed()
     {
         if (DayNightManager.Instance != null)
         {
-            DayNightManager.Instance.SaveDayProgress();
             DayNightManager.Instance.ForceResume();
         }
         _isMenuOpen = false;
@@ -138,11 +137,7 @@ public class PauseMenuManager : MonoBehaviour
 
     public void ConfirmExitGame()
     {
-        if (DayNightManager.Instance != null)
-        {
-            DayNightManager.Instance.SaveDayProgress();
-        }
-
+        // ไม่เซฟกลางวัน (ดูคำอธิบายที่ OnTitlePressed)
         Debug.Log("🚪 กำลังออกจากเกม...");
 
 #if UNITY_EDITOR

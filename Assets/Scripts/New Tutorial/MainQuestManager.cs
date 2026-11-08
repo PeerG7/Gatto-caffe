@@ -114,6 +114,8 @@ public class MainQuestManager : MonoBehaviour
 
     public void AdvanceQuest()
     {
+        bool justCompleted = false;
+
         if (currentQuest == QuestStep.BuyFurniture) currentQuest = QuestStep.InviteCat1;
         else if (currentQuest == QuestStep.InviteCat1) currentQuest = QuestStep.InviteCat2;
         else if (currentQuest == QuestStep.InviteCat2) currentQuest = QuestStep.GuideCat2ToTable;
@@ -123,6 +125,7 @@ public class MainQuestManager : MonoBehaviour
         else if (currentQuest == QuestStep.CarryCat2ToZone)
         {
             currentQuest = QuestStep.Completed;
+            justCompleted = true;
             if (_holdingTutorialPause && DayNightManager.Instance != null)
             {
                 DayNightManager.Instance.ResumeGame();
@@ -132,6 +135,11 @@ public class MainQuestManager : MonoBehaviour
 
         SaveQuestProgress(); // 🟢 FIX: เซฟทุกครั้งที่เควสขยับ
         UpdateQuestUI();
+
+        // 🟢 CHECKPOINT วันแรก: จบ Tutorial แล้วเซฟ วัน/เงิน/เฟอร์นิเจอร์ ณ ตอนนี้
+        // (Continue ในวันแรกจะกลับมาที่จุดนี้ ไม่ใช่เงินที่หาได้หลังจากนั้น)
+        if (justCompleted && DayNightManager.Instance != null)
+            DayNightManager.Instance.SaveDayProgress();
 
         // 🟢 สั่งให้ Pointer ชี้เป้าใหม่ / ซ่อนทันทีเมื่อเควสเปลี่ยน
         if (TutorialPointerManager.Instance != null)

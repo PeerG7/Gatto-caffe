@@ -37,7 +37,12 @@ public class RelationshipManager : MonoBehaviour
         }
     }
 
-    void SaveAll()
+    /// <summary>
+    /// 🟢 CHECKPOINT: เขียนค่าความสัมพันธ์ปัจจุบันลง PlayerPrefs
+    /// DayNightManager เรียกให้ตอนขึ้นวันใหม่ / จบ Tutorial เท่านั้น (พร้อมเงินและเฟอร์นิเจอร์)
+    /// ระหว่างวันค่าเปลี่ยนเฉพาะในหน่วยความจำ — ถ้ากด Title กลางวัน Continue จะกลับไปค่าตอนต้นวัน
+    /// </summary>
+    public void SaveCheckpoint()
     {
         foreach (var cat in allCats)
         {
@@ -59,8 +64,8 @@ public class RelationshipManager : MonoBehaviour
         CatRelationshipData data = allCats.Find(c => c.catID == catID);
         float max = data != null ? data.maxRelationship : 100f;
 
+        // 🟢 ไม่เขียน PlayerPrefs ทันทีอีกแล้ว — เก็บในหน่วยความจำจนกว่าจะถึง Checkpoint (SaveCheckpoint)
         relationshipValues[catID] = Mathf.Clamp(relationshipValues[catID] + amount, 0f, max);
-        SaveAll();
 
         Debug.Log($"✅ [{catID}] Relationship: {relationshipValues[catID]} / {max}");
     }

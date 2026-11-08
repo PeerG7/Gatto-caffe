@@ -239,6 +239,11 @@ public class UISummaryController : MonoBehaviour
     // ── ของเดิม: Main Menu ────────────────────────────────────────
     public void OnMainMenuButton()
     {
+        // 🟢 จบวันแล้ว (เห็นหน้าสรุป) แต่ไม่ได้กด Next Day → เซฟเป็นจุดเริ่มต้นของวันถัดไป จะได้ไม่ต้องเล่นวันนี้ซ้ำ
+        // (วันสุดท้ายไม่เซฟ เพราะจะไปหน้า Ending)
+        if (!_isLastDay && DayNightManager.Instance != null)
+            DayNightManager.Instance.SaveNextDayCheckpoint();
+
         if (canvasGroup != null)
         {
             canvasGroup.interactable = false;

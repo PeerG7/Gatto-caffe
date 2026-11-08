@@ -214,18 +214,37 @@ public class DayNightManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ฟังก์ชันบันทึกวันที่ปัจจุบันลงใน PlayerPrefs (ใช้ร่วมกับ PauseMenuManager)
+    /// 🟢 CHECKPOINT: บันทึก "จุดเริ่มต้นของวันปัจจุบัน" (วัน + เงิน + เฟอร์นิเจอร์) ลง PlayerPrefs
+    /// เรียกเฉพาะ 2 จังหวะเท่านั้น: (1) ตอนขึ้นวันใหม่ (ResetNewDay) (2) ตอนจบ Tutorial วันแรก
+    /// ❌ ห้ามเรียกตอนกด Title/Exit กลางวัน — ไม่งั้นผู้เล่นจะเก็บเงิน/ของที่หาได้กลางวันไว้แล้วเริ่มวันใหม่ได้ (ช่องโหว่)
+    /// ผู้เล่นกด Continue จะกลับไปที่จุดนี้เสมอ
     /// </summary>
     public void SaveDayProgress()
     {
-        PlayerPrefs.SetInt(DaySaveKey, currentDay);
+        WriteCheckpoint(currentDay);
+    }
+
+    /// <summary>
+    /// ใช้ตอนจบวันแล้ว (หน้าสรุป) แต่ผู้เล่นกลับ Main Menu โดยไม่กด Next Day
+    /// → เซฟเป็นจุดเริ่มต้นของ "วันถัดไป" ด้วยเงิน/เฟอร์นิเจอร์ ณ ตอนจบวัน (วันนั้นเล่นจบแล้ว ไม่ต้องเล่นซ้ำ)
+    /// </summary>
+    public void SaveNextDayCheckpoint()
+    {
+        WriteCheckpoint(currentDay + 1);
+    }
+
+    private void WriteCheckpoint(int dayToSave)
+    {
+        PlayerPrefs.SetInt(DaySaveKey, dayToSave);
         PlayerPrefs.Save();
 
-        // 🟢 เซฟเงินพร้อมวันที่ เพื่อให้เป็น Snapshot ชุดเดียวกัน
+        // เซฟเงินและเฟอร์นิเจอร์เป็น Snapshot ชุดเดียวกับวัน
         if (CurrencyManager.Instance != null) CurrencyManager.Instance.SaveMoney();
+        FurnitureProgressSaveSystem.SaveIfAvailable();
 
-        // 🟢 เซฟเฟอร์นิเจอร์ (คลัง + ที่วางไว้ในฉาก) เป็น Snapshot ชุดเดียวกัน
-        FurnitureSaveSystem.SaveIfAvailable();
-        Debug.Log($"💾 [DayNightManager] บันทึกวันที่ปัจจุบัน (วันที่ {currentDay}) เรียบร้อยแล้ว");
+        // ความสัมพันธ์กับแมวก็เป็นส่วนหนึ่งของ Checkpoint เดียวกัน
+        if (RelationshipManager.Instance != null) RelationshipManager.Instance.SaveCheckpoint();
+
+        Debug.Log($"💾 [DayNightManager] Checkpoint: เริ่มวันที่ {dayToSave} ด้วยเงินและเฟอร์นิเจอร์ ณ ตอนนี้");
     }
 }
