@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: 7831b1fb6481fb743a93f5ab6dd14030
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2068411714503594091
+    second: AliSitTalk-Sheet_0
+  - first:
+      213: 5348317212920406045
+    second: AliSitTalk-Sheet_1
+  - first:
+      213: -1241030184434393715
+    second: AliSitTalk-Sheet_2
+  - first:
+      213: 8387046163786292649
+    second: AliSitTalk-Sheet_3
+  - first:
+      213: 5809788688660131084
+    second: AliSitTalk-Sheet_4
+  - first:
+      213: -401221227994230006
+    second: AliSitTalk-Sheet_5
+  - first:
+      213: -1322812606728888729
+    second: AliSitTalk-Sheet_6
+  - first:
+      213: -5678364154030618808
+    second: AliSitTalk-Sheet_7
+  - first:
+      213: 3484526704046946607
+    second: AliSitTalk-Sheet_8
+  - first:
+      213: 5624985720238181340
+    second: AliSitTalk-Sheet_9
+  - first:
+      213: -8584641239481068776
+    second: AliSitTalk-Sheet_10
+  - first:
+      213: 573787833792598823
+    second: AliSitTalk-Sheet_11
+  - first:
+      213: -7830801206214962083
+    second: AliSitTalk-Sheet_12
+  - first:
+      213: -7056699835951978556
+    second: AliSitTalk-Sheet_13
+  - first:
+      213: 5685974110078873117
+    second: AliSitTalk-Sheet_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 3544
+        width: 1138
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59fa1cb21868b43e0800000000000000
+      internalID: -2068411714503594091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 3548
+        width: 1117
+        height: 1163
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d106a362b2a093a40800000000000000
+      internalID: 5348317212920406045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 3544
+        width: 1117
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8d104d5f99f6cee0800000000000000
+      internalID: -1241030184434393715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 3559
+        y: 3550
+        width: 1117
+        height: 1161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9add84bac06c46470800000000000000
+      internalID: 8387046163786292649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 2369
+        width: 1103
+        height: 1162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0d6bafd70480a050800000000000000
+      internalID: 5809788688660131084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 2364
+        width: 1116
+        height: 1170
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a03de0d3b639e6af0800000000000000
+      internalID: -401221227994230006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 2369
+        width: 1103
+        height: 1162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76e148751fc64ade0800000000000000
+      internalID: -1322812606728888729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 3559
+        y: 2364
+        width: 1116
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84781bd13e56231b0800000000000000
+      internalID: -5678364154030618808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 1192
+        width: 1116
+        height: 1162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f29b41553968b5030800000000000000
+      internalID: 3484526704046946607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 1184
+        width: 1112
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cdb0179c5b6ff0e40800000000000000
+      internalID: 5624985720238181340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 1192
+        width: 1116
+        height: 1162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 813df8ca64a3dd880800000000000000
+      internalID: -8584641239481068776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 3559
+        y: 1195
+        width: 1117
+        height: 1156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72316a9aef086f700800000000000000
+      internalID: 573787833792598823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 4
+        width: 1117
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d545bd4dac7635390800000000000000
+      internalID: -7830801206214962083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 12
+        width: 1095
+        height: 1159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c7668f13e0911e90800000000000000
+      internalID: -7056699835951978556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliSitTalk-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 4
+        width: 1138
+        height: 1167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1ea159d353a8ee40800000000000000
+      internalID: 5685974110078873117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      AliSitTalk-Sheet_0: -2068411714503594091
+      AliSitTalk-Sheet_1: 5348317212920406045
+      AliSitTalk-Sheet_10: -8584641239481068776
+      AliSitTalk-Sheet_11: 573787833792598823
+      AliSitTalk-Sheet_12: -7830801206214962083
+      AliSitTalk-Sheet_13: -7056699835951978556
+      AliSitTalk-Sheet_14: 5685974110078873117
+      AliSitTalk-Sheet_2: -1241030184434393715
+      AliSitTalk-Sheet_3: 8387046163786292649
+      AliSitTalk-Sheet_4: 5809788688660131084
+      AliSitTalk-Sheet_5: -401221227994230006
+      AliSitTalk-Sheet_6: -1322812606728888729
+      AliSitTalk-Sheet_7: -5678364154030618808
+      AliSitTalk-Sheet_8: 3484526704046946607
+      AliSitTalk-Sheet_9: 5624985720238181340
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

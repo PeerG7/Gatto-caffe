@@ -1,0 +1,807 @@
+fileFormatVersion: 2
+guid: 56af09afae27d744595d31efe899151d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2645835636000898082
+    second: aliMouseToy-Sheet_0
+  - first:
+      213: -5458136126384654672
+    second: aliMouseToy-Sheet_1
+  - first:
+      213: 4268697539684316921
+    second: aliMouseToy-Sheet_2
+  - first:
+      213: -145061571052242644
+    second: aliMouseToy-Sheet_3
+  - first:
+      213: 9191222473733724581
+    second: aliMouseToy-Sheet_4
+  - first:
+      213: 4413126765394581810
+    second: aliMouseToy-Sheet_5
+  - first:
+      213: -4475949712010157610
+    second: aliMouseToy-Sheet_6
+  - first:
+      213: -5677439380530213772
+    second: aliMouseToy-Sheet_7
+  - first:
+      213: -2872829270259653871
+    second: aliMouseToy-Sheet_8
+  - first:
+      213: 5112827290516289642
+    second: aliMouseToy-Sheet_9
+  - first:
+      213: -818071389551905840
+    second: aliMouseToy-Sheet_10
+  - first:
+      213: 6225135195309260039
+    second: aliMouseToy-Sheet_11
+  - first:
+      213: 422656896405939303
+    second: aliMouseToy-Sheet_12
+  - first:
+      213: -3888986251896749030
+    second: aliMouseToy-Sheet_13
+  - first:
+      213: -391641767666494370
+    second: aliMouseToy-Sheet_14
+  - first:
+      213: -7822482136034752627
+    second: aliMouseToy-Sheet_15
+  - first:
+      213: 6987438629980344165
+    second: aliMouseToy-Sheet_16
+  - first:
+      213: -8454548343691196373
+    second: aliMouseToy-Sheet_17
+  - first:
+      213: 7969724290088089206
+    second: aliMouseToy-Sheet_18
+  - first:
+      213: -4735278057906798679
+    second: aliMouseToy-Sheet_19
+  - first:
+      213: 2999119096399402819
+    second: aliMouseToy-Sheet_20
+  - first:
+      213: -1359006052441665223
+    second: aliMouseToy-Sheet_21
+  - first:
+      213: 8450737437797682267
+    second: aliMouseToy-Sheet_22
+  - first:
+      213: 3285802993176372447
+    second: aliMouseToy-Sheet_23
+  - first:
+      213: -7865890728083023776
+    second: aliMouseToy-Sheet_24
+  - first:
+      213: 866228253376320944
+    second: aliMouseToy-Sheet_25
+  - first:
+      213: -6340628769963932430
+    second: aliMouseToy-Sheet_26
+  - first:
+      213: -3704561098480912741
+    second: aliMouseToy-Sheet_27
+  - first:
+      213: -5092604181699933419
+    second: aliMouseToy-Sheet_28
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6320
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22c37e12e75e7b420800000000000000
+      internalID: 2645835636000898082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1580
+        y: 6320
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b6bd1b8c1ec044b0800000000000000
+      internalID: -5458136126384654672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 3160
+        y: 6320
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f6b77abbc57d3b30800000000000000
+      internalID: 4268697539684316921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 4740
+        y: 6320
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c29feda0543acfdf0800000000000000
+      internalID: -145061571052242644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 6320
+        y: 6320
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a95c768428cd8f70800000000000000
+      internalID: 9191222473733724581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4740
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 239dc1059639e3d30800000000000000
+      internalID: 4413126765394581810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 1580
+        y: 4740
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d16f17937b32e1c0800000000000000
+      internalID: -4475949712010157610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 3160
+        y: 4740
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47ccea9b6fea531b0800000000000000
+      internalID: -5677439380530213772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 4740
+        y: 4740
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11324d5eff8a128d0800000000000000
+      internalID: -2872829270259653871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 6320
+        y: 4740
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a687521f45964f640800000000000000
+      internalID: 5112827290516289642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3160
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d339d0d760a5a4f0800000000000000
+      internalID: -818071389551905840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 1580
+        y: 3160
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70db03b5a7f146650800000000000000
+      internalID: 6225135195309260039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 3160
+        y: 3160
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 764252c35349dd500800000000000000
+      internalID: 422656896405939303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 4740
+        y: 3160
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a14015fcb9b870ac0800000000000000
+      internalID: -3888986251896749030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 6320
+        y: 3160
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e54580723eb909af0800000000000000
+      internalID: -391641767666494370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1580
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d874fcb41f5f07390800000000000000
+      internalID: -7822482136034752627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 1580
+        y: 1580
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56f02d5b96e58f060800000000000000
+      internalID: 6987438629980344165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 3160
+        y: 1580
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b284be553196baa80800000000000000
+      internalID: -8454548343691196373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 4740
+        y: 1580
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 676b08434062a9e60800000000000000
+      internalID: 7969724290088089206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 6320
+        y: 1580
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9af73c5e1b9e84eb0800000000000000
+      internalID: -4735278057906798679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3471afb9de20f9920800000000000000
+      internalID: 2999119096399402819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 1580
+        y: 0
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 931db941237d32de0800000000000000
+      internalID: -1359006052441665223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 3160
+        y: 0
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5c860efcec074570800000000000000
+      internalID: 8450737437797682267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 4740
+        y: 0
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd46132d964899d20800000000000000
+      internalID: 3285802993176372447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aliMouseToy-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 6320
+        y: 0
+        width: 1580
+        height: 1580
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 068929ede0eb6d290800000000000000
+      internalID: -7865890728083023776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 26a25a87378a8a546a514d103c105b33
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":5.0},"gridSpriteSize":{"x":1580.0,"y":1580.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      aliMouseToy-Sheet_0: 2645835636000898082
+      aliMouseToy-Sheet_1: -5458136126384654672
+      aliMouseToy-Sheet_10: -818071389551905840
+      aliMouseToy-Sheet_11: 6225135195309260039
+      aliMouseToy-Sheet_12: 422656896405939303
+      aliMouseToy-Sheet_13: -3888986251896749030
+      aliMouseToy-Sheet_14: -391641767666494370
+      aliMouseToy-Sheet_15: -7822482136034752627
+      aliMouseToy-Sheet_16: 6987438629980344165
+      aliMouseToy-Sheet_17: -8454548343691196373
+      aliMouseToy-Sheet_18: 7969724290088089206
+      aliMouseToy-Sheet_19: -4735278057906798679
+      aliMouseToy-Sheet_2: 4268697539684316921
+      aliMouseToy-Sheet_20: 2999119096399402819
+      aliMouseToy-Sheet_21: -1359006052441665223
+      aliMouseToy-Sheet_22: 8450737437797682267
+      aliMouseToy-Sheet_23: 3285802993176372447
+      aliMouseToy-Sheet_24: -7865890728083023776
+      aliMouseToy-Sheet_3: -145061571052242644
+      aliMouseToy-Sheet_4: 9191222473733724581
+      aliMouseToy-Sheet_5: 4413126765394581810
+      aliMouseToy-Sheet_6: -4475949712010157610
+      aliMouseToy-Sheet_7: -5677439380530213772
+      aliMouseToy-Sheet_8: -2872829270259653871
+      aliMouseToy-Sheet_9: 5112827290516289642
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

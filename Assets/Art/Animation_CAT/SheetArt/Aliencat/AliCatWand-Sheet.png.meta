@@ -1,0 +1,973 @@
+fileFormatVersion: 2
+guid: 5b969bfeba0e76e45aff2bc156a420ed
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 881148067938506546
+    second: AliCatWand-Sheet_0
+  - first:
+      213: -9196241400517204696
+    second: AliCatWand-Sheet_1
+  - first:
+      213: -203220237653033458
+    second: AliCatWand-Sheet_2
+  - first:
+      213: 6220161952221339362
+    second: AliCatWand-Sheet_3
+  - first:
+      213: 6448618411688025148
+    second: AliCatWand-Sheet_4
+  - first:
+      213: 3608857347442613386
+    second: AliCatWand-Sheet_5
+  - first:
+      213: -4028134511965979291
+    second: AliCatWand-Sheet_6
+  - first:
+      213: -7598807649905662605
+    second: AliCatWand-Sheet_7
+  - first:
+      213: 2570332231184953364
+    second: AliCatWand-Sheet_8
+  - first:
+      213: -822053779020312558
+    second: AliCatWand-Sheet_9
+  - first:
+      213: 686081603506170015
+    second: AliCatWand-Sheet_10
+  - first:
+      213: 6335756875310023487
+    second: AliCatWand-Sheet_11
+  - first:
+      213: 2857641390360907089
+    second: AliCatWand-Sheet_12
+  - first:
+      213: -3587379329037697839
+    second: AliCatWand-Sheet_13
+  - first:
+      213: -7716749091729578389
+    second: AliCatWand-Sheet_14
+  - first:
+      213: 7433934872484526685
+    second: AliCatWand-Sheet_15
+  - first:
+      213: -3055255337975643913
+    second: AliCatWand-Sheet_16
+  - first:
+      213: -1263591471682125407
+    second: AliCatWand-Sheet_17
+  - first:
+      213: 3726157338535158282
+    second: AliCatWand-Sheet_18
+  - first:
+      213: 6771019397277436655
+    second: AliCatWand-Sheet_19
+  - first:
+      213: 5312325059941787941
+    second: AliCatWand-Sheet_20
+  - first:
+      213: -2251156429552869154
+    second: AliCatWand-Sheet_21
+  - first:
+      213: 7626573016746759540
+    second: AliCatWand-Sheet_22
+  - first:
+      213: -7308057832163683651
+    second: AliCatWand-Sheet_23
+  - first:
+      213: 1570589385739407287
+    second: AliCatWand-Sheet_24
+  - first:
+      213: -2569483890427495152
+    second: AliCatWand-Sheet_25
+  - first:
+      213: -1409546898816915131
+    second: AliCatWand-Sheet_26
+  - first:
+      213: 960129530652165071
+    second: AliCatWand-Sheet_27
+  - first:
+      213: 8206488170892715681
+    second: AliCatWand-Sheet_28
+  - first:
+      213: 1031242140485382526
+    second: AliCatWand-Sheet_29
+  - first:
+      213: 2650051677215382506
+    second: AliCatWand-Sheet_30
+  - first:
+      213: -2411718806600404687
+    second: AliCatWand-Sheet_31
+  - first:
+      213: -7279751544712165740
+    second: AliCatWand-Sheet_32
+  - first:
+      213: -5612468669637025679
+    second: AliCatWand-Sheet_33
+  - first:
+      213: -8647626844001892098
+    second: AliCatWand-Sheet_34
+  - first:
+      213: 7093558457822002125
+    second: AliCatWand-Sheet_35
+  - first:
+      213: 2676623017665397013
+    second: AliCatWand-Sheet_36
+  - first:
+      213: 3575103750716732553
+    second: AliCatWand-Sheet_37
+  - first:
+      213: 6846463721469301434
+    second: AliCatWand-Sheet_38
+  - first:
+      213: 1004723160399425677
+    second: AliCatWand-Sheet_39
+  - first:
+      213: -4778710268652367509
+    second: AliCatWand-Sheet_40
+  - first:
+      213: -6165169700937311775
+    second: AliCatWand-Sheet_41
+  - first:
+      213: 5084907342250390228
+    second: AliCatWand-Sheet_42
+  - first:
+      213: -3786840787280894071
+    second: AliCatWand-Sheet_43
+  - first:
+      213: -3269576617792386002
+    second: AliCatWand-Sheet_44
+  - first:
+      213: 8770689797508156105
+    second: AliCatWand-Sheet_45
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2371fffcf777a3c00800000000000000
+      internalID: 881148067938506546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8256e658b23606080800000000000000
+      internalID: -9196241400517204696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0e358345440e2df0800000000000000
+      internalID: -203220237653033458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ee9d87f654725650800000000000000
+      internalID: 6220161952221339362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 9000
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3c55b877481e7950800000000000000
+      internalID: 6448618411688025148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8c106f03ac351230800000000000000
+      internalID: 3608857347442613386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56db6cad0013918c0800000000000000
+      internalID: -4028134511965979291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3752aded3bc9b8690800000000000000
+      internalID: -7598807649905662605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 410348acb87aba320800000000000000
+      internalID: 2570332231184953364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 7200
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2101a33817a7794f0800000000000000
+      internalID: -822053779020312558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f986ae75593758900800000000000000
+      internalID: 686081603506170015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f33c7105f412de750800000000000000
+      internalID: 6335756875310023487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15d4aef34b168a720800000000000000
+      internalID: 2857641390360907089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dcf02ac181173ec0800000000000000
+      internalID: -3587379329037697839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 5400
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b66e3ae069998e490800000000000000
+      internalID: -7716749091729578389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5a34dd3164aa2760800000000000000
+      internalID: 7433934872484526685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f088d1257d8995d0800000000000000
+      internalID: -3055255337975643913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a18c255042d67ee0800000000000000
+      internalID: -1263591471682125407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a026a9c7b58f5b330800000000000000
+      internalID: 3726157338535158282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 3600
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fea4006744e77fd50800000000000000
+      internalID: 6771019397277436655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5296c310f7b29b940800000000000000
+      internalID: 5312325059941787941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed02aaa872942c0e0800000000000000
+      internalID: -2251156429552869154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47515cc50c707d960800000000000000
+      internalID: 7626573016746759540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db25fd31f10949a90800000000000000
+      internalID: -7308057832163683651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 1800
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bf0ff899badbc510800000000000000
+      internalID: 1570589385739407287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01dfafee30c575cd0800000000000000
+      internalID: -2569483890427495152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 549a3c94098407ce0800000000000000
+      internalID: -1409546898816915131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc382ec98b0135d00800000000000000
+      internalID: 960129530652165071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 5400
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a66187f28d43e170800000000000000
+      internalID: 8206488170892715681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AliCatWand-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 0
+        width: 1800
+        height: 1800
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e717b055345bf4e00800000000000000
+      internalID: 1031242140485382526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: f75ef807714af4c4aacfc406c1b12598
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":6.0},"gridSpriteSize":{"x":1800.0,"y":1800.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      AliCatWand-Sheet_0: 881148067938506546
+      AliCatWand-Sheet_1: -9196241400517204696
+      AliCatWand-Sheet_10: 686081603506170015
+      AliCatWand-Sheet_11: 6335756875310023487
+      AliCatWand-Sheet_12: 2857641390360907089
+      AliCatWand-Sheet_13: -3587379329037697839
+      AliCatWand-Sheet_14: -7716749091729578389
+      AliCatWand-Sheet_15: 7433934872484526685
+      AliCatWand-Sheet_16: -3055255337975643913
+      AliCatWand-Sheet_17: -1263591471682125407
+      AliCatWand-Sheet_18: 3726157338535158282
+      AliCatWand-Sheet_19: 6771019397277436655
+      AliCatWand-Sheet_2: -203220237653033458
+      AliCatWand-Sheet_20: 5312325059941787941
+      AliCatWand-Sheet_21: -2251156429552869154
+      AliCatWand-Sheet_22: 7626573016746759540
+      AliCatWand-Sheet_23: -7308057832163683651
+      AliCatWand-Sheet_24: 1570589385739407287
+      AliCatWand-Sheet_25: -2569483890427495152
+      AliCatWand-Sheet_26: -1409546898816915131
+      AliCatWand-Sheet_27: 960129530652165071
+      AliCatWand-Sheet_28: 8206488170892715681
+      AliCatWand-Sheet_29: 1031242140485382526
+      AliCatWand-Sheet_3: 6220161952221339362
+      AliCatWand-Sheet_4: 6448618411688025148
+      AliCatWand-Sheet_5: 3608857347442613386
+      AliCatWand-Sheet_6: -4028134511965979291
+      AliCatWand-Sheet_7: -7598807649905662605
+      AliCatWand-Sheet_8: 2570332231184953364
+      AliCatWand-Sheet_9: -822053779020312558
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
