@@ -26,8 +26,42 @@ public class MainMenuManager : MonoBehaviour
     [Tooltip("ลาก ScriptableObject CatData ของแมวทุกตัวในเกมมาใส่ เพื่อให้รู้ Key ที่ต้องรีเซ็ตตอนกด New Game")]
     public System.Collections.Generic.List<CatRelationshipData> allCats;
 
+    [Header("Continue Button (ปิดปุ่มเมื่อไม่มีเซฟ)")]
+    [Tooltip("ลากปุ่ม Continue ในเมนูมาใส่ — ถ้าไม่มีข้อมูลเซฟ ปุ่มจะกดไม่ได้และจางลง")]
+    public Button continueButton;
+    [Range(0f, 1f)]
+    [Tooltip("ความโปร่งใสของปุ่ม Continue ตอนกดไม่ได้")]
+    public float continueDisabledAlpha = 0.35f;
+
+    // 🔑 Key นี้ถูกเขียนทุกครั้งที่เซฟ Checkpoint (จบ Tutorial / ขึ้นวันใหม่) และถูกลบตอน New Game
+    private const string DaySaveKey = "SavedGameDay";
+
+    /// <summary>มีข้อมูลเซฟให้ Continue หรือไม่</summary>
+    public static bool HasSaveData()
+    {
+        return PlayerPrefs.HasKey(DaySaveKey);
+    }
+
+    /// <summary>เปิด/ปิดปุ่ม Continue ตามว่ามีเซฟหรือไม่</summary>
+    public void RefreshContinueButton()
+    {
+        if (continueButton == null) return;
+
+        bool hasSave = HasSaveData();
+        continueButton.interactable = hasSave;
+
+        // ใช้ CanvasGroup ทำให้ปุ่มจางลงและไม่รับเมาส์เลย (กัน Hover Effect / เสียงชี้ ทำงานบนปุ่มที่กดไม่ได้)
+        CanvasGroup cg = continueButton.GetComponent<CanvasGroup>();
+        if (cg == null) cg = continueButton.gameObject.AddComponent<CanvasGroup>();
+        cg.alpha = hasSave ? 1f : continueDisabledAlpha;
+        cg.blocksRaycasts = hasSave;
+        cg.interactable = hasSave;
+    }
+
     void Start()
     {
+        RefreshContinueButton();
+
         if (MainMenuIntro.Exists) return;
 
         var fader = ScreenFader.Ensure();
@@ -175,6 +209,13 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnContinuePressed()
     {
+        // กันกรณีถูกเรียกจากที่อื่นโดยไม่มีเซฟ
+        if (!HasSaveData())
+        {
+            Debug.Log("[MainMenu] ไม่มีข้อมูลเซฟ — Continue ใช้ไม่ได้");
+            return;
+        }
+
         // โหลดเกมต่อจากเซฟเดิมโดยตรงทันที ไม่ล้างข้อมูลเซฟ
         OnPlayPressed();
     }
