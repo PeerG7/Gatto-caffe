@@ -690,7 +690,7 @@ MonoBehaviour:
   playerTransformToFollow: {fileID: 0}
   followStopDistance: 1.2
   guidanceWaitTimeout: 30
-  carryEventChance: 100
+  carryEventChance: 0
   needsToBeCarried: 0
   carryIconObject: {fileID: 3478301974048599086}
   ignorePauseForWalking: 0

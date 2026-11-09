@@ -16,12 +16,19 @@ public class FurnitureEditUI : MonoBehaviour
     public ScrollRect furnitureScrollRect;     // ลาก ScrollRect ของ UI เข้ามาใส่
     public RectTransform uiPanelRect;          // ลาก RectTransform ของ Scroll View / Panel เข้ามาใส่
 
+    [Header("Button Guide Panel Mechanics (Top Center)")]
+    public GameObject buttonGuidePanel;        // Panel กลุ่มรูปภาพและข้อความแนะนำปุ่มกด (วางไว้ตรงกลางด้านบน)
+    public RectTransform buttonGuideRect;      // RectTransform ของ Button Guide Panel
+    public float guideShownPosY = -30f;        // ตำแหน่ง Y ตอนโผล่มาแสดง
+    public float guideHiddenPosY = 150f;       // ตำแหน่ง Y ตอนสไลด์ขึ้นไปซ่อนพ้นจอข้างบน
+
     [Header("Y Position Settings")]
     public float normalPosY = -406f;           // ตำแหน่ง Y ปกติ (เปิดแสดงคลังเต็ม)
     public float minimisedPosY = -640f;        // ตำแหน่ง Y ตอนถือวางเฟอร์นิเจอร์
     public float moveSpeed = 12f;              // ความเร็วในการเลื่อน Smooth (ยิ่งมากยิ่งเร็ว)
 
     private float targetPosY;
+    private float targetGuidePosY;
 
     private void Awake()
     {
@@ -32,12 +39,18 @@ public class FurnitureEditUI : MonoBehaviour
             uiPanelRect = editUIPanel.GetComponent<RectTransform>();
         }
 
+        if (buttonGuideRect == null && buttonGuidePanel != null)
+        {
+            buttonGuideRect = buttonGuidePanel.GetComponent<RectTransform>();
+        }
+
         targetPosY = normalPosY;
+        targetGuidePosY = guideHiddenPosY;
     }
 
     private void Update()
     {
-        // เลื่อนตำแหน่ง UI เข้าหา targetPosY อย่าง Smooth
+        // 1. เลื่อนตำแหน่ง Main Inventory UI เข้าหา targetPosY อย่าง Smooth
         if (uiPanelRect != null)
         {
             Vector2 currentPos = uiPanelRect.anchoredPosition;
@@ -45,6 +58,17 @@ public class FurnitureEditUI : MonoBehaviour
             {
                 currentPos.y = Mathf.Lerp(currentPos.y, targetPosY, Time.deltaTime * moveSpeed);
                 uiPanelRect.anchoredPosition = currentPos;
+            }
+        }
+
+        // 2. เลื่อนตำแหน่ง Button Guide UI เข้าหา targetGuidePosY อย่าง Smooth (GameObject ยังคง active ตลอดเวลา)
+        if (buttonGuideRect != null)
+        {
+            Vector2 currentGuidePos = buttonGuideRect.anchoredPosition;
+            if (Mathf.Abs(currentGuidePos.y - targetGuidePosY) > 0.01f)
+            {
+                currentGuidePos.y = Mathf.Lerp(currentGuidePos.y, targetGuidePosY, Time.deltaTime * moveSpeed);
+                buttonGuideRect.anchoredPosition = currentGuidePos;
             }
         }
     }
@@ -59,6 +83,9 @@ public class FurnitureEditUI : MonoBehaviour
 
         if (furnitureScrollRect != null)
             furnitureScrollRect.gameObject.SetActive(active);
+
+        // สไลด์ Button Guide ลงมาโชว์เมื่อเปิดหน้าต่าง Edit Mode
+        SetButtonGuideActive(active);
 
         if (active)
         {
@@ -77,6 +104,27 @@ public class FurnitureEditUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// สั่งสไลด์แผงแนะนำปุ่มกดขึ้นหรือลง (โดย GameObject จะยังคง Active อยู่ตลอดเวลา)
+    /// </summary>
+    public void SetButtonGuideActive(bool show)
+    {
+        if (buttonGuidePanel == null) return;
+
+        // ให้มั่นใจว่าตัว Panel เปิด Active ไว้เสมอไม่เคยปิด
+        if (!buttonGuidePanel.activeSelf)
+            buttonGuidePanel.SetActive(true);
+
+        if (show)
+        {
+            targetGuidePosY = guideShownPosY; // สไลด์ลงมาโชว์ในจอ
+        }
+        else
+        {
+            targetGuidePosY = guideHiddenPosY; // สไลด์ขึ้นไปซ่อนพ้นจอ
+        }
+    }
+
     public void RefreshUI()
     {
         if (container == null || furnitureItemButtonPrefab == null) return;
@@ -88,7 +136,6 @@ public class FurnitureEditUI : MonoBehaviour
 
         if (FurnitureInventory.Instance != null)
         {
-            // 🌟 เปลี่ยนมาดึงข้อมูลแบบจัดกลุ่ม (Grouped Inventory) ที่ทำการ Stack แล้ว
             List<GroupedFurnitureData> groupedItems = FurnitureInventory.Instance.GetGroupedInventory();
 
             foreach (var group in groupedItems)
@@ -100,11 +147,9 @@ public class FurnitureEditUI : MonoBehaviour
                 FurnitureSlotUI slotUI = btnObj.GetComponent<FurnitureSlotUI>();
                 if (slotUI != null)
                 {
-                    // ส่งข้อมูลกลุ่ม (GroupedFurnitureData) เข้าไปตั้งค่า Slot และปุ่มกด
                     slotUI.SetupSlot(group);
                 }
 
-                // หากใน FurnitureSlotUI มีการผูก listener ไว้แล้ว สามารถปล่อยผ่าน หรือกำหนด OnClick เพิ่มเติมที่นี่ได้
                 Button btn = btnObj.GetComponent<Button>();
                 if (btn != null)
                 {
@@ -126,7 +171,9 @@ public class FurnitureEditUI : MonoBehaviour
         SetPanelPositionY(minimisedPosY);
         ScrollToBottom();
 
-        // หยิบชิ้นแรกสุดในกลุ่มที่ถูก Stack มาเริ่มวาง
+        // 🌟 สั่งให้สไลด์ Button Guide หนีขึ้นไปซ่อนพ้นจอ เพื่อเพิ่มพื้นที่ให้ผู้เล่นวางเฟอร์นิเจอร์
+        SetButtonGuideActive(false);
+
         FurnitureInstanceData instanceToPlace = group.instances[0];
 
         if (FurnitureManager.Instance != null && instanceToPlace != null)
@@ -135,20 +182,17 @@ public class FurnitureEditUI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// กำหนดค่าเป้าหมาย Y ที่ต้องการให้ UI เลื่อนไป
-    /// </summary>
     public void SetPanelPositionY(float targetY)
     {
         targetPosY = targetY;
     }
 
-    /// <summary>
-    /// สั่งยกแผง UI กลับขึ้นมาที่ตำแหน่งปกติ (-406)
-    /// </summary>
     public void RestorePanelPosition()
     {
         SetPanelPositionY(normalPosY);
+
+        // 🌟 สั่งให้สไลด์ Button Guide เลื่อนกลับลงมาโชว์เมื่อกลับมาเลือกไอเท็มในหน้าต่างปกติ
+        SetButtonGuideActive(true);
     }
 
     public void ScrollToBottom()
@@ -160,7 +204,7 @@ public class FurnitureEditUI : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        if (furnitureScrollRect != null)
+        if (furnitureScrollRect != null) 
         {
             Canvas.ForceUpdateCanvases();
             furnitureScrollRect.verticalNormalizedPosition = 0f;

@@ -21,7 +21,7 @@ public class PlayerInteract2D : MonoBehaviour
 #endif
 
     [Header("Anti-Spam / Cooldown Settings")]
-    [Tooltip("ระยะเวลาหน่วงระหว่างการกด E แต่ละครั้ง ป้องกัน Frame Collision / Race Condition")]
+    [Tooltip("ระยะเวลาหน่วงระหว่างการกด E/F แต่ละครั้ง ป้องกัน Frame Collision / Race Condition")]
     public float interactCooldown = 0.25f;
     private float lastInteractTime = 0f;
 
@@ -42,41 +42,78 @@ public class PlayerInteract2D : MonoBehaviour
         if (PlayerController2D.IsLocked) return;
         UpdateTrayProximityFeedback();
 
-        bool pressed = false;
+        bool pressedE = false;
         foreach (KeyCode key in interactKeys)
         {
-            if (Input.GetKeyDown(key)) { pressed = true; break; }
+            if (Input.GetKeyDown(key)) { pressedE = true; break; }
         }
 
 #if ENABLE_INPUT_SYSTEM
-        if (!pressed && interactAction != null && interactAction.action.WasPressedThisFrame())
-            pressed = true;
+        if (!pressedE && interactAction != null && interactAction.action.WasPressedThisFrame())
+            pressedE = true;
 #endif
 
-        if (!pressed) return;
+        bool pressedF = Input.GetKeyDown(KeyCode.F);
+
+        if (!pressedE && !pressedF) return;
 
         if (Time.time - lastInteractTime < interactCooldown)
         {
-            Debug.LogWarning($"[TRACE_INPUT] ⚠️ Ignore Spam E Input! (Cooldown: {Time.time - lastInteractTime:F2}s)");
+            Debug.LogWarning($"[TRACE_INPUT] ⚠️ Ignore Spam Input! (Cooldown: {Time.time - lastInteractTime:F2}s)");
             return;
         }
         lastInteractTime = Time.time;
 
-        if (activeCanvas != null) { activeCanvas.OnConfirm(); return; }
+        if (activeCanvas != null && pressedE) { activeCanvas.OnConfirm(); return; }
 
-        TriggerInteract();
+        TriggerInteract(pressedF);
     }
 
-    public void TriggerInteract()
+    public void TriggerInteract() => TriggerInteract(false);
+
+    public void TriggerInteract(bool isUpgradeAction)
     {
         if (PlayerController2D.IsLocked) return;
 
         PlayerInventory playerInv = GetComponent<PlayerInventory>();
         PlayerController2D playerController = GetComponent<PlayerController2D>();
 
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.useTriggers = true;
+        filter.useLayerMask = true;
+        filter.layerMask = ~LayerMask.GetMask("Player");
+
+        List<Collider2D> resultList = new List<Collider2D>();
+        Physics2D.OverlapCircle(transform.position, range, filter, resultList);
+        Collider2D[] hits = resultList.ToArray();
+
         // ==========================================
-        // 0.1 🟢 วางแมวลงใน InteractionZone
+        // 🛠️ ถ้ากดปุ่ม F -> ทำเฉพาะการอัปเกรดเฟอร์นิเจอร์เท่านั้น
         // ==========================================
+        if (isUpgradeAction)
+        {
+            foreach (var hit in hits)
+            {
+                FurnitureObject furn = hit.GetComponent<FurnitureObject>();
+                if (furn != null && furn.isUnlocked && !furn.isUpgraded)
+                {
+                    CustomerTable tableCheck = hit.GetComponent<CustomerTable>();
+                    if (tableCheck != null && tableCheck.hasMoneyToCollect) continue;
+
+                    furn.AttemptUpgrade();
+                    Debug.Log("[TRACE_INPUT] 🛠️ Upgrade triggered via F key.");
+                    return;
+                }
+            }
+            Debug.Log("[TRACE_INPUT] ⚠️ F pressed, but no upgradeable furniture in range.");
+            return;
+        }
+
+        // ==========================================
+        // 🟢 ถ้ากดปุ่ม E -> ทำงานอื่นๆ ปกติทั้งหมด (แยกจากการอัปเกรด)
+        // ==========================================
+
+        // 0.1 วางแมวลงใน InteractionZone
         if (playerController != null && playerController.isHoldingCat)
         {
             InteractionZone closestZone = null;
@@ -115,20 +152,6 @@ public class PlayerInteract2D : MonoBehaviour
             }
         }
 
-        ContactFilter2D filter = new ContactFilter2D();
-        filter.useTriggers = true;
-        filter.useLayerMask = true;
-        filter.layerMask = ~LayerMask.GetMask("Player");
-
-        List<Collider2D> resultList = new List<Collider2D>();
-        Physics2D.OverlapCircle(transform.position, range, filter, resultList);
-        Collider2D[] hits = resultList.ToArray();
-
-        Debug.Log($"[TRACE_INPUT] 🔘 Player Triggered Interact at Time: {Time.time:F2} | Hits Count: {hits.Length}");
-
-        // =========================================================================
-        // 🌟 0.1.5: เช็กแมวที่รอจูง (WaitingForGuidance) หรืออยู่ที่ InteractionZone
-        // =========================================================================
         NPCInteract closestNPC = GetClosestNPC(hits);
         if (closestNPC != null)
         {
@@ -142,16 +165,13 @@ public class PlayerInteract2D : MonoBehaviour
 
             if (npcCtrl != null && npcCtrl.isInteractionAllowed && npcCtrl.currentState == NPCController.NPCState.AtInteractionZone)
             {
-                Debug.Log($"[TRACE_INPUT] ✅ Triggering Zone QTE for: {closestNPC.gameObject.name}");
                 closestNPC.RequestZoneInteraction();
                 return;
             }
         }
 
-        // ==========================================
-        // 0.2 🟢 อุ้มแมวขึ้นตัว (🔒 เข้มงวด: ป้องกันการอุ้มแมวเดินเล่นทั่วไป)
-        // ==========================================
-        if (playerController != null && !playerController.isHoldingCat)
+        // 0.2 อุ้มแมวขึ้นตัว (🔒 เงื่อนไข: ต้องไม่ได้อุ้มแมวอยู่ และ Inventory ต้องว่างเปล่า ไม่มีอาหารถืออยู่)[cite: 3]
+        if (playerController != null && !playerController.isHoldingCat && playerInv != null && playerInv.IsEmpty())
         {
             foreach (var hit in hits)
             {
@@ -160,18 +180,14 @@ public class PlayerInteract2D : MonoBehaviour
 
                 if (identity != null && npcCtrl != null)
                 {
-                    // 1. ห้ามอุ้มเด็ดขาดถ้าแมวอยู่ใน InteractionZone แล้ว
                     bool isInInteractionZone = (npcCtrl.currentState == NPCController.NPCState.AtInteractionZone || npcCtrl.currentZone != null);
                     if (isInInteractionZone) continue;
 
-                    // 2. ห้ามอุ้มเด็ดขาดถ้าแมวกำลังเดินเล่นปกติหรือยังไม่ถึงสถานะต้องอุ้ม
-                    // เงื่อนไขต้องผ่านทั้งหมด: กินเสร็จแล้ว + อยู่ในสถานะที่อนุญาตให้อุ้ม (เช่น ต้องการให้อุ้ม หรือถูกกำหนดให้ถือได้)
                     bool isReadyToCarry = npcCtrl.hasFinishedEating && npcCtrl.needsToBeCarried;
 
                     if (isReadyToCarry)
                     {
                         Sprite catSprite = identity.catData != null ? identity.catData.catPortrait : null;
-
                         playerController.PickUpCat(identity.catData, catSprite, hit.gameObject);
 
                         if (npcCtrl.assignedTable != null)
@@ -292,20 +308,6 @@ public class PlayerInteract2D : MonoBehaviour
                         if (npc.TrySitAtTable(table)) return;
                     }
                 }
-            }
-        }
-
-        // 9. อัปเกรดเฟอร์นิเจอร์
-        foreach (var hit in hits)
-        {
-            FurnitureObject furn = hit.GetComponent<FurnitureObject>();
-            if (furn != null && furn.isUnlocked && !furn.isUpgraded)
-            {
-                CustomerTable tableCheck = hit.GetComponent<CustomerTable>();
-                if (tableCheck != null && tableCheck.hasMoneyToCollect) continue;
-
-                furn.AttemptUpgrade();
-                return;
             }
         }
 
