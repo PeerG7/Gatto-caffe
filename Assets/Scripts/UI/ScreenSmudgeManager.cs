@@ -6,9 +6,13 @@ public class ScreenSmudgeManager : MonoBehaviour
 {
     public static ScreenSmudgeManager Instance;
 
-    [Header("Settings")]
-    [Range(0f, 100f)] public float triggerChance = 100f; // ตั้ง 100 ไว้เทส
-    public int requiredPresses = 5;                     // จำนวนครั้งที่ต้องกด Space bar หรือคลิกเพื่อเคลียร์
+    [Header("Cat Interrupt — แมวป่วนตอนทำอาหาร (เปิดหน้าทำอาหารแล้วสุ่ม)")]
+    [Range(0f, 100f)] public float cookingCatTriggerChance = 100f; // ตั้ง 100 ไว้เทส
+    public int cookingCatRequiredPresses = 5;                       // จำนวนครั้งที่ต้องกด Space/คลิกเพื่อไล่แมว
+
+    [Header("Sauce Splash — ซอสสาดตอนเสิร์ฟ (แมวความอดทน ≤ 50%)")]
+    [Range(0f, 100f)] public float serveSauceTriggerChance = 100f; // ตั้ง 100 ไว้เทส
+    public int serveSauceRequiredPresses = 5;                       // จำนวนครั้งที่ต้องกด Space/คลิกเพื่อเช็ดซอส
 
     [Header("Cat Slide Animation Settings (ใช้เฉพาะตอนทำอาหาร)")]
     public RectTransform catRectTransform;               // ลาก CatPopUp มาใส่
@@ -59,7 +63,13 @@ public class ScreenSmudgeManager : MonoBehaviour
     public Vector3 normalCatScale = new Vector3(5f, 5f, 5f); // ขนาดปกติของแมว
 
     private int currentPresses = 0;
+    private int requiredNow = 5;              // จำนวนครั้งที่ต้องกดของรอบนี้ (แมวป่วน / ซอส ใช้ค่าคนละตัว)
     private bool isMinigameActive = false;
+
+    // 🟢 true ตั้งแต่แมว/ซอสเริ่มโผล่ จนถึงหายไปหมดจริง (รวมช่วงแมวสไลด์ออกด้วย)
+    // ใช้ให้ CookingManager / DeepFryStation รู้ว่าตอนนี้ห้ามกดอะไรในครัว
+    private bool _isInterrupting = false;
+    public static bool IsInterrupting => Instance != null && Instance._isInterrupting;
     private Coroutine activeSequenceCoroutine;
     private Coroutine punchScaleCoroutine;
     private Coroutine spriteAnimCoroutine;
@@ -132,7 +142,7 @@ public class ScreenSmudgeManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             currentPresses++;
-            Debug.Log($"[ScreenSmudge] กด/คลิก แล้ว! ({currentPresses}/{requiredPresses})");
+            Debug.Log($"[ScreenSmudge] กด/คลิก แล้ว! ({currentPresses}/{requiredNow})");
 
             // ตอนเช็ดซอส: สุ่มเสียง cleaningsauce / ตอนแมว: ใช้ cleanSound เดิม
             bool isSauceMode = smudgeRootObject != null && smudgeRootObject.activeSelf;
@@ -147,19 +157,19 @@ public class ScreenSmudgeManager : MonoBehaviour
                 punchScaleCoroutine = StartCoroutine(PunchScaleRoutine());
 
                 // เสียงแมว: กดครบแล้วเล่น happy, ยังไม่ครบสุ่ม attention (ตัดเสียงเก่าทุกครั้ง)
-                if (currentPresses >= requiredPresses) PlayCatHappy();
+                if (currentPresses >= requiredNow) PlayCatHappy();
                 else PlayRandomCatAttention();
             }
 
             if (smudgeRootObject != null && smudgeRootObject.activeSelf && smudgeCanvasGroup != null)
             {
-                float alpha = 1f - ((float)currentPresses / requiredPresses);
+                float alpha = 1f - ((float)currentPresses / requiredNow);
                 smudgeCanvasGroup.alpha = Mathf.Clamp01(alpha);
             }
 
-            if (currentPresses >= requiredPresses)
+            if (currentPresses >= requiredNow)
             {
-                StartCoroutine(EndMinigameRoutine());
+                activeSequenceCoroutine = StartCoroutine(EndMinigameRoutine()); // เก็บไว้ให้ Cancel หยุดได้
             }
         }
     }
@@ -207,10 +217,10 @@ public class ScreenSmudgeManager : MonoBehaviour
             return;
         }
 
-        CancelActiveSmudge();
+        CancelActiveSmudge(false); // ไม่ปลดล็อก Player (หน้าทำอาหารล็อกไว้อยู่แล้ว)
 
         float roll = Random.Range(0f, 100f);
-        if (roll <= triggerChance)
+        if (roll <= cookingCatTriggerChance)
         {
             activeSequenceCoroutine = StartCoroutine(CookingCatOnlySequenceRoutine());
         }
@@ -230,10 +240,10 @@ public class ScreenSmudgeManager : MonoBehaviour
             return;
         }
 
-        CancelActiveSmudge();
+        CancelActiveSmudge(false); // ไม่ปลดล็อก Player ถ้าสุ่มไม่ติด (ให้คงสถานะล็อกเดิมไว้)
 
         float roll = Random.Range(0f, 100f);
-        if (roll <= triggerChance)
+        if (roll <= serveSauceTriggerChance)
         {
             activeSequenceCoroutine = StartCoroutine(ServeSmudgeSequenceRoutine());
         }
@@ -280,6 +290,8 @@ public class ScreenSmudgeManager : MonoBehaviour
     IEnumerator CookingCatOnlySequenceRoutine()
     {
         isMinigameActive = true;
+        _isInterrupting = true;
+        requiredNow = cookingCatRequiredPresses;
         currentPresses = 0;
 
         PlayerController2D.IsLocked = true;
@@ -315,6 +327,8 @@ public class ScreenSmudgeManager : MonoBehaviour
     IEnumerator ServeSmudgeSequenceRoutine()
     {
         isMinigameActive = true;
+        _isInterrupting = true;
+        requiredNow = serveSauceRequiredPresses;
         currentPresses = 0;
 
         PlayerController2D.IsLocked = true;
@@ -374,6 +388,7 @@ public class ScreenSmudgeManager : MonoBehaviour
         }
 
         if (smudgeScreenObject != null) smudgeScreenObject.SetActive(false);
+        _isInterrupting = false;
         PlayerController2D.IsLocked = false;
     }
 
@@ -428,7 +443,8 @@ public class ScreenSmudgeManager : MonoBehaviour
         }
     }
 
-    public void CancelActiveSmudge()
+    /// <param name="unlockPlayer">false = ไม่แตะสถานะล็อก Player (ใช้ตอนเรียกจาก TryTrigger* เพื่อเคลียร์ของเก่าก่อนสุ่ม)</param>
+    public void CancelActiveSmudge(bool unlockPlayer = true)
     {
         StopSpriteAnimation();
         StopCatVoice();
@@ -451,7 +467,8 @@ public class ScreenSmudgeManager : MonoBehaviour
         if (catPopupObject != null) catPopupObject.SetActive(false);
         if (smudgeScreenObject != null) smudgeScreenObject.SetActive(false);
         isMinigameActive = false;
+        _isInterrupting = false;
 
-        PlayerController2D.IsLocked = false;
+        if (unlockPlayer) PlayerController2D.IsLocked = false;
     }
 }
