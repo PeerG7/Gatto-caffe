@@ -48,6 +48,14 @@ public class MainMenuIntro : MonoBehaviour
     [Tooltip("หน่วงระหว่างปุ่มแต่ละปุ่ม (0 = ขึ้นพร้อมกันทั้งหมด)")]
     public float buttonStagger = 0f;
 
+    [Header("Transition Effects on Click")]
+    [Tooltip("ลาก Prefab แอนิเมชัน 3 แบบมาใส่ตรงนี้")]
+    public GameObject[] transitionPrefabs;
+    [Tooltip("ลากจุดเกิดหลายๆ จุดรอบหน้าจอมาใส่ตรงนี้ (ถ้าไม่ใส่จะไปเกิดที่ Canvas กลางจอ)")]
+    public Transform[] spawnPoints;
+    [Tooltip("Canvas หลักที่จะให้ Effect ไปเกิดทับหน้าจอ UI")]
+    public Transform canvasTransform;
+
     CanvasGroup bgGroup;
     CanvasGroup[] buttonGroups;
 
@@ -222,5 +230,45 @@ public class MainMenuIntro : MonoBehaviour
         if (x < 2.5f / d1) { x -= 2.25f / d1; return n1 * x * x + 0.9375f; }
         x -= 2.625f / d1;
         return n1 * x * x + 0.984375f;
+    }
+
+    // ==========================================
+    // SPAWN RANDOM TRANSITION ANIMATION ON CLICK
+    // ==========================================
+    public void TriggerTransitionEffect()
+    {
+        if (transitionPrefabs == null || transitionPrefabs.Length == 0) return;
+
+        // 1. สุ่มเลือก Prefab แอนิเมชัน 1 ใน 3 ตัว
+        int randomPrefabIndex = Random.Range(0, transitionPrefabs.Length);
+        GameObject selectedPrefab = transitionPrefabs[randomPrefabIndex];
+
+        // 2. สุ่มจุดเกิดจาก Spawn Points (ถ้ามี)
+        Transform spawnPoint = null;
+        if (spawnPoints != null && spawnPoints.Length > 0)
+        {
+            int randomPointIndex = Random.Range(0, spawnPoints.Length);
+            spawnPoint = spawnPoints[randomPointIndex];
+        }
+
+        // 3. ทำการ Instantiate ออกมา
+        if (selectedPrefab != null)
+        {
+            GameObject spawnedEffect;
+            if (spawnPoint != null)
+            {
+                spawnedEffect = Instantiate(selectedPrefab, spawnPoint.position, spawnPoint.rotation);
+            }
+            else
+            {
+                spawnedEffect = Instantiate(selectedPrefab);
+            }
+
+            // จัดให้อยู่ใต้ Canvas เพื่อให้เรนเดอร์ทับหน้าจอ UI ได้ถูกต้อง
+            if (canvasTransform != null)
+            {
+                spawnedEffect.transform.SetParent(canvasTransform, false);
+            }
+        }
     }
 }

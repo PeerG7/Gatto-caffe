@@ -22,6 +22,16 @@ public class MainMenuManager : MonoBehaviour
     [Tooltip("เวลา Fade จากดำเป็นใส ตอนเข้าหน้าเกม")]
     public float gameFadeInDuration = 1.5f;
 
+    [Header("Massive Cat Flood Transition Settings")]
+    [Tooltip("ลาก Prefab แอนิเมชันแมว 3 แบบมาใส่ตรงนี้")]
+    public GameObject[] transitionPrefabs;
+    [Tooltip("Canvas หลักที่จะให้ Effect ไปเกิดทับหน้าจอ UI")]
+    public Transform canvasTransform;
+    [Tooltip("จำนวนแมวที่จะถูกสเปนออกมาวิ่งถล่มจอพร้อมกันจากขอบซ้าย")]
+    public int spawnCount = 25;
+    [Tooltip("เวลารอให้ฝูงแมววิ่งเต็มจอก่อนจะยอมสลับไปฉากเกมจริง")]
+    public float transitionAnimationDelay = 2.0f;
+
     [Header("Cat Relationship Data (สำหรับสั่ง New Game)")]
     [Tooltip("ลาก ScriptableObject CatData ของแมวทุกตัวในเกมมาใส่ เพื่อให้รู้ Key ที่ต้องรีเซ็ตตอนกด New Game")]
     public System.Collections.Generic.List<CatRelationshipData> allCats;
@@ -124,6 +134,9 @@ public class MainMenuManager : MonoBehaviour
         if (isStarting) return;
         isStarting = true;
 
+        // 🌟 สั่งระเบิดสเปนฝูงแมวโถมจากฝั่งซ้ายพร้อมกันทันที
+        StartCoroutine(TriggerCatFloodRoutine());
+
         ScreenFader.Ensure().FadeOut(fadeToBlackDuration);
 
         if (AudioManager.instance != null)
@@ -136,6 +149,52 @@ public class MainMenuManager : MonoBehaviour
         {
             StartCoroutine(LoadGameAfterDelay());
         }
+    }
+
+    /// <summary>
+    /// สเปนกองทัพแมวกระจุกโถมออกมาจากทางขอบซ้ายของหน้าจอพุ่งไปทางขวา
+    /// </summary>
+    IEnumerator TriggerCatFloodRoutine()
+    {
+        if (transitionPrefabs == null || transitionPrefabs.Length == 0)
+        {
+            yield break;
+        }
+
+        // หา Canvas หลัก
+        Transform targetParent = canvasTransform;
+        if (targetParent == null)
+        {
+            Canvas canvas = FindObjectOfType<Canvas>();
+            if (canvas != null) targetParent = canvas.transform;
+        }
+
+        RectTransform canvasRect = targetParent as RectTransform;
+        if (canvasRect == null) yield break;
+
+        float halfWidth = canvasRect.rect.width * 0.5f;
+        float halfHeight = canvasRect.rect.height * 0.5f;
+
+        // สเปนแมวทุกตัวพร้อมกันทันทีในเฟรมเดียว
+        for (int i = 0; i < spawnCount; i++)
+        {
+            GameObject selectedPrefab = transitionPrefabs[Random.Range(0, transitionPrefabs.Length)];
+            if (selectedPrefab == null) continue;
+
+            GameObject spawnedEffect = Instantiate(selectedPrefab, targetParent);
+            RectTransform rt = spawnedEffect.GetComponent<RectTransform>();
+
+            if (rt != null)
+            {
+                // 🌟 กำหนดจุดเกิดให้อยู่ทางฝั่งซ้ายเท่านั้น
+                float spawnX = -halfWidth - Random.Range(100f, 450f);
+                float spawnY = Random.Range(-halfHeight - 50f, halfHeight + 50f);
+
+                rt.anchoredPosition = new Vector2(spawnX, spawnY);
+            }
+        }
+
+        yield return null;
     }
 
     IEnumerator LoadGameAfterDelay()
@@ -177,6 +236,9 @@ public class MainMenuManager : MonoBehaviour
             loadingScreen.SetActive(true);
             fader.SetAlpha(0f);
         }
+
+        // 🌟 หน่วงเวลาให้ฝูงแมวโถมตัดหน้าจอจนเต็ม ก่อนจะเปิดฉากเกมจริง
+        yield return new WaitForSecondsRealtime(transitionAnimationDelay);
 
         AsyncOperation op = loadByName
             ? SceneManager.LoadSceneAsync(gameSceneName)
