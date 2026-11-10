@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using Unity.AI.Navigation;
 
 public class FurnitureManager : MonoBehaviour
 {
@@ -15,6 +16,14 @@ public class FurnitureManager : MonoBehaviour
     public LayerMask furnitureLayer;
     [Tooltip("Layer ที่ห้ามวางทับ (เช่น Wall, Furniture, Obstacle)")]
     public LayerMask unplaceableLayer;
+
+    [Header("Spacing (กันเฟอร์นิเจอร์ชิดกันจนแมวเดิน/นั่งไม่ได้)")]
+    [Tooltip("ระยะห่างขั้นต่ำระหว่างเฟอร์นิเจอร์ด้วยกัน (หน่วย Unity) ควรมากกว่าความกว้างตัวแมวเล็กน้อย — 0 = ไม่เช็ก")]
+    public float minFurnitureGap = 0.6f;
+
+    [Header("NavMesh")]
+    [Tooltip("สั่ง Bake NavMesh ใหม่ทุกครั้งที่วางหรือเก็บเฟอร์นิเจอร์")]
+    public bool rebakeNavMeshOnChange = true;
 
     [Header("Preview Colors")]
     public Color validColor = new Color(0f, 1f, 0f, 0.6f);   // สีเขียวโปร่งแสง (วางได้)
@@ -138,6 +147,21 @@ public class FurnitureManager : MonoBehaviour
             }
         }
 
+        // 3.5 เช็กระยะห่างจากเฟอร์นิเจอร์ชิ้นอื่น (ใช้ BoxCollider2D ตัวหลักของแต่ละชิ้นเป็นขอบเขต)
+        if (!isBlocked && minFurnitureGap > 0f)
+        {
+            foreach (var other in FindObjectsByType<PlacedFurniture>(FindObjectsSortMode.None))
+            {
+                if (other == null || other.gameObject == currentPlacingObject) continue;
+
+                BoxCollider2D otherBox = other.GetComponent<BoxCollider2D>();
+                if (otherBox == null || !otherBox.enabled) continue;
+
+                ColliderDistance2D d = previewCollider.Distance(otherBox);
+                if (d.isValid && d.distance < minFurnitureGap) { isBlocked = true; break; }
+            }
+        }
+
         isValidPosition = !isBlocked;
 
         // เปลี่ยนสีพรีวิว
@@ -164,6 +188,7 @@ public class FurnitureManager : MonoBehaviour
             SetPreviewColor(Color.white);
 
             SetObjectCollidersTrigger(currentPlacingObject, false);
+            RequestNavMeshRebake(); // 🟢 อัปเดต NavMesh ให้ตรงกับตำแหน่งโต๊ะใหม่
 
             PlacedFurniture placedScript = currentPlacingObject.GetComponent<PlacedFurniture>();
             if (placedScript == null)
@@ -371,5 +396,30 @@ public class FurnitureManager : MonoBehaviour
         {
             furniture.PickupFurniture();
         }
+    }
+
+    // =========================================================================
+    // 🟢 NavMesh: Bake ใหม่หลังวาง/เก็บเฟอร์นิเจอร์
+    // (เดิมมีเฉพาะ FurniturePlacementManager.Place() ที่ Bake — ระบบวางจากคลังไม่ได้ Bake เลย
+    //  NavMesh จึงไม่ตรงกับตำแหน่งโต๊ะจริง แมวหาที่นั่ง/เส้นทางผิดเพี้ยน)
+    // =========================================================================
+    private Coroutine _rebakeRoutine;
+
+    public void RequestNavMeshRebake()
+    {
+        if (!rebakeNavMeshOnChange) return;
+        if (_rebakeRoutine != null) StopCoroutine(_rebakeRoutine); // วางหลายชิ้นติดกัน Bake ครั้งเดียวพอ
+        _rebakeRoutine = StartCoroutine(RebakeNavMeshNextFrame());
+    }
+
+    private System.Collections.IEnumerator RebakeNavMeshNextFrame()
+    {
+        // รอให้ Destroy / เปลี่ยน Collider เสร็จก่อนค่อย Bake
+        yield return null;
+        yield return null;
+
+        NavMeshSurface surface = FindFirstObjectByType<NavMeshSurface>();
+        if (surface != null) surface.BuildNavMesh();
+        _rebakeRoutine = null;
     }
 }

@@ -179,6 +179,9 @@ public class PlacedFurniture : MonoBehaviour
             }
         }
 
+        // 🟢 เก็บเข้าคลังแล้วต้องอัปเดต NavMesh ให้แมวเดินผ่านพื้นที่เดิมได้ (FurnitureManager จะรอให้ Destroy เสร็จก่อนค่อย Bake)
+        if (FurnitureManager.Instance != null) FurnitureManager.Instance.RequestNavMeshRebake();
+
         Destroy(gameObject);
     }
 }

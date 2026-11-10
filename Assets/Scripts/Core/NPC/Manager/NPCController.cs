@@ -126,6 +126,30 @@ public class NPCController : MonoBehaviour
     public float angryPatienceRatioThreshold = 0.25f;
     public float moveAnimThreshold = 0.05f;
 
+    [Header("Queue Arrival (กันแมวเดินวนไม่หยุดที่จุดคิว)")]
+    [Tooltip("ใกล้จุดคิวเท่านี้ถือว่าถึงแล้ว (กันแมวชนกันจนไม่ถึงจุดเป๊ะๆ)")]
+    public float queueArriveTolerance = 0.25f;
+    private bool queueHold = false;
+
+    [Tooltip("ใกล้จุดคิวเท่านี้ + แทบหยุดนิ่ง = ถือว่าถึงแล้ว (กรณี NavMesh Agent ไม่ยอมเข้าใกล้จุดเป๊ะๆ)")]
+    public float queueSettleRadius = 0.6f;
+    [Tooltip("ต้องช้า/นิ่งต่อเนื่องเท่านี้ (วินาที) ถึงจะนับว่าถึงจุดคิว")]
+    public float queueSettleTime = 0.25f;
+    [Tooltip("ถึงจุดคิวแล้ว จะหลุดสถานะ 'ถึงแล้ว' ก็ต่อเมื่อถูกดันออกไกลเกินรัศมีนี้ (กันกระพริบเดิน/ยืนสลับกัน)")]
+    public float queueLeaveRadius = 0.9f;
+
+    private Vector3 queueTargetPos;
+    private bool hasQueueTarget = false;
+    private float queueStillTimer = 0f;
+
+    [Header("Seat Arrival (กันแมวค้างไม่ยอมนั่ง)")]
+    [Tooltip("ใกล้ที่นั่งเท่านี้ถือว่าถึงแล้ว")]
+    public float seatArriveDistance = 0.4f;
+    [Tooltip("ยืนนิ่งนานเท่านี้ (วินาที) และอยู่ใกล้ที่นั่ง = บังคับให้นั่ง")]
+    public float seatStuckTimeout = 1.5f;
+    public float seatForceArriveDistance = 1.5f;
+    private float seatStuckTimer = 0f;
+
     [Header("Perform Animation Settings")]
     public float fallbackPerformDuration = 5.0f;
     [Tooltip("ระยะเวลาหน่วงให้กล้องเริ่มถอย Zoom Out ก่อนปลดล็อคให้แมวเดินออก")]
@@ -174,12 +198,13 @@ public class NPCController : MonoBehaviour
     public bool IsPerforming => isPerforming;
 
     /// <summary>
-    /// 🟢 true = แมวนั่งที่โต๊ะ และ "สั่งอาหารแล้ว" (Order Icon โผล่แล้ว) แต่ยังไม่ได้รับอาหาร
-    /// (TutorialPointerManager ใช้เช็กก่อนชี้ไปที่เตา)
+    /// 🟢 true = แมวนั่งโต๊ะ สั่งอาหารแล้ว (ป้ายออเดอร์แสดงอยู่) และยังไม่ได้รับอาหาร
+    /// ใช้โดย CustomerTable.HasAnyNPCOrdered()
     /// </summary>
     public bool HasPlacedOrder =>
         currentState == NPCState.Sitting &&
         !hasBeenServed &&
+        requestedRecipe != null &&
         orderCanvas != null && orderCanvas.activeSelf;
 
     static bool GameIsPaused =>
@@ -228,7 +253,15 @@ public class NPCController : MonoBehaviour
     {
         if (GameIsPaused && !ignorePauseForWalking)
         {
-            if (agent != null && agent.enabled && agent.isOnNavMesh) agent.isStopped = true;
+            if (agent != null && agent.enabled && agent.isOnNavMesh)
+            {
+                agent.isStopped = true;
+                agent.velocity = Vector3.zero;
+            }
+
+            // 🟢 FIX: เกม Pause = Agent หยุดนิ่ง แต่ Animator ไม่ได้หยุดตาม (Pause นี้ไม่ใช่ timeScale)
+            // เดิม return ทิ้งทันที → แมวที่ถึงจุดคิวตอน Pause ยืนนิ่งแต่ท่า Walk เล่นอยู่ที่เดิม
+            FreezeWalkAnimWhilePaused();
             return;
         }
         else if (agent != null && agent.enabled && agent.isOnNavMesh)
@@ -248,7 +281,41 @@ public class NPCController : MonoBehaviour
         {
             if (currentState != NPCState.InQueue) return;
 
-            bool isAtCurrentQueuePoint = !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
+            // 🟢 FIX: ตัดสินว่าถึงจุดคิวจาก "ตำแหน่งจริง" เทียบกับจุดเป้าหมายที่เก็บไว้เอง
+            // ไม่พึ่ง remainingDistance อย่างเดียว (ค่านี้เพี้ยนได้เมื่อปรับ Stopping Distance / Avoidance / Base Offset)
+            Vector2 selfPos = transform.position;
+            Vector2 targetPos = hasQueueTarget ? (Vector2)queueTargetPos : (Vector2)agent.destination;
+            float distToTarget = Vector2.Distance(selfPos, targetPos);
+            float arriveTol = Mathf.Max(agent.stoppingDistance, queueArriveTolerance);
+
+            bool isAtCurrentQueuePoint;
+            if (queueHold)
+            {
+                // ถึงแล้ว → หลุดสถานะก็ต่อเมื่อถูกดันออกไกลจริงๆ (Hysteresis)
+                isAtCurrentQueuePoint = distToTarget <= queueLeaveRadius;
+            }
+            else
+            {
+                isAtCurrentQueuePoint = distToTarget <= arriveTol ||
+                    (!agent.pathPending && agent.hasPath && agent.remainingDistance <= arriveTol);
+
+                // ใกล้จุดแล้วแต่ Agent ไม่ยอมเข้าไปอีก (ชนแมวตัวอื่น/Avoidance) → ถ้านิ่งพอก็นับว่าถึง
+                if (!isAtCurrentQueuePoint &&
+                    !agent.pathPending &&
+                    distToTarget <= queueSettleRadius &&
+                    agent.velocity.sqrMagnitude < 0.15f * 0.15f)
+                {
+                    queueStillTimer += Time.deltaTime;
+                    if (queueStillTimer >= queueSettleTime) isAtCurrentQueuePoint = true;
+                }
+                else if (!isAtCurrentQueuePoint)
+                {
+                    queueStillTimer = 0f;
+                }
+            }
+
+            queueHold = isAtCurrentQueuePoint;
+            if (isAtCurrentQueuePoint) queueStillTimer = 0f;
 
             if (isAtCurrentQueuePoint)
             {
@@ -257,19 +324,21 @@ public class NPCController : MonoBehaviour
                     hasReachedQueueOnce = true;
                     ignorePauseForWalking = false;
 
-                    if (agent != null && agent.enabled && agent.isOnNavMesh)
-                    {
-                        agent.isStopped = true;
-                        agent.velocity = Vector3.zero;
-                    }
+                    // 🟢 FIX: ถึงจุดคิวแล้ว → Idle ทันที (ถ้าเกม Pause อยู่ เฟรมถัดไป Update จะไม่ได้มาถึงส่วนอนิเมชัน)
+                    if (!isPlayingSittingFlavor) SetAnimState(AnimState.Idle);
+                }
+
+                // 🟢 FIX: หยุด Agent ค้างไว้ทุกเฟรมที่อยู่ที่จุดคิว (ต้นฟังก์ชันตั้ง isStopped=false ทุกเฟรม จึงต้องสั่งซ้ำ)
+                // เดิมสั่งหยุดแค่ครั้งแรกครั้งเดียว → Avoidance/แมวตัวอื่นดันจนเกิดความเร็วเล็กๆ แล้วอนิเมชันเดินเล่นวนไม่หยุด
+                if (!agent.isStopped)
+                {
+                    agent.isStopped = true;
+                    agent.velocity = Vector3.zero;
                 }
             }
             else
             {
-                if (agent != null && agent.enabled && agent.isOnNavMesh && agent.isStopped)
-                {
-                    agent.isStopped = false;
-                }
+                if (agent.isStopped) agent.isStopped = false;
             }
 
             if (hasReachedQueueOnce)
@@ -292,8 +361,7 @@ public class NPCController : MonoBehaviour
 
         if (currentState == NPCState.GoingToSeat)
         {
-            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-                ArriveAtSeat();
+            if (HasReachedSeat()) ArriveAtSeat();
         }
 
         if (currentState == NPCState.GoingToInteractionZone)
@@ -388,10 +456,24 @@ public class NPCController : MonoBehaviour
         }
     }
 
+    // ตอนเกม Pause แล้วแมวหยุดเดิน → เปลี่ยนท่าเดินเป็น Idle (ไม่ให้เดินอยู่กับที่)
+    void FreezeWalkAnimWhilePaused()
+    {
+        if (currentAnim == AnimState.WalkSide || currentAnim == AnimState.WalkUp)
+            SetAnimState(AnimState.Idle);
+    }
+
     void UpdateMovementAnimation()
     {
         if (currentState == NPCState.Sitting || currentState == NPCState.Eating || currentState == NPCState.AtInteractionZone || currentState == NPCState.Performing)
             return;
+
+        // 🟢 ยืนอยู่ที่จุดคิวแล้ว → Idle เสมอ ไม่ว่า velocity จะแกว่งแค่ไหน
+        if (currentState == NPCState.InQueue && queueHold)
+        {
+            if (!isPlayingSittingFlavor) SetAnimState(AnimState.Idle);
+            return;
+        }
 
         Vector3 vel = agent.velocity;
 
@@ -464,6 +546,10 @@ public class NPCController : MonoBehaviour
         if (agent != null && agent.enabled)
         {
             agent.isStopped = false;
+            queueHold = false; // เดินไปจุดใหม่ → เล่นอนิเมชันเดินได้อีกครั้ง
+            queueStillTimer = 0f;
+            queueTargetPos = target.position;
+            hasQueueTarget = true;
             agent.SetDestination(target.position);
             currentState = NPCState.InQueue;
 
@@ -478,6 +564,10 @@ public class NPCController : MonoBehaviour
         if (agent != null && agent.enabled && agent.isOnNavMesh)
         {
             agent.isStopped = false;
+            queueHold = false;
+            queueStillTimer = 0f;
+            queueTargetPos = targetPosition;
+            hasQueueTarget = true;
             agent.SetDestination(targetPosition);
             currentState = NPCState.InQueue;
 
@@ -730,11 +820,53 @@ public class NPCController : MonoBehaviour
         StartCoroutine(AbsoluteTimeoutRoutine());
     }
 
+    // 🟢 ถึงที่นั่งหรือยัง (ผ่อนเงื่อนไข + กันค้างเมื่อชนแมวตัวอื่น/โต๊ะ)
+    bool HasReachedSeat()
+    {
+        if (seatPoint == null) return false;
+
+        float dist = Vector2.Distance(transform.position, seatPoint.position);
+
+        if (!agent.pathPending && agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, 0.05f)) return true;
+        if (dist <= seatArriveDistance) return true;
+
+        // ติดค้าง: ใกล้ที่นั่งแล้วแต่ไม่ขยับ
+        if (!agent.pathPending && agent.velocity.sqrMagnitude < 0.01f)
+        {
+            seatStuckTimer += Time.deltaTime;
+            if (seatStuckTimer >= seatStuckTimeout && dist <= seatForceArriveDistance) return true;
+        }
+        else
+        {
+            seatStuckTimer = 0f;
+        }
+
+        return false;
+    }
+
+    // 🟢 วางแมวลงตำแหน่งที่นั่งจริง (เดิมแมวนั่งตรงจุดที่ Agent หยุด ซึ่งอาจเหลื่อมกับแมวอีกตัว)
+    void SnapToSeat()
+    {
+        if (seatPoint == null) return;
+        Vector3 target = seatPoint.position;
+
+        if (agent != null && agent.enabled && agent.isOnNavMesh)
+        {
+            if (!agent.Warp(target)) transform.position = new Vector3(target.x, target.y, transform.position.z);
+        }
+        else
+        {
+            transform.position = new Vector3(target.x, target.y, transform.position.z);
+        }
+    }
+
     void ArriveAtSeat()
     {
         isInteractionAllowed = false;
         if (currentState == NPCState.Sitting) return;
         currentState = NPCState.Sitting;
+        seatStuckTimer = 0f;
+        SnapToSeat();
         if (agent != null && agent.enabled) agent.isStopped = true;
 
         if (MainQuestManager.Instance != null && MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.GuideCat2ToTable)
@@ -1083,6 +1215,16 @@ public class NPCController : MonoBehaviour
         CatSystemManager.Instance?.ShowInteractionChoice(this);
     }
 
+    // เลือกแมวใน Scene view ตอนรันเกม → เห็นรัศมี "ถึงจุดคิว" (เขียว) และรัศมีผ่อนปรน (เหลือง)
+    void OnDrawGizmosSelected()
+    {
+        if (!hasQueueTarget) return;
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(queueTargetPos, queueArriveTolerance);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(queueTargetPos, queueSettleRadius);
+    }
+
     void OnDestroy()
     {
         // กำลัง Perform อยู่แล้วโดนลบ → Coroutine ตายก่อนถึง SetLock(false)
@@ -1292,7 +1434,7 @@ public class NPCController : MonoBehaviour
         float nextFlavorInterval = Random.Range(minSitAnimInterval, maxSitAnimInterval);
 
         CatIdentity identity = GetComponent<CatIdentity>();
-        bool isDataCat1 = !isVIP && identity != null && identity.IsDataCat1();
+        bool isDataCat1 = identity != null && identity.IsDataCat1();
 
         while (waitTimer < actualWaitTime)
         {

@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 /// ไม่ต้องวางใน Scene เอง — สร้างตัวเองอัตโนมัติเมื่อโหลดฉากที่มี FurnitureInventory + ComputerStation (ShopScene)
 /// (ถ้าอยากวางเองก็ได้ ระบบจะไม่สร้างซ้ำ)
 ///
-/// เซฟเมื่อ DayNightManager.SaveDayProgress() ถูกเรียก (ขึ้นวันใหม่ / กด Title / กด Exit) — เป็น Snapshot ชุดเดียวกับวันและเงิน
+/// เซฟเมื่อ DayNightManager.SaveDayProgress() ถูกเรียก (Checkpoint: ขึ้นวันใหม่ / จบ Tutorial) — เป็น Snapshot ชุดเดียวกับวันและเงิน
 /// โหลดอัตโนมัติตอนเข้าฉาก (ถ้ามีเซฟ) — New Game จะลบ Key นี้ทิ้ง
 /// </summary>
 public class FurnitureProgressSaveSystem : MonoBehaviour
@@ -249,8 +249,11 @@ public class FurnitureProgressSaveSystem : MonoBehaviour
             sceneChanged = true;
         }
 
-        if (sceneChanged && FurniturePlacementManager.Instance != null)
-            FurniturePlacementManager.Instance.RebakeNavMesh();
+        if (sceneChanged)
+        {
+            if (FurnitureManager.Instance != null) FurnitureManager.Instance.RequestNavMeshRebake();
+            else if (FurniturePlacementManager.Instance != null) FurniturePlacementManager.Instance.RebakeNavMesh();
+        }
 
         if (FurnitureEditUI.Instance != null) FurnitureEditUI.Instance.RefreshUI();
 

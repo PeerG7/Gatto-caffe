@@ -61,7 +61,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &1342554505435108130
 MonoBehaviour:
@@ -164,7 +164,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &2949858589255962794
 MonoBehaviour:
@@ -929,7 +929,14 @@ MonoBehaviour:
   bodySpriteRenderer: {fileID: 0}
   idleBeforeSitDuration: 0.4
   angryPatienceRatioThreshold: 0.25
-  moveAnimThreshold: 0.05
+  moveAnimThreshold: 0.2
+  queueArriveTolerance: 0.25
+  queueSettleRadius: 0.6
+  queueSettleTime: 0.25
+  queueLeaveRadius: 0.9
+  seatArriveDistance: 0.4
+  seatStuckTimeout: 1.5
+  seatForceArriveDistance: 1.5
   fallbackPerformDuration: 2.26
   postPerformZoomDelay: 0.8
   enableRandomSitAnims: 1
@@ -948,19 +955,19 @@ NavMeshAgent:
   m_GameObject: {fileID: 1500671038587446994}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 1
 --- !u!114 &5056497986851912248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2981,7 +2988,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &3643811626228405091
 MonoBehaviour:
