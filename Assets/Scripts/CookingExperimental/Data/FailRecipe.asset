@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RecipeSO
   recipeName: Fail
   requiredIngredients: []
-  finalDishSprite: {fileID: 21300000, guid: 05691232599887c4aaeebaf45b05c16c, type: 3}
+  finalDishSprite: {fileID: 21300000, guid: d614211f40b553f40b23e31e0d42216d, type: 3}

@@ -7,6 +7,13 @@ public class QueueManager : MonoBehaviour
     public List<Transform> queuePoints = new List<Transform>();
     private List<NPCController> queue = new List<NPCController>();
 
+    [Header("Arrival Check (ใช้กับ Tutorial Pointer)")]
+    [Tooltip("แมวห่างจากจุดคิวไม่เกินเท่านี้ ถือว่า 'ยืนรออยู่ที่คิวแล้ว'")]
+    public float arriveDistance = 0.35f;
+
+    // 🟢 เก็บตำแหน่งที่แมวแต่ละตัวต้องไปยืน เพื่อเช็กว่าไปถึงหรือยัง
+    private Dictionary<NPCController, Vector3> queueTargets = new Dictionary<NPCController, Vector3>();
+
     void Awake() { Instance = this; }
 
     public void AddToQueue(NPCController npc)
@@ -26,6 +33,7 @@ public class QueueManager : MonoBehaviour
         if (queue.Contains(npc))
         {
             queue.Remove(npc);
+            queueTargets.Remove(npc);
             UpdateQueuePositions();
         }
     }
@@ -33,6 +41,7 @@ public class QueueManager : MonoBehaviour
     public void ResetQueue()
     {
         queue.Clear();
+        queueTargets.Clear();
     }
 
     void UpdateQueuePositions()
@@ -51,6 +60,7 @@ public class QueueManager : MonoBehaviour
             {
                 Transform basePoint = queuePoints[currentQueueIndex - 1];
                 Vector3 sideBySidePos = basePoint.position + new Vector3(1f, 0f, 0f);
+                queueTargets[queue[i]] = sideBySidePos;
                 queue[i].SetQueueTargetCustom(sideBySidePos);
             }
             else
@@ -65,11 +75,13 @@ public class QueueManager : MonoBehaviour
                     if (hasCompanionBehind)
                     {
                         Vector3 splitLeftPos = basePoint.position + new Vector3(-0.6f, 0f, 0f);
+                        queueTargets[queue[i]] = splitLeftPos;
                         queue[i].SetQueueTargetCustom(splitLeftPos);
                     }
                     else
                     {
-                        queue[i].SetQueueTarget(queuePoints[currentQueueIndex]);
+                        queueTargets[queue[i]] = basePoint.position;
+                        queue[i].SetQueueTarget(basePoint);
                     }
                     currentQueueIndex++;
                 }
@@ -85,6 +97,26 @@ public class QueueManager : MonoBehaviour
     public NPCController GetFrontNPC()
     {
         return queue.Count > 0 ? queue[0] : null;
+    }
+
+    /// <summary>
+    /// 🟢 true = มีแมวเดินไปถึงจุดคิวและยืนรออยู่แล้วอย่างน้อย 1 ตัว
+    /// (TutorialPointerManager ใช้เช็กก่อนโชว์ Icon ที่หน้าร้าน)
+    /// </summary>
+    public bool HasNPCWaitingInQueue()
+    {
+        for (int i = 0; i < queue.Count; i++)
+        {
+            NPCController npc = queue[i];
+            if (npc == null) continue;
+            if (!queueTargets.TryGetValue(npc, out Vector3 target)) continue;
+
+            // เกม 2D → เทียบแค่แกน X,Y
+            Vector2 a = npc.transform.position;
+            Vector2 b = target;
+            if (Vector2.Distance(a, b) <= arriveDistance) return true;
+        }
+        return false;
     }
 
     public void InviteGroup(NPCController leaderNPC)

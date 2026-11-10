@@ -381,6 +381,46 @@ public class CustomerTable : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// 🟢 true = อาหารที่ผู้เล่นถืออยู่ (heldItem) ตรงกับที่แมวตัวใดตัวหนึ่งบนโต๊ะนี้สั่งไว้ และยังไม่ได้เสิร์ฟ
+    /// ใช้เงื่อนไขเดียวกับ TryServeFood() เพื่อให้ Tutorial Pointer ชี้ตรงกับที่เสิร์ฟได้จริง
+    /// </summary>
+    public bool CanServeItem(string heldItem)
+    {
+        if (string.IsNullOrEmpty(heldItem) || sittingNPCs == null) return false;
+        heldItem = heldItem.Trim();
+
+        foreach (var n in sittingNPCs)
+        {
+            if (n == null || n.hasBeenServed) continue;
+            if (n.currentState != NPCController.NPCState.Sitting) continue;
+            if (n.requestedRecipe != null &&
+                n.requestedRecipe.recipeName.Trim().Equals(heldItem, System.StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+
+        // fallback เหมือน TryServeFood: ตรงกับ wantedItem ของโต๊ะ และมีแมวที่ยังไม่ได้เสิร์ฟ
+        if (!string.IsNullOrEmpty(wantedItem) &&
+            heldItem.Equals(wantedItem.Trim(), System.StringComparison.OrdinalIgnoreCase))
+            return HasAnyNPCWaiting();
+
+        return false;
+    }
+
+    /// <summary>
+    /// 🟢 true = มีแมวที่โต๊ะนี้สั่งอาหารแล้วและยังไม่ได้รับอาหาร
+    /// </summary>
+    public bool HasAnyNPCOrdered()
+    {
+        if (sittingNPCs == null || sittingNPCs.Count == 0) return false;
+
+        foreach (var npc in sittingNPCs)
+        {
+            if (npc != null && npc.HasPlacedOrder) return true;
+        }
+        return false;
+    }
+
     // ---------------------------------------------------------------
     //  Money Pop Animation
     // ---------------------------------------------------------------

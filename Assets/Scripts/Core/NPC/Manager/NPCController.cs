@@ -173,6 +173,15 @@ public class NPCController : MonoBehaviour
     private bool isPerforming = false;
     public bool IsPerforming => isPerforming;
 
+    /// <summary>
+    /// 🟢 true = แมวนั่งที่โต๊ะ และ "สั่งอาหารแล้ว" (Order Icon โผล่แล้ว) แต่ยังไม่ได้รับอาหาร
+    /// (TutorialPointerManager ใช้เช็กก่อนชี้ไปที่เตา)
+    /// </summary>
+    public bool HasPlacedOrder =>
+        currentState == NPCState.Sitting &&
+        !hasBeenServed &&
+        orderCanvas != null && orderCanvas.activeSelf;
+
     static bool GameIsPaused =>
         DayNightManager.Instance != null && DayNightManager.Instance.isPaused;
 
