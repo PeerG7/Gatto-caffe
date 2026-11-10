@@ -28,6 +28,9 @@ public class FlyIngredientOnTrigger : MonoBehaviour
 
     public void PlayFlyAnimation()
     {
+        // 🟢 แมว/ซอสบังจออยู่ -> ไม่บิน ไม่เล่นเสียง (AddIngredient ก็ถูกบล็อกอยู่แล้ว)
+        if (ScreenSmudgeManager.IsInterrupting) return;
+
         if (cookingManager == null) return;
         if (cookingManager.currentIngredients.Count >= 3) return;
 

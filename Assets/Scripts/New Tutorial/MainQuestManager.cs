@@ -92,7 +92,7 @@ public class MainQuestManager : MonoBehaviour
                 questDisplayText.text = "MainQuest: Invite the Cats in front Cafe";
                 break;
             case QuestStep.InviteCat2:
-                questDisplayText.text = "Main mission: Invite the second cat to the restaurant. (NeedyCat)";
+                questDisplayText.text = "Main mission: Invite the second cat to the Cafe. (NeedyCat)";
                 break;
             case QuestStep.GuideCat2ToTable:
                 questDisplayText.text = "MainQuest: Press E near the cat to guide it, then lead it to a table.";

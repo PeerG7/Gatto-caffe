@@ -498,6 +498,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d33e67c8905f6fa4db912fdde811998a, type: 2}
   - {fileID: 11400000, guid: b628f753d5cec514d8878dbdcd0f92af, type: 2}
   - {fileID: 11400000, guid: ab32bc05e151f514a9c6ea9331a115fe, type: 2}
+  continueButton: {fileID: 0}
+  continueDisabledAlpha: 0.35
 --- !u!114 &849411324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1002,8 +1004,9 @@ GameObject:
   - component: {fileID: 1539170706}
   - component: {fileID: 1539170705}
   - component: {fileID: 1539170704}
+  - component: {fileID: 1539170707}
   m_Layer: 5
-  m_Name: Button (Legacy) Play
+  m_Name: Button (Legacy) Continue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1123,6 +1126,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1539170702}
   m_CullTransparentMesh: 1
+--- !u!114 &1539170707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539170702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b101150bf27afe848b0831444ef4098a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverBounce
+  hoverOffset: {x: 0, y: 15}
+  hoverScale: 1.08
+  transitionSpeed: 0.15
+  hoverSfx: {fileID: 0}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!1 &1674523384
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,6 +1543,7 @@ GameObject:
   - component: {fileID: 1955406622}
   - component: {fileID: 1955406621}
   - component: {fileID: 1955406620}
+  - component: {fileID: 1955406623}
   m_Layer: 5
   m_Name: Button (Legacy) Quit
   m_TagString: Untagged
@@ -1643,6 +1665,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955406618}
   m_CullTransparentMesh: 1
+--- !u!114 &1955406623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955406618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b101150bf27afe848b0831444ef4098a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverBounce
+  hoverOffset: {x: 0, y: 15}
+  hoverScale: 1.08
+  transitionSpeed: 0.15
+  hoverSfx: {fileID: 0}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!1 &2014547391
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,6 +1695,7 @@ GameObject:
   - component: {fileID: 2014547395}
   - component: {fileID: 2014547394}
   - component: {fileID: 2014547393}
+  - component: {fileID: 2014547396}
   m_Layer: 5
   m_Name: Button (Legacy) NewGame
   m_TagString: Untagged
@@ -1776,6 +1817,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2014547391}
   m_CullTransparentMesh: 1
+--- !u!114 &2014547396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014547391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b101150bf27afe848b0831444ef4098a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverBounce
+  hoverOffset: {x: 0, y: 15}
+  hoverScale: 1.08
+  transitionSpeed: 0.15
+  hoverSfx: {fileID: 0}
+  sfxVolume: 1
+  audioSource: {fileID: 0}
 --- !u!1 &2014931783
 GameObject:
   m_ObjectHideFlags: 0

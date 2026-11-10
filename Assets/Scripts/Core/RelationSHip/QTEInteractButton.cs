@@ -48,7 +48,8 @@ public class QTEInteractButton : MonoBehaviour,
 
     void OnDisable()
     {
-        if (qteAction != null) qteAction.action.Disable();
+        // ❗ ไม่เรียก qteAction.action.Disable() — Action นี้อาจใช้ร่วมกับ PlayerInteract2D
+        isHoldingViaKey = false;
         _activeChoiceButtons.Remove(this);
     }
 #else
@@ -60,6 +61,7 @@ public class QTEInteractButton : MonoBehaviour,
 
     void OnDisable()
     {
+        isHoldingViaKey = false;
         _activeChoiceButtons.Remove(this);
     }
 #endif

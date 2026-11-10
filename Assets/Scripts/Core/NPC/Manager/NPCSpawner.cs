@@ -35,7 +35,16 @@ public class NPCSpawner : MonoBehaviour
     public float minInterval = 3f;
     public float maxInterval = 7f;
 
-    void Awake() => Instance = this;
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Debug.LogWarning("[NPCSpawner] พบ Spawner ซ้ำ ลบตัวนี้ทิ้ง: " + name);
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     void Start() => spawnInterval = Random.Range(minInterval, maxInterval);
 
@@ -45,17 +54,13 @@ public class NPCSpawner : MonoBehaviour
         {
             var currentQ = MainQuestManager.Instance.currentQuest;
 
-            // 1. สเต็ป InviteCat1: เสกแมวตัวแรก
             if (currentQ == MainQuestManager.QuestStep.InviteCat1 && !cat1Spawned)
             {
                 if (tutorialOrderedPrefabs != null && tutorialOrderedPrefabs.Length > 0 && tutorialOrderedPrefabs[0] != null)
-                {
                     SpawnSpecificNPC(tutorialOrderedPrefabs[0], System.Guid.NewGuid().ToString());
-                }
-                else if (npcPrefabs.Length > 0)
-                {
-                    SpawnSingleNPC(System.Guid.NewGuid().ToString());
-                }
+                else
+                    Debug.LogError("[NPCSpawner] ยังไม่ได้ใส่ Tutorial Prefab ตัวที่ 1 (Element 0)!");
+
                 cat1Spawned = true;
                 return;
             }

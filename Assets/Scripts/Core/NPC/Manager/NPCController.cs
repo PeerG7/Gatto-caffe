@@ -1061,7 +1061,7 @@ public class NPCController : MonoBehaviour
     {
         if (!CanRequestInteractionChoice())
         {
-            PlayerController2D.SetLock(false);
+            // ❗ ไม่ปลดล็อกที่นี่ — การล็อก/ปลดล็อกเป็นหน้าที่ของ CatSystemManager
             return;
         }
 
@@ -1072,6 +1072,31 @@ public class NPCController : MonoBehaviour
 
         QTEZoomController.Instance?.ZoomInToQTE(transform, true);
         CatSystemManager.Instance?.ShowInteractionChoice(this);
+    }
+
+    void OnDestroy()
+    {
+        // กำลัง Perform อยู่แล้วโดนลบ → Coroutine ตายก่อนถึง SetLock(false)
+        if (isPerforming)
+        {
+            isPerforming = false;
+            PlayerController2D.SetLock(false);
+
+            if (QTEZoomController.Instance != null)
+            {
+                QTEZoomController.Instance.UnlockQTEZoom();
+                QTEZoomController.Instance.ZoomOutToGameplay(true);
+            }
+        }
+
+        if (CatSystemManager.Instance != null)
+            CatSystemManager.Instance.NotifyNPCRemoved(this);
+
+        if (currentZone != null)
+        {
+            currentZone.Release();
+            currentZone = null;
+        }
     }
 
     public void StopInteractionTimeout()

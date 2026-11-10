@@ -22,6 +22,10 @@ public class UIHoverBounce : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [Tooltip("ถ้าไม่ใส่ จะใช้ AudioSource กลางที่สร้างให้อัตโนมัติ")]
     [SerializeField] private AudioSource audioSource;
 
+    [Header("Smudge / Cat Block")]
+    [Tooltip("ปิดแอนิเมชัน hover และเสียง ตอนแมว/ซอสบังจอ")]
+    [SerializeField] private bool disableWhileSmudge = true;
+
     // AudioSource กลาง ใช้ร่วมกันทุกปุ่ม ไม่ต้องใส่ AudioSource ทีละอัน
     private static AudioSource sharedSource;
 
@@ -29,6 +33,12 @@ public class UIHoverBounce : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private Vector2 defaultPosition;
     private Vector3 defaultScale;
     private Coroutine activeRoutine;
+
+    // เมาส์ค้างอยู่บนปุ่มไหม / ตอนนี้ปุ่มอยู่ในสถานะ hover จริงไหม
+    private bool isPointerOver = false;
+    private bool hoverApplied = false;
+
+    private bool IsBlocked => disableWhileSmudge && ScreenSmudgeManager.IsInterrupting;
 
     void Awake()
     {
@@ -42,6 +52,10 @@ public class UIHoverBounce : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     void OnDisable()
     {
+        isPointerOver = false;
+        hoverApplied = false;
+        activeRoutine = null;
+
         if (targetRect != null)
         {
             targetRect.anchoredPosition = defaultPosition;
@@ -49,16 +63,34 @@ public class UIHoverBounce : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
     }
 
+    void Update()
+    {
+        // แมวโผล่ตอนเมาส์ค้างบนปุ่ม -> ปุ่มกลับลงมา
+        // แมวหายแล้วเมาส์ยังอยู่ -> ปุ่มเด้งขึ้นอีกครั้ง (ไม่มีเสียง)
+        bool shouldHover = isPointerOver && !IsBlocked;
+        if (shouldHover == hoverApplied) return;
+
+        hoverApplied = shouldHover;
+        if (shouldHover)
+            StartTransition(defaultPosition + hoverOffset, defaultScale * hoverScale);
+        else
+            StartTransition(defaultPosition, defaultScale);
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
+        isPointerOver = true;
+        if (IsBlocked) return;   // ไม่มีเสียง ไม่มีแอนิเมชัน
+
         PlayHoverSfx();
-        Vector2 targetPos = defaultPosition + hoverOffset;
-        Vector3 targetSc = defaultScale * hoverScale;
-        StartTransition(targetPos, targetSc);
+        hoverApplied = true;
+        StartTransition(defaultPosition + hoverOffset, defaultScale * hoverScale);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        isPointerOver = false;
+        hoverApplied = false;
         StartTransition(defaultPosition, defaultScale);
     }
 
@@ -66,6 +98,7 @@ public class UIHoverBounce : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     // ถ้าได้ยินเสียงซ้ำสองครั้ง ให้ลบ ISelectHandler กับเมธอดนี้ออก)
     public void OnSelect(BaseEventData eventData)
     {
+        if (IsBlocked) return;
         PlayHoverSfx();
     }
 
@@ -92,6 +125,8 @@ public class UIHoverBounce : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     private void StartTransition(Vector2 targetPos, Vector3 targetSc)
     {
+        if (!isActiveAndEnabled || targetRect == null) return;
+
         if (activeRoutine != null)
             StopCoroutine(activeRoutine);
 

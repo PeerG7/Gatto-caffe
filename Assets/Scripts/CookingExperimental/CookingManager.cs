@@ -40,6 +40,10 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
     [Header("Gamepad / Keyboard Navigation")]
     public GameObject firstSelectedButton;
 
+    [Header("Debug")]
+    [Tooltip("ติ๊กเพื่อดู Log ใน Console ทุกครั้งที่การกดถูกบล็อกเพราะแมว/ซอสบังจอ")]
+    public bool logSmudgeBlock = false;
+
 #if ENABLE_INPUT_SYSTEM
     public UnityEngine.InputSystem.InputActionReference backAction;
 #endif
@@ -68,6 +72,18 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
     private Coroutine cookCoroutine = null;
     private bool isCooking = false;
 
+    // 🟢 true ตั้งแต่แมว/ซอสโผล่ จนหายไปหมด -> ห้ามกดอะไรในครัว (ยกเว้น Esc)
+    private bool IsBlockedBySmudge
+    {
+        get
+        {
+            bool blocked = ScreenSmudgeManager.IsInterrupting;
+            if (blocked && logSmudgeBlock)
+                Debug.Log("[CookingManager] ถูกบล็อก: แมว/ซอสกำลังบังจอ (ต้องเคาะ Space ก่อน)");
+            return blocked;
+        }
+    }
+
     void Start()
     {
         if (cookButton != null) cookButton.interactable = false;
@@ -86,12 +102,17 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
         if (stationCookingCanvas == null || !stationCookingCanvas.activeSelf) return;
         if (isCooking) return;
 
+        // Esc ยังออกจากหน้าต่างได้เสมอ (CloseCanvas จะเรียก CancelActiveSmudge ให้เอง)
         bool backPressed = Input.GetKeyDown(KeyCode.Escape);
 #if ENABLE_INPUT_SYSTEM
         if (!backPressed && backAction != null && backAction.action.WasPressedThisFrame())
             backPressed = true;
 #endif
         if (backPressed) { CloseCanvas(); return; }
+
+        // 🟢 แมว/ซอสบังจออยู่: ห้ามใช้ hotkey ทุกตัว
+        // (สำคัญ: Space เป็นทั้งปุ่มไล่แมว และปุ่ม Confirm ทำอาหาร)
+        if (ScreenSmudgeManager.IsInterrupting) return;
 
         // --- INGREDIENT REMOVAL HOTKEYS ---
         if (Input.GetKeyDown(KeyCode.Backspace))
@@ -120,6 +141,8 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
 
     void TryAddIngredientBySlot(int i)
     {
+        if (IsBlockedBySmudge) return;
+
         IngredientButton btn = _registeredIngredients[i];
         if (btn == null) { Debug.LogWarning($"[CookingManager] ไม่มี IngredientButton ที่ slot {i + 1}"); return; }
         btn.TriggerIngredient();
@@ -127,12 +150,19 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
 
     void TryTriggerDeepFry()
     {
+        if (IsBlockedBySmudge) return;
+
         if (deepFryButton != null && !deepFryButton.interactable) return;
         if (deepFryStation != null) deepFryStation.OnFryButtonClicked();
         else Debug.LogWarning("[CookingManager] ไม่ได้ผูก DeepFryStation");
     }
 
-    public void OnConfirm() { if (cookButton != null && cookButton.interactable && !isCooking) OnCookButtonClicked(); }
+    public void OnConfirm()
+    {
+        if (IsBlockedBySmudge) return;
+        if (cookButton != null && cookButton.interactable && !isCooking) OnCookButtonClicked();
+    }
+
     public void OnBack() => CloseCanvas();
     public void OnNavigate(Vector2 direction) { }
 
@@ -186,7 +216,7 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
 
     public void AddIngredient(string ingredientName, Sprite ingredientSprite)
     {
-        if (isCooking) return;
+        if (isCooking || IsBlockedBySmudge) return;
         if (currentIngredients.Count < 3)
         {
             currentIngredients.Add(ingredientName);
@@ -205,7 +235,7 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
     /// </summary>
     public void RemoveLastIngredient()
     {
-        if (isCooking || currentIngredients.Count == 0) return;
+        if (isCooking || IsBlockedBySmudge || currentIngredients.Count == 0) return;
         RemoveIngredientAt(currentIngredients.Count - 1);
     }
 
@@ -214,7 +244,7 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
     /// </summary>
     public void RemoveIngredientAt(int index)
     {
-        if (isCooking || index < 0 || index >= currentIngredients.Count) return;
+        if (isCooking || IsBlockedBySmudge || index < 0 || index >= currentIngredients.Count) return;
 
         PlayBinSound();   // เล่นเฉพาะตอนมีของให้ลบจริง
 
@@ -246,7 +276,7 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
     /// </summary>
     public void ClearAllIngredients()
     {
-        if (isCooking || currentIngredients.Count == 0) return;
+        if (isCooking || IsBlockedBySmudge || currentIngredients.Count == 0) return;
 
         PlayBinSound();
 
@@ -293,7 +323,7 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
 
     public void OnCookButtonClicked()
     {
-        if (currentOutput == null || isCooking) return;
+        if (currentOutput == null || isCooking || IsBlockedBySmudge) return;
         if (TrayManager.instance != null && !TrayManager.instance.HasEmptySlot()) { Debug.LogWarning("[CookingManager] Tray เต็ม!"); return; }
         PlayerController2D.IsLocked = true;
         cookCoroutine = StartCoroutine(PerformCookingCoroutine());

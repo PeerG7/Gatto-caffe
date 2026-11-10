@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 #endif
 
 // =====================================================================
-// DeepFryStation — v5 (With Dynamic Sprite State & UI Shake Effect)
+// DeepFryStation — v6 (Dynamic Sprite State, UI Shake, Smudge/Cat Block)
 // =====================================================================
 public class DeepFryStation : MonoBehaviour
 {
@@ -68,6 +68,10 @@ public class DeepFryStation : MonoBehaviour
     public void OnFryButtonClicked()
     {
         if (isProcessing) return;
+
+        // 🟢 แมว/ซอสบังจออยู่ -> ห้ามกดทอด (ทั้งคลิกเมาส์และ hotkey F)
+        if (ScreenSmudgeManager.IsInterrupting) return;
+
         fryCoroutine = StartCoroutine(FryCoroutine());
     }
 

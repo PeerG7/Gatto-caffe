@@ -22,8 +22,15 @@ public class PlayerInteract2D : MonoBehaviour
 
     [Header("Anti-Spam / Cooldown Settings")]
     [Tooltip("ระยะเวลาหน่วงระหว่างการกด E/F แต่ละครั้ง ป้องกัน Frame Collision / Race Condition")]
-    public float interactCooldown = 0.25f;
+    public float interactCooldown = 0.15f;
     private float lastInteractTime = 0f;
+
+    [Header("Input Buffer (กดรัวแล้วไม่หาย)")]
+    [Tooltip("เวลาที่ยอมเก็บการกดไว้รอ (วินาที) ถ้ายังติด Cooldown")]
+    public float inputBufferTime = 0.3f;
+    private bool bufferedPress = false;
+    private bool bufferedIsF = false;
+    private float bufferedAt = 0f;
 
     private List<TraySlot> lastNearbyTrays = new List<TraySlot>();
 
@@ -39,7 +46,12 @@ public class PlayerInteract2D : MonoBehaviour
 
     void Update()
     {
-        if (PlayerController2D.IsLocked) return;
+        if (PlayerController2D.IsLocked)
+        {
+            bufferedPress = false; // ล็อกอยู่ = ทิ้งคิวที่ค้าง กันยิงซ้ำตอนปลดล็อก
+            return;
+        }
+
         UpdateTrayProximityFeedback();
 
         bool pressedE = false;
@@ -55,18 +67,32 @@ public class PlayerInteract2D : MonoBehaviour
 
         bool pressedF = Input.GetKeyDown(KeyCode.F);
 
-        if (!pressedE && !pressedF) return;
-
-        if (Time.time - lastInteractTime < interactCooldown)
+        // เก็บการกดล่าสุดไว้ในบัฟเฟอร์ (เก็บแค่ 1 ครั้ง ไม่สะสม)
+        if (pressedE || pressedF)
         {
-            Debug.LogWarning($"[TRACE_INPUT] ⚠️ Ignore Spam Input! (Cooldown: {Time.time - lastInteractTime:F2}s)");
+            bufferedPress = true;
+            bufferedIsF = pressedF && !pressedE;
+            bufferedAt = Time.unscaledTime;
+        }
+
+        if (!bufferedPress) return;
+
+        // บัฟเฟอร์หมดอายุ
+        if (Time.unscaledTime - bufferedAt > inputBufferTime)
+        {
+            bufferedPress = false;
             return;
         }
-        lastInteractTime = Time.time;
 
-        if (activeCanvas != null && pressedE) { activeCanvas.OnConfirm(); return; }
+        // ยังติด Cooldown -> รอเฟรมถัดไป (ไม่ทิ้งการกด)
+        if (Time.unscaledTime - lastInteractTime < interactCooldown) return;
 
-        TriggerInteract(pressedF);
+        bufferedPress = false;
+        lastInteractTime = Time.unscaledTime;
+
+        if (activeCanvas != null && !bufferedIsF) { activeCanvas.OnConfirm(); return; }
+
+        TriggerInteract(bufferedIsF);
     }
 
     public void TriggerInteract() => TriggerInteract(false);

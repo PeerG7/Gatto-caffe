@@ -73,6 +73,11 @@ public class CatSystemManager : MonoBehaviour
     /// </summary>
     public void ShowInteractionChoice(NPCController npc)
     {
+        // 🟢 กันเรียกซ้ำ: กำลังเล่น QTE หรือ UI ของแมวตัวนี้เปิดอยู่แล้ว -> เมินเงียบๆ
+        // (ห้าม Unlock, ห้าม Reset, ห้าม StopAllCoroutines)
+        if (isInteracting) return;
+        if (currentNPC == npc && groupOfInteraction != null && groupOfInteraction.activeSelf) return;
+
         // 🟢 Guard Clause: กรองสถานะสิทธิ์การเปิด Canvas อย่างเข้มงวด
         if (npc == null || !npc.isInteractionAllowed || npc.currentState != NPCController.NPCState.AtInteractionZone)
         {
@@ -88,6 +93,9 @@ public class CatSystemManager : MonoBehaviour
         QTEZoomController.Instance?.ZoomInToQTE(npc.transform, true);
 
         PlayerController2D.SetLock(true);
+
+        // 👻 Player Fade หายไปตอนเริ่ม Interaction (ครอบคลุมทุกทางเข้า)
+        PlayerGhostFade.BeginInteraction(npc);
 
         // 🟢 เปิด Root หลัก และ Panel
         if (groupOfInteraction != null) groupOfInteraction.SetActive(true);
@@ -217,6 +225,7 @@ public class CatSystemManager : MonoBehaviour
             {
                 PlayerController2D.SetLock(false);
                 QTEZoomController.Instance?.UnlockQTEZoom();
+                PlayerGhostFade.EndInteraction(); // 👻 QTE พลาด → Player กลับมาเป็นร่างลางๆ
                 npcToClose.FinishInteractionAtZone();
             }
         }
@@ -224,6 +233,7 @@ public class CatSystemManager : MonoBehaviour
         {
             PlayerController2D.SetLock(false);
             QTEZoomController.Instance?.UnlockQTEZoom();
+            PlayerGhostFade.EndInteraction();
         }
     }
 
@@ -263,6 +273,15 @@ public class CatSystemManager : MonoBehaviour
         if (groupOfInteraction != null) groupOfInteraction.SetActive(false);
     }
 
+    /// <summary>NPC ที่กำลังใช้ระบบอยู่ถูกลบ → ปิดระบบและปลดล็อกให้ผู้เล่น</summary>
+    public void NotifyNPCRemoved(NPCController npc)
+    {
+        if (npc == null || currentNPC != npc) return;
+
+        currentNPC = null; // เคลียร์ก่อน กัน ForceCloseSystem ไปเรียกเมธอดของแมวที่กำลังถูกลบ
+        ForceCloseSystem();
+    }
+
     public void ForceCloseSystem()
     {
         isInteracting = false;
@@ -274,6 +293,7 @@ public class CatSystemManager : MonoBehaviour
 
         PlayerController2D.SetLock(false);
         QTEZoomController.Instance?.UnlockQTEZoom();
+        PlayerGhostFade.EndInteraction(); // 👻 ปิดระบบ/กดออก/แมวถูกลบ → Player กลับมา
 
         if (currentNPC != null)
         {

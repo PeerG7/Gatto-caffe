@@ -109,8 +109,8 @@ public class NPCInteract : MonoBehaviour
 
         if (!CanRequestZoneInteraction())
         {
+            // ไม่เรียก SetLock(false) ที่นี่ กันปลดล็อกตอน UI อื่นกำลังเปิด
             Debug.LogWarning($"[NPCInteract] บล็อกการเปิด Canvas บน {gameObject.name} (currentState: {npc.currentState}, isAllowed: {npc.isInteractionAllowed})");
-            PlayerController2D.SetLock(false);
             return;
         }
 
