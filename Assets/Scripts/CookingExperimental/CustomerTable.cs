@@ -327,6 +327,38 @@ public class CustomerTable : MonoBehaviour
         ResetTable();
     }
 
+    /// <summary>
+    /// 🗑️ ลบแมวทุกตัวที่ผูกกับโต๊ะนี้ทิ้ง (ใช้ตอนผู้เล่นเก็บเฟอร์นิเจอร์ที่มีแมวนั่ง/กำลังเดินมานั่งอยู่)
+    /// คืนค่าจำนวนแมวที่ถูกลบ
+    /// </summary>
+    public int DestroySittingNPCs()
+    {
+        StopTableChat();
+
+        if (sittingNPCs == null || sittingNPCs.Count == 0) return 0;
+
+        // copy ก่อน เพราะ OnDestroy ของแมวอาจไปแก้ list เดิม
+        List<NPCController> victims = new List<NPCController>(sittingNPCs);
+        sittingNPCs.Clear();
+
+        int removed = 0;
+        foreach (NPCController npc in victims)
+        {
+            if (npc == null) continue;
+
+            npc.assignedTable = null; // ตัดความสัมพันธ์กับโต๊ะที่กำลังจะหายไป
+            Destroy(npc.gameObject);  // NPCController.OnDestroy จะเคลียร์ CatSystemManager/Zone ให้เอง
+            removed++;
+        }
+
+        // โต๊ะนี้ถูกเก็บแล้ว ไม่ต้องมีค่าเงิน/ไอคอนค้าง
+        wantedItem = "";
+        if (tableItemRenderer != null) tableItemRenderer.enabled = false;
+        SetVIPVisual(false);
+
+        return removed;
+    }
+
     private void BoostRemainingNPCsPatience(NPCController servedNPC)
     {
         if (sittingNPCs == null) return;

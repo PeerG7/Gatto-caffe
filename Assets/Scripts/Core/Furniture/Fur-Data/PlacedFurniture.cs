@@ -109,10 +109,29 @@ public class PlacedFurniture : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 🗑️ ลบแมวทุกตัวที่ผูกกับโต๊ะ (CustomerTable) ของเฟอร์นิเจอร์ชิ้นนี้ — คืนค่าจำนวนแมวที่ถูกลบ
+    /// เรียกซ้ำได้ปลอดภัย (ครั้งที่สองจะไม่เหลือแมวให้ลบ)
+    /// </summary>
+    public int EvictCats()
+    {
+        int removed = 0;
+        foreach (CustomerTable table in GetComponentsInChildren<CustomerTable>(true))
+        {
+            if (table != null) removed += table.DestroySittingNPCs();
+        }
+
+        if (removed > 0) Debug.Log($"[PlacedFurniture] เก็บ {gameObject.name} → ลบแมวบนโต๊ะ {removed} ตัว");
+        return removed;
+    }
+
     public void PickupFurniture()
     {
         if (isPickingUp) return;
         isPickingUp = true;
+
+        // 🗑️ กันไว้ทุกทางที่เก็บเฟอร์นิเจอร์ (ปุ่ม V, UI อื่น ๆ) — แมวบนโต๊ะต้องหายไปด้วยเสมอ
+        EvictCats();
 
         // เสียงเก็บเล่นที่ผู้เรียก (FurnitureManager.HandleFurniturePickup) แล้ว ไม่เล่นซ้ำที่นี่
         StartCoroutine(AnimatePickupAndDestroy());

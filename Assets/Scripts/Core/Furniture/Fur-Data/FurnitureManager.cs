@@ -267,6 +267,9 @@ public class FurnitureManager : MonoBehaviour
                 PlacedFurniture furniture = hit.collider.GetComponentInParent<PlacedFurniture>();
                 if (furniture != null)
                 {
+                    // 🗑️ ถ้ามีแมวนั่ง/กำลังเดินมานั่งที่เฟอร์นิเจอร์ชิ้นนี้ → ลบแมวทิ้งไปพร้อมกัน
+                    RemoveCatsFromFurniture(furniture);
+
                     // เล่นเสียงเก็บตอนเริ่มอนิเมชัน (ไม่รอให้ของหายก่อน)
                     AudioManager.instance?.PlayCollectFurniture();
 
@@ -275,6 +278,17 @@ public class FurnitureManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// ลบแมวทุกตัวที่ใช้โต๊ะ (CustomerTable) ในเฟอร์นิเจอร์ชิ้นนี้ — คืนค่าจำนวนแมวที่ถูกลบ
+    /// </summary>
+    private int RemoveCatsFromFurniture(PlacedFurniture furniture)
+    {
+        if (furniture == null) return 0;
+
+        // ลบทันทีที่กดเก็บ (ไม่รอให้อนิเมชันจบ) — PlacedFurniture.PickupFurniture() ก็เรียกซ้ำเป็นตัวกันพลาดอีกชั้น
+        return furniture.EvictCats();
     }
 
     private void SetObjectCollidersTrigger(GameObject obj, bool isTrigger)
