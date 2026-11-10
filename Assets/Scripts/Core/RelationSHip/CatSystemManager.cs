@@ -44,6 +44,12 @@ public class CatSystemManager : MonoBehaviour
     private bool _pressReceived = false;
     private bool _holdActive = false;
 
+    /// <summary>🛡️ มี session ที่เปิดอยู่กับแมวตัวอื่น (ไม่ใช่ npc ที่ถามมา) หรือไม่</summary>
+    public bool IsBusyWithOther(NPCController npc)
+    {
+        return currentNPC != null && currentNPC != npc;
+    }
+
     public void NotifyPress() { if (isInteracting) _pressReceived = true; _holdActive = true; }
     public void NotifyRelease() { _holdActive = false; }
 

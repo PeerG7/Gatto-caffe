@@ -804,8 +804,13 @@ public class NPCController : MonoBehaviour
         SetAnimState(AnimState.Sit);
 
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
-        CatSystemManager.Instance?.HideInteractionChoice();
-        PlayerController2D.SetLock(false);
+
+        // 🛡️ ถ้าผู้เล่นกำลังคุย/เล่นกับแมวตัวอื่นอยู่ ห้ามปิดเมนู/ปลดล็อกของส่วนกลาง
+        if (!OtherCatOwnsPlayerUI())
+        {
+            CatSystemManager.Instance?.HideInteractionChoice();
+            PlayerController2D.SetLock(false);
+        }
 
         SetupOrderUI();
 
@@ -1173,7 +1178,8 @@ public class NPCController : MonoBehaviour
         {
             if (currentState != NPCState.AtInteractionZone) yield break;
 
-            if (!isChoiceUIVisible && !GameIsPaused)
+            // 🛡️ หยุดนับตอนผู้เล่นถูก Lock (เช่น กำลังคุยกับแมวตัวอื่น) กันแมวตัวนี้หมดเวลาแล้วไปปิด UI ของตัวอื่น
+            if (!isChoiceUIVisible && !GameIsPaused && !PlayerController2D.IsLocked)
             {
                 elapsed += Time.deltaTime;
             }
@@ -1248,6 +1254,22 @@ public class NPCController : MonoBehaviour
             currentZone.Release();
             currentZone = null;
         }
+    }
+
+    /// <summary>
+    /// 🛡️ true = ตอนนี้ผู้เล่นกำลังใช้ UI / กล้อง / Lock อยู่กับแมวตัวอื่น (เลือกกิจกรรม, QTE หรือ Perform)
+    /// แมวตัวนี้ต้องไม่แตะของส่วนกลางเหล่านั้น ไม่งั้นจะปิดเมนู/ซูมออกของอีกตัวจนผู้เล่นค้าง
+    /// </summary>
+    bool OtherCatOwnsPlayerUI()
+    {
+        if (CatSystemManager.Instance != null && CatSystemManager.Instance.IsBusyWithOther(this))
+            return true;
+
+        foreach (var n in FindObjectsOfType<NPCController>())
+        {
+            if (n != null && n != this && n.IsPerforming) return true;
+        }
+        return false;
     }
 
     public void StopInteractionTimeout()
@@ -1381,11 +1403,15 @@ public class NPCController : MonoBehaviour
 
         StopInteractionTimeout();
 
-        CatSystemManager.Instance?.HideInteractionChoice();
         if (qteCanvasInPrefab != null) qteCanvasInPrefab.SetActive(false);
 
-        QTEZoomController.Instance?.UnlockQTEZoom();
-        QTEZoomController.Instance?.ZoomOutToGameplay(true);
+        // 🛡️ แตะ UI/กล้องส่วนกลางได้เฉพาะตอนไม่มีแมวตัวอื่นเป็นเจ้าของ session อยู่
+        if (!OtherCatOwnsPlayerUI())
+        {
+            CatSystemManager.Instance?.HideInteractionChoice();
+            QTEZoomController.Instance?.UnlockQTEZoom();
+            QTEZoomController.Instance?.ZoomOutToGameplay(true);
+        }
 
         if (currentZone != null)
         {
@@ -1712,10 +1738,13 @@ public class NPCController : MonoBehaviour
         if (InteractionZoneManager.Instance != null)
             InteractionZoneManager.Instance.CancelRequest(this);
 
-        CatSystemManager.Instance?.HideInteractionChoice();
-
-        QTEZoomController.Instance?.UnlockQTEZoom();
-        QTEZoomController.Instance?.ZoomOutToGameplay(true);
+        // 🛡️ แตะ UI/กล้องส่วนกลางได้เฉพาะตอนไม่มีแมวตัวอื่นเป็นเจ้าของ session อยู่
+        if (!OtherCatOwnsPlayerUI())
+        {
+            CatSystemManager.Instance?.HideInteractionChoice();
+            QTEZoomController.Instance?.UnlockQTEZoom();
+            QTEZoomController.Instance?.ZoomOutToGameplay(true);
+        }
 
         currentState = NPCState.Leaving;
         isSittingAngryAnim = false;

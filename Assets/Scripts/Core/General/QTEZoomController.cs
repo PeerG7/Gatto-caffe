@@ -104,8 +104,12 @@ public class QTEZoomController : MonoBehaviour
         isLockedInQTE = lockZoom;
     }
 
-    public void ZoomOutToGameplay(bool force = false)
+    public void ZoomOutToGameplay(bool force = false, Transform requester = null)
     {
+        // คำสั่งจากแมวตัวอื่นที่ไม่ใช่เจ้าของการซูมปัจจุบัน → ไม่สนใจ
+        if (!force && requester != null && requester != activeTargetTransform)
+            return;
+
         if (isLockedInQTE && !force) return;
 
         isQTEActive = false;
