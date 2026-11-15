@@ -186,12 +186,11 @@ public class CustomerTable : MonoBehaviour
         if (activeBubble != null) { activeBubble.HideChatBubble(); activeBubble = null; }
     }
 
-    public void TryServeFood()
+    // หาแมวบนโต๊ะนี้ที่ควรได้รับอาหารชื่อ heldItem (ใช้ร่วมกันทั้งผู้เล่นและ AutoServerBot)
+    private NPCController FindServeTarget(string heldItem)
     {
-        PlayerInventory player = FindObjectOfType<PlayerInventory>();
-        if (player == null || !player.HasItem()) return;
-
-        string heldItem = player.currentItem.Trim();
+        if (string.IsNullOrEmpty(heldItem) || sittingNPCs == null) return null;
+        heldItem = heldItem.Trim();
 
         NPCController targetNPC = sittingNPCs.Find(n =>
             n != null &&
@@ -205,30 +204,65 @@ public class CustomerTable : MonoBehaviour
             targetNPC = sittingNPCs.Find(n => n != null && !n.hasBeenServed);
         }
 
+        return targetNPC;
+    }
+
+    // ขั้นตอนหลังเสิร์ฟสำเร็จ (ไม่เกี่ยวกับผู้เล่น: ไม่แตะ Lock / Inventory)
+    private void CompleteServe(NPCController targetNPC)
+    {
+        targetNPC.hasBeenServed = true;
+        BoostRemainingNPCsPatience(targetNPC);
+
+        CheckAndTriggerSmudgeOnServe(targetNPC);
+
+        targetNPC.StartEatingProcess();
+
+        // 🌟 อัปเดตเควสเฉพาะตอนเสิร์ฟสำเร็จจริงๆ เท่านั้น
+        if (MainQuestManager.Instance != null && MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.ServeFood)
+        {
+            MainQuestManager.Instance.AdvanceQuest();
+        }
+    }
+
+    public void TryServeFood()
+    {
+        // ใช้ PlayerInventory ของผู้เล่นจริง (กันไปเจอตัวอื่นที่บังเอิญมี PlayerInventory เช่น บอทเก่า)
+        PlayerController2D playerController = FindObjectOfType<PlayerController2D>();
+        PlayerInventory player = playerController != null ? playerController.GetComponent<PlayerInventory>() : null;
+        if (player == null) player = FindObjectOfType<PlayerInventory>();
+        if (player == null || !player.HasItem()) return;
+
+        string heldItem = player.currentItem.Trim();
+
+        NPCController targetNPC = FindServeTarget(heldItem);
+
         if (targetNPC != null)
         {
             // ปลดล็อคผู้เล่นและปิด UI QTE ทันทีที่เสิร์ฟ
             PlayerController2D.SetLock(false);
             CatSystemManager.Instance?.HideInteractionChoice();
 
-            targetNPC.hasBeenServed = true;
-            BoostRemainingNPCsPatience(targetNPC);
             player.ClearItem();
 
-            CheckAndTriggerSmudgeOnServe(targetNPC);
-
-            targetNPC.StartEatingProcess();
-
-            // 🌟 ย้ายมาไว้ข้างในนี้ (อัปเดตเควสเฉพาะตอนเสิร์ฟสำเร็จจริงๆ เท่านั้น)
-            if (MainQuestManager.Instance != null && MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.ServeFood)
-            {
-                MainQuestManager.Instance.AdvanceQuest();
-            }
+            CompleteServe(targetNPC);
         }
         else
         {
             Debug.Log("ไม่มีแมวตัวไหนบนโต๊ะนี้ที่รออาหาร: " + heldItem);
         }
+    }
+
+    /// <summary>
+    /// 🚁 เสิร์ฟอาหารชื่อ itemName ให้แมวบนโต๊ะนี้โดยตรง (AutoServerBot / ระบบอัตโนมัติ)
+    /// ไม่แตะผู้เล่นเลย: ไม่ Lock/Unlock, ไม่ปิด UI QTE, ไม่ใช้ Inventory — คืน true เมื่อเสิร์ฟสำเร็จ
+    /// </summary>
+    public bool TryServeFoodDirect(string itemName)
+    {
+        NPCController targetNPC = FindServeTarget(itemName);
+        if (targetNPC == null) return false;
+
+        CompleteServe(targetNPC);
+        return true;
     }
 
     /// <summary>
