@@ -22,7 +22,8 @@ public class MainQuestManager : MonoBehaviour
     // 🌟 เพิ่มสถานะ InviteCat2 เข้ามาเป็นลำดับที่ 2
     // 🟢 เพิ่ม GuideCat2ToTable (จูงแมวตัวที่ 2 ไปโต๊ะ) และ CarryCat2ToZone (อุ้มแมวตัวที่ 2 ไปวางที่ Zone)
     // ที่ NPCController อ้างถึงอยู่ — ถ้า Enum ไม่มีค่าเหล่านี้จะขึ้นแดง
-    public enum QuestStep { BuyFurniture, InviteCat1, InviteCat2, GuideCat2ToTable, CookFood, ServeFood, CarryCat2ToZone, Completed }
+    // 🟢 เพิ่ม PlaceFurniture: หลังซื้อเฟอร์นิเจอร์แล้ว ให้กด B เปิดเมนู Furniture แล้วเลือกวางก่อน ค่อยไปเชิญแมว
+    public enum QuestStep { BuyFurniture, PlaceFurniture, InviteCat1, InviteCat2, GuideCat2ToTable, CookFood, ServeFood, CarryCat2ToZone, Completed }
     public QuestStep currentQuest = QuestStep.BuyFurniture;
 
     // 🔑 ต้องตรงกับ Key ที่ MainMenuManager / NewGameIntroDialogue ลบตอนกด New Game
@@ -60,6 +61,18 @@ public class MainQuestManager : MonoBehaviour
         PlayerController2D.SetLock(false);
     }
 
+    void Update()
+    {
+        // 🟢 ซื้อเฟอร์นิเจอร์แล้ว (มีของเข้าคลัง) → ขยับไปขั้น "กด B เปิดเมนู Furniture แล้ววาง"
+        // ใช้การเช็กจากคลังโดยตรง ไม่ต้องไปแก้สคริปต์ร้านค้า
+        if (currentQuest == QuestStep.BuyFurniture &&
+            FurnitureInventory.Instance != null &&
+            FurnitureInventory.Instance.storedInstances.Count > 0)
+        {
+            AdvanceQuest();
+        }
+    }
+
     void LoadQuestProgress()
     {
         // 🟢 SKIP TUTORIAL: ถ้ามีเซฟวันอยู่ (= เคยเล่นแล้วและกลับมากด Continue) หรือเควสเคยจบแล้ว → ข้าม Tutorial ทั้งหมด
@@ -87,6 +100,9 @@ public class MainQuestManager : MonoBehaviour
         {
             case QuestStep.BuyFurniture:
                 questDisplayText.text = "MainQuest: Buy your first table or piece of furniture from Computer On Counter desk";
+                break;
+            case QuestStep.PlaceFurniture:
+                questDisplayText.text = "MainQuest: Press B to open the Furniture menu, then choose your furniture and place it in the cafe.";
                 break;
             case QuestStep.InviteCat1:
                 questDisplayText.text = "MainQuest: Invite the Cats in front Cafe";
@@ -116,7 +132,8 @@ public class MainQuestManager : MonoBehaviour
     {
         bool justCompleted = false;
 
-        if (currentQuest == QuestStep.BuyFurniture) currentQuest = QuestStep.InviteCat1;
+        if (currentQuest == QuestStep.BuyFurniture) currentQuest = QuestStep.PlaceFurniture;
+        else if (currentQuest == QuestStep.PlaceFurniture) currentQuest = QuestStep.InviteCat1;
         else if (currentQuest == QuestStep.InviteCat1) currentQuest = QuestStep.InviteCat2;
         else if (currentQuest == QuestStep.InviteCat2) currentQuest = QuestStep.GuideCat2ToTable;
         else if (currentQuest == QuestStep.GuideCat2ToTable) currentQuest = QuestStep.CookFood;

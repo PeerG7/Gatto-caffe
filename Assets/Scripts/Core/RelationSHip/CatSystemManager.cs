@@ -41,6 +41,14 @@ public class CatSystemManager : MonoBehaviour
     public float holdRequiredTime = 1.5f;
     public int mashRequiredClicks = 10;
 
+    [Header("Tutorial Assist (หยุดเวลา QTE ให้ผู้เล่นปรับตัว)")]
+    [Tooltip("เปิด = ช่วง Tutorial / QTE ครั้งแรกๆ ของวันที่ 1 เวลา QTE จะหยุดนิ่ง จนกว่าผู้เล่นจะกดปุ่มครั้งแรก แล้วค่อยเริ่มนับเวลา")]
+    public bool freezeQTEUntilFirstInput = true;
+    [Tooltip("จำนวน QTE แรกของวันที่ 1 (หลังจบ Tutorial) ที่ยังให้หยุดรอ — QTE ตัวแรกมักเกิดหลังวางแมวที่ Zone ซึ่งเควสจบไปแล้ว | 0 = ใช้เฉพาะตอนเควสยังไม่จบ")]
+    public int assistQTECountOnDay1 = 3;
+
+    private static int _assistedQTECount = 0; // นับต่อการเปิดเกม 1 ครั้ง
+
     private bool _pressReceived = false;
     private bool _holdActive = false;
 
@@ -149,6 +157,27 @@ public class CatSystemManager : MonoBehaviour
         }
     }
 
+    // true = QTE รอบนี้ให้หยุดเวลารอจนกว่าผู้เล่นจะกดครั้งแรก
+    //  - เควสยังไม่ Completed (ช่วง Tutorial)
+    //  - หรือเป็น QTE ช่วงแรกๆ ของวันที่ 1 (QTE ตัวแรกเกิดหลังเควสจบไปแล้ว จึงต้องนับเพิ่ม)
+    bool ShouldFreezeQTEUntilInput()
+    {
+        if (!freezeQTEUntilFirstInput) return false;
+
+        if (MainQuestManager.Instance != null &&
+            MainQuestManager.Instance.currentQuest != MainQuestManager.QuestStep.Completed)
+            return true;
+
+        if (assistQTECountOnDay1 > 0 &&
+            DayNightManager.Instance != null && DayNightManager.Instance.currentDay == 1 &&
+            _assistedQTECount < assistQTECountOnDay1)
+        {
+            _assistedQTECount++;
+            return true;
+        }
+        return false;
+    }
+
     void ResetInputFlags()
     {
         _pressReceived = false;
@@ -166,8 +195,26 @@ public class CatSystemManager : MonoBehaviour
         float currentHoldTime = 0f;
         int currentClicks = 0;
 
+        // 🟢 Tutorial Assist: หยุดเวลา QTE จนกว่าผู้เล่นจะกดครั้งแรก
+        bool waitForFirstInput = ShouldFreezeQTEUntilInput();
+        if (waitForFirstInput && qteType == QTEType.SinglePress && qteProgressBarFill != null)
+            qteProgressBarFill.fillAmount = 1f; // SinglePress หลอดเต็มค้างไว้ ไม่ลดลงระหว่างรอ
+
         while (timeLeft > 0)
         {
+            if (waitForFirstInput)
+            {
+                if (_pressReceived || _holdActive)
+                {
+                    waitForFirstInput = false; // กดแล้ว → เริ่มนับเวลาตามปกติตั้งแต่เฟรมนี้
+                }
+                else
+                {
+                    yield return null; // ยังไม่กด → เวลาหยุดนิ่ง (ไม่ลด timeLeft)
+                    continue;
+                }
+            }
+
             timeLeft -= Time.deltaTime;
 
             switch (qteType)

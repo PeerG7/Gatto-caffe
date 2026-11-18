@@ -40,6 +40,10 @@ public class TutorialPointerManager : MonoBehaviour
     [Tooltip("ขั้น ServeFood: ตอนที่ผู้เล่นยังไม่ได้ถืออาหาร ให้ชี้ไปที่ TraySlot ที่มีอาหารวางอยู่จริง (ใกล้ผู้เล่นที่สุด) — ถ้าไม่มี Tray ไหนมีอาหาร จะ fallback ไป servingTableTarget")]
     public bool pointToTrayWithFood = true;
 
+    [Header("After Tutorial (หลังจบ Tutorial)")]
+    [Tooltip("เปิด = จบ Tutorial แล้ว (หรือกด Continue) ก็ยังโชว์ Icon ที่หน้าร้านทุกครั้งที่มีแมวมายืนรอที่คิว")]
+    public bool showQueuePointerAfterTutorial = true;
+
     [Header("Carry Cat (ขั้นอุ้มแมว)")]
     [Tooltip("ระยะยกเพิ่มจาก worldOffset ตอนชี้ที่ตัวแมว (ปรับให้ Icon ไม่บังหัวแมว)")]
     public Vector3 carryCatExtraOffset = new Vector3(0, 0.5f, 0);
@@ -249,8 +253,10 @@ public class TutorialPointerManager : MonoBehaviour
         var step = MainQuestManager.Instance.currentQuest;
 
         // ออกจากขั้นเชิญแมวแล้ว → รีเซ็ตตัวนับ delay
-        if (step != MainQuestManager.QuestStep.InviteCat1 &&
-            step != MainQuestManager.QuestStep.InviteCat2)
+        bool keepQueueCounter = step == MainQuestManager.QuestStep.InviteCat1 ||
+                                step == MainQuestManager.QuestStep.InviteCat2 ||
+                                (showQueuePointerAfterTutorial && step == MainQuestManager.QuestStep.Completed);
+        if (!keepQueueCounter)
             _queueReadySince = -1f;
 
         // ออกจากขั้นทำอาหารแล้ว → รีเซ็ตตัวนับ delay
@@ -321,7 +327,8 @@ public class TutorialPointerManager : MonoBehaviour
                 }
 
             case MainQuestManager.QuestStep.Completed:
-                return null;
+                // 🟢 จบ Tutorial แล้วก็ยังชี้ที่หน้าร้านทุกครั้งที่มีแมวมายืนรอที่คิว (หายเองเมื่อไม่มีแมวรอแล้ว)
+                return (showQueuePointerAfterTutorial && IsQueueReady()) ? queueAreaTarget : null;
             default:
                 return null;
         }

@@ -30,6 +30,9 @@ public class FurnitureManager : MonoBehaviour
     public Color invalidColor = new Color(1f, 0f, 0f, 0.6f); // สีแดงโปร่งแสง (วางไม่ได้)
 
     private GameObject currentPlacingObject;
+
+    /// <summary>true = ผู้เล่นกำลังถือเฟอร์นิเจอร์เพื่อวางอยู่ (ใช้โดย Tutorial Hint)</summary>
+    public bool IsPlacingFurniture => currentPlacingObject != null;
     private FurnitureInstanceData currentPlacingInstance;
     private SpriteRenderer[] currentRenderers;
     private BoxCollider2D previewCollider;
@@ -71,7 +74,10 @@ public class FurnitureManager : MonoBehaviour
             // 4. คลิกซ้ายวางวัตถุ
             if (Input.GetMouseButtonDown(0))
             {
-                if (isValidPosition)
+                // 🛡️ คลิกที่ Dock คลังเฟอร์นิเจอร์ใช้ไปแล้ว (เปิดค้าง/ปิดกรอบ/คลิกบนกรอบ) ห้ามนับเป็นการวางของ
+                bool clickUsedByDock = FurnitureEditUI.Instance != null && FurnitureEditUI.Instance.ClickConsumedThisFrame;
+
+                if (!clickUsedByDock && isValidPosition)
                 {
                     ConfirmPlacement();
                 }
@@ -223,7 +229,7 @@ public class FurnitureManager : MonoBehaviour
                 FurnitureEditUI.Instance.RefreshUI();
             }
 
-            if (MainQuestManager.Instance != null && MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.BuyFurniture)
+            if (MainQuestManager.Instance != null && MainQuestManager.Instance.currentQuest == MainQuestManager.QuestStep.PlaceFurniture)
             {
                 MainQuestManager.Instance.AdvanceQuest();
             }
@@ -303,16 +309,11 @@ public class FurnitureManager : MonoBehaviour
     public void ToggleEditMode(bool active)
     {
         isEditMode = active;
-        PlayerController2D.SetLock(isEditMode);
+        // (ไม่ล็อกผู้เล่นที่นี่แล้ว — FurnitureEditUI เป็นคนล็อก/ปลดตามสถานะกรอบ Dock)
 
-        if (CameraController2D.Instance != null)
-            CameraController2D.SetPanMode(isEditMode);
+        // (โหมดกล้อง Pan ก็ให้ FurnitureEditUI ควบคุมตามสถานะกรอบ Dock เช่นกัน)
 
-        if (DayNightManager.Instance != null)
-        {
-            if (isEditMode) DayNightManager.Instance.PauseGame();
-            else DayNightManager.Instance.ResumeGame();
-        }
+        // (หยุด/เดินเวลาก็ให้ FurnitureEditUI ควบคุมตามสถานะกรอบ Dock — หยุดเฉพาะตอนกรอบเปิดค้าง)
 
         if (!isEditMode && currentPlacingObject != null) CancelPlacement();
 
