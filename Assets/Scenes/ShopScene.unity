@@ -14955,6 +14955,9 @@ MonoBehaviour:
   playerTarget: {fileID: 3006079207269708545}
   followSpeed: 5
   panSpeed: 1
+  virtualCamera: {fileID: 0}
+  panZoomMultiplier: 1.5
+  zoomSpeed: 6
   enableBounds: 1
   minX: -10
   maxX: 10
@@ -20719,6 +20722,8 @@ MonoBehaviour:
   nextDayButtonText: {fileID: 1453338561}
   labelNextDay: Next Day
   labelEndGame: See Ending
+  hideDuringSummary:
+  - {fileID: 1074678453}
 --- !u!114 &792435156
 MonoBehaviour:
   m_ObjectHideFlags: 0

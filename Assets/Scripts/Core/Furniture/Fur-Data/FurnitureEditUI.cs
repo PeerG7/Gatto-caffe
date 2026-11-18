@@ -19,6 +19,9 @@ using System.Collections.Generic;
 //   - ชี้เมาส์ที่ขอบล่าง             : เด้งขึ้นมา (HoverOpen) → คลิกซ้าย 1 ครั้ง = เปิดค้าง (Open)
 //   - ปิดกรอบที่เปิดค้างอยู่         : คลิกตรงไหนก็ได้ที่เป็นพื้นที่ว่างหรือกรอบ (ยกเว้นพื้นที่รายการเฟอร์นิเจอร์)
 //   - คลิกที่ Dock ถูกนับเป็น "คลิกของ UI" → FurnitureManager จะไม่เอาไปวางเฟอร์นิเจอร์
+//
+// ✅ เพิ่มใหม่: กล้องค้างระยะไกลไว้ตลอด Edit Mode (เลือกโต๊ะ → วาง → เปิดกระเป๋าอีกรอบ)
+//   แล้วค่อยซูมกลับตอนออกจาก Edit Mode จริง ๆ (ผ่าน CameraController2D.SetHoldZoom)
 // =====================================================================
 [DefaultExecutionOrder(-50)] // ให้ Update ของ Dock ทำงานก่อน FurnitureManager (ใช้ ClickConsumedThisFrame)
 public class FurnitureEditUI : MonoBehaviour
@@ -240,6 +243,10 @@ public class FurnitureEditUI : MonoBehaviour
                 CameraController2D.SetPanMode(false);
         }
         SetTimePaused(false);
+
+        // ✅ เพิ่มใหม่: กันกล้องค้างระยะไกลถ้า UI ถูกปิดตอนยังอยู่ใน Edit Mode
+        if (CameraController2D.Instance != null)
+            CameraController2D.SetHoldZoom(false);
     }
 
     private float GetStateY(DockState state)
@@ -456,12 +463,18 @@ public class FurnitureEditUI : MonoBehaviour
 
         if (active)
         {
+            // ✅ เพิ่มใหม่: ค้างกล้องไกลไว้ตลอด Edit Mode (เลือกโต๊ะ/วางของ ก็ยังไกลอยู่)
+            CameraController2D.SetHoldZoom(true);
+
             RefreshUI();
             ChangeState(DockState.Open);
             ScrollToTop();
         }
         else
         {
+            // ✅ เพิ่มใหม่: ออกจาก Edit Mode จริงแล้ว → ปล่อยให้กล้องซูมกลับระยะปกติ
+            CameraController2D.SetHoldZoom(false);
+
             ChangeState(WantsPeekOutsideEditMode() ? DockState.Peek : DockState.Hidden);
         }
     }

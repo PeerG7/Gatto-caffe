@@ -5,15 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 // =====================================================================
-// UISummaryController — v2 (3-Day Session Limit Added)
+// UISummaryController — v3 (3-Day Session Limit + Hide UI During Summary)
 //
-// ของเดิม: fade sequence, Next Day, Main Menu ทำงานปกติ
+// ของเดิม: fade sequence, Next Day, Main Menu, 3-Day Session ทำงานปกติ
 // เพิ่มใหม่:
-//   - maxDays: จำนวนวันสูงสุด (default 3)
-//   - ถ้า day >= maxDays → ปุ่ม Next Day เปลี่ยนเป็น "Game End"
-//     แล้ว route ไป ending scene แทน ResetNewDay()
-//   - endingSceneName: ชื่อ scene สำหรับ ending
-//   - nextDayButtonText / endGameButtonText: เปลี่ยน label ปุ่มอัตโนมัติ
+//   - hideDuringSummary: UI ที่จะซ่อนตอนขึ้นหน้าสรุป (เช่น ช่องเก็บของ)
+//     ซ่อนตอนเริ่ม fade มืด และเปิดกลับตอนกด Next Day
 // =====================================================================
 public class UISummaryController : MonoBehaviour
 {
@@ -31,8 +28,8 @@ public class UISummaryController : MonoBehaviour
     [Header("Scene Settings")]
     public string mainMenuSceneName = "MainMenu";
 
-    // ── ใหม่: 3-Day Session ───────────────────────────────────────
-    [Header("Day Session Settings (ใหม่)")]
+    // ── 3-Day Session ─────────────────────────────────────────────
+    [Header("Day Session Settings")]
     [Tooltip("จำนวนวันสูงสุดก่อนจบเกม — default 3")]
     public int maxDays = 3;
 
@@ -48,7 +45,12 @@ public class UISummaryController : MonoBehaviour
     public string labelNextDay = "Next Day";
     public string labelEndGame = "See Ending";
 
-    // ── ใหม่: track current day ───────────────────────────────────
+    // ✅ เพิ่มใหม่: UI ที่ต้องการซ่อนตอนขึ้นหน้าสรุป ──────────────
+    [Header("Hide During Summary (เพิ่มใหม่)")]
+    [Tooltip("UI ที่จะซ่อนตอนขึ้นหน้าสรุป เช่น ช่องเก็บของ / hotbar")]
+    public GameObject[] hideDuringSummary;
+
+    // ── track current day ─────────────────────────────────────────
     private int _currentDay = 1;
     private bool _isLastDay = false;
 
@@ -58,6 +60,17 @@ public class UISummaryController : MonoBehaviour
         if (blackOverlay != null) blackOverlay.gameObject.SetActive(false);
     }
 
+    // ✅ เพิ่มใหม่: ซ่อน/แสดง UI ตามรายการ
+    private void SetHiddenUI(bool hidden)
+    {
+        if (hideDuringSummary == null) return;
+
+        foreach (var go in hideDuringSummary)
+        {
+            if (go != null) go.SetActive(!hidden);
+        }
+    }
+
     public void StartSummarySequence(int day, int served, int earnings)
     {
         _currentDay = day;
@@ -65,7 +78,7 @@ public class UISummaryController : MonoBehaviour
 
         summaryCanvas.SetActive(true);
 
-        // ✅ ใหม่: ปรับ label ปุ่ม Next Day ตามวัน
+        // ปรับ label ปุ่ม Next Day ตามวัน
         if (nextDayButtonText != null)
             nextDayButtonText.text = _isLastDay ? labelEndGame : labelNextDay;
 
@@ -97,6 +110,9 @@ public class UISummaryController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        // ✅ เพิ่มใหม่: ซ่อนช่องเก็บของ (และ UI อื่นๆ ในลิสต์) ก่อนเริ่ม fade มืด
+        SetHiddenUI(true);
+
         // 2. Fade มืด
         if (blackOverlay != null)
         {
@@ -125,7 +141,7 @@ public class UISummaryController : MonoBehaviour
         if (servedText != null) servedText.text = "Cats Served: " + served;
         if (earningsText != null) earningsText.text = "Total Earnings: " + earnings + " $";
 
-        // ✅ ใหม่: แสดง "Final Day!" ถ้าเป็นวันสุดท้าย
+        // แสดง "Final Day!" ถ้าเป็นวันสุดท้าย
         if (_isLastDay && dayText != null)
             dayText.text = "Day " + day + " — Final Day!";
 
@@ -156,7 +172,7 @@ public class UISummaryController : MonoBehaviour
             StartCoroutine(NextDaySequence());
     }
 
-    // ── ใหม่: End Game sequence ────────────────────────────────────
+    // ── End Game sequence ──────────────────────────────────────────
     private IEnumerator EndGameSequence()
     {
         // lock ปุ่ม
@@ -182,7 +198,7 @@ public class UISummaryController : MonoBehaviour
             yield return null;
         }
 
-        // ✅ Crossfade เพลงแล้วโหลด ending scene
+        // Crossfade เพลงแล้วโหลด ending scene
         if (AudioManager.instance != null && AudioManager.instance.menuMusic != null)
         {
             AudioManager.instance.CrossfadeTo(
@@ -196,7 +212,7 @@ public class UISummaryController : MonoBehaviour
         }
     }
 
-    // ── ของเดิม: Next Day sequence ────────────────────────────────
+    // ── Next Day sequence ──────────────────────────────────────────
     private IEnumerator NextDaySequence()
     {
         float timer = 0;
@@ -217,6 +233,9 @@ public class UISummaryController : MonoBehaviour
         if (blackOverlay != null) blackOverlay.gameObject.SetActive(false);
         if (summaryCanvas != null) summaryCanvas.SetActive(false);
 
+        // ✅ เพิ่มใหม่: เปิดช่องเก็บของกลับมา
+        SetHiddenUI(false);
+
         if (canvasGroup != null)
         {
             canvasGroup.alpha = 0;
@@ -236,10 +255,10 @@ public class UISummaryController : MonoBehaviour
         foreach (var dmg in damages) dmg.ResetToNormal();
     }
 
-    // ── ของเดิม: Main Menu ────────────────────────────────────────
+    // ── Main Menu ──────────────────────────────────────────────────
     public void OnMainMenuButton()
     {
-        // 🟢 จบวันแล้ว (เห็นหน้าสรุป) แต่ไม่ได้กด Next Day → เซฟเป็นจุดเริ่มต้นของวันถัดไป จะได้ไม่ต้องเล่นวันนี้ซ้ำ
+        // จบวันแล้ว (เห็นหน้าสรุป) แต่ไม่ได้กด Next Day → เซฟเป็นจุดเริ่มต้นของวันถัดไป จะได้ไม่ต้องเล่นวันนี้ซ้ำ
         // (วันสุดท้ายไม่เซฟ เพราะจะไปหน้า Ending)
         if (!_isLastDay && DayNightManager.Instance != null)
             DayNightManager.Instance.SaveNextDayCheckpoint();
