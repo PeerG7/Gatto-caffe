@@ -16,8 +16,8 @@ public class AutoCooking : MonoBehaviour
     [Header("Cooking Animation")]
     [Tooltip("จุดที่ไอคอนอาหารเกิด (ถ้าไม่ใส่จะใช้ตำแหน่งของ Bot)")]
     public Transform cookPoint;
-    [Tooltip("เวลาที่ไอคอนค่อยๆ ปรากฏ (วินาที)")]
-    public float cookDuration = 1.2f;
+    [Tooltip("เวลาที่ Bot ใช้ทำอาหาร 1 จาน (วินาที) — ปรับได้ตามต้องการ  นับเฉพาะตอนเกมไม่ Pause")]
+    public float cookDuration = 5f;
     [Tooltip("เวลาที่ใช้โยนอาหารไปที่ Tray (วินาที)")]
     public float tossDuration = 0.6f;
     [Tooltip("ความสูงของวงโค้ง (หน่วยเดียวกับโลก ถ้าเป็น UI ให้ใส่เป็นพิกเซล เช่น 150)")]
@@ -102,7 +102,9 @@ public class AutoCooking : MonoBehaviour
             {
                 foreach (var npc in table.sittingNPCs)
                 {
-                    if (npc != null && !npc.hasBeenServed && npc.requestedRecipe != null)
+                    // HasPlacedOrder = นั่งโต๊ะแล้ว + ป้ายออเดอร์ขึ้นแล้ว + ยังไม่ได้รับอาหาร
+                    // (ตรงกับตอนที่ตัวนับเวลาถอยหลังความอดทนของ NPC เริ่มนับ)
+                    if (npc != null && npc.HasPlacedOrder)
                         waitingOrders.Add(npc.requestedRecipe);
                 }
             }
@@ -175,6 +177,9 @@ public class AutoCooking : MonoBehaviour
         float t = 0f;
         while (t < 1f)
         {
+            // เกม Pause -> หยุดนับเวลาทำอาหาร
+            if (IsGamePaused()) { yield return null; continue; }
+
             t += Time.deltaTime / Mathf.Max(0.01f, cookDuration);
             float k = Mathf.Clamp01(t);
 
@@ -240,6 +245,11 @@ public class AutoCooking : MonoBehaviour
             Debug.Log($"[AutoCooking Bot] 🍳 menu [{recipe.recipeName}] is now on Tray ");
 
         isCooking = false;
+    }
+
+    bool IsGamePaused()
+    {
+        return DayNightManager.Instance != null && DayNightManager.Instance.isPaused;
     }
 
     Transform FindEmptySlotTransform()
