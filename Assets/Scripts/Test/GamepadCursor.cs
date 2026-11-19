@@ -61,6 +61,7 @@ public class GamepadCursor : MonoBehaviour
     private bool prevCursorVisible = true;
     private EventSystem lastEventSystem;
     private int deselectFrame = -1;
+    private int padState = -1;   // -1 = ยังไม่เคย log, 0 = ไม่มีจอย, 1 = มีจอย
 #if ENABLE_LEGACY_INPUT_MANAGER
     private Vector3 lastLegacyMouse;
 #endif
@@ -86,12 +87,20 @@ public class GamepadCursor : MonoBehaviour
 
     void Update()
     {
+        Gamepad pad = Gamepad.current;
+        int s = pad != null ? 1 : 0;
+        if (s != padState)
+        {
+            padState = s;
+            Debug.Log(s == 1
+                ? $"[GamepadCursor] พบจอย: {pad.displayName}"
+                : "[GamepadCursor] ยังไม่พบจอย (ปกติถ้ายังไม่ได้เสียบ) — เมาส์/คีย์บอร์ดใช้ได้ตามเดิม");
+        }
+
         Mouse mouse = Mouse.current;
         if (mouse == null) return;
 
         EnsureUIModule();
-
-        Gamepad pad = Gamepad.current;
         Vector2 stick = pad != null ? pad.rightStick.ReadValue() : Vector2.zero;
         bool wantLeft = pad != null && (pad.rightTrigger.isPressed || pad.rightStickButton.isPressed);
         bool wantRight = pad != null && pad.leftTrigger.isPressed;
@@ -201,20 +210,53 @@ public class GamepadCursor : MonoBehaviour
     // ------------------------------------------------------------------
     void EnsureUIModule()
     {
-        if (!autoSwapUIModule) return;
-
         EventSystem es = EventSystem.current;
         if (es == null || es == lastEventSystem) return;
         lastEventSystem = es;
 
-        if (es.GetComponent<InputSystemUIInputModule>() != null) return;
+        InputSystemUIInputModule module = es.GetComponent<InputSystemUIInputModule>();
 
-        foreach (BaseInputModule m in es.GetComponents<BaseInputModule>())
-            m.enabled = false;
+        if (!autoSwapUIModule)
+        {
+            Debug.Log("[GamepadCursor] autoSwapUIModule = false → ไม่แตะ EventSystem (ต้องใช้ InputSystemUIInputModule เองเพื่อให้ UI เห็นเคอร์เซอร์จอย)");
+            return;
+        }
 
-        InputSystemUIInputModule module = es.gameObject.AddComponent<InputSystemUIInputModule>();
-        module.AssignDefaultActions();
-        Debug.Log("[GamepadCursor] เปลี่ยน EventSystem เป็น InputSystemUIInputModule แล้ว (เพื่อให้ UI เห็นเคอร์เซอร์จอย)");
+        if (module == null)
+        {
+            // ยังเป็น StandaloneInputModule (Input Manager เก่า) → เพิ่มโมดูลใหม่ + ปิดตัวเก่า
+            foreach (BaseInputModule m in es.GetComponents<BaseInputModule>()) m.enabled = false;
+            module = es.gameObject.AddComponent<InputSystemUIInputModule>();
+            module.AssignDefaultActions();
+            Debug.Log("[GamepadCursor] เปลี่ยน EventSystem จาก Standalone → InputSystemUIInputModule (Default UI Actions) แล้ว");
+        }
+        else
+        {
+            // มีโมดูลใหม่อยู่แล้ว: เช็กว่ามี UI actions จริงไหม (New Actions ของเกมมีแค่ Interact/Back/Select → UI ตอบสนองไม่ได้)
+            if (!HasUIActions(module))
+            {
+                module.AssignDefaultActions();
+                Debug.Log("[GamepadCursor] InputSystemUIInputModule เดิมไม่มี UI actions (Point/Click/Submit) → ใส่ Default UI Actions ให้แล้ว");
+            }
+
+            // กันโมดูลอื่นที่ยังเปิดอยู่แย่งหน้าที่ (EventSystem ใช้ตัวแรกที่เปิดอยู่)
+            foreach (BaseInputModule m in es.GetComponents<BaseInputModule>())
+                if (m != module && m.enabled) m.enabled = false;
+            module.enabled = true;
+        }
+
+        if (HasUIActions(module))
+            Debug.Log("[GamepadCursor] EventSystem พร้อมใช้งานกับเคอร์เซอร์จอย ✓");
+        else
+            Debug.LogWarning("[GamepadCursor] InputSystemUIInputModule ยังไม่มี UI actions (Point / Left Click / Submit) — เช็ก Project Settings > Input System Package > Project-wide Actions และช่อง Actions Asset ของโมดูล");
+    }
+
+    static bool HasUIActions(InputSystemUIInputModule m)
+    {
+        return m != null
+            && m.point != null && m.point.action != null
+            && m.leftClick != null && m.leftClick.action != null
+            && m.submit != null && m.submit.action != null;
     }
 
     void DeselectIfNotTextField()
