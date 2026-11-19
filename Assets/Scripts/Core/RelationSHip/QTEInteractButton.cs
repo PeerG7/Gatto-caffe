@@ -24,12 +24,6 @@ public class QTEInteractButton : MonoBehaviour,
     [Tooltip("ปุ่ม keyboard สำหรับ QTE — default Space")]
     public KeyCode qteKey = KeyCode.Space;
 
-#if ENABLE_INPUT_SYSTEM
-    [Header("New Input System (optional)")]
-    [Tooltip("ลาก InputActionReference (Interact Action) มาใส่")]
-    public UnityEngine.InputSystem.InputActionReference qteAction;
-#endif
-
     private static readonly KeyCode[] _choiceHotkeys = {
         KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3
     };
@@ -38,21 +32,6 @@ public class QTEInteractButton : MonoBehaviour,
 
     private static List<QTEInteractButton> _activeChoiceButtons = new List<QTEInteractButton>();
 
-#if ENABLE_INPUT_SYSTEM
-    void OnEnable()
-    {
-        if (qteAction != null) qteAction.action.Enable();
-        if (mode == ButtonMode.InteractChoice)
-            _activeChoiceButtons.Add(this);
-    }
-
-    void OnDisable()
-    {
-        // ❗ ไม่เรียก qteAction.action.Disable() — Action นี้อาจใช้ร่วมกับ PlayerInteract2D
-        isHoldingViaKey = false;
-        _activeChoiceButtons.Remove(this);
-    }
-#else
     void OnEnable()
     {
         if (mode == ButtonMode.InteractChoice)
@@ -64,7 +43,6 @@ public class QTEInteractButton : MonoBehaviour,
         isHoldingViaKey = false;
         _activeChoiceButtons.Remove(this);
     }
-#endif
 
     void Update()
     {
@@ -78,7 +56,8 @@ public class QTEInteractButton : MonoBehaviour,
     {
         if (choiceIndex < _choiceHotkeys.Length)
         {
-            if (Input.GetKeyDown(_choiceHotkeys[choiceIndex]))
+            // 🎮 choice 0/1/2 = X / Y / B
+            if (Input.GetKeyDown(_choiceHotkeys[choiceIndex]) || GameInput.PadChoiceDown(choiceIndex))
                 FireChoice();
         }
     }
@@ -91,31 +70,17 @@ public class QTEInteractButton : MonoBehaviour,
 
     void HandleQTEInput()
     {
-        if (Input.GetKeyDown(qteKey))
+        // 🎮 A = กดค้าง QTE (เหมือน Space) | RT คลิกปุ่มบนจอด้วยเคอร์เซอร์ก็ได้
+        if (Input.GetKeyDown(qteKey) || GameInput.PadConfirmDown)
         {
             isHoldingViaKey = true;
             SendPress();
         }
-        else if (Input.GetKeyUp(qteKey) && isHoldingViaKey)
+        else if ((Input.GetKeyUp(qteKey) || GameInput.PadConfirmUp) && isHoldingViaKey)
         {
             isHoldingViaKey = false;
             SendRelease();
         }
-
-#if ENABLE_INPUT_SYSTEM
-        if (qteAction == null) return;
-
-        if (qteAction.action.WasPressedThisFrame())
-        {
-            isHoldingViaKey = true;
-            SendPress();
-        }
-        else if (qteAction.action.WasReleasedThisFrame() && isHoldingViaKey)
-        {
-            isHoldingViaKey = false;
-            SendRelease();
-        }
-#endif
     }
 
     public void OnPointerDown(PointerEventData eventData)

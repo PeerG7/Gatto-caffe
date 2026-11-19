@@ -24,12 +24,6 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
     public Button nextButton;
     public Button closeButton;
 
-#if ENABLE_INPUT_SYSTEM
-    [Header("Gamepad Navigation")]
-    public UnityEngine.InputSystem.InputActionReference navigateAction;
-    public UnityEngine.InputSystem.InputActionReference backAction;
-#endif
-
     [Header("Legacy Keyboard Navigation")]
     public KeyCode prevKey = KeyCode.A;
     public KeyCode nextKey = KeyCode.D;
@@ -49,20 +43,6 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
         if (closeButton != null) closeButton.onClick.AddListener(CloseBook);
     }
 
-#if ENABLE_INPUT_SYSTEM
-    void OnEnable()
-    {
-        if (navigateAction != null) navigateAction.action.Enable();
-        if (backAction != null) backAction.action.Enable();
-    }
-
-    void OnDisable()
-    {
-        if (navigateAction != null) navigateAction.action.Disable();
-        if (backAction != null) backAction.action.Disable();
-    }
-#endif
-
     void Update()
     {
         if (!isOpen) return;
@@ -71,25 +51,14 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
 
         if (navCooldown <= 0f)
         {
-            if (Input.GetKeyDown(prevKey) || Input.GetKeyDown(KeyCode.LeftArrow))
+            // 🎮 LB / RB = พลิกหน้า (D-pad ปล่อยให้ EventSystem ใช้เลื่อนระหว่างปุ่ม)
+            if (Input.GetKeyDown(prevKey) || Input.GetKeyDown(KeyCode.LeftArrow) || GameInput.PadPrevDown)
             { PrevCat(); navCooldown = NAV_COOLDOWN_TIME; }
-            else if (Input.GetKeyDown(nextKey) || Input.GetKeyDown(KeyCode.RightArrow))
+            else if (Input.GetKeyDown(nextKey) || Input.GetKeyDown(KeyCode.RightArrow) || GameInput.PadNextDown)
             { NextCat(); navCooldown = NAV_COOLDOWN_TIME; }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape)) CloseBook();
-
-#if ENABLE_INPUT_SYSTEM
-        if (navCooldown <= 0f && navigateAction != null)
-        {
-            Vector2 nav = navigateAction.action.ReadValue<Vector2>();
-            if (nav.x < -0.5f) { PrevCat(); navCooldown = NAV_COOLDOWN_TIME; }
-            else if (nav.x > 0.5f) { NextCat(); navCooldown = NAV_COOLDOWN_TIME; }
-        }
-
-        if (backAction != null && backAction.action.WasPressedThisFrame())
-            CloseBook();
-#endif
+        if (Input.GetKeyDown(KeyCode.Escape) || GameInput.PadBackDown) CloseBook();   // 🎮 B
     }
 
     public void OnConfirm() { }

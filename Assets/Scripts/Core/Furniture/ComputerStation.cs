@@ -26,6 +26,12 @@ public class ComputerStation : MonoBehaviour
         IsShopOpen = false;
     }
 
+    void Update()
+    {
+        // 🎮 B = ปิดร้านคอม (ปุ่มอื่นในร้านใช้เคอร์เซอร์ก้านขวา + RT ได้เลย)
+        if (IsShopOpen && GameInput.PadBackDown) CloseComputerShop();
+    }
+
     public void OpenComputerShop()
     {
         if (FurnitureManager.Instance != null && FurnitureManager.Instance.isEditMode) return;

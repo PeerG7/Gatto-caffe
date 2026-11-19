@@ -44,10 +44,6 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
     [Tooltip("ติ๊กเพื่อดู Log ใน Console ทุกครั้งที่การกดถูกบล็อกเพราะแมว/ซอสบังจอ")]
     public bool logSmudgeBlock = false;
 
-#if ENABLE_INPUT_SYSTEM
-    public UnityEngine.InputSystem.InputActionReference backAction;
-#endif
-
     private IngredientButton[] _registeredIngredients = new IngredientButton[7];
 
     public void RegisterIngredientButton(IngredientButton btn, int slotIndex)
@@ -92,22 +88,13 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
         if (cookingProgressBar != null) cookingProgressBar.gameObject.SetActive(false);
     }
 
-#if ENABLE_INPUT_SYSTEM
-    void OnEnable() { if (backAction != null) backAction.action.Enable(); }
-    void OnDisable() { if (backAction != null) backAction.action.Disable(); }
-#endif
-
     void Update()
     {
         if (stationCookingCanvas == null || !stationCookingCanvas.activeSelf) return;
         if (isCooking) return;
 
         // Esc ยังออกจากหน้าต่างได้เสมอ (CloseCanvas จะเรียก CancelActiveSmudge ให้เอง)
-        bool backPressed = Input.GetKeyDown(KeyCode.Escape);
-#if ENABLE_INPUT_SYSTEM
-        if (!backPressed && backAction != null && backAction.action.WasPressedThisFrame())
-            backPressed = true;
-#endif
+        bool backPressed = Input.GetKeyDown(KeyCode.Escape) || GameInput.PadBackDown;   // 🎮 B
         if (backPressed) { CloseCanvas(); return; }
 
         // 🟢 แมว/ซอสบังจออยู่: ห้ามใช้ hotkey ทุกตัว
@@ -115,12 +102,12 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
         if (ScreenSmudgeManager.IsInterrupting) return;
 
         // --- INGREDIENT REMOVAL HOTKEYS ---
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        if (Input.GetKeyDown(KeyCode.Backspace) || GameInput.PadRemoveDown)   // 🎮 X
         {
             RemoveLastIngredient();
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Delete))
+        if (Input.GetKeyDown(KeyCode.Delete) || GameInput.PadClearDown)   // 🎮 LB
         {
             ClearAllIngredients();
             return;
@@ -129,7 +116,14 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
         for (int i = 0; i < _ingredientHotkeys.Length; i++)
             if (Input.GetKeyDown(_ingredientHotkeys[i])) { TryAddIngredientBySlot(i); return; }
 
-        if (Input.GetKeyDown(DEEPFRY_KEY)) { TryTriggerDeepFry(); return; }
+        if (Input.GetKeyDown(DEEPFRY_KEY) || GameInput.PadActionDown) { TryTriggerDeepFry(); return; }   // 🎮 Y
+
+        // 🎮 Start = Cook (ปุ่ม A ปล่อยให้ EventSystem กดปุ่มที่เลือกอยู่ — กันกดซ้ำ 2 ครั้ง)
+        if (GameInput.PadStartDown)
+        {
+            if (cookButton != null && cookButton.interactable) OnCookButtonClicked();
+            return;
+        }
 
         foreach (KeyCode key in _confirmKeys)
             if (Input.GetKeyDown(key))

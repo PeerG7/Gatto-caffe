@@ -68,14 +68,9 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
     public AudioClip pourSoundClip;
     public AudioClip completeSoundClip;
 
-#if ENABLE_INPUT_SYSTEM
-    [Header("Gamepad Navigation")]
-    public InputActionReference backAction;
-    public InputActionReference confirmAction;
-#endif
-
     private bool isProcessing;
     public bool IsProcessing => isProcessing;
+    private int openedFrame = -1;   // กัน E ที่ใช้เปิดหน้าต่าง ไปกดซ้ำในเฟรมเดียวกัน
 
     private bool glassLanded, bobaLanded;
     private int pendingFlights;
@@ -103,32 +98,17 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
         foreach (var img in order) if (img != null) img.transform.SetSiblingIndex(i++);
     }
 
-#if ENABLE_INPUT_SYSTEM
-    void OnEnable()
-    {
-        if (backAction != null) backAction.action.Enable();
-        if (confirmAction != null) confirmAction.action.Enable();
-    }
-#endif
-
     void Update()
     {
         if (stationDrinksCanvas == null || !stationDrinksCanvas.activeSelf) return;
+        if (Time.frameCount == openedFrame) return;
 
-        bool back = Input.GetKeyDown(KeyCode.Escape);
-#if ENABLE_INPUT_SYSTEM
-        if (!back && backAction != null && backAction.action.WasPressedThisFrame()) back = true;
-#endif
+        // 🎮 B = ปิด | A ปล่อยให้ EventSystem กด emptyGlassButton (เลือกไว้ตอนเปิด) | RT คลิกด้วยเคอร์เซอร์
+        bool back = Input.GetKeyDown(KeyCode.Escape) || GameInput.PadBackDown;
         if (back) { CloseCanvas(); return; }
 
-        if (!isProcessing)
-        {
-            bool confirm = Input.GetKeyDown(KeyCode.E);
-#if ENABLE_INPUT_SYSTEM
-            if (!confirm && confirmAction != null && confirmAction.action.WasPressedThisFrame()) confirm = true;
-#endif
-            if (confirm) OnEmptyGlassClicked();
-        }
+        if (!isProcessing && Input.GetKeyDown(KeyCode.E))
+            OnEmptyGlassClicked();
     }
 
     public void OnConfirm() { if (!isProcessing) OnEmptyGlassClicked(); }
@@ -137,6 +117,7 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
 
     public void OpenCanvas()
     {
+        openedFrame = Time.frameCount;
         if (stationDrinksCanvas != null) stationDrinksCanvas.SetActive(true);
         ResetStation();
         PlayerController2D.IsLocked = true;

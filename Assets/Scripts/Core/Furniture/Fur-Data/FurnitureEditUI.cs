@@ -271,7 +271,7 @@ public class FurnitureEditUI : MonoBehaviour
     {
         if (uiPanelRect == null) return;
 
-        bool mouseDown = Input.GetMouseButtonDown(0);
+        bool mouseDown = GameInput.PointerDown;   // 🎮 รวมเมาส์จริง + เคอร์เซอร์จอย
         bool overPanel = IsPointerOverPanel();
         bool inZone = overPanel || IsPointerInBottomStrip();
 
@@ -351,13 +351,13 @@ public class FurnitureEditUI : MonoBehaviour
 
     private bool IsPointerOverPanel()
     {
-        return RectTransformUtility.RectangleContainsScreenPoint(uiPanelRect, Input.mousePosition, GetUICamera());
+        return RectTransformUtility.RectangleContainsScreenPoint(uiPanelRect, GameInput.PointerPosition, GetUICamera());
     }
 
     // โซนแถบบางที่ขอบล่างจอ ตามแนวกว้างของกรอบ — ชี้ตรงนี้แล้วกรอบจะเด้งขึ้น
     private bool IsPointerInBottomStrip()
     {
-        Vector2 m = Input.mousePosition;
+        Vector2 m = GameInput.PointerPosition;
         if (m.y < 0f || m.y > hoverStripPixels) return false;
 
         Camera cam = GetUICamera();
@@ -378,7 +378,7 @@ public class FurnitureEditUI : MonoBehaviour
         if (area == null && furnitureScrollRect != null)
             area = furnitureScrollRect.viewport != null ? furnitureScrollRect.viewport : furnitureScrollRect.GetComponent<RectTransform>();
 
-        return area != null && RectTransformUtility.RectangleContainsScreenPoint(area, Input.mousePosition, GetUICamera());
+        return area != null && RectTransformUtility.RectangleContainsScreenPoint(area, GameInput.PointerPosition, GetUICamera());
     }
 
     // =====================================================================

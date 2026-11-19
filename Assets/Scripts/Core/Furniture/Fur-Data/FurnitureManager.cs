@@ -45,7 +45,7 @@ public class FurnitureManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) || GameInput.PadEditModeDown)   // 🎮 Select
         {
             if (ComputerStation.IsShopOpen) return;
             ToggleEditMode(!isEditMode);
@@ -54,7 +54,7 @@ public class FurnitureManager : MonoBehaviour
         if (currentPlacingObject != null)
         {
             // 1. Snap เข้า Grid
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(GameInput.PointerPosition);
             Vector3 snapPos = new Vector3(
                 Mathf.Round((mousePos.x - gridOffset.x) / gridSize) * gridSize + gridOffset.x,
                 Mathf.Round((mousePos.y - gridOffset.y) / gridSize) * gridSize + gridOffset.y,
@@ -63,7 +63,7 @@ public class FurnitureManager : MonoBehaviour
             currentPlacingObject.transform.position = snapPos;
 
             // 2. หมุนวัตถุ (ปุ่ม R)
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R) || GameInput.PadNextDown)   // 🎮 RB
             {
                 currentPlacingObject.transform.Rotate(0f, 0f, -90f);
             }
@@ -72,7 +72,7 @@ public class FurnitureManager : MonoBehaviour
             CheckPlacementValidity();
 
             // 4. คลิกซ้ายวางวัตถุ
-            if (Input.GetMouseButtonDown(0))
+            if (GameInput.PointerDown)   // 🎮 คลิกซ้าย / RT
             {
                 // 🛡️ คลิกที่ Dock คลังเฟอร์นิเจอร์ใช้ไปแล้ว (เปิดค้าง/ปิดกรอบ/คลิกบนกรอบ) ห้ามนับเป็นการวางของ
                 bool clickUsedByDock = FurnitureEditUI.Instance != null && FurnitureEditUI.Instance.ClickConsumedThisFrame;
@@ -84,13 +84,15 @@ public class FurnitureManager : MonoBehaviour
             }
 
             // ยกเลิกด้วย ESC หรือ คลิกขวา
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
+            if (Input.GetKeyDown(KeyCode.Escape) || GameInput.PointerRightDown || GameInput.PadBackDown)   // 🎮 B / LT
             {
                 CancelPlacement();
             }
         }
         else if (isEditMode)
         {
+            // 🎮 B ตอนไม่ได้ถือของวางอยู่ = ออกจาก Edit Mode
+            if (GameInput.PadBackDown) { ToggleEditMode(false); return; }
             HandleFurniturePickup();
         }
     }
@@ -100,7 +102,7 @@ public class FurnitureManager : MonoBehaviour
         if (instance == null || instance.itemData == null || instance.itemData.prefab == null) return;
 
         currentPlacingInstance = instance;
-        Vector3 spawnPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 spawnPos = Camera.main.ScreenToWorldPoint(GameInput.PointerPosition);
         spawnPos.z = 0f;
 
         currentPlacingObject = Instantiate(instance.itemData.prefab, spawnPos, Quaternion.identity);
@@ -260,9 +262,9 @@ public class FurnitureManager : MonoBehaviour
 
     private void HandleFurniturePickup()
     {
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.V) || GameInput.PadRemoveDown)   // 🎮 X (เก็บชิ้นที่เคอร์เซอร์ชี้อยู่)
         {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(GameInput.PointerPosition);
 
             RaycastHit2D hit = (furnitureLayer.value != 0)
                 ? Physics2D.Raycast(mousePos, Vector2.zero, Mathf.Infinity, furnitureLayer)

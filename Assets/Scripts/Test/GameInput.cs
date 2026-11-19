@@ -4,16 +4,14 @@ using UnityEngine.InputSystem;
 #endif
 
 // =====================================================================
-// GameInput — gamepad layer for a mouse/keyboard project
+// GameInput — ชั้นเดียวที่รวมการอ่านจอย + เมาส์ (รวมเมาส์เสมือนจาก GamepadCursor)
 //
-// Your keyboard code stays exactly where it is. At each call site you only add
-//     || GameInput.PadXxx
-// All button mapping lives HERE, so remapping later is a one-file change.
-// No InputActionReference / no Enable()/Disable() => nothing to wire in the
-// Inspector and nothing that one screen can switch off for another.
+//  • โค้ดคีย์บอร์ดเดิมของคุณไม่ต้องแตะ  แค่ต่อท้ายด้วย   || GameInput.PadXxx
+//  • แทนที่ Input.mousePosition / Input.GetMouseButtonDown(0/1)
+//    ด้วย GameInput.PointerPosition / PointerDown / PointerRightDown
+//    (เพราะ Input.* แบบเก่า "มองไม่เห็น" เคอร์เซอร์ที่ขยับด้วยก้านขวา)
 //
-// Requires Active Input Handling = "Both" (Player Settings), which your
-// project already seems to use (Input.GetKeyDown + ENABLE_INPUT_SYSTEM).
+//  ต้องตั้ง Player Settings > Active Input Handling = Both
 // =====================================================================
 public static class GameInput
 {
@@ -22,21 +20,21 @@ public static class GameInput
 
     public static bool PadConnected => Pad != null;
 
-    // ---- Face buttons (Xbox names; PlayStation = Cross / Circle / Square / Triangle) ----
-    public static bool PadConfirmDown   => Pad != null && Pad.buttonSouth.wasPressedThisFrame;   // A
-    public static bool PadConfirmUp     => Pad != null && Pad.buttonSouth.wasReleasedThisFrame;  // A (release, for QTE hold)
-    public static bool PadBackDown      => Pad != null && Pad.buttonEast.wasPressedThisFrame;    // B
-    public static bool PadRemoveDown    => Pad != null && Pad.buttonWest.wasPressedThisFrame;    // X  (remove last ingredient)
-    public static bool PadActionDown    => Pad != null && Pad.buttonNorth.wasPressedThisFrame;   // Y  (deep fry / furniture upgrade)
+    // ---- ปุ่มหน้า (ชื่อแบบ Xbox / PlayStation = Cross, Circle, Square, Triangle) ----
+    public static bool PadConfirmDown => Pad != null && Pad.buttonSouth.wasPressedThisFrame;   // A
+    public static bool PadConfirmUp => Pad != null && Pad.buttonSouth.wasReleasedThisFrame;  // A (ปล่อย)
+    public static bool PadBackDown => Pad != null && Pad.buttonEast.wasPressedThisFrame;    // B
+    public static bool PadRemoveDown => Pad != null && Pad.buttonWest.wasPressedThisFrame;    // X  (ลบวัตถุดิบ / เก็บเฟอร์นิเจอร์)
+    public static bool PadActionDown => Pad != null && Pad.buttonNorth.wasPressedThisFrame;   // Y  (ทอด / อัปเกรด)
 
-    // ---- Shoulders / menu buttons ----
-    public static bool PadPrevDown      => Pad != null && Pad.leftShoulder.wasPressedThisFrame;  // LB (book: previous)
-    public static bool PadNextDown      => Pad != null && Pad.rightShoulder.wasPressedThisFrame; // RB (book: next)
-    public static bool PadClearDown     => Pad != null && Pad.leftShoulder.wasPressedThisFrame;  // LB (cooking: clear all)
-    public static bool PadStartDown     => Pad != null && Pad.startButton.wasPressedThisFrame;   // Start (cooking: Cook!)
-    public static bool PadEditModeDown  => Pad != null && Pad.selectButton.wasPressedThisFrame;  // Select/View (furniture edit mode, = keyboard B)
+    // ---- ไหล่ / เมนู ----
+    public static bool PadPrevDown => Pad != null && Pad.leftShoulder.wasPressedThisFrame;  // LB (สมุด: ก่อนหน้า)
+    public static bool PadNextDown => Pad != null && Pad.rightShoulder.wasPressedThisFrame; // RB (สมุด: ถัดไป / หมุนเฟอร์นิเจอร์)
+    public static bool PadClearDown => Pad != null && Pad.leftShoulder.wasPressedThisFrame;  // LB (ครัว: ล้างทั้งหมด)
+    public static bool PadStartDown => Pad != null && Pad.startButton.wasPressedThisFrame;   // Start (ครัว: Cook)
+    public static bool PadEditModeDown => Pad != null && Pad.selectButton.wasPressedThisFrame;  // Select/View (= ปุ่ม B บนคีย์บอร์ด)
 
-    // QTEInteractButton choice mode: keys 1/2/3 -> X / Y / B (left-to-right on the pad)
+    // QTE choice 0/1/2 -> X / Y / B (ซ้ายไปขวาบนจอย)
     public static bool PadChoiceDown(int index)
     {
         if (Pad == null) return false;
@@ -49,7 +47,7 @@ public static class GameInput
         }
     }
 
-    // D-pad wins over left stick when both are touched
+    // D-pad (ถ้ากด) ไม่งั้นใช้ก้านซ้าย — ใช้เดินได้ทุกยี่ห้อจอย (ไม่พึ่ง Input Manager เก่า)
     public static Vector2 Navigate
     {
         get
@@ -60,16 +58,47 @@ public static class GameInput
         }
     }
 
-    // ---- Pointer (replaces Input.mousePosition / Input.GetMouseButtonDown(0) in UI code) ----
-    // Reads Mouse.current, which also follows a VirtualMouseInput cursor if you add one later.
-    public static Vector2 PointerPosition =>
-        Mouse.current != null ? Mouse.current.position.ReadValue() : (Vector2)Input.mousePosition;
+    // ---- Pointer: เมาส์จริง + เมาส์เสมือน (GamepadCursor ฉีดค่าเข้า Mouse.current) ----
+    public static Vector2 PointerPosition
+    {
+        get
+        {
+            if (Mouse.current != null) return Mouse.current.position.ReadValue();
+#if ENABLE_LEGACY_INPUT_MANAGER
+            return Input.mousePosition;
+#else
+            return Vector2.zero;
+#endif
+        }
+    }
 
-    public static bool PointerDown =>
-        Input.GetMouseButtonDown(0) || (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame);
+    public static bool PointerDown
+    {
+        get
+        {
+            if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) return true;
+#if ENABLE_LEGACY_INPUT_MANAGER
+            return Input.GetMouseButtonDown(0);
+#else
+            return false;
+#endif
+        }
+    }
+
+    public static bool PointerRightDown
+    {
+        get
+        {
+            if (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame) return true;
+#if ENABLE_LEGACY_INPUT_MANAGER
+            return Input.GetMouseButtonDown(1);
+#else
+            return false;
+#endif
+        }
+    }
 
 #else
-    // Input System package not active: everything pad-related is simply "not pressed".
     public static bool PadConnected => false;
     public static bool PadConfirmDown => false;
     public static bool PadConfirmUp => false;
@@ -85,5 +114,6 @@ public static class GameInput
     public static Vector2 Navigate => Vector2.zero;
     public static Vector2 PointerPosition => Input.mousePosition;
     public static bool PointerDown => Input.GetMouseButtonDown(0);
+    public static bool PointerRightDown => Input.GetMouseButtonDown(1);
 #endif
 }
