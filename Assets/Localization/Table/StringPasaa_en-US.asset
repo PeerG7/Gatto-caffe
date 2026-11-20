@@ -38,6 +38,18 @@ MonoBehaviour:
     m_Localized: Are You Sure Want to Exit the Game?
     m_Metadata:
       m_Items: []
+  - m_Id: 21305828982784
+    m_Localized: Table For 1 Cat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22091615059968
+    m_Localized: Table For 2 Cat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22246590398464
+    m_Localized: Bonsai
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
