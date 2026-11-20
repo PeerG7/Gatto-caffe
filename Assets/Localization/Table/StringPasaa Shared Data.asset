@@ -80,7 +80,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 40255111446528
-    m_Key: New Entry
+    m_Key: quest_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 42841193463808
+    m_Key: quest_2
     m_Metadata:
       m_Items: []
   m_Metadata:

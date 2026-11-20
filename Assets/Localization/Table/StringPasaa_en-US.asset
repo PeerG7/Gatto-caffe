@@ -82,6 +82,16 @@ MonoBehaviour:
     m_Localized: Earning Result
     m_Metadata:
       m_Items: []
+  - m_Id: 40255111446528
+    m_Localized: hooray  to day  is  your  start nyan  but  we gotta  buy   table
+      first head to computer  !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 42841193463808
+    m_Localized: oh  congrat nyan ! uwu  now  open your  inventory  down there  or
+      place  B OWO
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
