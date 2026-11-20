@@ -87,6 +87,102 @@ MonoBehaviour:
     m_Key: quest_2
     m_Metadata:
       m_Items: []
+  - m_Id: 58752457654272
+    m_Key: quest_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59309335396352
+    m_Key: quest_4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60237262241792
+    m_Key: quest_5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60880139993088
+    m_Key: quest_6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61081579831296
+    m_Key: quest_7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61283925639168
+    m_Key: quest_8
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61682736840704
+    m_Key: quest_9
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62833666441216
+    m_Key: Bot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63570416910336
+    m_Key: botcook
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64071212613632
+    m_Key: botserve
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64344119197696
+    m_Key: table_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64928201195520
+    m_Key: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64991178670080
+    m_Key: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 66327974658048
+    m_Key: Back to Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67346431361024
+    m_Key: tutorial_book
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67775143755776
+    m_Key: tutorial_cook
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68286353915904
+    m_Key: tutorial_beverage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68616797962240
+    m_Key: tutorial_tray
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69010949292032
+    m_Key: tutorial_custom_takecare
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69779714883584
+    m_Key: tutorial_interact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70164437417984
+    m_Key: tutorial_Becareful
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70488178966528
+    m_Key: close
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73031227424768
+    m_Key: press_V
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73372576661504
+    m_Key: press_F
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

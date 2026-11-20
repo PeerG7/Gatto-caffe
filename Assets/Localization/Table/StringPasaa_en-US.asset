@@ -92,6 +92,119 @@ MonoBehaviour:
       place  B OWO
     m_Metadata:
       m_Items: []
+  - m_Id: 58752457654272
+    m_Localized: look who there  infront of  out cafe  hurry  up and heading there 
+      to invite  them   by press E >W<
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59309335396352
+    m_Localized: 'wow!  there  is  another  custommer  but  our custommer  kinda 
+      needy abit  you have  to guide '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60237262241792
+    m_Localized: 'now  press E  to guide our  customer  and  press again to  table
+      that  empty  nyan '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60880139993088
+    m_Localized: 'now  don''t  waste  our time  hurry to kitchen  to cooking  nyan  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61081579831296
+    m_Localized: UmU smell so  good  came  closer  and serve it  to our customer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61283925639168
+    m_Localized: woah they  do want  to play with  us  but   some customer you do
+      need  to carry  them  to  place too!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61682736840704
+    m_Localized: congratulation  Manager  and having  a Nice  day cooking NYAN >W<
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62833666441216
+    m_Localized: Bot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63570416910336
+    m_Localized: Cooking Bot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64071212613632
+    m_Localized: Serve Bot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64344119197696
+    m_Localized: Table
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64928201195520
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64991178670080
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 66327974658048
+    m_Localized: Back to Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67346431361024
+    m_Localized: Book                                                         went
+      to near to book and press E to open  press ESC to close  use A / D to swap
+      page
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67775143755776
+    m_Localized: Cooking                                                        
+      went to near to stove and press E to open  press ESC to close   use 1 to 7 
+      to select ingredient and prees E to cook again  press F for deepfry tempura
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68286353915904
+    m_Localized: Beverage                                                        
+      went to near to Beverage station and press E to open  press ESC to close  
+      prees E to fill  the   glasses
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68616797962240
+    m_Localized: Tray                                                         went
+      to  nearby  and press E to place food
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69010949292032
+    m_Localized: 'Takecare custommer                                                       
+      went to  nearby  and press E to invite to table  while ourcustommer order the
+      food handed the  right order     and press E to serve '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69779714883584
+    m_Localized: "custommer interact                                                       
+      there is  a chance once you serve to customer they would interest to play with 
+      you  press E while heart appear  then ther will be 3 choice to play with \nuse
+      1 to 3  to pick and  use spacebar to perform"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70164437417984
+    m_Localized: "Becareful don't let our customer wait too long they  may head to
+      destroy  our Furniture \npress E to fix or claim our "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70488178966528
+    m_Localized: Close
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73031227424768
+    m_Localized: "Press \nto  claim "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73372576661504
+    m_Localized: "Press \nto  upgrade"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
