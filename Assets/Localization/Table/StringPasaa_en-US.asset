@@ -54,6 +54,34 @@ MonoBehaviour:
     m_Localized: Back
     m_Metadata:
       m_Items: []
+  - m_Id: 30175108415488
+    m_Localized: Next
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34336990445568
+    m_Localized: Previous
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34526648483840
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37902132068352
+    m_Localized: MainMenu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39733423915008
+    m_Localized: Next day
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39986650824704
+    m_Localized: Serve Result
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40121178931200
+    m_Localized: Earning Result
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
