@@ -23286,6 +23286,11 @@ MonoBehaviour:
   flyOutDuration: 0.7
   bobHeight: 0.05
   bobSpeed: 6
+  trayHoverOffset: {x: 0, y: 0.5}
+  pickupDelay: 0.3
+  clearTrayAtPickup: 1
+  foodLocalOffset: {x: 0, y: -0.6}
+  foodScale: 0.6
   forceOnTop: 1
   sortingLayerName: 
   sortingOrderOffset: 500
@@ -23338,7 +23343,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 192aff6b0311282468a597b8335776a1, type: 3}
+  m_Sprite: {fileID: -6544723383654477483, guid: 4e3d05b81864b4a468bb7763997d9773, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -26652,7 +26657,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 88cecba448883ce4e8b658c2049832b1, type: 3}
+  m_Sprite: {fileID: -5869572344957071446, guid: 9fb05ca62896d484ba9012f2e4058c15, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -26671,7 +26676,7 @@ Transform:
   m_GameObject: {fileID: 953348990}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.45, y: 8.53, z: 0}
+  m_LocalPosition: {x: -0.253, y: 8.747, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
