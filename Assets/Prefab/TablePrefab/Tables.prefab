@@ -116,7 +116,7 @@ MonoBehaviour:
   isUnlocked: 0
   upgradePrice: 500
   isUpgraded: 0
-  vipChanceBonusOnUpgrade: 2
+  vipChanceBonusOnUpgrade: 100
   furnitureID: TableSet 1 Seat
   furniturePrefab: {fileID: 387129776201575806}
 --- !u!114 &-1579748717823074157

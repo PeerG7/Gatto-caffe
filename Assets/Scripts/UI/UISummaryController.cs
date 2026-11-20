@@ -22,6 +22,10 @@ public class UISummaryController : MonoBehaviour
     public TextMeshProUGUI servedText;
     public TextMeshProUGUI earningsText;
 
+    [Header("Cafe Rating (ใหม่ — ปล่อยว่างได้ถ้าไม่ต้องการแสดง)")]
+    public TextMeshProUGUI ratingText;        // เช่น "Rating: 1.0 → 2.0 (▲)"
+    public TextMeshProUGUI ratingDetailText;  // เช่น "Served 6/6 | Missed 2 | Interact 3"
+
     [Header("Settings")]
     public float fadeDuration = 1.5f;
 
@@ -110,6 +114,11 @@ public class UISummaryController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        // ⭐ คิด Rating ของวันนี้ (หลังแมวออกหมดแล้ว เพื่อให้แมวที่เพิ่งจ่ายเงินตอนปิดร้านถูกนับครบ)
+        CafeRatingManager.DayResult ratingResult = CafeRatingManager.Instance != null
+            ? CafeRatingManager.Instance.EvaluateEndOfDay(day)
+            : null;
+
         // ✅ เพิ่มใหม่: ซ่อนช่องเก็บของ (และ UI อื่นๆ ในลิสต์) ก่อนเริ่ม fade มืด
         SetHiddenUI(true);
 
@@ -138,8 +147,12 @@ public class UISummaryController : MonoBehaviour
 
         // 3. Set ข้อมูล
         if (dayText != null) dayText.text = "Day " + day + " Finished!";
-        if (servedText != null) servedText.text = "Cats Served: " + served;
+        // ใช้ตัวเลขเสิร์ฟจากการคิด Rating (นับหลังแมวออกหมดแล้ว) เพื่อให้ตรงกับ Served x/y ด้านล่าง
+        int servedForDisplay = ratingResult != null ? ratingResult.served : served;
+        if (servedText != null) servedText.text = "Cats Served: " + servedForDisplay;
         if (earningsText != null) earningsText.text = "Total Earnings: " + earnings + " $";
+        if (ratingText != null) ratingText.text = CafeRatingManager.BuildRatingLine(ratingResult);
+        if (ratingDetailText != null) ratingDetailText.text = CafeRatingManager.BuildDetailLine(ratingResult);
 
         // แสดง "Final Day!" ถ้าเป็นวันสุดท้าย
         if (_isLastDay && dayText != null)

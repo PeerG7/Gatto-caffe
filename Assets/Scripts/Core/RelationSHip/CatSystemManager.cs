@@ -272,6 +272,7 @@ public class CatSystemManager : MonoBehaviour
 
             if (success)
             {
+                if (CafeRatingManager.Instance != null) CafeRatingManager.Instance.RegisterInteractSuccess(); // ⭐ โบนัส Rating
                 npcToClose.PlayPerformAndExit((int)qteType);
             }
             else

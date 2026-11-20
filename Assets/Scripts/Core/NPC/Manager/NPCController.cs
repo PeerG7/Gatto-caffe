@@ -36,6 +36,7 @@ public class NPCController : MonoBehaviour
     [HideInInspector] public bool hasBeenServed = false;
     [HideInInspector] public string groupID = "";
     [HideInInspector] public bool hasFinishedEating = false;
+    private bool ratingMissCounted = false; // ⭐ กันนับ "เสิร์ฟไม่สำเร็จ" ซ้ำ (GoExit ถูกเรียกได้หลายครั้ง)
 
     [Header("Original System References")]
     public Transform seatPoint;
@@ -1704,6 +1705,13 @@ public class NPCController : MonoBehaviour
     public void GoExit()
     {
         if (isPerforming) return;
+
+        // ⭐ Rating: ออกจากร้านโดยยังไม่ได้กิน (รอคิวนาน / รอที่โต๊ะนาน / คิวเต็ม / โกรธ) = เสิร์ฟไม่สำเร็จ
+        if (!hasFinishedEating && !ratingMissCounted)
+        {
+            ratingMissCounted = true;
+            if (CafeRatingManager.Instance != null) CafeRatingManager.Instance.RegisterMissed();
+        }
 
         isInteractionAllowed = false;
         isChoiceUIVisible = false;

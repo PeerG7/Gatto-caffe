@@ -202,6 +202,9 @@ public class DayNightManager : MonoBehaviour
         catsServedToday = 0;
         moneyEarnedToday = 0;
 
+        // ⭐ ล้างตัวนับ Rating ของวัน + ปรับความถี่ Spawn ตามดาวใหม่ (ก่อนเซฟ Checkpoint)
+        if (CafeRatingManager.Instance != null) CafeRatingManager.Instance.StartNewDay();
+
         SaveDayProgress(); // 🌟 บันทึกวันใหม่ทันทีที่ขึ้นวันใหม่
 
         ForceResume();
@@ -244,6 +247,9 @@ public class DayNightManager : MonoBehaviour
 
         // ความสัมพันธ์กับแมวก็เป็นส่วนหนึ่งของ Checkpoint เดียวกัน
         if (RelationshipManager.Instance != null) RelationshipManager.Instance.SaveCheckpoint();
+
+        // Rating ของร้านก็เป็นส่วนหนึ่งของ Checkpoint เดียวกัน
+        if (CafeRatingManager.Instance != null) CafeRatingManager.Instance.SaveCheckpoint();
 
         Debug.Log($"💾 [DayNightManager] Checkpoint: เริ่มวันที่ {dayToSave} ด้วยเงินและเฟอร์นิเจอร์ ณ ตอนนี้");
     }

@@ -46,7 +46,26 @@ public class NPCSpawner : MonoBehaviour
         Instance = this;
     }
 
-    void Start() => spawnInterval = Random.Range(minInterval, maxInterval);
+    void Start() => spawnInterval = RollInterval();
+
+    // ⭐ ช่วงวินาทีที่แมวเกิด มาจาก Rating ของร้าน (CafeRatingManager.spawnMinByLevel / spawnMaxByLevel)
+    // ถ้าไม่มี CafeRatingManager ใน Scene จะใช้ minInterval / maxInterval ของสคริปต์นี้แทน
+    float RollInterval()
+    {
+        float mn = minInterval, mx = maxInterval;
+        if (CafeRatingManager.Instance != null) CafeRatingManager.Instance.GetSpawnRange(out mn, out mx);
+        return Random.Range(mn, mx);
+    }
+
+    /// <summary>เหลืออีกกี่วินาทีจะถึงการเกิดแมวชุดถัดไป (ไว้แสดงใน HUD / เช็กอัตราการเกิด)</summary>
+    public float SecondsUntilNextSpawn => Mathf.Max(0f, spawnInterval - timer);
+
+    /// <summary>เรียกตอนขึ้นวันใหม่ (Rating อาจเปลี่ยน) เพื่อใช้ช่วงเวลา Spawn ชุดใหม่ทันที</summary>
+    public void RefreshSpawnInterval()
+    {
+        spawnInterval = RollInterval();
+        timer = 0f;
+    }
 
     void Update()
     {
@@ -94,7 +113,7 @@ public class NPCSpawner : MonoBehaviour
         {
             SpawnNPCGroupLogic();
             timer = 0f;
-            spawnInterval = Random.Range(minInterval, maxInterval);
+            spawnInterval = RollInterval();
         }
     }
 

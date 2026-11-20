@@ -299,6 +299,9 @@ public class CustomerTable : MonoBehaviour
             DayNightManager.Instance.catsServedToday++;
             DayNightManager.Instance.moneyEarnedToday += finalReward;
         }
+
+        // ⭐ Rating: แมวจ่ายเงิน = เสิร์ฟสำเร็จ
+        if (CafeRatingManager.Instance != null) CafeRatingManager.Instance.RegisterServed();
     }
 
     /// <summary>
