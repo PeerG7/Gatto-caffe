@@ -20,24 +20,45 @@ public static class GameInput
 
     public static bool PadConnected => Pad != null;
 
+    // สำรอง: ถ้า Input System ไม่เห็นจอยเป็น Gamepad แต่ Input แบบเก่าเห็น (เช่นจอย DirectInput ทั่วไป)
+    // ใช้การจับคู่ปุ่มแบบ Xbox บน Windows: 0=A 1=B 2=X 3=Y 4=LB 5=RB 6=Back 7=Start
+    static bool LegacyDown(int i)
+    {
+#if ENABLE_LEGACY_INPUT_MANAGER
+        return Pad == null && Input.GetKeyDown((KeyCode)((int)KeyCode.JoystickButton0 + i));
+#else
+        return false;
+#endif
+    }
+
+    static bool LegacyUp(int i)
+    {
+#if ENABLE_LEGACY_INPUT_MANAGER
+        return Pad == null && Input.GetKeyUp((KeyCode)((int)KeyCode.JoystickButton0 + i));
+#else
+        return false;
+#endif
+    }
+
     // ---- ปุ่มหน้า (ชื่อแบบ Xbox / PlayStation = Cross, Circle, Square, Triangle) ----
-    public static bool PadConfirmDown => Pad != null && Pad.buttonSouth.wasPressedThisFrame;   // A
-    public static bool PadConfirmUp => Pad != null && Pad.buttonSouth.wasReleasedThisFrame;  // A (ปล่อย)
-    public static bool PadBackDown => Pad != null && Pad.buttonEast.wasPressedThisFrame;    // B
-    public static bool PadRemoveDown => Pad != null && Pad.buttonWest.wasPressedThisFrame;    // X  (ลบวัตถุดิบ / เก็บเฟอร์นิเจอร์)
-    public static bool PadActionDown => Pad != null && Pad.buttonNorth.wasPressedThisFrame;   // Y  (ทอด / อัปเกรด)
+    public static bool PadConfirmDown => (Pad != null && Pad.buttonSouth.wasPressedThisFrame) || LegacyDown(0);   // A
+    public static bool PadConfirmUp => (Pad != null && Pad.buttonSouth.wasReleasedThisFrame) || LegacyUp(0);  // A (ปล่อย)
+    public static bool PadBackDown => (Pad != null && Pad.buttonEast.wasPressedThisFrame) || LegacyDown(1);    // B
+    public static bool PadRemoveDown => (Pad != null && Pad.buttonWest.wasPressedThisFrame) || LegacyDown(2);    // X  (ลบวัตถุดิบ / เก็บเฟอร์นิเจอร์)
+    public static bool PadActionDown => (Pad != null && Pad.buttonNorth.wasPressedThisFrame) || LegacyDown(3);   // Y  (ทอด / อัปเกรด)
 
     // ---- ไหล่ / เมนู ----
-    public static bool PadPrevDown => Pad != null && Pad.leftShoulder.wasPressedThisFrame;  // LB (สมุด: ก่อนหน้า)
-    public static bool PadNextDown => Pad != null && Pad.rightShoulder.wasPressedThisFrame; // RB (สมุด: ถัดไป / หมุนเฟอร์นิเจอร์)
-    public static bool PadClearDown => Pad != null && Pad.leftShoulder.wasPressedThisFrame;  // LB (ครัว: ล้างทั้งหมด)
-    public static bool PadStartDown => Pad != null && Pad.startButton.wasPressedThisFrame;   // Start (ครัว: Cook)
-    public static bool PadEditModeDown => Pad != null && Pad.selectButton.wasPressedThisFrame;  // Select/View (= ปุ่ม B บนคีย์บอร์ด)
+    public static bool PadPrevDown => (Pad != null && Pad.leftShoulder.wasPressedThisFrame) || LegacyDown(4);  // LB (สมุด: ก่อนหน้า)
+    public static bool PadNextDown => (Pad != null && Pad.rightShoulder.wasPressedThisFrame) || LegacyDown(5); // RB (สมุด: ถัดไป / หมุนเฟอร์นิเจอร์)
+    public static bool PadClearDown => (Pad != null && Pad.leftShoulder.wasPressedThisFrame) || LegacyDown(4);  // LB (ครัว: ล้างทั้งหมด)
+    public static bool PadStartDown => (Pad != null && Pad.startButton.wasPressedThisFrame) || LegacyDown(7);   // Start (ครัว: Cook)
+    public static bool PadEditModeDown => (Pad != null && Pad.selectButton.wasPressedThisFrame) || LegacyDown(6);  // Select/View (= ปุ่ม B บนคีย์บอร์ด)
 
     // QTE choice 0/1/2 -> X / Y / B (ซ้ายไปขวาบนจอย)
     public static bool PadChoiceDown(int index)
     {
-        if (Pad == null) return false;
+        if (Pad == null)
+            return index == 0 ? LegacyDown(2) : index == 1 ? LegacyDown(3) : index == 2 && LegacyDown(1);
         switch (index)
         {
             case 0: return Pad.buttonWest.wasPressedThisFrame;
