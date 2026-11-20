@@ -2369,8 +2369,6 @@ MonoBehaviour:
   prevButton: {fileID: 934113544}
   nextButton: {fileID: 962968728}
   closeButton: {fileID: 1656725904}
-  navigateAction: {fileID: 0}
-  backAction: {fileID: 0}
   prevKey: 97
   nextKey: 100
 --- !u!114 &104437575
@@ -3214,7 +3212,6 @@ MonoBehaviour:
   mode: 1
   choiceIndex: 2
   qteKey: 32
-  qteAction: {fileID: -2654672004362973399, guid: 1ec89c8190a1f644796c1e984cf92f33, type: 3}
 --- !u!114 &122512692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12334,7 +12331,6 @@ MonoBehaviour:
   binSoundClip: {fileID: 8300000, guid: a27dec61c1348be46aa0b3e7c48f4ed7, type: 3}
   firstSelectedButton: {fileID: 469687350}
   logSmudgeBlock: 0
-  backAction: {fileID: 5317567377745415392, guid: 1ec89c8190a1f644796c1e984cf92f33, type: 3}
 --- !u!4 &466208907
 Transform:
   m_ObjectHideFlags: 0
@@ -18864,7 +18860,6 @@ MonoBehaviour:
   mode: 1
   choiceIndex: 1
   qteKey: 32
-  qteAction: {fileID: -2654672004362973399, guid: 1ec89c8190a1f644796c1e984cf92f33, type: 3}
 --- !u!114 &712174513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20440,6 +20435,7 @@ GameObject:
   - component: {fileID: 784669778}
   - component: {fileID: 784669780}
   - component: {fileID: 784669779}
+  - component: {fileID: 784669781}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -20488,8 +20484,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Are You Sure Want to Exit the Game?
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fad0d1b4adf6c4e4abc50b99b8bfc212, type: 2}
+  m_sharedMaterial: {fileID: 4542723848858853721, guid: fad0d1b4adf6c4e4abc50b99b8bfc212, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -20513,7 +20509,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 50.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -20566,6 +20562,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 784669777}
   m_CullTransparentMesh: 1
+--- !u!114 &784669781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784669777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:fb2f1112590092041a6611e47a3d2181
+    m_TableEntryReference:
+      m_KeyId: 18351587737600
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 784669779}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &791125906
 GameObject:
   m_ObjectHideFlags: 0
@@ -45748,8 +45784,6 @@ MonoBehaviour:
   bobaDropClip: {fileID: 8300000, guid: 2a6007fdd19610746aa3464d5b9787a0, type: 3}
   pourSoundClip: {fileID: 8300000, guid: 4eb888a94d7d8c64780079e780b33dd7, type: 3}
   completeSoundClip: {fileID: 8300000, guid: 1f0492c95348685468f3e911068d4065, type: 3}
-  backAction: {fileID: 0}
-  confirmAction: {fileID: 0}
 --- !u!82 &1312205194
 AudioSource:
   m_ObjectHideFlags: 0
@@ -47766,8 +47800,6 @@ MonoBehaviour:
   prevButton: {fileID: 934113544}
   nextButton: {fileID: 962968728}
   closeButton: {fileID: 1656725904}
-  navigateAction: {fileID: 0}
-  backAction: {fileID: 0}
   prevKey: 97
   nextKey: 100
 --- !u!58 &1376863787
@@ -51743,7 +51775,6 @@ MonoBehaviour:
   mode: 1
   choiceIndex: 0
   qteKey: 32
-  qteAction: {fileID: -2654672004362973399, guid: 1ec89c8190a1f644796c1e984cf92f33, type: 3}
 --- !u!114 &1533021541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56406,7 +56437,6 @@ MonoBehaviour:
   mode: 0
   choiceIndex: 0
   qteKey: 32
-  qteAction: {fileID: -2654672004362973399, guid: 1ec89c8190a1f644796c1e984cf92f33, type: 3}
 --- !u!114 &1736537379
 MonoBehaviour:
   m_ObjectHideFlags: 0

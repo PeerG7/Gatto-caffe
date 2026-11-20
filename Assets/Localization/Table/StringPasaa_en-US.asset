@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: StringPasaa_en-US
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en-US
+  m_SharedData: {fileID: 11400000, guid: fb2f1112590092041a6611e47a3d2181, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 36660199424
+    m_Localized: New Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11367887028224
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11514188546048
+    m_Localized: Quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13697265057792
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18351587737600
+    m_Localized: Are You Sure Want to Exit the Game?
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
