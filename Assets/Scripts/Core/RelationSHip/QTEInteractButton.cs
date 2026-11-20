@@ -64,6 +64,9 @@ public class QTEInteractButton : MonoBehaviour,
 
     void FireChoice()
     {
+        // บอกมือ (QTEHandAnimator) ว่าเลือกปุ่มไหน — ส่งก่อน StartQTE เพื่อให้ Panel เปิดมาแล้วเล่นถูก pattern
+        QTEHandAnimator.NotifyChoice(choiceIndex);
+
         if (CatSystemManager.Instance != null)
             CatSystemManager.Instance.StartQTE(choiceIndex);
     }
