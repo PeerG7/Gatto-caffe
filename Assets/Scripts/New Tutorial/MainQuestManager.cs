@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 
@@ -6,65 +7,74 @@ public class MainQuestManager : MonoBehaviour
 {
     public static MainQuestManager Instance;
 
-    [Header("UI Reference")]
-    public TMP_Text questDisplayText;
+    [Serializable]
+    public struct QuestStepTextEntry
+    {
+        public QuestStep step;
+        [Tooltip("ลาก GameObject ของ TMP_Text สำหรับขั้นเควสนี้มาใส่")]
+        public GameObject textObject;
+    }
+
+    [Header("Quest Text Objects (เปิด/ปิดตามขั้นเควส)")]
+    [Tooltip("ใส่ให้ครบทุก QuestStep เพื่อให้ระบบสลับเปิด/ปิดอัตโนมัติ")]
+    public List<QuestStepTextEntry> questStepTexts = new List<QuestStepTextEntry>();
 
     [Header("Quest Panel Fade (ตอนเควสเสร็จหมดแล้ว)")]
-    [Tooltip("กล่องเควสทั้งกล่อง (พื้นหลัง + ข้อความ) ที่จะ Fade ออก — แนะนำให้ลากใส่เอง ถ้าเว้นว่างจะใช้ parent ของ questDisplayText")]
     public GameObject questPanelRoot;
-    [Tooltip("ชิ้นส่วน UI อื่นของเควสที่ต้องหายไปพร้อมกัน เช่น Board (กรอบสีน้ำตาลที่มีคำว่า Quest) — ลากมาใส่ได้หลายตัว")]
     public GameObject[] additionalFadeObjects;
-    [Tooltip("โชว์ข้อความ 'ทำเควสเสร็จแล้ว' ค้างไว้กี่วินาทีก่อนเริ่ม Fade")]
     public float completedShowDuration = 3f;
-    [Tooltip("ระยะเวลา Fade ออก (วินาที)")]
     public float fadeOutDuration = 1.5f;
 
-    // 🌟 เพิ่มสถานะ InviteCat2 เข้ามาเป็นลำดับที่ 2
-    // 🟢 เพิ่ม GuideCat2ToTable (จูงแมวตัวที่ 2 ไปโต๊ะ) และ CarryCat2ToZone (อุ้มแมวตัวที่ 2 ไปวางที่ Zone)
-    // ที่ NPCController อ้างถึงอยู่ — ถ้า Enum ไม่มีค่าเหล่านี้จะขึ้นแดง
-    // 🟢 เพิ่ม PlaceFurniture: หลังซื้อเฟอร์นิเจอร์แล้ว ให้กด B เปิดเมนู Furniture แล้วเลือกวางก่อน ค่อยไปเชิญแมว
-    public enum QuestStep { BuyFurniture, PlaceFurniture, InviteCat1, InviteCat2, GuideCat2ToTable, CookFood, ServeFood, CarryCat2ToZone, Completed }
+    public enum QuestStep
+    {
+        BuyFurniture,
+        PlaceFurniture,
+        InviteCat1,
+        InviteCat2,
+        GuideCat2ToTable,
+        CookFood,
+        ServeFood,
+        CarryCat2ToZone,
+        Completed
+    }
+
     public QuestStep currentQuest = QuestStep.BuyFurniture;
 
-    // 🔑 ต้องตรงกับ Key ที่ MainMenuManager / NewGameIntroDialogue ลบตอนกด New Game
     private const string QuestSaveKey = "SavedMainQuestStep";
-    private const string DaySaveKey = "SavedGameDay"; // ต้องตรงกับ DayNightManager
-
-    // true = เราเป็นคนเรียก PauseGame() ไว้ และยังไม่ได้ ResumeGame() (กัน Pause ค้าง/Resume เกิน)
+    private const string DaySaveKey = "SavedGameDay";
     private bool _holdingTutorialPause = false;
 
     void Awake()
     {
-        // ↩️ คืนเป็นพฤติกรรมเดิม (ตัวแรกชนะ) — ดูคำอธิบายที่ DayNightManager.Awake()
         if (Instance == null)
         {
             Instance = this;
-            LoadQuestProgress(); // Continue = ข้าม Tutorial / New Game = เริ่ม Tutorial ใหม่
+            LoadQuestProgress();
         }
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Start()
     {
         UpdateQuestUI();
 
-        // 🟢 Continue หลังเควสเสร็จหมดแล้ว → ซ่อนกล่องเควสทันที ไม่ต้องโชว์ซ้ำ
-        if (currentQuest == QuestStep.Completed) HideQuestPanelImmediate();
+        if (currentQuest == QuestStep.Completed)
+            HideQuestPanelImmediate();
 
-        // 🟢 FIX: Pause เกมเฉพาะตอน Tutorial ยังไม่จบเท่านั้น
-        // (เดิม Pause ทุกครั้งที่เข้าเกม รวมถึง Continue ทำให้เวลาหยุดค้างตลอดเพราะเควสเริ่มใหม่เสมอ)
         if (currentQuest != QuestStep.Completed && DayNightManager.Instance != null)
         {
             DayNightManager.Instance.PauseGame();
             _holdingTutorialPause = true;
         }
+
         PlayerController2D.SetLock(false);
     }
 
     void Update()
     {
-        // 🟢 ซื้อเฟอร์นิเจอร์แล้ว (มีของเข้าคลัง) → ขยับไปขั้น "กด B เปิดเมนู Furniture แล้ววาง"
-        // ใช้การเช็กจากคลังโดยตรง ไม่ต้องไปแก้สคริปต์ร้านค้า
         if (currentQuest == QuestStep.BuyFurniture &&
             FurnitureInventory.Instance != null &&
             FurnitureInventory.Instance.storedInstances.Count > 0)
@@ -75,8 +85,6 @@ public class MainQuestManager : MonoBehaviour
 
     void LoadQuestProgress()
     {
-        // 🟢 SKIP TUTORIAL: ถ้ามีเซฟวันอยู่ (= เคยเล่นแล้วและกลับมากด Continue) หรือเควสเคยจบแล้ว → ข้าม Tutorial ทั้งหมด
-        // ส่วน New Game จะลบทั้ง SavedGameDay และ SavedMainQuestStep ไปแล้ว จึงเริ่ม Tutorial ใหม่ตามปกติ
         bool isReturningPlayer = PlayerPrefs.HasKey(DaySaveKey);
         bool questAlreadyCompleted = PlayerPrefs.GetInt(QuestSaveKey, 0) == (int)QuestStep.Completed
                                      && PlayerPrefs.HasKey(QuestSaveKey);
@@ -92,39 +100,18 @@ public class MainQuestManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    // 🟢 เปลี่ยนจากการเขียน .text เป็นการเปิดเฉพาะ Text ของขั้นปัจจุบัน และปิดตัวอื่น
     public void UpdateQuestUI()
     {
-        if (questDisplayText == null) return;
-
-        switch (currentQuest)
+        foreach (var entry in questStepTexts)
         {
-            case QuestStep.BuyFurniture:
-                questDisplayText.text = "MainQuest: Buy your first table or piece of furniture from Computer On Counter desk";
-                break;
-            case QuestStep.PlaceFurniture:
-                questDisplayText.text = "MainQuest: Press B to open the Furniture menu, then choose your furniture and place it in the cafe.";
-                break;
-            case QuestStep.InviteCat1:
-                questDisplayText.text = "MainQuest: Invite the Cats in front Cafe";
-                break;
-            case QuestStep.InviteCat2:
-                questDisplayText.text = "Main mission: Invite the second cat to the Cafe. (NeedyCat)";
-                break;
-            case QuestStep.GuideCat2ToTable:
-                questDisplayText.text = "MainQuest: Press E near the cat to guide it, then lead it to a table.";
-                break;
-            case QuestStep.CookFood:
-                questDisplayText.text = "MainQuest: Cook the food according to the cat's order";
-                break;
-            case QuestStep.ServeFood:
-                questDisplayText.text = "MainQuest: Serve the cat food at the table.";
-                break;
-            case QuestStep.CarryCat2ToZone:
-                questDisplayText.text = "MainQuest: Pick up the cat and place it in the Interaction Zone.";
-                break;
-            case QuestStep.Completed:
-                questDisplayText.text = "All initial missions have been successfully completed!";
-                break;
+            if (entry.textObject == null) continue;
+
+            bool shouldShow = (entry.step == currentQuest);
+            if (entry.textObject.activeSelf != shouldShow)
+            {
+                entry.textObject.SetActive(shouldShow);
+            }
         }
     }
 
@@ -150,19 +137,15 @@ public class MainQuestManager : MonoBehaviour
             }
         }
 
-        SaveQuestProgress(); // 🟢 FIX: เซฟทุกครั้งที่เควสขยับ
+        SaveQuestProgress();
         UpdateQuestUI();
 
-        // 🟢 CHECKPOINT วันแรก: จบ Tutorial แล้วเซฟ วัน/เงิน/เฟอร์นิเจอร์ ณ ตอนนี้
-        // (Continue ในวันแรกจะกลับมาที่จุดนี้ ไม่ใช่เงินที่หาได้หลังจากนั้น)
         if (justCompleted && DayNightManager.Instance != null)
             DayNightManager.Instance.SaveDayProgress();
 
-        // 🟢 สั่งให้ Pointer ชี้เป้าใหม่ / ซ่อนทันทีเมื่อเควสเปลี่ยน
         if (TutorialPointerManager.Instance != null)
             TutorialPointerManager.Instance.UpdatePointerState();
 
-        // 🟢 เควสเสร็จหมด → โชว์ข้อความสักพักแล้วค่อยๆ Fade กล่องเควสออก
         if (currentQuest == QuestStep.Completed)
             StartCoroutine(FadeOutQuestPanelRoutine());
     }
@@ -171,16 +154,22 @@ public class MainQuestManager : MonoBehaviour
     GameObject GetQuestPanelRoot()
     {
         if (questPanelRoot != null) return questPanelRoot;
-        if (questDisplayText == null) return null;
 
-        // ถ้า parent เป็น Canvas หลัก ห้ามใช้ (จะ Fade UI ทั้งหน้าจอ) ให้ใช้ตัวข้อความเอง
-        Transform parent = questDisplayText.transform.parent;
-        if (parent != null && parent.GetComponent<Canvas>() == null)
-            return parent.gameObject;
-        return questDisplayText.gameObject;
+        // ใช้ GameObject ของข้อความที่ตรงกับ currentQuest เป็นตัวอ้างอิงแทน questDisplayText
+        foreach (var entry in questStepTexts)
+        {
+            if (entry.step == currentQuest && entry.textObject != null)
+            {
+                Transform parent = entry.textObject.transform.parent;
+                if (parent != null && parent.GetComponent<Canvas>() == null)
+                    return parent.gameObject;
+                return entry.textObject;
+            }
+        }
+
+        return null;
     }
 
-    // รวมทุกชิ้นของ UI เควสที่ต้องซ่อน: Panel หลัก + Board/ชิ้นอื่นที่ลากใส่ additionalFadeObjects
     List<GameObject> GetFadeTargets()
     {
         List<GameObject> targets = new List<GameObject>();
@@ -196,7 +185,6 @@ public class MainQuestManager : MonoBehaviour
         return targets;
     }
 
-    // ถ้า UI เควสเป็นพ่อของ GameObject ที่มีสคริปต์นี้ ห้ามปิด (ไม่งั้น Coroutine/สคริปต์หยุดทำงาน) ให้ซ่อนด้วย alpha แทน
     void DeactivateTarget(GameObject go, CanvasGroup cg)
     {
         if (cg != null) { cg.alpha = 0f; cg.blocksRaycasts = false; cg.interactable = false; }
