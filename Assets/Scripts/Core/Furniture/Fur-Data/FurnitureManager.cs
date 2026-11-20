@@ -145,14 +145,20 @@ public class FurnitureManager : MonoBehaviour
         );
 
         // 3. กรอง Collider ของตัวมันเอง และ Child ออกจากการเช็ก
+        //    + ถ้าชนโซนที่มี PlacementBlocker ให้เช็กว่าโซนนั้นห้ามเฟอร์นิเจอร์ชิ้นนี้หรือไม่
+        string myFurnitureID = PlacementBlocker.GetFurnitureID(currentPlacingObject);
+
         bool isBlocked = false;
         foreach (var col in overlaps)
         {
-            if (col != null && !col.transform.IsChildOf(currentPlacingObject.transform))
-            {
-                isBlocked = true;
-                break;
-            }
+            if (col == null) continue;
+            if (col.transform.IsChildOf(currentPlacingObject.transform)) continue;
+
+            PlacementBlocker blocker = col.GetComponentInParent<PlacementBlocker>();
+            if (blocker != null && !blocker.Blocks(myFurnitureID)) continue; // โซนนี้ไม่ห้ามชิ้นนี้
+
+            isBlocked = true;
+            break;
         }
 
         // 3.5 เช็กระยะห่างจากเฟอร์นิเจอร์ชิ้นอื่น (ใช้ BoxCollider2D ตัวหลักของแต่ละชิ้นเป็นขอบเขต)

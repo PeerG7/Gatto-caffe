@@ -42,8 +42,21 @@ public class FurniturePlacementManager : MonoBehaviour
         // 2. ตรวจสอบพื้นที่วาง
         if (ghostCollider != null) ghostCollider.enabled = false;
 
-        Collider2D overlap = Physics2D.OverlapBox(snapPos, new Vector2(gridSize * 0.7f, gridSize * 0.7f), 0f, interactableLayer);
-        isValid = (overlap == null);
+        // ใช้ currentPrefab อ่าน ID เพราะ FurnitureObject บน Ghost ถูก Destroy ไปแล้วใน StartPlacement
+        string myFurnitureID = PlacementBlocker.GetFurnitureID(currentPrefab);
+
+        Collider2D[] overlaps = Physics2D.OverlapBoxAll(snapPos, new Vector2(gridSize * 0.7f, gridSize * 0.7f), 0f, interactableLayer);
+        isValid = true;
+        foreach (Collider2D col in overlaps)
+        {
+            if (col == null) continue;
+
+            PlacementBlocker blocker = col.GetComponentInParent<PlacementBlocker>();
+            if (blocker != null && !blocker.Blocks(myFurnitureID)) continue; // โซนนี้ไม่ห้ามชิ้นนี้
+
+            isValid = false;
+            break;
+        }
 
         if (ghostCollider != null) ghostCollider.enabled = true;
 
