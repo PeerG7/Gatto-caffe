@@ -118,8 +118,8 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
 
         if (Input.GetKeyDown(DEEPFRY_KEY) || GameInput.PadActionDown) { TryTriggerDeepFry(); return; }   // 🎮 Y
 
-        // 🎮 Start = Cook (ปุ่ม A ปล่อยให้ EventSystem กดปุ่มที่เลือกอยู่ — กันกดซ้ำ 2 ครั้ง)
-        if (GameInput.PadStartDown)
+        // 🎮 RB = Cook (เหมือน Space/Enter) | A ปล่อยให้ EventSystem กดปุ่มที่เลือกอยู่ — กันกดซ้ำ 2 ครั้ง
+        if (GameInput.PadCookDown)
         {
             if (cookButton != null && cookButton.interactable) OnCookButtonClicked();
             return;

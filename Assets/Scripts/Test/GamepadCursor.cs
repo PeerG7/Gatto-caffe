@@ -140,13 +140,13 @@ public class GamepadCursor : MonoBehaviour
 
         if (wantLeft != leftDown)
         {
-            InputState.Change(mouse.leftButton, wantLeft ? 1f : 0f);
+            SetMouseButton(mouse, MouseButton.Left, wantLeft);
             leftDown = wantLeft;
             if (!wantLeft && deselectAfterClick) deselectFrame = Time.frameCount + 2;
         }
         if (wantRight != rightDown)
         {
-            InputState.Change(mouse.rightButton, wantRight ? 1f : 0f);
+            SetMouseButton(mouse, MouseButton.Right, wantRight);
             rightDown = wantRight;
         }
 
@@ -158,9 +158,20 @@ public class GamepadCursor : MonoBehaviour
 
         // --- แสดงผล ---
         if (delta != Vector2.zero || wantLeft || wantRight) lastActivity = Time.unscaledTime;
-        bool visible = !hideWhenIdle || (Time.unscaledTime - lastActivity) < idleHideSeconds;
+        bool uiContext = PlayerController2D.IsLocked
+                         || (FurnitureManager.Instance != null && FurnitureManager.Instance.isEditMode);
+        bool visible = !hideWhenIdle || uiContext || (Time.unscaledTime - lastActivity) < idleHideSeconds;
         if (cursorRect.gameObject.activeSelf != visible) cursorRect.gameObject.SetActive(visible);
         cursorRect.anchoredPosition = pos;
+    }
+
+    // ปุ่มเมาส์เป็น bitfield → เขียนทีละปุ่มด้วย InputState.Change(mouse.leftButton, ..) ไม่ได้ (ArgumentException)
+    // ต้องคัดลอกสถานะทั้งก้อนของ Mouse ก่อน แก้บิตของปุ่ม แล้วเขียนกลับ (วิธีเดียวกับ VirtualMouseInput ของ Unity)
+    static void SetMouseButton(Mouse mouse, MouseButton button, bool pressed)
+    {
+        mouse.CopyState<MouseState>(out MouseState state);
+        state = state.WithButton(button, pressed);
+        InputState.Change(mouse, state);
     }
 
     // ------------------------------------------------------------------
@@ -183,8 +194,8 @@ public class GamepadCursor : MonoBehaviour
         IsPadMode = false;
         if (mouse != null)
         {
-            if (leftDown) InputState.Change(mouse.leftButton, 0f);
-            if (rightDown) InputState.Change(mouse.rightButton, 0f);
+            if (leftDown) SetMouseButton(mouse, MouseButton.Left, false);
+            if (rightDown) SetMouseButton(mouse, MouseButton.Right, false);
         }
         leftDown = rightDown = false;
         Cursor.visible = prevCursorVisible;

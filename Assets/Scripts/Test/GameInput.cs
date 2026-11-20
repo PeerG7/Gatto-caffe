@@ -51,6 +51,8 @@ public static class GameInput
     public static bool PadPrevDown => (Pad != null && Pad.leftShoulder.wasPressedThisFrame) || LegacyDown(4);  // LB (สมุด: ก่อนหน้า)
     public static bool PadNextDown => (Pad != null && Pad.rightShoulder.wasPressedThisFrame) || LegacyDown(5); // RB (สมุด: ถัดไป / หมุนเฟอร์นิเจอร์)
     public static bool PadClearDown => (Pad != null && Pad.leftShoulder.wasPressedThisFrame) || LegacyDown(4);  // LB (ครัว: ล้างทั้งหมด)
+    public static bool PadPauseDown => PadStartDown;   // Start = Esc บนคีย์บอร์ด (เมนู Pause)
+    public static bool PadCookDown => (Pad != null && Pad.rightShoulder.wasPressedThisFrame) || LegacyDown(5);  // RB = Space/Enter (ครัว: Cook)
     public static bool PadStartDown => (Pad != null && Pad.startButton.wasPressedThisFrame) || LegacyDown(7);   // Start (ครัว: Cook)
     public static bool PadEditModeDown => (Pad != null && Pad.selectButton.wasPressedThisFrame) || LegacyDown(6);  // Select/View (= ปุ่ม B บนคีย์บอร์ด)
 
@@ -130,6 +132,8 @@ public static class GameInput
     public static bool PadNextDown => false;
     public static bool PadClearDown => false;
     public static bool PadStartDown => false;
+    public static bool PadPauseDown => false;
+    public static bool PadCookDown => false;
     public static bool PadEditModeDown => false;
     public static bool PadChoiceDown(int index) => false;
     public static Vector2 Navigate => Vector2.zero;
