@@ -38,7 +38,7 @@ public class PauseMenuManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || GameInput.PadPauseDown)
         {
             // ถ้าหน้าต่างยืนยันออกเกมเปิดอยู่ ให้กด Esc เพื่อปิดหน้าต่างยืนยันนั้นก่อน
             if (confirmExitPanel != null && confirmExitPanel.activeSelf)
