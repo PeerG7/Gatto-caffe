@@ -9,16 +9,15 @@ public class PlayerInteract2D : MonoBehaviour
 {
     public float range = 3.0f;
 
+    [Header("Debug")]
+    [Tooltip("ติ๊กไว้ชั่วคราว: พิมพ์ Console ว่าปุ่ม A/Y (จอย) มาถึงสคริปต์นี้ไหม และหยุดที่ขั้นไหน")]
+    public bool debugPadLog = true;
+
     [Header("Data Cat Prefabs (ลาก Prefab ของแมวทั้งหมดมาใส่ในนี้)")]
     public List<GameObject> dataCatPrefabs = new List<GameObject>();
 
     [Header("Legacy Interact Keys")]
     public KeyCode[] interactKeys = new KeyCode[] { KeyCode.E };
-
-#if ENABLE_INPUT_SYSTEM
-    [Header("New Input System")]
-    public UnityEngine.InputSystem.InputActionReference interactAction;
-#endif
 
     [Header("Anti-Spam / Cooldown Settings")]
     [Tooltip("ระยะเวลาหน่วงระหว่างการกด E/F แต่ละครั้ง ป้องกัน Frame Collision / Race Condition")]
@@ -39,13 +38,16 @@ public class PlayerInteract2D : MonoBehaviour
     public static void UnregisterActiveCanvas(IGamepadNavigable canvas)
     { if (activeCanvas == canvas) activeCanvas = null; }
 
-#if ENABLE_INPUT_SYSTEM
-    void OnEnable() { if (interactAction != null) interactAction.action.Enable(); }
-    void OnDisable() { if (interactAction != null) interactAction.action.Disable(); }
-#endif
-
     void Update()
     {
+        if (debugPadLog)
+        {
+            bool dA = GameInput.PadConfirmDown, dY = GameInput.PadActionDown;
+            if (dA || dY)
+                Debug.Log("[PAD] " + (dA ? "A" : "Y") + " มาถึง PlayerInteract2D แล้ว | IsLocked=" + PlayerController2D.IsLocked
+                          + " | activeCanvas=" + (activeCanvas != null ? activeCanvas.GetType().Name : "null"));
+        }
+
         if (PlayerController2D.IsLocked)
         {
             bufferedPress = false; // ล็อกอยู่ = ทิ้งคิวที่ค้าง กันยิงซ้ำตอนปลดล็อก
@@ -60,12 +62,10 @@ public class PlayerInteract2D : MonoBehaviour
             if (Input.GetKeyDown(key)) { pressedE = true; break; }
         }
 
-#if ENABLE_INPUT_SYSTEM
-        if (!pressedE && interactAction != null && interactAction.action.WasPressedThisFrame())
-            pressedE = true;
-#endif
+        // 🎮 Gamepad: A = interact (เหมือน E) | Y = อัปเกรด (เหมือน F)
+        if (!pressedE && GameInput.PadConfirmDown) pressedE = true;
 
-        bool pressedF = Input.GetKeyDown(KeyCode.F);
+        bool pressedF = Input.GetKeyDown(KeyCode.F) || GameInput.PadActionDown;
 
         // เก็บการกดล่าสุดไว้ในบัฟเฟอร์ (เก็บแค่ 1 ครั้ง ไม่สะสม)
         if (pressedE || pressedF)
@@ -89,6 +89,9 @@ public class PlayerInteract2D : MonoBehaviour
 
         bufferedPress = false;
         lastInteractTime = Time.unscaledTime;
+
+        if (debugPadLog)
+            Debug.Log("[INTERACT] ส่งต่อ | isF=" + bufferedIsF + " | activeCanvas=" + (activeCanvas != null ? activeCanvas.GetType().Name : "null"));
 
         if (activeCanvas != null && !bufferedIsF) { activeCanvas.OnConfirm(); return; }
 
