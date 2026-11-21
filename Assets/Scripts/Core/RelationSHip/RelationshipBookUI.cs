@@ -16,12 +16,14 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
     public Image portrait;
     public Image relBarFill;
     public TMP_Text pageText;
+    [Header("Debug")]
+    public bool debugManualBarFill = false;
 
-    [Header("Ordered Text Objects (เรียงลำดับตามข้อมูล)")]
-    [Tooltip("ลาก GameObject ของ TMP_Text ชื่อแมว เรียงตามลำดับแมวใน GetAllCats() (0, 1, 2...)")]
+    [Header("Ordered Text Objects (เปิด/ปิดตามลำดับหน้าและระดับ Bar)")]
+    [Tooltip("ลาก GameObject ของชื่อแมวเรียงตามลำดับหน้า (0, 1, 2, 3...)")]
     public List<GameObject> catNameTextObjects = new List<GameObject>();
 
-    [Tooltip("ลาก GameObject ของ TMP_Text ระดับความสัมพันธ์ เรียงจากระดับต่ำสุดไปสูงสุด (0, 1, 2...)")]
+    [Tooltip("ลาก GameObject ของ Label ระดับความสัมพันธ์ เรียงจาก Bar น้อยไปมาก (0, 1, 2, 3, 4...)")]
     public List<GameObject> relationshipTierTextObjects = new List<GameObject>();
 
     [Header("Buttons")]
@@ -51,6 +53,9 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
     void Update()
     {
         if (!isOpen) return;
+
+        // อัปเดตหลอด Bar และ Label แบบเรียลไทม์ขณะที่เปิดหน้าสมุดอยู่
+        RefreshBarAndLabel();
 
         navCooldown -= Time.deltaTime;
 
@@ -127,56 +132,118 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
 
     void ShowCurrentCat()
     {
-        if (cats == null || currentIndex >= cats.Count) return;
+        if (cats == null || cats.Count == 0)
+        {
+            SetActiveByIndex(catNameTextObjects, -1);
+            SetActiveByIndex(relationshipTierTextObjects, -1);
+            return;
+        }
 
+        currentIndex = Mathf.Clamp(currentIndex, 0, cats.Count - 1);
         CatRelationshipData cat = cats[currentIndex];
 
         if (portrait != null) portrait.sprite = cat.catPortrait;
-        UpdateOrderedTextList(catNameTextObjects, currentIndex);
 
-        float currentRel = 0f;
-        float maxRel = cat.maxRelationship;
-        if (RelationshipManager.Instance != null)
-        {
-            currentRel = RelationshipManager.Instance.GetRelationship(cat.catID);
-        }
-
-        int tierIndex = GetRelationshipTierIndex(currentRel, maxRel, relationshipTierTextObjects.Count);
-        UpdateOrderedTextList(relationshipTierTextObjects, tierIndex);
+        if (catNameTextObjects != null && catNameTextObjects.Count > 0)
+            SetActiveByIndex(catNameTextObjects, currentIndex);
+        else
+            ToggleChildrenByPrefix("Name", currentIndex);
 
         if (pageText != null) pageText.text = $"{currentIndex + 1} / {cats.Count}";
 
-        if (relBarFill != null)
-        {
-            relBarFill.fillAmount = maxRel > 0f ? currentRel / maxRel : 0f;
-        }
+        RefreshBarAndLabel();
 
         bool moreThanOne = cats.Count > 1;
         if (prevButton != null) prevButton.gameObject.SetActive(moreThanOne);
         if (nextButton != null) nextButton.gameObject.SetActive(moreThanOne);
     }
 
-    int GetRelationshipTierIndex(float currentRel, float maxRel, int tierCount)
+    void RefreshBarAndLabel()
     {
-        if (tierCount <= 0) return -1;
-        if (maxRel <= 0f) return 0;
+        if (cats == null || cats.Count == 0) return;
 
-        float ratio = Mathf.Clamp01(currentRel / maxRel);
-        if (ratio >= 1f) return tierCount - 1;
+        int safeIndex = Mathf.Clamp(currentIndex, 0, cats.Count - 1);
+        CatRelationshipData cat = cats[safeIndex];
 
-        return Mathf.FloorToInt(ratio * tierCount);
+        float fill = 0f;
+        if (relBarFill != null)
+        {
+            if (!debugManualBarFill)
+            {
+                float currentRel = RelationshipManager.Instance != null
+                    ? RelationshipManager.Instance.GetRelationship(cat.catID)
+                    : 0f;
+                float maxRel = cat.maxRelationship;
+                fill = maxRel > 0f ? Mathf.Clamp01(currentRel / maxRel) : 0f;
+                relBarFill.fillAmount = fill;
+            }
+            else
+            {
+                fill = Mathf.Clamp01(relBarFill.fillAmount);
+            }
+        }
+
+        if (relationshipTierTextObjects != null && relationshipTierTextObjects.Count > 0)
+        {
+            int labelIndex = GetLabelIndexFromBar(fill, relationshipTierTextObjects.Count);
+            SetActiveByIndex(relationshipTierTextObjects, labelIndex);
+        }
+        else
+        {
+            int labelIndex = GetLabelIndexFromBar(fill, CountChildrenByPrefix("Label"));
+            ToggleChildrenByPrefix("Label", labelIndex);
+        }
     }
 
-    void UpdateOrderedTextList(List<GameObject> objects, int activeIndex)
+    int GetLabelIndexFromBar(float barFillAmount, int labelCount)
+    {
+        if (labelCount <= 0) return -1;
+
+        float clamped = Mathf.Clamp01(barFillAmount);
+        if (clamped >= 1f) return labelCount - 1;
+
+        return Mathf.Clamp(Mathf.FloorToInt(clamped * labelCount), 0, labelCount - 1);
+    }
+
+    void SetActiveByIndex(List<GameObject> objects, int activeIndex)
     {
         if (objects == null) return;
 
         for (int i = 0; i < objects.Count; i++)
         {
-            if (objects[i] == null) continue;
-            bool shouldShow = (i == activeIndex);
-            if (objects[i].activeSelf != shouldShow)
-                objects[i].SetActive(shouldShow);
+            GameObject target = objects[i];
+            if (target == null) continue;
+            target.SetActive(i == activeIndex);
+        }
+    }
+
+    private List<GameObject> GetChildrenByPrefix(string prefix)
+    {
+        List<GameObject> matched = new List<GameObject>();
+        if (bookCanvas == null) return matched;
+
+        Transform[] allTransforms = bookCanvas.GetComponentsInChildren<Transform>(true);
+        foreach (Transform t in allTransforms)
+        {
+            if (t != null && t.name.StartsWith(prefix))
+                matched.Add(t.gameObject);
+        }
+
+        matched.Sort((a, b) => string.Compare(a.name, b.name, System.StringComparison.Ordinal));
+        return matched;
+    }
+
+    private int CountChildrenByPrefix(string prefix)
+    {
+        return GetChildrenByPrefix(prefix).Count;
+    }
+
+    private void ToggleChildrenByPrefix(string prefix, int activeIndex)
+    {
+        List<GameObject> matched = GetChildrenByPrefix(prefix);
+        for (int i = 0; i < matched.Count; i++)
+        {
+            matched[i].SetActive(i == activeIndex);
         }
     }
 }
