@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -10,23 +9,6 @@ using UnityEngine.InputSystem;
 
 public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
 {
-    [Serializable]
-    public struct CatNameTextEntry
-    {
-        public string catID;
-        [Tooltip("GameObject ของ TMP_Text ชื่อแมวที่ตรงกับ catID นี้")]
-        public GameObject nameTextObject;
-    }
-
-    [Serializable]
-    public struct RelationshipLabelTextEntry
-    {
-        [Tooltip("ค่า Label ที่ตรงกับผลลัพธ์จาก RelationshipManager.GetRelationshipLabel(catID)")]
-        public string labelKeyOrText;
-        [Tooltip("GameObject ของ TMP_Text สำหรับระดับความสัมพันธ์นี้")]
-        public GameObject labelTextObject;
-    }
-
     [Header("Book Canvas")]
     public GameObject bookCanvas;
 
@@ -35,12 +17,12 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
     public Image relBarFill;
     public TMP_Text pageText;
 
-    [Header("Localized / Toggleable Text Objects")]
-    [Tooltip("แยก TMP_Text ชื่อแมวต่อตัว แล้วเปิด-ปิดตาม catID")]
-    public List<CatNameTextEntry> catNameTexts = new List<CatNameTextEntry>();
+    [Header("Ordered Text Objects (เรียงลำดับตามข้อมูล)")]
+    [Tooltip("ลาก GameObject ของ TMP_Text ชื่อแมว เรียงตามลำดับแมวใน GetAllCats() (0, 1, 2...)")]
+    public List<GameObject> catNameTextObjects = new List<GameObject>();
 
-    [Tooltip("แยก TMP_Text ระดับความสัมพันธ์ต่อระดับ แล้วเปิด-ปิดตาม GetRelationshipLabel")]
-    public List<RelationshipLabelTextEntry> relationshipLabelTexts = new List<RelationshipLabelTextEntry>();
+    [Tooltip("ลาก GameObject ของ TMP_Text ระดับความสัมพันธ์ เรียงจากระดับต่ำสุดไปสูงสุด (0, 1, 2...)")]
+    public List<GameObject> relationshipTierTextObjects = new List<GameObject>();
 
     [Header("Buttons")]
     public Button prevButton;
@@ -150,20 +132,23 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
         CatRelationshipData cat = cats[currentIndex];
 
         if (portrait != null) portrait.sprite = cat.catPortrait;
-        UpdateCatNameUI(cat.catID);
+        UpdateOrderedTextList(catNameTextObjects, currentIndex);
 
-        string currentLabel = RelationshipManager.Instance != null
-            ? RelationshipManager.Instance.GetRelationshipLabel(cat.catID)
-            : string.Empty;
-        UpdateRelationshipLabelUI(currentLabel);
+        float currentRel = 0f;
+        float maxRel = cat.maxRelationship;
+        if (RelationshipManager.Instance != null)
+        {
+            currentRel = RelationshipManager.Instance.GetRelationship(cat.catID);
+        }
+
+        int tierIndex = GetRelationshipTierIndex(currentRel, maxRel, relationshipTierTextObjects.Count);
+        UpdateOrderedTextList(relationshipTierTextObjects, tierIndex);
 
         if (pageText != null) pageText.text = $"{currentIndex + 1} / {cats.Count}";
 
-        if (relBarFill != null && RelationshipManager.Instance != null)
+        if (relBarFill != null)
         {
-            float currentRel = RelationshipManager.Instance.GetRelationship(cat.catID);
-            float maxRel = cat.maxRelationship;
-            relBarFill.fillAmount = maxRel > 0f ? (float)currentRel / (float)maxRel : 0f;
+            relBarFill.fillAmount = maxRel > 0f ? currentRel / maxRel : 0f;
         }
 
         bool moreThanOne = cats.Count > 1;
@@ -171,25 +156,27 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
         if (nextButton != null) nextButton.gameObject.SetActive(moreThanOne);
     }
 
-    void UpdateCatNameUI(string catID)
+    int GetRelationshipTierIndex(float currentRel, float maxRel, int tierCount)
     {
-        foreach (var entry in catNameTexts)
-        {
-            if (entry.nameTextObject == null) continue;
-            bool shouldShow = (entry.catID == catID);
-            if (entry.nameTextObject.activeSelf != shouldShow)
-                entry.nameTextObject.SetActive(shouldShow);
-        }
+        if (tierCount <= 0) return -1;
+        if (maxRel <= 0f) return 0;
+
+        float ratio = Mathf.Clamp01(currentRel / maxRel);
+        if (ratio >= 1f) return tierCount - 1;
+
+        return Mathf.FloorToInt(ratio * tierCount);
     }
 
-    void UpdateRelationshipLabelUI(string currentLabel)
+    void UpdateOrderedTextList(List<GameObject> objects, int activeIndex)
     {
-        foreach (var entry in relationshipLabelTexts)
+        if (objects == null) return;
+
+        for (int i = 0; i < objects.Count; i++)
         {
-            if (entry.labelTextObject == null) continue;
-            bool shouldShow = (entry.labelKeyOrText == currentLabel);
-            if (entry.labelTextObject.activeSelf != shouldShow)
-                entry.labelTextObject.SetActive(shouldShow);
+            if (objects[i] == null) continue;
+            bool shouldShow = (i == activeIndex);
+            if (objects[i].activeSelf != shouldShow)
+                objects[i].SetActive(shouldShow);
         }
     }
 }
