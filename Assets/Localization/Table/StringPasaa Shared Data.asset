@@ -203,6 +203,26 @@ MonoBehaviour:
     m_Key: rating_detail
     m_Metadata:
       m_Items: []
+  - m_Id: 467266342633472
+    m_Key: Manual Guide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 472279970365440
+    m_Key: Thank for taking care of my cafe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 472490503454720
+    m_Key: New Entry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 472523487461376
+    m_Key: BY EX Manager
+    m_Metadata:
+      m_Items: []
+  - m_Id: 472701330145280
+    m_Key: Back To MainMenu
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

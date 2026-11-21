@@ -5554,7 +5554,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -399.43024, y: -49.41858}
+  m_AnchoredPosition: {x: -416.73, y: -49.419}
   m_SizeDelta: {x: 138.5384, y: 34.6346}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &198411124
@@ -5577,7 +5577,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: congratulation  Manager  and having  a Nice  day cooking NYAN >W<
+  m_text: "\u0E02\u0E2D\u0E41\u0E2A\u0E14\u0E07\u0E04\u0E27\u0E32\u0E21\u0E22\u0E34\u0E19\u0E14\u0E35\u0E01\u0E31\u0E1A\u0E1C\u0E39\u0E49\u0E08\u0E31\u0E14\u0E01\u0E32\u0E23
+    \u0E41\u0E25\u0E30\u0E02\u0E2D\u0E43\u0E2B\u0E49\u0E21\u0E35\u0E04\u0E27\u0E32\u0E21\u0E2A\u0E38\u0E02\u0E01\u0E31\u0E1A\u0E01\u0E32\u0E23\u0E17\u0E33\u0E2D\u0E32\u0E2B\u0E32\u0E23\u0E43\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49
+    \u0E40\u0E21\u0E35\u0E4A\u0E22\u0E27!! >W<"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
@@ -5643,7 +5645,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -316.8806, w: 0}
+  m_margin: {x: 0, y: 0, z: -347.27686, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -10892,8 +10894,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -399.43024, y: -49.41858}
-  m_SizeDelta: {x: 138.5384, y: 34.6346}
+  m_AnchoredPosition: {x: -290.66815, y: -49.41858}
+  m_SizeDelta: {x: 247.3005, y: 112.22}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &336986834
 MonoBehaviour:
@@ -10915,8 +10917,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: look who there  in front of  out cafe  hurry  up and heading there  to
-    invite  them   by press E >W<
+  m_text: "\u0E14\u0E39\u0E2A\u0E34\u0E21\u0E35\u0E40\u0E08\u0E49\u0E32\u0E15\u0E31\u0E27\u0E02\u0E19\u0E2D\u0E22\u0E39\u0E48\u0E2B\u0E19\u0E49\u0E32\u0E23\u0E49\u0E32\u0E19
+    \u0E40\u0E23\u0E47\u0E27\u0E40\u0E02\u0E49\u0E32! \u0E44\u0E1B\u0E0A\u0E27\u0E19\u0E40\u0E02\u0E49\u0E32\u0E21\u0E32\u0E01\u0E31\u0E19
+    \u0E42\u0E14\u0E22\u0E01\u0E32\u0E23\u0E01\u0E14 E"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
@@ -10982,7 +10985,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -316.8806, w: 0}
+  m_margin: {x: 0, y: 0, z: -240.10754, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -19231,6 +19234,7 @@ GameObject:
   - component: {fileID: 642372108}
   - component: {fileID: 642372110}
   - component: {fileID: 642372109}
+  - component: {fileID: 642372111}
   m_Layer: 5
   m_Name: Text (Legacy)
   m_TagString: Untagged
@@ -19278,7 +19282,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 3d9a7dadcd0b3c14ab5a92329c55710a, type: 3}
+    m_Font: {fileID: 12800000, guid: 70caa683db719bc4eb81b01aef6801c1, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -19299,6 +19303,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 642372107}
   m_CullTransparentMesh: 1
+--- !u!114 &642372111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642372107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:fb2f1112590092041a6611e47a3d2181
+    m_TableEntryReference:
+      m_KeyId: 30175108415488
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 642372109}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &653944500
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30059,6 +30103,7 @@ GameObject:
   - component: {fileID: 1051626949}
   - component: {fileID: 1051626951}
   - component: {fileID: 1051626950}
+  - component: {fileID: 1051626952}
   m_Layer: 5
   m_Name: Text (Legacy)
   m_TagString: Untagged
@@ -30127,6 +30172,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1051626948}
   m_CullTransparentMesh: 1
+--- !u!114 &1051626952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051626948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:fb2f1112590092041a6611e47a3d2181
+    m_TableEntryReference:
+      m_KeyId: 467266342633472
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1051626950}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1053736798
 GameObject:
   m_ObjectHideFlags: 0
@@ -34364,7 +34449,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -399.43024, y: -49.41858}
+  m_AnchoredPosition: {x: -431, y: -43}
   m_SizeDelta: {x: 138.5384, y: 34.6346}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1251718909
@@ -34454,7 +34539,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -316.8806, w: 0}
+  m_margin: {x: 0, y: 0, z: -363.13562, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -34943,8 +35028,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'now  press E  to guide our  customer  and  press again to  table that 
-    empty  nyan '
+  m_text: "\u0E15\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E01\u0E47\u0E01\u0E14 E \u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E41\u0E19\u0E30\u0E19\u0E33\u0E40\u0E08\u0E49\u0E32\u0E15\u0E31\u0E27\u0E02\u0E19
+    \u0E41\u0E25\u0E30 \u0E01\u0E14 E \u0E2D\u0E35\u0E01\u0E04\u0E23\u0E31\u0E49\u0E07\u0E17\u0E35\u0E48\u0E42\u0E15\u0E4A\u0E30\u0E27\u0E32\u0E07\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22
+    \u0E40\u0E21\u0E35\u0E4A\u0E22\u0E27"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
@@ -35010,7 +35096,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -316.8806, w: 0}
+  m_margin: {x: 0, y: 0, z: -335.38257, w: -125.54907}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -35650,7 +35736,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -399.43024, y: -49.41858}
+  m_AnchoredPosition: {x: -425.37006, y: -49.41858}
   m_SizeDelta: {x: 138.5384, y: 34.6346}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1298185683
@@ -35673,7 +35759,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: UmU smell so  good  came  closer  and serve it  to our customer
+  m_text: "\u0E2D\u0E37\u0E21... \u0E01\u0E25\u0E34\u0E48\u0E19\u0E2B\u0E2D\u0E21\u0E08\u0E31\u0E07\u0E40\u0E25\u0E22
+    \u0E02\u0E22\u0E31\u0E1A\u0E40\u0E02\u0E49\u0E32\u0E21\u0E32\u0E43\u0E01\u0E25\u0E49\u0E46\u0E41\u0E25\u0E49\u0E27\u0E40\u0E2A\u0E34\u0E23\u0E4C\u0E1F\u0E43\u0E2B\u0E49\u0E40\u0E08\u0E49\u0E32\u0E15\u0E31\u0E27\u0E02\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32\u0E01\u0E31\u0E19\u0E40\u0E16\u0E2D\u0E30"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
@@ -35739,7 +35826,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -316.8806, w: 0}
+  m_margin: {x: 0, y: 0, z: -373.70813, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -53596,6 +53683,7 @@ GameObject:
   - component: {fileID: 1473796547}
   - component: {fileID: 1473796549}
   - component: {fileID: 1473796548}
+  - component: {fileID: 1473796550}
   m_Layer: 5
   m_Name: Text (Legacy)
   m_TagString: Untagged
@@ -53643,7 +53731,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 3d9a7dadcd0b3c14ab5a92329c55710a, type: 3}
+    m_Font: {fileID: 12800000, guid: 70caa683db719bc4eb81b01aef6801c1, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -53664,6 +53752,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1473796546}
   m_CullTransparentMesh: 1
+--- !u!114 &1473796550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473796546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:fb2f1112590092041a6611e47a3d2181
+    m_TableEntryReference:
+      m_KeyId: 34526648483840
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1473796548}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1475066131
 GameObject:
   m_ObjectHideFlags: 0
@@ -55816,7 +55944,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1546973783
 Transform:
   m_ObjectHideFlags: 0
@@ -55868,8 +55996,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -399.43024, y: -49.41858}
-  m_SizeDelta: {x: 138.5384, y: 34.6346}
+  m_AnchoredPosition: {x: -323.0056, y: -49.41858}
+  m_SizeDelta: {x: 240.9028, y: 138.5982}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1548788416
 MonoBehaviour:
@@ -55891,8 +56019,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'wow  there  is  another  custommer  but  our custommer  kinda  needy abit 
-    you have  to guide '
+  m_text: "\u0E27\u0E49\u0E32\u0E27!\u0E21\u0E35\u0E21\u0E32\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E41\u0E25\u0E49\u0E27\u0E41\u0E15\u0E48\u0E40\u0E2B\u0E21\u0E37\u0E2D\u0E19\u0E40\u0E08\u0E49\u0E32\u0E15\u0E31\u0E27\u0E19\u0E35\u0E49\u0E04\u0E48\u0E2D\u0E19\u0E02\u0E49\u0E32\u0E07\u0E40\u0E19\u0E34\u0E23\u0E4C\u0E14
+    \u0E04\u0E38\u0E13\u0E15\u0E49\u0E2D\u0E07\u0E41\u0E19\u0E30\u0E19\u0E33\u0E40\u0E08\u0E49\u0E32\u0E15\u0E31\u0E27\u0E02\u0E19\u0E44\u0E1B\u0E17\u0E35\u0E48\u0E42\u0E15\u0E4A\u0E30"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
@@ -55958,7 +56086,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -316.8806, w: 0}
+  m_margin: {x: 0, y: 0, z: -232.11047, w: -23.991638}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -56078,7 +56206,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -399.43024, y: -49.41858}
+  m_AnchoredPosition: {x: -431, y: -49.419}
   m_SizeDelta: {x: 138.5384, y: 34.6346}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1555315123
@@ -56101,7 +56229,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'now  don''t  waste  our time  hurry to kitchen  to cooking  nyan  '
+  m_text: 'now!!  don''t  waste your time hurry to kitchen  to cooking  nyan  '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
@@ -56167,7 +56295,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -316.8806, w: 0}
+  m_margin: {x: 0, y: 0, z: -394.85315, w: -81.937256}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -61191,8 +61319,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: oh  congrat nyan ! uwu  now  open your  inventory  down there  or place 
-    B OWO
+  m_text: "\u0E22\u0E34\u0E19\u0E14\u0E35\u0E14\u0E49\u0E27\u0E22\u0E40\u0E21\u0E35\u0E4A\u0E22\u0E27!
+    \u0E01\u0E14\u0E1B\u0E38\u0E48\u0E21 B \u0E40\u0E1B\u0E34\u0E14\u0E0A\u0E48\u0E2D\u0E07\u0E40\u0E01\u0E47\u0E1A\u0E02\u0E2D\u0E07\u0E43\u0E15\u0E49\u0E08\u0E2D\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
@@ -61436,8 +61564,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: hooray  today  is  your  start nyan  but  we gotta  buy   table first head
-    to computer  !
+  m_text: "\u0E40\u0E22\u0E49! \u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E1B\u0E47\u0E19\u0E27\u0E31\u0E19\u0E40\u0E23\u0E34\u0E48\u0E21\u0E15\u0E49\u0E19\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13\u0E40\u0E21\u0E35\u0E4A\u0E22\u0E27
+    \u0E41\u0E15\u0E48\u0E01\u0E48\u0E2D\u0E19\u0E2D\u0E37\u0E48\u0E19\u0E40\u0E23\u0E32\u0E15\u0E49\u0E2D\u0E07\u0E44\u0E1B\u0E0B\u0E37\u0E49\u0E2D\u0E42\u0E15\u0E4A\u0E30\u0E01\u0E31\u0E19\u0E01\u0E48\u0E2D\u0E19
+    \u0E44\u0E1B\u0E17\u0E35\u0E48\u0E04\u0E2D\u0E21\u0E1E\u0E34\u0E27\u0E40\u0E15\u0E2D\u0E23\u0E4C\u0E40\u0E25\u0E22!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
   m_sharedMaterial: {fileID: 1240724348921543674, guid: d140f364a00b78c4c9c5b419d0e1b571, type: 2}
@@ -61503,7 +61632,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -316.8806, w: 0}
+  m_margin: {x: 0, y: 0, z: -145.74036, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -61533,8 +61662,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -399.43024, y: -49.41858}
-  m_SizeDelta: {x: 138.5384, y: 34.6346}
+  m_AnchoredPosition: {x: -212, y: -52.903}
+  m_SizeDelta: {x: 343.267, y: 148.1949}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1772805314
 MonoBehaviour:
@@ -69737,6 +69866,7 @@ GameObject:
   - component: {fileID: 2117154093}
   - component: {fileID: 2117154095}
   - component: {fileID: 2117154094}
+  - component: {fileID: 2117154096}
   m_Layer: 5
   m_Name: Text (Legacy)
   m_TagString: Untagged
@@ -69784,7 +69914,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 3d9a7dadcd0b3c14ab5a92329c55710a, type: 3}
+    m_Font: {fileID: 12800000, guid: 70caa683db719bc4eb81b01aef6801c1, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -69805,6 +69935,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2117154092}
   m_CullTransparentMesh: 1
+--- !u!114 &2117154096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117154092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:fb2f1112590092041a6611e47a3d2181
+    m_TableEntryReference:
+      m_KeyId: 34336990445568
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2117154094}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &2126803625
 GameObject:
   m_ObjectHideFlags: 0

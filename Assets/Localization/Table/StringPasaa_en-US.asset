@@ -111,7 +111,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60880139993088
-    m_Localized: 'now  don''t  waste  our time  hurry to kitchen  to cooking  nyan  '
+    m_Localized: 'now!!  don''t  waste your time hurry to kitchen  to cooking  nyan  '
     m_Metadata:
       m_Items: []
   - m_Id: 61081579831296
@@ -237,6 +237,22 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 2014452015362473984
+  - m_Id: 467266342633472
+    m_Localized: Manual Guide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 472279970365440
+    m_Localized: Thank for taking care of my cafe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 472523487461376
+    m_Localized: BY EX Manager
+    m_Metadata:
+      m_Items: []
+  - m_Id: 472701330145280
+    m_Localized: Back To MainMenu
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

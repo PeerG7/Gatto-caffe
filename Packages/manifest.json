@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.phengine.thaitextcare": "file:C:/Users/simik/Downloads/Compressed/New folder/ThaiTextCare-for-Unity-main/ThaiTextCare-for-Unity-main",
     "com.unity.2d.animation": "13.0.4",
     "com.unity.2d.aseprite": "3.0.1",
     "com.unity.2d.psdimporter": "12.0.1",
