@@ -130,6 +130,12 @@ public class GamepadDebug : MonoBehaviour
         string module = es != null && es.currentInputModule != null ? es.currentInputModule.GetType().Name : "none";
         sb.AppendLine("EventSystem module: " + module + "   Player locked: " + PlayerController2D.IsLocked);
 
+        sb.AppendLine("Active device: " + InputDeviceMonitor.Current + "   Pad style: " + InputDeviceMonitor.Style
+                      + "   Interact label: [" + InputGlyphs.Label(GameAction.Interact) + "]");
+
+        sb.AppendLine("UI context: " + (GameInput.UIContext ? "YES" : "no") + "   UIContextTag active: " + UIContextTag.Count
+                      + "   A = " + (GameInput.ClickMode ? "CLICK" : (GameInput.UIContext ? "QTE hold" : "Interact (E)")));
+
         string text = sb.ToString();
         Vector2 size = style.CalcSize(new GUIContent(text));
         GUI.Box(new Rect(8f, 8f, size.x + 16f, size.y + 12f), text, style);

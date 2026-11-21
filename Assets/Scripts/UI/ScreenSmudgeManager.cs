@@ -139,7 +139,7 @@ public class ScreenSmudgeManager : MonoBehaviour
     {
         if (!isMinigameActive) return;
 
-        if (Input.GetKeyDown(KeyCode.Space) || GameInput.PointerDown || GameInput.PadConfirmDown)   // 🎮 A / RT
+        if (Input.GetKeyDown(KeyCode.Space) || GameInput.PointerDown || (GameInput.PadConfirmDown && !GameInput.AIsClick))   // 🎮 A (ถ้าเคอร์เซอร์จอยทำงาน A = คลิกอยู่แล้ว ไม่นับซ้ำ)
         {
             currentPresses++;
             Debug.Log($"[ScreenSmudge] กด/คลิก แล้ว! ({currentPresses}/{requiredNow})");

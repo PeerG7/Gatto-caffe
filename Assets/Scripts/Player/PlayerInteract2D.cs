@@ -42,7 +42,7 @@ public class PlayerInteract2D : MonoBehaviour
     {
         if (debugPadLog)
         {
-            bool dA = GameInput.PadConfirmDown, dY = GameInput.PadActionDown;
+            bool dA = GameInput.PadInteractDown, dY = GameInput.PadActionDown;
             if (dA || dY)
                 Debug.Log("[PAD] " + (dA ? "A" : "Y") + " มาถึง PlayerInteract2D แล้ว | IsLocked=" + PlayerController2D.IsLocked
                           + " | activeCanvas=" + (activeCanvas != null ? activeCanvas.GetType().Name : "null"));
@@ -62,8 +62,8 @@ public class PlayerInteract2D : MonoBehaviour
             if (Input.GetKeyDown(key)) { pressedE = true; break; }
         }
 
-        // 🎮 Gamepad: A = interact (เหมือน E) | Y = อัปเกรด (เหมือน F)
-        if (!pressedE && GameInput.PadConfirmDown) pressedE = true;
+        // 🎮 Gamepad: A = interact (เหมือน E) เฉพาะนอกหน้า UI — ในหน้า UI ปุ่ม A เป็นคลิกซ้าย | Y = อัปเกรด (เหมือน F)
+        if (!pressedE && GameInput.PadInteractDown) pressedE = true;
 
         bool pressedF = Input.GetKeyDown(KeyCode.F) || GameInput.PadActionDown;
 

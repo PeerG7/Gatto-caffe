@@ -48,8 +48,14 @@ public class GamepadCursor : MonoBehaviour
     [Header("Behaviour")]
     [Tooltip("เปลี่ยน StandaloneInputModule เป็น InputSystemUIInputModule ให้อัตโนมัติ (จำเป็น ไม่งั้น UI มองไม่เห็นเคอร์เซอร์จอย)")]
     public bool autoSwapUIModule = true;
-    [Tooltip("หลังคลิกด้วย RT ให้ล้างปุ่มที่ถูกเลือกค้าง กันปุ่ม A ไป 'กดซ้ำ' ปุ่ม HUD ที่ค้างอยู่")]
+    [Tooltip("หลังคลิก ให้ล้างปุ่มที่ถูกเลือกค้าง กันปุ่ม A ไป 'กดซ้ำ' ปุ่ม HUD ที่ค้างอยู่")]
     public bool deselectAfterClick = true;
+    [Tooltip("ในหน้า UI: ปุ่ม A = คลิกซ้าย (ออกนอกหน้า UI ปุ่ม A กลับเป็นปุ่มโต้ตอบ E)")]
+    public bool aClicksInUI = true;
+    [Tooltip("ให้ RT / กดก้านขวา เป็นคลิกซ้ายได้ด้วย (ปิดได้ถ้าต้องการใช้ A อย่างเดียว)")]
+    public bool alsoRtClick = true;
+    [Tooltip("ตอนเปิดหน้า UI ให้เคอร์เซอร์กระโดดไปอยู่บนปุ่มที่ถูกเลือกไว้ (ไม่มี = กลางจอ) จะกด A ได้ทันที")]
+    public bool snapToSelectionOnOpen = true;
 
     private Canvas canvas;
     private RectTransform cursorRect;
@@ -61,6 +67,7 @@ public class GamepadCursor : MonoBehaviour
     private bool prevCursorVisible = true;
     private EventSystem lastEventSystem;
     private int deselectFrame = -1;
+    private bool prevUIContext, aArmed, prevADown;
     private int padState = -1;   // -1 = ยังไม่เคย log, 0 = ไม่มีจอย, 1 = มีจอย
 #if ENABLE_LEGACY_INPUT_MANAGER
     private Vector3 lastLegacyMouse;
@@ -101,10 +108,25 @@ public class GamepadCursor : MonoBehaviour
         if (mouse == null) return;
 
         EnsureUIModule();
+
+        // ---- บริบท: อยู่ในหน้า UI ไหม (ในหน้า UI ปุ่ม A = คลิกซ้าย) ----
+        bool uiContext = GameInput.UIContext;
+        bool uiJustOpened = uiContext && !prevUIContext;
+        prevUIContext = uiContext;
+        bool clickMode = aClicksInUI && GameInput.ClickMode;   // หน้า UI แต่ไม่ใช่ช่วงกด QTE
+
         Vector2 stick = pad != null ? pad.rightStick.ReadValue() : Vector2.zero;
-        bool wantLeft = pad != null && (pad.rightTrigger.isPressed || pad.rightStickButton.isPressed);
+        bool stickTouched = stick.sqrMagnitude > deadzone * deadzone;
+        bool rtClick = alsoRtClick && pad != null && (pad.rightTrigger.isPressed || pad.rightStickButton.isPressed);
         bool wantRight = pad != null && pad.leftTrigger.isPressed;
-        bool padTouched = stick.sqrMagnitude > deadzone * deadzone || wantLeft;
+
+        // A ต้อง "ปล่อยก่อน" หลังเข้าหน้า UI ถึงจะนับเป็นคลิก (กัน A ที่ใช้เปิดหน้าต่าง ไปคลิกซ้ำทันที)
+        bool aDown = pad != null && pad.buttonSouth.isPressed;
+        bool aPressedEdge = aDown && !prevADown;
+        prevADown = aDown;
+        if (!clickMode) aArmed = false;
+        else if (!aDown) aArmed = true;
+        bool aClick = clickMode && aArmed && aDown;
 
         // --- สลับโหมด ---
         if (RealMouseActive(mouse))
@@ -112,11 +134,23 @@ public class GamepadCursor : MonoBehaviour
             if (IsPadMode) ExitPadMode(mouse);
             return;
         }
+
         if (!IsPadMode)
         {
-            if (!padTouched) return;
+            bool autoWake = snapToSelectionOnOpen && uiJustOpened && InputDeviceMonitor.UsingGamepad;
+            bool aWake = clickMode && aPressedEdge;   // กด A ในหน้า UI ตอนเคอร์เซอร์ยังไม่ออก → แค่ปลุกเคอร์เซอร์ ยังไม่คลิก
+            if (!(stickTouched || rtClick || autoWake || aWake)) return;
+
             EnterPadMode(mouse);
+            if (autoWake || aWake) SnapToSelection();
+            if (aWake) { aArmed = false; aClick = false; }
         }
+        else if (snapToSelectionOnOpen && uiJustOpened && InputDeviceMonitor.UsingGamepad)
+        {
+            SnapToSelection();
+        }
+
+        bool wantLeft = rtClick || aClick;
 
         // --- ขยับเคอร์เซอร์ ---
         Vector2 delta = Vector2.zero;
@@ -140,6 +174,9 @@ public class GamepadCursor : MonoBehaviour
 
         if (wantLeft != leftDown)
         {
+            // กด A = คลิก → ล้างปุ่มที่ถูกเลือกค้างก่อน กัน EventSystem ส่ง "Submit" (ปุ่ม A) ซ้ำอีกรอบ
+            if (wantLeft && aClick) ClearSelection();
+
             SetMouseButton(mouse, MouseButton.Left, wantLeft);
             leftDown = wantLeft;
             if (!wantLeft && deselectAfterClick) deselectFrame = Time.frameCount + 2;
@@ -158,11 +195,44 @@ public class GamepadCursor : MonoBehaviour
 
         // --- แสดงผล ---
         if (delta != Vector2.zero || wantLeft || wantRight) lastActivity = Time.unscaledTime;
-        bool uiContext = PlayerController2D.IsLocked
-                         || (FurnitureManager.Instance != null && FurnitureManager.Instance.isEditMode);
         bool visible = !hideWhenIdle || uiContext || (Time.unscaledTime - lastActivity) < idleHideSeconds;
         if (cursorRect.gameObject.activeSelf != visible) cursorRect.gameObject.SetActive(visible);
         cursorRect.anchoredPosition = pos;
+    }
+
+    // ย้ายเคอร์เซอร์ไปอยู่บนปุ่มที่ EventSystem เลือกไว้ (เช่น firstSelectedButton ของหน้า Cooking) — ไม่มี = กลางจอ
+    void SnapToSelection()
+    {
+        Vector2 target = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+
+        EventSystem es = EventSystem.current;
+        GameObject sel = es != null ? es.currentSelectedGameObject : null;
+        if (sel != null && sel.activeInHierarchy)
+        {
+            RectTransform rt = sel.transform as RectTransform;
+            if (rt != null)
+            {
+                Camera cam = null;
+                Canvas c = sel.GetComponentInParent<Canvas>();
+                if (c != null)
+                {
+                    Canvas root = c.rootCanvas;
+                    if (root.renderMode != RenderMode.ScreenSpaceOverlay)
+                        cam = root.worldCamera != null ? root.worldCamera : Camera.main;
+                }
+
+                Vector2 sp = RectTransformUtility.WorldToScreenPoint(cam, rt.TransformPoint(rt.rect.center));
+                if (sp.x >= 0f && sp.y >= 0f && sp.x <= Screen.width && sp.y <= Screen.height) target = sp;
+            }
+        }
+
+        pos = target;
+        lastActivity = Time.unscaledTime;
+    }
+
+    void ClearSelection()
+    {
+        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
     }
 
     // ปุ่มเมาส์เป็น bitfield → เขียนทีละปุ่มด้วย InputState.Change(mouse.leftButton, ..) ไม่ได้ (ArgumentException)

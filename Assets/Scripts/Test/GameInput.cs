@@ -121,6 +121,9 @@ public static class GameInput
         }
     }
 
+    /// <summary>A กำลังเป็น "คลิกซ้าย" อยู่ (เคอร์เซอร์จอยทำงาน + อยู่ในหน้า UI) → สคริปต์ที่อ่าน PointerDown อยู่แล้วไม่ต้องอ่าน A ซ้ำ</summary>
+    public static bool AIsClick => GamepadCursor.IsPadMode && ClickMode;
+
 #else
     public static bool PadConnected => false;
     public static bool PadConfirmDown => false;
@@ -140,5 +143,40 @@ public static class GameInput
     public static Vector2 PointerPosition => Input.mousePosition;
     public static bool PointerDown => Input.GetMouseButtonDown(0);
     public static bool PointerRightDown => Input.GetMouseButtonDown(1);
+    public static bool AIsClick => false;
 #endif
+
+    // =================================================================
+    //  บริบท: ตอนนี้อยู่ "หน้า UI" หรือ "โลกปกติ"
+    //    โลกปกติ  → A = E (โต้ตอบ)
+    //    หน้า UI  → A = คลิกซ้ายตรงตำแหน่งเคอร์เซอร์ (เลือก / กดปุ่ม / วางเฟอร์นิเจอร์)
+    // =================================================================
+    public static bool UIContext
+    {
+        get
+        {
+            if (UIContextTag.Count > 0) return true;                       // Canvas ที่แปะ UIContextTag อยู่
+            if (PlayerController2D.IsLocked) return true;                  // Cooking / Drink / สมุด / ร้านคอม / แมว+QTE ล็อกตัวละครอยู่
+            if (ScreenSmudgeManager.IsInterrupting) return true;           // แมว/ซอสบังจอ
+            if (ComputerStation.IsShopOpen) return true;
+            if (FurnitureManager.Instance != null && FurnitureManager.Instance.isEditMode) return true;   // Edit Mode + วางของ
+            return false;
+        }
+    }
+
+    /// <summary>ปุ่ม QTE ใหญ่กำลังโชว์ → ตอนนี้ A = กดค้าง/รัว QTE (เหมือน Space) ไม่ใช่คลิก</summary>
+    public static bool QTEButtonShown
+    {
+        get
+        {
+            CatSystemManager cat = CatSystemManager.Instance;
+            return cat != null && cat.qteInteractButton != null && cat.qteInteractButton.activeInHierarchy;
+        }
+    }
+
+    /// <summary>true = ตอนนี้ A ควรทำหน้าที่คลิกซ้าย</summary>
+    public static bool ClickMode => UIContext && !QTEButtonShown;
+
+    /// <summary>A = โต้ตอบ (เหมือน E) — ใช้ในโลกปกติเท่านั้น ในหน้า UI ปุ่ม A เป็นคลิกแทน</summary>
+    public static bool PadInteractDown => !UIContext && PadConfirmDown;
 }

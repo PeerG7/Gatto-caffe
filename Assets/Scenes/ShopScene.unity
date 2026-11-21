@@ -4480,81 +4480,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &149877096
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 149877097}
-  - component: {fileID: 149877100}
-  - component: {fileID: 149877099}
-  m_Layer: 5
-  m_Name: Hand
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &149877097
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 149877096}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 737607137}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 35.8, y: 18.7}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &149877099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 149877096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -3168016865453212096, guid: 097faff7ebf561f4c93b8e332f2d6e42, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &149877100
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 149877096}
-  m_CullTransparentMesh: 1
 --- !u!1 &151302818
 GameObject:
   m_ObjectHideFlags: 0
@@ -8929,6 +8854,7 @@ GameObject:
   - component: {fileID: 286442091}
   - component: {fileID: 286442093}
   - component: {fileID: 286442092}
+  - component: {fileID: 286442094}
   m_Layer: 0
   m_Name: detail button 3
   m_TagString: Untagged
@@ -8994,6 +8920,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286442090}
   m_CullTransparentMesh: 1
+--- !u!114 &286442094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286442090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 3bec6f12dfdceca4fb7db57424093080, type: 3}
+  xbox: {fileID: -2453808186963614068, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &289002288
 GameObject:
   m_ObjectHideFlags: 0
@@ -12787,6 +12733,7 @@ GameObject:
   m_Component:
   - component: {fileID: 410978953}
   - component: {fileID: 410978954}
+  - component: {fileID: 410978955}
   m_Layer: 0
   m_Name: Icon (1)
   m_TagString: Untagged
@@ -12868,6 +12815,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &410978955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410978952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &411176910
 GameObject:
   m_ObjectHideFlags: 0
@@ -14267,6 +14234,7 @@ GameObject:
   - component: {fileID: 469154733}
   - component: {fileID: 469154735}
   - component: {fileID: 469154734}
+  - component: {fileID: 469154736}
   m_Layer: 0
   m_Name: detail button 2
   m_TagString: Untagged
@@ -14332,6 +14300,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 469154732}
   m_CullTransparentMesh: 1
+--- !u!114 &469154736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469154732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5f2af38901b981a4292126e20c481d71, type: 3}
+  xbox: {fileID: -3697836202869353444, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &469687350
 GameObject:
   m_ObjectHideFlags: 0
@@ -20148,6 +20136,7 @@ GameObject:
   m_Component:
   - component: {fileID: 677496420}
   - component: {fileID: 677496421}
+  - component: {fileID: 677496422}
   m_Layer: 0
   m_Name: tray icon (1)
   m_TagString: Untagged
@@ -20229,6 +20218,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &677496422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677496419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &679899882
 GameObject:
   m_ObjectHideFlags: 0
@@ -21666,7 +21675,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1448497233}
-  - {fileID: 149877097}
   m_Father: {fileID: 534551506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -21988,6 +21996,7 @@ GameObject:
   m_Component:
   - component: {fileID: 772943811}
   - component: {fileID: 772943810}
+  - component: {fileID: 772943812}
   m_Layer: 0
   m_Name: CookingIcon
   m_TagString: Untagged
@@ -22069,6 +22078,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 869836552}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &772943812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772943809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &780916468
 GameObject:
   m_ObjectHideFlags: 0
@@ -24593,6 +24622,7 @@ GameObject:
   m_Component:
   - component: {fileID: 841354605}
   - component: {fileID: 841354606}
+  - component: {fileID: 841354607}
   m_Layer: 0
   m_Name: tray icon
   m_TagString: Untagged
@@ -24674,6 +24704,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &841354607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841354604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &842583079
 GameObject:
   m_ObjectHideFlags: 0
@@ -26773,6 +26823,7 @@ GameObject:
   m_Component:
   - component: {fileID: 913606273}
   - component: {fileID: 913606274}
+  - component: {fileID: 913606275}
   m_Layer: 0
   m_Name: Icon (1)
   m_TagString: Untagged
@@ -26854,6 +26905,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &913606275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913606272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &915785294
 GameObject:
   m_ObjectHideFlags: 0
@@ -32335,6 +32406,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1126170172}
   - component: {fileID: 1126170173}
+  - component: {fileID: 1126170174}
   m_Layer: 0
   m_Name: Icon
   m_TagString: Untagged
@@ -32416,6 +32488,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1126170174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126170171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &1132856793
 GameObject:
   m_ObjectHideFlags: 0
@@ -33757,6 +33849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1238703409}
   - component: {fileID: 1238703410}
+  - component: {fileID: 1238703411}
   m_Layer: 0
   m_Name: Icon (1)
   m_TagString: Untagged
@@ -33838,6 +33931,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1238703411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238703408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &1239623327
 GameObject:
   m_ObjectHideFlags: 0
@@ -35974,6 +36087,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1307859272}
   - component: {fileID: 1307859273}
+  - component: {fileID: 1307859274}
   m_Layer: 0
   m_Name: garbage
   m_TagString: Untagged
@@ -36055,6 +36169,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1307859274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307859271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &1308247060
 GameObject:
   m_ObjectHideFlags: 0
@@ -52396,6 +52530,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1405906589}
   - component: {fileID: 1405906590}
+  - component: {fileID: 1405906591}
   m_Layer: 0
   m_Name: tray icon
   m_TagString: Untagged
@@ -52477,6 +52612,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1405906591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405906588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &1413805354
 GameObject:
   m_ObjectHideFlags: 0
@@ -53177,6 +53332,7 @@ GameObject:
   - component: {fileID: 1448497233}
   - component: {fileID: 1448497235}
   - component: {fileID: 1448497234}
+  - component: {fileID: 1448497236}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -53241,6 +53397,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448497232}
   m_CullTransparentMesh: 1
+--- !u!114 &1448497236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448497232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: bcc321ac200662f44814d66a97faec48, type: 3}
+  xbox: {fileID: 7844401360942098090, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &1449364173
 GameObject:
   m_ObjectHideFlags: 0
@@ -54531,6 +54707,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1495758557}
   - component: {fileID: 1495758558}
+  - component: {fileID: 1495758559}
   m_Layer: 0
   m_Name: com icon
   m_TagString: Untagged
@@ -54612,6 +54789,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1495758559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495758556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &1497134430
 GameObject:
   m_ObjectHideFlags: 0
@@ -57343,6 +57540,7 @@ GameObject:
   - component: {fileID: 1600531828}
   - component: {fileID: 1600531830}
   - component: {fileID: 1600531829}
+  - component: {fileID: 1600531831}
   m_Layer: 0
   m_Name: detail of button
   m_TagString: Untagged
@@ -57408,6 +57606,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1600531827}
   m_CullTransparentMesh: 1
+--- !u!114 &1600531831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600531827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: bcc321ac200662f44814d66a97faec48, type: 3}
+  xbox: {fileID: 7844401360942098090, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &1600957685
 GameObject:
   m_ObjectHideFlags: 0
@@ -57419,6 +57637,7 @@ GameObject:
   - component: {fileID: 1600957686}
   - component: {fileID: 1600957688}
   - component: {fileID: 1600957687}
+  - component: {fileID: 1600957689}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -57483,6 +57702,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1600957685}
   m_CullTransparentMesh: 1
+--- !u!114 &1600957689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600957685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &1601345491
 GameObject:
   m_ObjectHideFlags: 0
@@ -66420,6 +66659,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1973295487}
   - component: {fileID: 1973295488}
+  - component: {fileID: 1973295489}
   m_Layer: 0
   m_Name: Icon (1)
   m_TagString: Untagged
@@ -66501,6 +66741,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1973295489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973295486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &1975005999
 GameObject:
   m_ObjectHideFlags: 0
@@ -66511,6 +66771,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1975006001}
   - component: {fileID: 1975006000}
+  - component: {fileID: 1975006002}
   m_Layer: 0
   m_Name: beverage  icon
   m_TagString: Untagged
@@ -66592,6 +66853,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1382784131}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1975006002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1975005999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &1979704960
 GameObject:
   m_ObjectHideFlags: 0
