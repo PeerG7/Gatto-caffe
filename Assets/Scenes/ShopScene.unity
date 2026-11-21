@@ -2568,26 +2568,18 @@ MonoBehaviour:
   portrait: {fileID: 1579029008}
   relBarFill: {fileID: 1595683955}
   pageText: {fileID: 1570938611}
-  catNameTexts:
-  - catID: AIDum
-    nameTextObject: {fileID: 1621038554}
-  - catID: Airaiwa
-    nameTextObject: {fileID: 480250765}
-  - catID: AISom
-    nameTextObject: {fileID: 808868114}
-  - catID: AIkow
-    nameTextObject: {fileID: 813421467}
-  relationshipLabelTexts:
-  - labelKeyOrText: Stranger
-    labelTextObject: {fileID: 1013347843}
-  - labelKeyOrText: Acquaintance
-    labelTextObject: {fileID: 1996362309}
-  - labelKeyOrText: Friend
-    labelTextObject: {fileID: 1175275239}
-  - labelKeyOrText: Good Friend
-    labelTextObject: {fileID: 990341463}
-  - labelKeyOrText: Best Friend
-    labelTextObject: {fileID: 251735207}
+  debugManualBarFill: 0
+  catNameTextObjects:
+  - {fileID: 1621038554}
+  - {fileID: 480250765}
+  - {fileID: 808868114}
+  - {fileID: 813421467}
+  relationshipTierTextObjects:
+  - {fileID: 1013347843}
+  - {fileID: 1996362309}
+  - {fileID: 1175275239}
+  - {fileID: 990341463}
+  - {fileID: 251735207}
   prevButton: {fileID: 934113544}
   nextButton: {fileID: 962968728}
   closeButton: {fileID: 1656725904}
@@ -8171,8 +8163,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 90
+  m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8210,7 +8202,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -397.22485, w: -49.94928}
+  m_margin: {x: 0, y: 0, z: -467.19714, w: -49.94928}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -28362,8 +28354,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 90
+  m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -29166,8 +29158,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 90
+  m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -32922,8 +32914,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 90
+  m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -51247,8 +51239,9 @@ MonoBehaviour:
   portrait: {fileID: 1579029008}
   relBarFill: {fileID: 1595683955}
   pageText: {fileID: 1570938611}
-  catNameTexts: []
-  relationshipLabelTexts: []
+  debugManualBarFill: 0
+  catNameTextObjects: []
+  relationshipTierTextObjects: []
   prevButton: {fileID: 934113544}
   nextButton: {fileID: 962968728}
   closeButton: {fileID: 1656725904}
@@ -66955,8 +66948,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 90
+  m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
