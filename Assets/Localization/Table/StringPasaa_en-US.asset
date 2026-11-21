@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en-US
   m_SharedData: {fileID: 11400000, guid: fb2f1112590092041a6611e47a3d2181, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 2014452015173992526
   m_TableData:
   - m_Id: 36660199424
     m_Localized: New Game
@@ -75,13 +76,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 39986650824704
-    m_Localized: Serve Result
+    m_Localized: 'Cats Served: {served}'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2014452015173992526
   - m_Id: 40121178931200
-    m_Localized: Earning Result
+    m_Localized: 'Total Earnings: {earnings} $'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2014452015173992526
   - m_Id: 40255111446528
     m_Localized: hooray  to day  is  your  start nyan  but  we gotta  buy   table
       first head to computer  !
@@ -209,6 +212,42 @@ MonoBehaviour:
     m_Localized: "Press \nto  open inventory"
     m_Metadata:
       m_Items: []
+  - m_Id: 325370303627264
+    m_Localized: Day {day} Finished!
+    m_Metadata:
+      m_Items:
+      - rid: 2014452015173992526
+  - m_Id: 325928942977024
+    m_Localized: "Day {day} \u2014 Final Day!"
+    m_Metadata:
+      m_Items:
+      - rid: 2014452015173992526
+  - m_Id: 326023105101824
+    m_Localized: "Rating: {oldRating} \u2192 {newRating}  ({arrow})"
+    m_Metadata:
+      m_Items:
+      - rid: 2014452015173992526
+  - m_Id: 326102985621504
+    m_Localized: 'Cats Visited: {arrived}
+
+      Served {served}/{arrived}  |  Missed
+      {missed}/{arrived}
+
+      Interact {interact}'
+    m_Metadata:
+      m_Items:
+      - rid: 2014452015173992526
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2014452015173992526
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 39986650824704
+        - id: 40121178931200
+        - id: 325370303627264
+        - id: 325928942977024
+        - id: 326023105101824
+        - id: 326102985621504
