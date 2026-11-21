@@ -1,16 +1,21 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Globalization;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 // =====================================================================
-// UISummaryController — v3 (3-Day Session Limit + Hide UI During Summary)
+// UISummaryController — v5 (Localization + Cafe Rating)
 //
-// ของเดิม: fade sequence, Next Day, Main Menu, 3-Day Session ทำงานปกติ
-// เพิ่มใหม่:
-//   - hideDuringSummary: UI ที่จะซ่อนตอนขึ้นหน้าสรุป (เช่น ช่องเก็บของ)
-//     ซ่อนตอนเริ่ม fade มืด และเปิดกลับตอนกด Next Day
+// - ข้อความทุกบรรทัดในหน้าสรุป (Day / Served / Earnings / Rating / Detail)
+//   ให้ Localize String Event เป็นคนใส่ แล้วสคริปต์ส่งแค่ "ตัวเลข" เข้าไปเป็นตัวแปร Smart String
+// - ตัวแปรถูกตั้งค่าเริ่มต้นก่อน SetActive(true) ของ summaryCanvas เสมอ
+//   (กัน FormattingException หา {day} ไม่เจอตอน component เปิด)
+// - ถ้าไม่ได้ใส่ Localize ของ Rating ไว้ จะใช้ ratingText / ratingDetailText แบบเดิม (ภาษาอังกฤษ)
 // =====================================================================
 public class UISummaryController : MonoBehaviour
 {
@@ -22,9 +27,29 @@ public class UISummaryController : MonoBehaviour
     public TextMeshProUGUI servedText;
     public TextMeshProUGUI earningsText;
 
-    [Header("Cafe Rating (ใหม่ — ปล่อยว่างได้ถ้าไม่ต้องการแสดง)")]
-    public TextMeshProUGUI ratingText;        // เช่น "Rating: 1.0 → 2.0 (▲)"
-    public TextMeshProUGUI ratingDetailText;  // เช่น "Served 6/6 | Missed 2 | Interact 3"
+    [Header("Cafe Rating (ปล่อยว่างได้ถ้าไม่ต้องการแสดง)")]
+    public TextMeshProUGUI ratingText;        // ใช้เฉพาะตอนไม่ได้ใส่ Rating Localize (แบบเดิม)
+    public TextMeshProUGUI ratingDetailText;  // ใช้เฉพาะตอนไม่ได้ใส่ Rating Detail Localize (แบบเดิม)
+
+    // ── Localization ──────────────────────────────────────────────
+    [Header("Localization")]
+    [Tooltip("Localize String Event ของ DayText (key: day_result) ตัวแปร: {day}")]
+    public LocalizeStringEvent dayLocalize;
+
+    [Tooltip("Localize String Event ของ ServeText (key: ServeResult) ตัวแปร: {served}")]
+    public LocalizeStringEvent servedLocalize;
+
+    [Tooltip("Localize String Event ของ Earnings Text (key: EarningResult) ตัวแปร: {earnings}")]
+    public LocalizeStringEvent earningsLocalize;
+
+    [Tooltip("String วันสุดท้าย (key: day_final) ตัวแปร: {day}")]
+    public LocalizedString dayFinalString;
+
+    [Tooltip("Localize String Event ของ Rating Text (key: rating_result) ตัวแปร: {oldRating} {newRating} {arrow}")]
+    public LocalizeStringEvent ratingLocalize;
+
+    [Tooltip("Localize String Event ของ Rating Detail Text (key: rating_detail) ตัวแปร: {arrived} {served} {missed} {interact}")]
+    public LocalizeStringEvent ratingDetailLocalize;
 
     [Header("Settings")]
     public float fadeDuration = 1.5f;
@@ -49,8 +74,8 @@ public class UISummaryController : MonoBehaviour
     public string labelNextDay = "Next Day";
     public string labelEndGame = "See Ending";
 
-    // ✅ เพิ่มใหม่: UI ที่ต้องการซ่อนตอนขึ้นหน้าสรุป ──────────────
-    [Header("Hide During Summary (เพิ่มใหม่)")]
+    // ── Hide UI ระหว่างหน้าสรุป ─────────────────────────────────────
+    [Header("Hide During Summary")]
     [Tooltip("UI ที่จะซ่อนตอนขึ้นหน้าสรุป เช่น ช่องเก็บของ / hotbar")]
     public GameObject[] hideDuringSummary;
 
@@ -58,13 +83,19 @@ public class UISummaryController : MonoBehaviour
     private int _currentDay = 1;
     private bool _isLastDay = false;
 
+    // เก็บ reference เดิมของ DayText ไว้ เผื่อสลับกลับจาก day_final
+    private LocalizedString _originalDayString;
+
     void Start()
     {
         if (summaryCanvas != null) summaryCanvas.SetActive(false);
         if (blackOverlay != null) blackOverlay.gameObject.SetActive(false);
+
+        if (dayLocalize != null)
+            _originalDayString = dayLocalize.StringReference;
     }
 
-    // ✅ เพิ่มใหม่: ซ่อน/แสดง UI ตามรายการ
+    // ซ่อน/แสดง UI ตามรายการ
     private void SetHiddenUI(bool hidden)
     {
         if (hideDuringSummary == null) return;
@@ -75,10 +106,115 @@ public class UISummaryController : MonoBehaviour
         }
     }
 
+    // ── Localization helpers ──────────────────────────────────────
+    private static void SetInt(LocalizedString str, string varName, int value)
+    {
+        if (str == null) return;
+
+        if (str.TryGetValue(varName, out var existing) && existing is IntVariable iv)
+            iv.Value = value;
+        else
+            str[varName] = new IntVariable { Value = value };
+    }
+
+    private static void SetString(LocalizedString str, string varName, string value)
+    {
+        if (str == null) return;
+
+        if (str.TryGetValue(varName, out var existing) && existing is StringVariable sv)
+            sv.Value = value;
+        else
+            str[varName] = new StringVariable { Value = value };
+    }
+
+    private static void RefreshIfActive(LocalizeStringEvent evt)
+    {
+        // ถ้ายังไม่ได้เปิด component จะแปลเองตอน OnEnable (และตัวแปรพร้อมแล้ว)
+        if (evt != null && evt.isActiveAndEnabled)
+            evt.RefreshString();
+    }
+
+    // ส่งข้อมูลทั้งหมดเข้า Localization
+    // result = null → ใส่ค่า placeholder ให้ตัวแปรของ Rating ครบ (ใช้ก่อนเปิด Canvas)
+    private void ApplyLocalizedData(int day, int served, int earnings, CafeRatingManager.DayResult result)
+    {
+        // Day — ตั้งตัวแปรบน string ปลายทางก่อน แล้วค่อยสลับ reference (กัน error หา {day} ไม่เจอ)
+        if (dayLocalize != null)
+        {
+            LocalizedString target = (_isLastDay && !dayFinalString.IsEmpty)
+                ? dayFinalString
+                : _originalDayString;
+
+            if (target != null)
+            {
+                SetInt(target, "day", day);
+                if (dayLocalize.StringReference != target)
+                    dayLocalize.StringReference = target;
+            }
+            RefreshIfActive(dayLocalize);
+        }
+
+        if (servedLocalize != null)
+        {
+            SetInt(servedLocalize.StringReference, "served", served);
+            RefreshIfActive(servedLocalize);
+        }
+
+        if (earningsLocalize != null)
+        {
+            SetInt(earningsLocalize.StringReference, "earnings", earnings);
+            RefreshIfActive(earningsLocalize);
+        }
+
+        // Rating
+        string oldR = "0.0", newR = "0.0", arrow = "-";
+        int arrived = 0, rServed = 0, rMissed = 0, rInteract = 0;
+
+        if (result != null)
+        {
+            oldR = result.oldRating.ToString("0.0", CultureInfo.InvariantCulture);
+            newR = result.newRating.ToString("0.0", CultureInfo.InvariantCulture);
+            arrow = result.change > 0.001f ? "▲" : (result.change < -0.001f ? "▼" : "-");
+            arrived = result.arrived;
+            rServed = result.served;
+            rMissed = result.missed;
+            rInteract = result.interactSuccess;
+        }
+
+        if (ratingLocalize != null)
+        {
+            SetString(ratingLocalize.StringReference, "oldRating", oldR);
+            SetString(ratingLocalize.StringReference, "newRating", newR);
+            SetString(ratingLocalize.StringReference, "arrow", arrow);
+            RefreshIfActive(ratingLocalize);
+        }
+        else if (ratingText != null && result != null)
+        {
+            // แบบเดิม (ไม่ได้ผูก Localize)
+            ratingText.text = CafeRatingManager.BuildRatingLine(result);
+        }
+
+        if (ratingDetailLocalize != null)
+        {
+            SetInt(ratingDetailLocalize.StringReference, "arrived", arrived);
+            SetInt(ratingDetailLocalize.StringReference, "served", rServed);
+            SetInt(ratingDetailLocalize.StringReference, "missed", rMissed);
+            SetInt(ratingDetailLocalize.StringReference, "interact", rInteract);
+            RefreshIfActive(ratingDetailLocalize);
+        }
+        else if (ratingDetailText != null && result != null)
+        {
+            ratingDetailText.text = CafeRatingManager.BuildDetailLine(result);
+        }
+    }
+
     public void StartSummarySequence(int day, int served, int earnings)
     {
         _currentDay = day;
         _isLastDay = day >= maxDays;
+
+        // ✅ ตั้งตัวแปรให้ครบก่อนเปิด Canvas (Rating จริงยังไม่รู้ → ใส่ placeholder ไปก่อน)
+        ApplyLocalizedData(day, served, earnings, null);
 
         summaryCanvas.SetActive(true);
 
@@ -119,7 +255,7 @@ public class UISummaryController : MonoBehaviour
             ? CafeRatingManager.Instance.EvaluateEndOfDay(day)
             : null;
 
-        // ✅ เพิ่มใหม่: ซ่อนช่องเก็บของ (และ UI อื่นๆ ในลิสต์) ก่อนเริ่ม fade มืด
+        // ซ่อนช่องเก็บของ (และ UI อื่นๆ ในลิสต์) ก่อนเริ่ม fade มืด
         SetHiddenUI(true);
 
         // 2. Fade มืด
@@ -145,18 +281,10 @@ public class UISummaryController : MonoBehaviour
             yield return null;
         }
 
-        // 3. Set ข้อมูล
-        if (dayText != null) dayText.text = "Day " + day + " Finished!";
+        // 3. Set ข้อมูล (ผ่าน Localization)
         // ใช้ตัวเลขเสิร์ฟจากการคิด Rating (นับหลังแมวออกหมดแล้ว) เพื่อให้ตรงกับ Served x/y ด้านล่าง
         int servedForDisplay = ratingResult != null ? ratingResult.served : served;
-        if (servedText != null) servedText.text = "Cats Served: " + servedForDisplay;
-        if (earningsText != null) earningsText.text = "Total Earnings: " + earnings + " $";
-        if (ratingText != null) ratingText.text = CafeRatingManager.BuildRatingLine(ratingResult);
-        if (ratingDetailText != null) ratingDetailText.text = CafeRatingManager.BuildDetailLine(ratingResult);
-
-        // แสดง "Final Day!" ถ้าเป็นวันสุดท้าย
-        if (_isLastDay && dayText != null)
-            dayText.text = "Day " + day + " — Final Day!";
+        ApplyLocalizedData(day, servedForDisplay, earnings, ratingResult);
 
         // 4. Fade ตัวหนังสือขึ้น
         timer = 0;
@@ -246,7 +374,7 @@ public class UISummaryController : MonoBehaviour
         if (blackOverlay != null) blackOverlay.gameObject.SetActive(false);
         if (summaryCanvas != null) summaryCanvas.SetActive(false);
 
-        // ✅ เพิ่มใหม่: เปิดช่องเก็บของกลับมา
+        // เปิดช่องเก็บของกลับมา
         SetHiddenUI(false);
 
         if (canvasGroup != null)

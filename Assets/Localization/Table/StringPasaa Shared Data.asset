@@ -187,6 +187,22 @@ MonoBehaviour:
     m_Key: press_B
     m_Metadata:
       m_Items: []
+  - m_Id: 327936680804352
+    m_Key: day_result
+    m_Metadata:
+      m_Items: []
+  - m_Id: 328077307428864
+    m_Key: day_final
+    m_Metadata:
+      m_Items: []
+  - m_Id: 328218479312896
+    m_Key: rating_result
+    m_Metadata:
+      m_Items: []
+  - m_Id: 328276893384704
+    m_Key: rating_detail
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
