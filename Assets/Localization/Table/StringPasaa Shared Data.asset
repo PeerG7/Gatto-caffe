@@ -183,6 +183,10 @@ MonoBehaviour:
     m_Key: press_F
     m_Metadata:
       m_Items: []
+  - m_Id: 320281685934080
+    m_Key: press_B
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

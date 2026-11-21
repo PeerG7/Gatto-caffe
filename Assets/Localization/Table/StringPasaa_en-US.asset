@@ -205,6 +205,10 @@ MonoBehaviour:
     m_Localized: "Press \nto  upgrade"
     m_Metadata:
       m_Items: []
+  - m_Id: 320281685934080
+    m_Localized: "Press \nto  open inventory"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
