@@ -297,6 +297,42 @@ MonoBehaviour:
     m_Localized: you have  retrive stuff  back
     m_Metadata:
       m_Items: []
+  - m_Id: 707014546046976
+    m_Localized: Blacky
+    m_Metadata:
+      m_Items: []
+  - m_Id: 707225322405888
+    m_Localized: Aliencat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 708104263974912
+    m_Localized: Siamese
+    m_Metadata:
+      m_Items: []
+  - m_Id: 708609216233472
+    m_Localized: White
+    m_Metadata:
+      m_Items: []
+  - m_Id: 708841320628224
+    m_Localized: Stranger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 709027413508096
+    m_Localized: Acquaintance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 709077942288384
+    m_Localized: Friend
+    m_Metadata:
+      m_Items: []
+  - m_Id: 709285061214208
+    m_Localized: Good Friend
+    m_Metadata:
+      m_Items: []
+  - m_Id: 709450258071552
+    m_Localized: Best Friend
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
