@@ -26,11 +26,12 @@ public class FurnitureManager : MonoBehaviour
     public bool rebakeNavMeshOnChange = true;
 
     [Header("Preview Colors")]
-    public Color validColor = new Color(0f, 1f, 0f, 0.6f);
-    public Color invalidColor = new Color(1f, 0f, 0f, 0.6f);
+    public Color validColor = new Color(0f, 1f, 0f, 0.6f);   // สีเขียวโปร่งแสง (วางได้)
+    public Color invalidColor = new Color(1f, 0f, 0f, 0.6f); // สีแดงโปร่งแสง (วางไม่ได้)
 
     private GameObject currentPlacingObject;
 
+    /// <summary>true = ผู้เล่นกำลังถือเฟอร์นิเจอร์เพื่อวางอยู่ (ใช้โดย Tutorial Hint)</summary>
     public bool IsPlacingFurniture => currentPlacingObject != null;
     private FurnitureInstanceData currentPlacingInstance;
     private SpriteRenderer[] currentRenderers;
@@ -44,7 +45,7 @@ public class FurnitureManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B) || GameInput.PadEditModeDown)
+        if (Input.GetKeyDown(KeyCode.B) || GameInput.PadEditModeDown)   // 🎮 Select
         {
             if (ComputerStation.IsShopOpen) return;
             ToggleEditMode(!isEditMode);
@@ -52,6 +53,7 @@ public class FurnitureManager : MonoBehaviour
 
         if (currentPlacingObject != null)
         {
+            // 1. Snap เข้า Grid
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(GameInput.PointerPosition);
             Vector3 snapPos = new Vector3(
                 Mathf.Round((mousePos.x - gridOffset.x) / gridSize) * gridSize + gridOffset.x,
@@ -60,15 +62,19 @@ public class FurnitureManager : MonoBehaviour
             );
             currentPlacingObject.transform.position = snapPos;
 
-            if (Input.GetKeyDown(KeyCode.R) || GameInput.PadNextDown)
+            // 2. หมุนวัตถุ (ปุ่ม R)
+            if (Input.GetKeyDown(KeyCode.R) || GameInput.PadNextDown)   // 🎮 RB
             {
                 currentPlacingObject.transform.Rotate(0f, 0f, -90f);
             }
 
+            // 3. ตรวจสอบพื้นที่วาง (เช็คการซ้อนทับ)
             CheckPlacementValidity();
 
-            if (GameInput.PointerDown)
+            // 4. คลิกซ้ายวางวัตถุ
+            if (GameInput.PointerDown)   // 🎮 คลิกซ้าย / RT
             {
+                // 🛡️ คลิกที่ Dock คลังเฟอร์นิเจอร์ใช้ไปแล้ว (เปิดค้าง/ปิดกรอบ/คลิกบนกรอบ) ห้ามนับเป็นการวางของ
                 bool clickUsedByDock = FurnitureEditUI.Instance != null && FurnitureEditUI.Instance.ClickConsumedThisFrame;
 
                 if (!clickUsedByDock && isValidPosition)
@@ -77,13 +83,16 @@ public class FurnitureManager : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.Escape) || GameInput.PointerRightDown || GameInput.PadBackDown)
+            // ยกเลิกด้วย ESC หรือ คลิกขวา
+            if (Input.GetKeyDown(KeyCode.Escape) || GameInput.PointerRightDown || GameInput.PadBackDown)   // 🎮 B / LT
             {
+                GameInput.MarkBackHandled();   // ใช้ Esc ยกเลิกแล้ว → Pause ไม่เปิดซ้ำ
                 CancelPlacement();
             }
         }
         else if (isEditMode)
         {
+            // 🎮 B ตอนไม่ได้ถือของวางอยู่ = ออกจาก Edit Mode
             if (GameInput.PadBackDown) { ToggleEditMode(false); return; }
             HandleFurniturePickup();
         }
@@ -99,6 +108,7 @@ public class FurnitureManager : MonoBehaviour
 
         currentPlacingObject = Instantiate(instance.itemData.prefab, spawnPos, Quaternion.identity);
 
+        // ซ่อน LockedVisual ชั่วคราวขณะเป็น Preview และเปิด Visual ปกติขึ้นมา
         FurnitureObject furnObj = currentPlacingObject.GetComponent<FurnitureObject>();
         if (furnObj != null)
         {
@@ -107,6 +117,7 @@ public class FurnitureManager : MonoBehaviour
             if (furnObj.woodChairVisual != null) furnObj.woodChairVisual.SetActive(true);
         }
 
+        // เก็บ SpriteRenderer ทั้งหมดในตัวลูกเพื่อย้อมสีทั้งชุด
         currentRenderers = currentPlacingObject.GetComponentsInChildren<SpriteRenderer>(true);
         previewCollider = currentPlacingObject.GetComponent<BoxCollider2D>();
 
@@ -122,9 +133,11 @@ public class FurnitureManager : MonoBehaviour
             return;
         }
 
+        // 1. คำนวณจุดศูนย์กลางและขนาด (ย่อขนาดลงเหลือ 85% ป้องกันขอบ Collider ไปแตะขอบกำแพงเกินจริง)
         Vector2 center = (Vector2)currentPlacingObject.transform.position + previewCollider.offset;
         Vector2 size = previewCollider.size * currentPlacingObject.transform.lossyScale * 0.85f;
 
+        // 2. ยิง OverlapBoxAll เพื่อดึง Collider ทั้งหมดในบริเวณนั้นมาเช็ก
         Collider2D[] overlaps = Physics2D.OverlapBoxAll(
             center,
             size,
@@ -132,21 +145,18 @@ public class FurnitureManager : MonoBehaviour
             unplaceableLayer
         );
 
-        string myFurnitureID = PlacementBlocker.GetFurnitureID(currentPlacingObject);
-
+        // 3. กรอง Collider ของตัวมันเอง และ Child ออกจากการเช็ก
         bool isBlocked = false;
         foreach (var col in overlaps)
         {
-            if (col == null) continue;
-            if (col.transform.IsChildOf(currentPlacingObject.transform)) continue;
-
-            PlacementBlocker blocker = col.GetComponentInParent<PlacementBlocker>();
-            if (blocker != null && !blocker.Blocks(myFurnitureID)) continue;
-
-            isBlocked = true;
-            break;
+            if (col != null && !col.transform.IsChildOf(currentPlacingObject.transform))
+            {
+                isBlocked = true;
+                break;
+            }
         }
 
+        // 3.5 เช็กระยะห่างจากเฟอร์นิเจอร์ชิ้นอื่น (ใช้ BoxCollider2D ตัวหลักของแต่ละชิ้นเป็นขอบเขต)
         if (!isBlocked && minFurnitureGap > 0f)
         {
             foreach (var other in FindObjectsByType<PlacedFurniture>(FindObjectsSortMode.None))
@@ -162,6 +172,8 @@ public class FurnitureManager : MonoBehaviour
         }
 
         isValidPosition = !isBlocked;
+
+        // เปลี่ยนสีพรีวิว
         SetPreviewColor(isValidPosition ? validColor : invalidColor);
     }
 
@@ -181,10 +193,11 @@ public class FurnitureManager : MonoBehaviour
     {
         if (FurnitureInventory.Instance != null && FurnitureInventory.Instance.RemoveInstance(currentPlacingInstance))
         {
+            // คืนค่าสี Sprite เป็นสีปกติ
             SetPreviewColor(Color.white);
 
             SetObjectCollidersTrigger(currentPlacingObject, false);
-            RequestNavMeshRebake();
+            RequestNavMeshRebake(); // 🟢 อัปเดต NavMesh ให้ตรงกับตำแหน่งโต๊ะใหม่
 
             PlacedFurniture placedScript = currentPlacingObject.GetComponent<PlacedFurniture>();
             if (placedScript == null)
@@ -194,10 +207,17 @@ public class FurnitureManager : MonoBehaviour
 
             placedScript.Setup(currentPlacingInstance);
 
+            // เล่นเสียงวางเฟอร์นิเจอร์ (วางจากคลังสำเร็จ)
             AudioManager.instance?.PlayPlaceFurniture();
 
-            UINotificationManager.Instance?.ShowNotification("NOTI_FURNITURE_PLACED");
+            // 🌟 [เพิ่มตรงนี้] แสดง UI Notification ตอนวางโต๊ะสำเร็จ
+            if (UINotificationManager.Instance != null)
+            {
+                string tableName = currentPlacingInstance.itemData != null ? currentPlacingInstance.itemData.name : "โต๊ะ";
+                UINotificationManager.Instance.ShowNotification($"Place {tableName} Complete");
+            }
 
+            // 🌟 [JUICE] เล่นอนิเมชันเด้งดึ๋งนุ่มนวลตอนวางเฟอร์นิเจอร์
             StartCoroutine(AnimatePlacementBounce(currentPlacingObject.transform));
 
             currentPlacingObject = null;
@@ -205,6 +225,7 @@ public class FurnitureManager : MonoBehaviour
             currentRenderers = null;
             previewCollider = null;
 
+            // ยกตำแหน่ง UI กลับมาที่ Pos Y = -406 และอัปเดตรายการในคลัง
             if (FurnitureEditUI.Instance != null)
             {
                 FurnitureEditUI.Instance.RestorePanelPosition();
@@ -233,6 +254,7 @@ public class FurnitureManager : MonoBehaviour
             previewCollider = null;
         }
 
+        // ยกตำแหน่ง UI กลับมาที่ Pos Y = -406 เมื่อกดยกเลิก
         if (FurnitureEditUI.Instance != null)
         {
             FurnitureEditUI.Instance.RestorePanelPosition();
@@ -241,7 +263,7 @@ public class FurnitureManager : MonoBehaviour
 
     private void HandleFurniturePickup()
     {
-        if (Input.GetKeyDown(KeyCode.V) || GameInput.PadRemoveDown)
+        if (Input.GetKeyDown(KeyCode.V) || GameInput.PadRemoveDown)   // 🎮 X (เก็บชิ้นที่เคอร์เซอร์ชี้อยู่)
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(GameInput.PointerPosition);
 
@@ -254,21 +276,27 @@ public class FurnitureManager : MonoBehaviour
                 PlacedFurniture furniture = hit.collider.GetComponentInParent<PlacedFurniture>();
                 if (furniture != null)
                 {
+                    // 🗑️ ถ้ามีแมวนั่ง/กำลังเดินมานั่งที่เฟอร์นิเจอร์ชิ้นนี้ → ลบแมวทิ้งไปพร้อมกัน
                     RemoveCatsFromFurniture(furniture);
 
+                    // เล่นเสียงเก็บตอนเริ่มอนิเมชัน (ไม่รอให้ของหายก่อน)
                     AudioManager.instance?.PlayCollectFurniture();
 
-                    UINotificationManager.Instance?.ShowNotification("NOTI_FURNITURE_STORED");
-
+                    // 🌟 [JUICE] เล่นอนิเมชันพองแล้วยุบหายไป ก่อนเก็บเข้ากระเป๋า
                     StartCoroutine(AnimatePickupShrink(furniture));
                 }
             }
         }
     }
 
+    /// <summary>
+    /// ลบแมวทุกตัวที่ใช้โต๊ะ (CustomerTable) ในเฟอร์นิเจอร์ชิ้นนี้ — คืนค่าจำนวนแมวที่ถูกลบ
+    /// </summary>
     private int RemoveCatsFromFurniture(PlacedFurniture furniture)
     {
         if (furniture == null) return 0;
+
+        // ลบทันทีที่กดเก็บ (ไม่รอให้อนิเมชันจบ) — PlacedFurniture.PickupFurniture() ก็เรียกซ้ำเป็นตัวกันพลาดอีกชั้น
         return furniture.EvictCats();
     }
 
@@ -284,6 +312,11 @@ public class FurnitureManager : MonoBehaviour
     public void ToggleEditMode(bool active)
     {
         isEditMode = active;
+        // (ไม่ล็อกผู้เล่นที่นี่แล้ว — FurnitureEditUI เป็นคนล็อก/ปลดตามสถานะกรอบ Dock)
+
+        // (โหมดกล้อง Pan ก็ให้ FurnitureEditUI ควบคุมตามสถานะกรอบ Dock เช่นกัน)
+
+        // (หยุด/เดินเวลาก็ให้ FurnitureEditUI ควบคุมตามสถานะกรอบ Dock — หยุดเฉพาะตอนกรอบเปิดค้าง)
 
         if (!isEditMode && currentPlacingObject != null) CancelPlacement();
 
@@ -291,17 +324,23 @@ public class FurnitureManager : MonoBehaviour
             FurnitureEditUI.Instance.ToggleEditUI(active);
     }
 
+    // =========================================================================
+    // 🌟 JUICE EFFECT 1: อนิเมชันเด้งดึ๋งนุ่มนวลตอนวางเฟอร์นิเจอร์ลงบนฉาก
+    // =========================================================================
     private System.Collections.IEnumerator AnimatePlacementBounce(Transform targetTransform)
     {
         if (targetTransform == null) yield break;
 
         Vector3 originalScale = targetTransform.localScale;
+        // พองออกทางข้าง ยุบตัวลงแนวดิ่ง (Squash)
         Vector3 squashScale = new Vector3(originalScale.x * 1.18f, originalScale.y * 0.82f, originalScale.z);
+        // ยืดขึ้นแนวดิ่ง ย่อเข้าทางข้าง (Stretch)
         Vector3 stretchScale = new Vector3(originalScale.x * 0.92f, originalScale.y * 1.08f, originalScale.z);
 
         float duration = 0.07f;
         float elapsed = 0f;
 
+        // จังหวะที่ 1: แบนลง
         while (elapsed < duration)
         {
             if (targetTransform == null) yield break;
@@ -310,6 +349,7 @@ public class FurnitureManager : MonoBehaviour
             yield return null;
         }
 
+        // จังหวะที่ 2: เด้งยืดขึ้น
         elapsed = 0f;
         while (elapsed < duration)
         {
@@ -319,6 +359,7 @@ public class FurnitureManager : MonoBehaviour
             yield return null;
         }
 
+        // จังหวะที่ 3: คืนค่าขนาดเดิม
         elapsed = 0f;
         while (elapsed < duration)
         {
@@ -332,17 +373,23 @@ public class FurnitureManager : MonoBehaviour
             targetTransform.localScale = originalScale;
     }
 
+    // =========================================================================
+    // 🌟 JUICE EFFECT 2: อนิเมชันพองแล้วยุบหาย (Pop & Shrink) ตอนกดเก็บเฟอร์นิเจอร์ (ปุ่ม V)
+    // =========================================================================
     private System.Collections.IEnumerator AnimatePickupShrink(PlacedFurniture furniture)
     {
         if (furniture == null) yield break;
 
         Transform targetTransform = furniture.transform;
         Vector3 originalScale = targetTransform.localScale;
+
+        // เด้งพองขยายขึ้นเล็กน้อยก่อนยุบ
         Vector3 popScale = originalScale * 1.2f;
 
         float duration = 0.08f;
         float elapsed = 0f;
 
+        // 1. พองตัวขึ้นนิดนึง
         while (elapsed < duration)
         {
             if (targetTransform == null) yield break;
@@ -351,6 +398,7 @@ public class FurnitureManager : MonoBehaviour
             yield return null;
         }
 
+        // 2. ยุบตัวเล็กลงจนเหลือ 0 (ดูดเก็บลงกระเป๋า)
         elapsed = 0f;
         duration = 0.1f;
         while (elapsed < duration)
@@ -361,23 +409,30 @@ public class FurnitureManager : MonoBehaviour
             yield return null;
         }
 
+        // 3. เรียกฟังก์ชันเก็บเข้ากระเป๋าจริง และ Destroy วัตถุ
         if (furniture != null)
         {
             furniture.PickupFurniture();
         }
     }
 
+    // =========================================================================
+    // 🟢 NavMesh: Bake ใหม่หลังวาง/เก็บเฟอร์นิเจอร์
+    // (เดิมมีเฉพาะ FurniturePlacementManager.Place() ที่ Bake — ระบบวางจากคลังไม่ได้ Bake เลย
+    //  NavMesh จึงไม่ตรงกับตำแหน่งโต๊ะจริง แมวหาที่นั่ง/เส้นทางผิดเพี้ยน)
+    // =========================================================================
     private Coroutine _rebakeRoutine;
 
     public void RequestNavMeshRebake()
     {
         if (!rebakeNavMeshOnChange) return;
-        if (_rebakeRoutine != null) StopCoroutine(_rebakeRoutine);
+        if (_rebakeRoutine != null) StopCoroutine(_rebakeRoutine); // วางหลายชิ้นติดกัน Bake ครั้งเดียวพอ
         _rebakeRoutine = StartCoroutine(RebakeNavMeshNextFrame());
     }
 
     private System.Collections.IEnumerator RebakeNavMeshNextFrame()
     {
+        // รอให้ Destroy / เปลี่ยน Collider เสร็จก่อนค่อย Bake
         yield return null;
         yield return null;
 

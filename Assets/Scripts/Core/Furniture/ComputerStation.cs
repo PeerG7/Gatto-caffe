@@ -28,8 +28,12 @@ public class ComputerStation : MonoBehaviour
 
     void Update()
     {
-        // 🎮 B = ปิดร้านคอม (ปุ่มอื่นในร้านใช้เคอร์เซอร์ก้านขวา + RT ได้เลย)
-        if (IsShopOpen && GameInput.PadBackDown) CloseComputerShop();
+        // Esc / 🎮 B = ปิดร้านคอมก่อน (เมนู Pause จะไม่เปิดซ้ำในเฟรมเดียวกัน — กด Esc อีกครั้งถึงจะเปิด)
+        if (IsShopOpen && (Input.GetKeyDown(KeyCode.Escape) || GameInput.PadBackDown))
+        {
+            GameInput.MarkBackHandled();
+            CloseComputerShop();
+        }
     }
 
     public void OpenComputerShop()
@@ -52,6 +56,8 @@ public class ComputerStation : MonoBehaviour
 
     public void CloseComputerShop()
     {
+        if (!IsShopOpen) return;   // กันถูกเรียกซ้ำ (เช่น Esc + ปุ่มปิดในเฟรมเดียว) แล้ว ResumeGame ลดตัวนับ Pause เกิน
+
         if (shopCanvas != null)
         {
             IsShopOpen = false;

@@ -30,6 +30,9 @@ public class GamepadCursor : MonoBehaviour
     /// <summary>true = กำลังใช้เคอร์เซอร์จอย (ใช้สลับไอคอนปุ่มช่วยเหลือบน UI ได้)</summary>
     public static bool IsPadMode { get; private set; }
 
+    /// <summary>เวลาล่าสุดที่ผู้เล่นขยับเคอร์เซอร์ด้วยก้านขวา (GamepadUINavigator ใช้ตัดสินว่าล่าสุดสั่งด้วย D-pad หรือก้านขวา)</summary>
+    public float LastStickMoveTime { get; private set; } = -10f;
+
     [Header("Movement")]
     [Tooltip("ความเร็วเคอร์เซอร์ (พิกเซล/วินาที ที่จอสูง 1080 — ปรับตามความสูงจอให้อัตโนมัติ)")]
     public float speed = 1000f;
@@ -48,7 +51,7 @@ public class GamepadCursor : MonoBehaviour
     [Header("Behaviour")]
     [Tooltip("เปลี่ยน StandaloneInputModule เป็น InputSystemUIInputModule ให้อัตโนมัติ (จำเป็น ไม่งั้น UI มองไม่เห็นเคอร์เซอร์จอย)")]
     public bool autoSwapUIModule = true;
-    [Tooltip("หลังคลิก ให้ล้างปุ่มที่ถูกเลือกค้าง กันปุ่ม A ไป 'กดซ้ำ' ปุ่ม HUD ที่ค้างอยู่")]
+    [Tooltip("นอกหน้า UI: หลังคลิกให้ล้างปุ่มที่ถูกเลือกค้าง กันปุ่ม A (โต้ตอบ) ไป 'กดซ้ำ' ปุ่ม HUD ที่ค้างอยู่ (ในหน้า UI จะคงปุ่มที่เลือกไว้ให้ D-pad เลื่อนต่อได้)")]
     public bool deselectAfterClick = true;
     [Tooltip("ในหน้า UI: ปุ่ม A = คลิกซ้าย (ออกนอกหน้า UI ปุ่ม A กลับเป็นปุ่มโต้ตอบ E)")]
     public bool aClicksInUI = true;
@@ -112,7 +115,9 @@ public class GamepadCursor : MonoBehaviour
         // ---- บริบท: อยู่ในหน้า UI ไหม (ในหน้า UI ปุ่ม A = คลิกซ้าย) ----
         bool uiContext = GameInput.UIContext;
         bool uiJustOpened = uiContext && !prevUIContext;
+        bool uiJustClosed = !uiContext && prevUIContext;
         prevUIContext = uiContext;
+        if (uiJustClosed) DeselectIfNotTextField();   // ออกจากหน้า UI → ล้างปุ่มที่ค้างเลือก กัน A (โต้ตอบ) ไป Submit ปุ่มเก่า
         bool clickMode = aClicksInUI && GameInput.ClickMode;   // หน้า UI แต่ไม่ใช่ช่วงกด QTE
 
         Vector2 stick = pad != null ? pad.rightStick.ReadValue() : Vector2.zero;
@@ -170,7 +175,11 @@ public class GamepadCursor : MonoBehaviour
 
         // --- ฉีดเข้า Mouse.current ---
         if ((mouse.position.ReadValue() - pos).sqrMagnitude > 0.0001f) InputState.Change(mouse.position, pos);
-        if (delta != Vector2.zero) InputState.Change(mouse.delta, delta);
+        if (delta != Vector2.zero)
+        {
+            InputState.Change(mouse.delta, delta);
+            LastStickMoveTime = Time.unscaledTime;
+        }
 
         if (wantLeft != leftDown)
         {
@@ -179,7 +188,7 @@ public class GamepadCursor : MonoBehaviour
 
             SetMouseButton(mouse, MouseButton.Left, wantLeft);
             leftDown = wantLeft;
-            if (!wantLeft && deselectAfterClick) deselectFrame = Time.frameCount + 2;
+            if (!wantLeft && deselectAfterClick && !uiContext) deselectFrame = Time.frameCount + 2;
         }
         if (wantRight != rightDown)
         {
@@ -228,6 +237,24 @@ public class GamepadCursor : MonoBehaviour
 
         pos = target;
         lastActivity = Time.unscaledTime;
+    }
+
+    /// <summary>ย้ายเคอร์เซอร์จอยไปตำแหน่งนี้ (พิกเซลหน้าจอ) — GamepadUINavigator ใช้พาเคอร์เซอร์ไปอยู่บนปุ่มที่ D-pad เลือก</summary>
+    public void MoveTo(Vector2 screenPos)
+    {
+        Mouse mouse = Mouse.current;
+        if (mouse == null) return;
+
+        if (!IsPadMode) EnterPadMode(mouse);
+
+        pos = new Vector2(Mathf.Clamp(screenPos.x, 0f, Screen.width - 1f), Mathf.Clamp(screenPos.y, 0f, Screen.height - 1f));
+        lastActivity = Time.unscaledTime;
+        InputState.Change(mouse.position, pos);
+        if (cursorRect != null)
+        {
+            if (!cursorRect.gameObject.activeSelf) cursorRect.gameObject.SetActive(true);
+            cursorRect.anchoredPosition = pos;
+        }
     }
 
     void ClearSelection()

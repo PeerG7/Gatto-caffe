@@ -14,17 +14,10 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
 
     [Header("Display Elements — Inspector Connections")]
     public Image portrait;
+    public TMP_Text nameText;
+    public TMP_Text labelText;
     public Image relBarFill;
     public TMP_Text pageText;
-    [Header("Debug")]
-    public bool debugManualBarFill = false;
-
-    [Header("Ordered Text Objects (เปิด/ปิดตามลำดับหน้าและระดับ Bar)")]
-    [Tooltip("ลาก GameObject ของชื่อแมวเรียงตามลำดับหน้า (0, 1, 2, 3...)")]
-    public List<GameObject> catNameTextObjects = new List<GameObject>();
-
-    [Tooltip("ลาก GameObject ของ Label ระดับความสัมพันธ์ เรียงจาก Bar น้อยไปมาก (0, 1, 2, 3, 4...)")]
-    public List<GameObject> relationshipTierTextObjects = new List<GameObject>();
 
     [Header("Buttons")]
     public Button prevButton;
@@ -54,20 +47,19 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
     {
         if (!isOpen) return;
 
-        // อัปเดตหลอด Bar และ Label แบบเรียลไทม์ขณะที่เปิดหน้าสมุดอยู่
-        RefreshBarAndLabel();
-
         navCooldown -= Time.deltaTime;
 
         if (navCooldown <= 0f)
         {
-            if (Input.GetKeyDown(prevKey) || Input.GetKeyDown(KeyCode.LeftArrow) || GameInput.PadPrevDown)
+            // 🎮 LB / RB หรือ D-pad / ก้านซ้าย (ซ้าย-ขวา) = พลิกหน้า (พฤติกรรมเดิมของ navigateAction)
+            Vector2 nav = GameInput.Navigate;
+            if (Input.GetKeyDown(prevKey) || Input.GetKeyDown(KeyCode.LeftArrow) || GameInput.PadPrevDown || nav.x < -0.5f)
             { PrevCat(); navCooldown = NAV_COOLDOWN_TIME; }
-            else if (Input.GetKeyDown(nextKey) || Input.GetKeyDown(KeyCode.RightArrow) || GameInput.PadNextDown)
+            else if (Input.GetKeyDown(nextKey) || Input.GetKeyDown(KeyCode.RightArrow) || GameInput.PadNextDown || nav.x > 0.5f)
             { NextCat(); navCooldown = NAV_COOLDOWN_TIME; }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) || GameInput.PadBackDown) CloseBook();
+        if (Input.GetKeyDown(KeyCode.Escape) || GameInput.PadBackDown) { GameInput.MarkBackHandled(); CloseBook(); }   // 🎮 B
     }
 
     public void OnConfirm() { }
@@ -89,7 +81,7 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
         currentIndex = 0;
         isOpen = true;
 
-        AudioManager.instance?.PlayPaperFold();
+        AudioManager.instance?.PlayPaperFold();   // เสียงเปิดสมุด
 
         if (bookCanvas != null) bookCanvas.SetActive(true);
         PlayerController2D.IsLocked = true;
@@ -105,7 +97,7 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
     public void CloseBook()
     {
         if (isOpen)
-            AudioManager.instance?.PlayBookClose();
+            AudioManager.instance?.PlayBookClose();   // เสียงปิดสมุด (เฉพาะตอนเปิดอยู่)
 
         isOpen = false;
         if (bookCanvas != null) bookCanvas.SetActive(false);
@@ -117,7 +109,7 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
     void PrevCat()
     {
         if (cats == null || cats.Count == 0) return;
-        if (cats.Count > 1) AudioManager.instance?.PlayPaperFold();
+        if (cats.Count > 1) AudioManager.instance?.PlayPaperFold();   // เสียงพลิกหน้า
         currentIndex = (currentIndex - 1 + cats.Count) % cats.Count;
         ShowCurrentCat();
     }
@@ -125,125 +117,32 @@ public class RelationshipBookUI : MonoBehaviour, IGamepadNavigable
     void NextCat()
     {
         if (cats == null || cats.Count == 0) return;
-        if (cats.Count > 1) AudioManager.instance?.PlayPaperFold();
+        if (cats.Count > 1) AudioManager.instance?.PlayPaperFold();   // เสียงพลิกหน้า
         currentIndex = (currentIndex + 1) % cats.Count;
         ShowCurrentCat();
     }
 
     void ShowCurrentCat()
     {
-        if (cats == null || cats.Count == 0)
-        {
-            SetActiveByIndex(catNameTextObjects, -1);
-            SetActiveByIndex(relationshipTierTextObjects, -1);
-            return;
-        }
+        if (cats == null || currentIndex >= cats.Count) return;
 
-        currentIndex = Mathf.Clamp(currentIndex, 0, cats.Count - 1);
         CatRelationshipData cat = cats[currentIndex];
 
         if (portrait != null) portrait.sprite = cat.catPortrait;
-
-        if (catNameTextObjects != null && catNameTextObjects.Count > 0)
-            SetActiveByIndex(catNameTextObjects, currentIndex);
-        else
-            ToggleChildrenByPrefix("Name", currentIndex);
-
+        if (nameText != null) nameText.text = cat.catName;
+        if (labelText != null) labelText.text = RelationshipManager.Instance.GetRelationshipLabel(cat.catID);
         if (pageText != null) pageText.text = $"{currentIndex + 1} / {cats.Count}";
 
-        RefreshBarAndLabel();
+        // คำนวณและอัปเดตหลอด Bar
+        if (relBarFill != null)
+        {
+            float currentRel = RelationshipManager.Instance.GetRelationship(cat.catID);
+            float maxRel = cat.maxRelationship;
+            relBarFill.fillAmount = maxRel > 0f ? (float)currentRel / (float)maxRel : 0f;
+        }
 
         bool moreThanOne = cats.Count > 1;
         if (prevButton != null) prevButton.gameObject.SetActive(moreThanOne);
         if (nextButton != null) nextButton.gameObject.SetActive(moreThanOne);
-    }
-
-    void RefreshBarAndLabel()
-    {
-        if (cats == null || cats.Count == 0) return;
-
-        int safeIndex = Mathf.Clamp(currentIndex, 0, cats.Count - 1);
-        CatRelationshipData cat = cats[safeIndex];
-
-        float fill = 0f;
-        if (relBarFill != null)
-        {
-            if (!debugManualBarFill)
-            {
-                float currentRel = RelationshipManager.Instance != null
-                    ? RelationshipManager.Instance.GetRelationship(cat.catID)
-                    : 0f;
-                float maxRel = cat.maxRelationship;
-                fill = maxRel > 0f ? Mathf.Clamp01(currentRel / maxRel) : 0f;
-                relBarFill.fillAmount = fill;
-            }
-            else
-            {
-                fill = Mathf.Clamp01(relBarFill.fillAmount);
-            }
-        }
-
-        if (relationshipTierTextObjects != null && relationshipTierTextObjects.Count > 0)
-        {
-            int labelIndex = GetLabelIndexFromBar(fill, relationshipTierTextObjects.Count);
-            SetActiveByIndex(relationshipTierTextObjects, labelIndex);
-        }
-        else
-        {
-            int labelIndex = GetLabelIndexFromBar(fill, CountChildrenByPrefix("Label"));
-            ToggleChildrenByPrefix("Label", labelIndex);
-        }
-    }
-
-    int GetLabelIndexFromBar(float barFillAmount, int labelCount)
-    {
-        if (labelCount <= 0) return -1;
-
-        float clamped = Mathf.Clamp01(barFillAmount);
-        if (clamped >= 1f) return labelCount - 1;
-
-        return Mathf.Clamp(Mathf.FloorToInt(clamped * labelCount), 0, labelCount - 1);
-    }
-
-    void SetActiveByIndex(List<GameObject> objects, int activeIndex)
-    {
-        if (objects == null) return;
-
-        for (int i = 0; i < objects.Count; i++)
-        {
-            GameObject target = objects[i];
-            if (target == null) continue;
-            target.SetActive(i == activeIndex);
-        }
-    }
-
-    private List<GameObject> GetChildrenByPrefix(string prefix)
-    {
-        List<GameObject> matched = new List<GameObject>();
-        if (bookCanvas == null) return matched;
-
-        Transform[] allTransforms = bookCanvas.GetComponentsInChildren<Transform>(true);
-        foreach (Transform t in allTransforms)
-        {
-            if (t != null && t.name.StartsWith(prefix))
-                matched.Add(t.gameObject);
-        }
-
-        matched.Sort((a, b) => string.Compare(a.name, b.name, System.StringComparison.Ordinal));
-        return matched;
-    }
-
-    private int CountChildrenByPrefix(string prefix)
-    {
-        return GetChildrenByPrefix(prefix).Count;
-    }
-
-    private void ToggleChildrenByPrefix(string prefix, int activeIndex)
-    {
-        List<GameObject> matched = GetChildrenByPrefix(prefix);
-        for (int i = 0; i < matched.Count; i++)
-        {
-            matched[i].SetActive(i == activeIndex);
-        }
     }
 }

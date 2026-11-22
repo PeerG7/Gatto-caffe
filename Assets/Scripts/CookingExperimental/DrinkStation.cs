@@ -105,7 +105,7 @@ public class DrinkStation : MonoBehaviour, IGamepadNavigable
 
         // 🎮 B = ปิด | A ปล่อยให้ EventSystem กด emptyGlassButton (เลือกไว้ตอนเปิด) | RT คลิกด้วยเคอร์เซอร์
         bool back = Input.GetKeyDown(KeyCode.Escape) || GameInput.PadBackDown;
-        if (back) { CloseCanvas(); return; }
+        if (back) { GameInput.MarkBackHandled(); CloseCanvas(); return; }
 
         if (!isProcessing && Input.GetKeyDown(KeyCode.E))
             OnEmptyGlassClicked();

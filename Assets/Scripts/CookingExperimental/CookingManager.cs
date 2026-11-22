@@ -95,14 +95,14 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
 
         // Esc ยังออกจากหน้าต่างได้เสมอ (CloseCanvas จะเรียก CancelActiveSmudge ให้เอง)
         bool backPressed = Input.GetKeyDown(KeyCode.Escape) || GameInput.PadBackDown;   // 🎮 B
-        if (backPressed) { CloseCanvas(); return; }
+        if (backPressed) { GameInput.MarkBackHandled(); CloseCanvas(); return; }   // ใช้ Esc ปิดแล้ว → Pause ไม่เปิดซ้ำ
 
         // 🟢 แมว/ซอสบังจออยู่: ห้ามใช้ hotkey ทุกตัว
         // (สำคัญ: Space เป็นทั้งปุ่มไล่แมว และปุ่ม Confirm ทำอาหาร)
         if (ScreenSmudgeManager.IsInterrupting) return;
 
         // --- INGREDIENT REMOVAL HOTKEYS ---
-        if (Input.GetKeyDown(KeyCode.Backspace) || GameInput.PadRemoveDown)   // 🎮 X
+        if (Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.V) || GameInput.PadRemoveDown)   // Backspace / V / 🎮 X
         {
             RemoveLastIngredient();
             return;
@@ -225,7 +225,7 @@ public class CookingManager : MonoBehaviour, IGamepadNavigable
     // =====================================================================
 
     /// <summary>
-    /// ลบวัตถุดิบชิ้นล่าสุด 1 ชิ้น (ปุ่มถังขยะ / Backspace)
+    /// ลบวัตถุดิบชิ้นล่าสุด 1 ชิ้น (ปุ่มถังขยะ / Backspace / V)
     /// </summary>
     public void RemoveLastIngredient()
     {

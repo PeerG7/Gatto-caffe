@@ -36,9 +36,14 @@ public class PauseMenuManager : MonoBehaviour
         if (confirmExitPanel != null) confirmExitPanel.SetActive(false);
     }
 
-    void Update()
+    // 🟢 ใช้ LateUpdate: ให้สคริปต์อื่น (Cooking / Drink / สมุด / วางเฟอร์นิเจอร์) ประมวลผล Esc ก่อนในเฟรมเดียวกัน
+    //    ถ้ามีใครใช้ Esc ปิดหน้าต่างไปแล้ว (GameInput.MarkBackHandled) เมนู Pause จะไม่เปิดซ้ำ — กด Esc ครั้งถัดไปถึงจะเปิด
+    //    (ตอนเมนู Pause เปิดอยู่ Esc จะ Resume ได้เสมอ)
+    void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) || GameInput.PadPauseDown)
+        bool esc = Input.GetKeyDown(KeyCode.Escape) && (_isMenuOpen || !GameInput.BackHandledThisFrame);
+
+        if (esc || GameInput.PadPauseDown)
         {
             // ถ้าหน้าต่างยืนยันออกเกมเปิดอยู่ ให้กด Esc เพื่อปิดหน้าต่างยืนยันนั้นก่อน
             if (confirmExitPanel != null && confirmExitPanel.activeSelf)

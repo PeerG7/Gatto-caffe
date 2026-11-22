@@ -179,4 +179,15 @@ public static class GameInput
 
     /// <summary>A = โต้ตอบ (เหมือน E) — ใช้ในโลกปกติเท่านั้น ในหน้า UI ปุ่ม A เป็นคลิกแทน</summary>
     public static bool PadInteractDown => !UIContext && PadConfirmDown;
+
+    // =================================================================
+    //  Esc / B ถูกใช้ปิดหน้าต่าง (หรือยกเลิกอะไรบางอย่าง) ไปแล้วในเฟรมนี้หรือยัง
+    //  → เมนู Pause เช็กธงนี้ จะได้ไม่เปิดซ้ำจาก Esc ครั้งเดียวกัน
+    // =================================================================
+    private static int _backHandledFrame = -1;
+
+    /// <summary>เรียกตอนใช้ Esc / B ปิดหน้าต่างหรือยกเลิกอะไรสักอย่าง</summary>
+    public static void MarkBackHandled() { _backHandledFrame = Time.frameCount; }
+
+    public static bool BackHandledThisFrame => _backHandledFrame == Time.frameCount;
 }
