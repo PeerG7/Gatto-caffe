@@ -250,8 +250,72 @@ public class NPCController : MonoBehaviour
         }
     }
 
+    // ───────────────────────── Stuck fixes ─────────────────────────
+    [Header("Stuck Fixes (แก้แมวค้างที่เก้าอี้ / ค้างระหว่างเดิน)")]
+    [Tooltip("เปิด = Data Cat 1 (AIKow / DATACAT 1) นั่งค้างไม่ยอมออกเฉพาะช่วง Tutorial | หลังเควสจบให้ทำตัวเหมือนแมวปกติ (กินเสร็จแล้วไป Interact หรือออกร้าน)")]
+    public bool dataCat1OnlyStaysDuringTutorial = true;
+    [Tooltip("ตอนเดินไป Interaction Zone หรือเดินออกร้าน ถ้าตำแหน่งไม่ขยับเลยนานเท่านี้ (วินาที) ถือว่าติด แล้วแก้ให้เอง | 0 = ปิด")]
+    public float stuckTimeout = 6f;
+
+    private float _stuckTimer;
+    private Vector3 _stuckLastPos;
+
+    // Data Cat 1 (แมว Tutorial ตัวแรก) นั่งค้างโดยไม่มีความอดทน/ไม่ออกเอง
+    // ถ้าปล่อยให้ค้างตลอดเกม แมวตัวที่ใช้ catData นี้ (เช่น VIP) จะนั่งค้างที่เก้าอี้หลังกินเสร็จ
+    bool IsTutorialLockedCat(CatIdentity identity)
+    {
+        if (identity == null || !identity.IsDataCat1()) return false;
+        if (!dataCat1OnlyStaysDuringTutorial) return true;
+
+        return MainQuestManager.Instance != null &&
+               MainQuestManager.Instance.currentQuest != MainQuestManager.QuestStep.Completed;
+    }
+
+    // เฝ้าดูสถานะที่ต้อง "เดิน" (ไป Interaction Zone / ออกร้าน) ถ้าไม่ขยับนานเกินไปให้แก้เอง กันค้างถาวร
+    void UpdateStuckWatchdog()
+    {
+        if (stuckTimeout <= 0f) return;
+
+        bool watching = currentState == NPCState.GoingToInteractionZone || currentState == NPCState.Leaving;
+        if (!watching || (GameIsPaused && !ignorePauseForWalking))
+        {
+            _stuckTimer = 0f;
+            _stuckLastPos = transform.position;
+            return;
+        }
+
+        if ((transform.position - _stuckLastPos).sqrMagnitude > 0.0025f)
+        {
+            _stuckLastPos = transform.position;
+            _stuckTimer = 0f;
+            return;
+        }
+
+        _stuckTimer += Time.deltaTime;
+        if (_stuckTimer < stuckTimeout) return;
+        _stuckTimer = 0f;
+
+        Debug.LogWarning($"[NPCController] {name} ติดค้างที่สถานะ {currentState} นานเกิน {stuckTimeout}s " +
+                         $"(agent บน NavMesh: {(agent != null && agent.enabled && agent.isOnNavMesh)}) → แก้ให้อัตโนมัติ");
+
+        if (currentState == NPCState.GoingToInteractionZone)
+        {
+            // ไปโซนไม่ได้ → ยกเลิก Interact แล้วออกร้านแทน
+            GoExit();
+        }
+        else
+        {
+            // กำลังออกร้านแต่ติด → ย้ายไปจุดออกแล้วลบทิ้ง
+            if (exitPoint != null)
+                transform.position = new Vector3(exitPoint.position.x, exitPoint.position.y, transform.position.z);
+            Destroy(gameObject);
+        }
+    }
+
     void Update()
     {
+        UpdateStuckWatchdog();
+
         if (GameIsPaused && !ignorePauseForWalking)
         {
             if (agent != null && agent.enabled && agent.isOnNavMesh)
@@ -1064,7 +1128,7 @@ public class NPCController : MonoBehaviour
             }
 
             CatIdentity identity = GetComponent<CatIdentity>();
-            bool isDataCat1 = identity != null && identity.IsDataCat1();
+            bool isDataCat1 = IsTutorialLockedCat(identity);
 
             if (isDataCat1)
             {
@@ -1461,7 +1525,7 @@ public class NPCController : MonoBehaviour
         float nextFlavorInterval = Random.Range(minSitAnimInterval, maxSitAnimInterval);
 
         CatIdentity identity = GetComponent<CatIdentity>();
-        bool isDataCat1 = identity != null && identity.IsDataCat1();
+        bool isDataCat1 = IsTutorialLockedCat(identity);
 
         while (waitTimer < actualWaitTime)
         {
@@ -1610,7 +1674,7 @@ public class NPCController : MonoBehaviour
     IEnumerator AbsoluteTimeoutRoutine()
     {
         CatIdentity identity = GetComponent<CatIdentity>();
-        if (identity != null && identity.IsDataCat1()) yield break;
+        if (IsTutorialLockedCat(identity)) yield break;
 
         float elapsed = 0f;
         while (elapsed < absoluteMaxSitTime)
