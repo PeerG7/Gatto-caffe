@@ -1057,6 +1057,69 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2106201041052253120, guid: 0c8641584e2595f4992da0f24dd4931c, type: 3}
   m_PrefabInstance: {fileID: 2389422927159294469}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &975574369
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 975574371}
+  - component: {fileID: 975574370}
+  m_Layer: 0
+  m_Name: ComicSlider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &975574370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975574369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec8ea720f8dc8f43a4bac2d898417c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComicSequencePlayer
+  root: {fileID: 0}
+  rootGroup: {fileID: 0}
+  viewport: {fileID: 0}
+  strip: {fileID: 0}
+  panelTemplate: {fileID: 0}
+  captionText: {fileID: 0}
+  captionGroup: {fileID: 0}
+  skipHint: {fileID: 0}
+  sfxSource: {fileID: 0}
+  panelGap: 0
+  fadeDuration: 0.4
+  captionFadeDuration: 0.25
+  inputDelay: 0.3
+  preserveAspect: 1
+  skipKey: 27
+  sequenceToPlay: {fileID: 0}
+  onFinished:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &975574371
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975574369}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 982.2182, y: 506.38287, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &985306740
 GameObject:
   m_ObjectHideFlags: 0
@@ -2942,6 +3005,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 975574370}
+        m_TargetAssemblyTypeName: ComicSequencePlayer, Assembly-CSharp
+        m_MethodName: PlaySequence
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: ComicSequenceData, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2014547394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3739,3 +3814,4 @@ SceneRoots:
   - {fileID: 41046553}
   - {fileID: 1405043278}
   - {fileID: 1509611321}
+  - {fileID: 975574371}
