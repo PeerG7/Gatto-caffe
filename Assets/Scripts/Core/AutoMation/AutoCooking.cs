@@ -102,8 +102,6 @@ public class AutoCooking : MonoBehaviour
             {
                 foreach (var npc in table.sittingNPCs)
                 {
-                    // HasPlacedOrder = นั่งโต๊ะแล้ว + ป้ายออเดอร์ขึ้นแล้ว + ยังไม่ได้รับอาหาร
-                    // (ตรงกับตอนที่ตัวนับเวลาถอยหลังความอดทนของ NPC เริ่มนับ)
                     if (npc != null && npc.HasPlacedOrder)
                         waitingOrders.Add(npc.requestedRecipe);
                 }
@@ -159,7 +157,6 @@ public class AutoCooking : MonoBehaviour
 
         Transform origin = cookPoint != null ? cookPoint : transform;
 
-        // หาช่องว่างเป้าหมายตั้งแต่ตอนเริ่มโยน (ค่อยหาอีกทีตอนโยนจริง)
         Transform firstTarget = FindEmptySlotTransform();
         bool uiMode = firstTarget != null && firstTarget is RectTransform;
 
@@ -177,40 +174,34 @@ public class AutoCooking : MonoBehaviour
         float t = 0f;
         while (t < 1f)
         {
-            // เกม Pause -> หยุดนับเวลาทำอาหาร
             if (IsGamePaused()) { yield return null; continue; }
 
             t += Time.deltaTime / Mathf.Max(0.01f, cookDuration);
             float k = Mathf.Clamp01(t);
 
             float scale = EaseOutBack(k) * iconScale;
-            // เด้งเบาๆ ตอนกำลังทำ ให้ดูมีชีวิต
             float wobble = 1f + Mathf.Sin(k * Mathf.PI * 6f) * 0.04f * (1f - k);
             icon.localScale = Vector3.one * scale * wobble;
             SetAlpha(sr, uiGraphic, Mathf.Clamp01(k * 2f));
 
-            // ลอยขึ้นเล็กน้อย
             icon.position = startPos + Vector3.up * (arcHeight * 0.1f * k);
             yield return null;
         }
         icon.localScale = Vector3.one * iconScale;
         SetAlpha(sr, uiGraphic, 1f);
 
-        // ทำเสร็จ: ตัดเสียงทำอาหาร
         StopCookSound();
 
         // ---------- 2) หาช่อง Tray ที่ว่าง ณ ตอนนี้ ----------
         Transform target = FindEmptySlotTransform();
         if (target == null)
         {
-            // Tray เต็มระหว่างทำ -> ยกเลิกจานนี้ (ไม่เล่นเสียง bell)
             Destroy(currentIcon);
             currentIcon = null;
             isCooking = false;
             yield break;
         }
 
-        // มีที่ว่างจริง -> เล่นเสียง bell
         PlayBell();
 
         // ---------- 3) โยนเป็นวงโค้งไปที่ Tray ----------
@@ -220,15 +211,13 @@ public class AutoCooking : MonoBehaviour
         {
             t += Time.deltaTime / Mathf.Max(0.01f, tossDuration);
             float k = Mathf.Clamp01(t);
-            float e = k * k * (3f - 2f * k); // smoothstep
+            float e = k * k * (3f - 2f * k);
 
-            // เป้าหมายอาจขยับได้ (เช่น UI) จึงอ่านตำแหน่งใหม่ทุกเฟรม
             Vector3 to = target.position;
             Vector3 pos = Vector3.Lerp(from, to, e);
             pos += Vector3.up * Mathf.Sin(k * Mathf.PI) * arcHeight;
             icon.position = pos;
 
-            // หมุน + ย่อลงนิดหน่อยตอนใกล้ถึง
             icon.rotation = Quaternion.Euler(0f, 0f, -360f * spinTurns * e);
             float s = Mathf.Lerp(iconScale, iconScale * 0.85f, e);
             icon.localScale = Vector3.one * s;
@@ -269,7 +258,6 @@ public class AutoCooking : MonoBehaviour
 
         if (uiMode)
         {
-            // วางไว้ใต้ Canvas เดียวกับ Tray
             Transform slotT = FindEmptySlotTransform();
             Canvas canvas = slotT != null ? slotT.GetComponentInParent<Canvas>() : null;
             Canvas root = canvas != null ? canvas.rootCanvas : null;
@@ -281,7 +269,7 @@ public class AutoCooking : MonoBehaviour
             img.sprite = sprite;
             img.raycastTarget = false;
             img.preserveAspect = true;
-            go.transform.SetAsLastSibling(); // อยู่บนสุด
+            go.transform.SetAsLastSibling();
         }
         else
         {
@@ -296,7 +284,6 @@ public class AutoCooking : MonoBehaviour
     {
         if (!uiMode || origin is RectTransform) return origin.position;
 
-        // บอทเป็น World object แต่ Tray เป็น UI -> แปลงเป็นพิกัดหน้าจอ
         Camera cam = Camera.main;
         return cam != null ? cam.WorldToScreenPoint(origin.position) : origin.position;
     }
@@ -326,13 +313,11 @@ public class AutoCooking : MonoBehaviour
             if (CurrencyManager.Instance.TrySpendMoney(botPrice))
             {
                 ActivateBot();
-                if (UINotificationManager.Instance != null)
-                    UINotificationManager.Instance.ShowNotification("Buy AutoCooking Success");
+                UINotificationManager.Instance?.ShowNotification("NOTI_BUY_COOK_BOT_SUCCESS");
             }
             else
             {
-                if (UINotificationManager.Instance != null)
-                    UINotificationManager.Instance.ShowNotification("Not Enough Money we need " + botPrice + " $");
+                UINotificationManager.Instance?.ShowNotification("NOTI_NOT_ENOUGH_MONEY", botPrice);
             }
         }
     }

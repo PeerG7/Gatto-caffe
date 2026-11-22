@@ -20,7 +20,6 @@ public class FurniturePlacementManager : MonoBehaviour
     private bool isBuildMode = false;
     private bool isValid = false;
 
-    // ตัวแปรสำหรับรองรับระบบคลิกเลือกย้าย/เก็บ
     private FurnitureObject selectedFurniture;
 
     void Awake() => Instance = this;
@@ -29,7 +28,6 @@ public class FurniturePlacementManager : MonoBehaviour
     {
         if (!isBuildMode || currentGhost == null) return;
 
-        // 1. ตำแหน่ง Snap เข้า Grid ตามเมาส์
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
         Vector3 snapPos = new Vector3(
@@ -39,10 +37,8 @@ public class FurniturePlacementManager : MonoBehaviour
         );
         currentGhost.transform.position = snapPos;
 
-        // 2. ตรวจสอบพื้นที่วาง
         if (ghostCollider != null) ghostCollider.enabled = false;
 
-        // ใช้ currentPrefab อ่าน ID เพราะ FurnitureObject บน Ghost ถูก Destroy ไปแล้วใน StartPlacement
         string myFurnitureID = PlacementBlocker.GetFurnitureID(currentPrefab);
 
         Collider2D[] overlaps = Physics2D.OverlapBoxAll(snapPos, new Vector2(gridSize * 0.7f, gridSize * 0.7f), 0f, interactableLayer);
@@ -52,7 +48,7 @@ public class FurniturePlacementManager : MonoBehaviour
             if (col == null) continue;
 
             PlacementBlocker blocker = col.GetComponentInParent<PlacementBlocker>();
-            if (blocker != null && !blocker.Blocks(myFurnitureID)) continue; // โซนนี้ไม่ห้ามชิ้นนี้
+            if (blocker != null && !blocker.Blocks(myFurnitureID)) continue;
 
             isValid = false;
             break;
@@ -60,13 +56,11 @@ public class FurniturePlacementManager : MonoBehaviour
 
         if (ghostCollider != null) ghostCollider.enabled = true;
 
-        // เปลี่ยนสี Ghost พรีวิว
         if (ghostRenderer != null)
         {
             ghostRenderer.color = isValid ? new Color(0, 1, 0, 0.6f) : new Color(1, 0, 0, 0.6f);
         }
 
-        // 3. คลิกซ้ายวางวัตถุ
         if (Input.GetMouseButtonDown(0))
         {
             if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
@@ -77,13 +71,11 @@ public class FurniturePlacementManager : MonoBehaviour
             }
         }
 
-        // ยกเลิกการวางด้วย ESC
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Cancel();
         }
 
-        // กด R เพื่อหมุน
         if (Input.GetKeyDown(KeyCode.R))
         {
             currentGhost.transform.Rotate(0, 0, 90f);
@@ -96,7 +88,6 @@ public class FurniturePlacementManager : MonoBehaviour
         currentPrefab = prefab;
         isBuildMode = true;
 
-        // เปิด Pan Mode และ Lock Player ไว้ต่อเนื่องขณะอยู่ในโหมดวาง
         PlayerController2D.SetLock(true);
         CameraController2D.SetPanMode(true);
 
@@ -125,7 +116,8 @@ public class FurniturePlacementManager : MonoBehaviour
     void Place()
     {
         Instantiate(currentPrefab, currentGhost.transform.position, currentGhost.transform.rotation);
-        AudioManager.instance?.PlayPlaceFurniture();   // เล่นเสียงวาง (เฉพาะตอนวางสำเร็จ)
+        AudioManager.instance?.PlayPlaceFurniture();
+        UINotificationManager.Instance?.ShowNotification("NOTI_FURNITURE_PLACED");
         RebakeNavMesh();
         Cancel();
     }
@@ -137,7 +129,6 @@ public class FurniturePlacementManager : MonoBehaviour
         isBuildMode = false;
         selectedFurniture = null;
 
-        // คืนค่ากล้องกลับไปตาม Player และปลดล็อกเมื่อวางเสร็จ/ยกเลิกวาง
         PlayerController2D.SetLock(false);
         CameraController2D.SetPanMode(false);
     }
@@ -148,41 +139,33 @@ public class FurniturePlacementManager : MonoBehaviour
         if (surface != null) surface.BuildNavMesh();
     }
 
-    // ==========================================
-    // ระบบเลือก/ย้าย/เก็บ เฟอร์นิเจอร์ที่เพิ่มเข้ามา
-    // ==========================================
-
-    /// <summary>เรียกเมื่อคลิกเลือกเฟอร์นิเจอร์บนพื้นขณะอยู่ในโหมด Pan</summary>
     public void SelectPlacedFurniture(FurnitureObject furniture)
     {
-        if (isBuildMode) return; // ไม่ทำงานถ้าระบบกำลังอยู่ในโหมดเสก Ghost วางของอยู่
+        if (isBuildMode) return;
 
         selectedFurniture = furniture;
         Debug.Log($"เลือกเฟอร์นิเจอร์: {furniture.furnitureID}");
     }
 
-    /// <summary>ย้ายเฟอร์นิเจอร์ชิ้นที่เลือก (ลบตัวเก่า แล้วเข้าโหมดวางทันที)</summary>
     public void MoveSelectedFurniture()
     {
         if (selectedFurniture == null) return;
 
         GameObject prefabToMove = selectedFurniture.furniturePrefab != null ? selectedFurniture.furniturePrefab : selectedFurniture.gameObject;
 
-        // ลบชิ้นเดิมออกจาก Scene แล้ว Rebake NavMesh
         Destroy(selectedFurniture.gameObject);
         selectedFurniture = null;
         RebakeNavMesh();
 
-        // เข้าสู่โหมดวางด้วย Prefab ชิ้นเดิม
         StartPlacement(prefabToMove);
     }
 
-    /// <summary>เก็บเฟอร์นิเจอร์ชิ้นที่เลือกลบทิ้งออกจาก Scene</summary>
     public void StoreSelectedFurniture()
     {
         if (selectedFurniture == null) return;
 
-        AudioManager.instance?.PlayCollectFurniture();   // เล่นเสียงเก็บ
+        AudioManager.instance?.PlayCollectFurniture();
+        UINotificationManager.Instance?.ShowNotification("NOTI_FURNITURE_STORED");
         Debug.Log($"เก็บ {selectedFurniture.furnitureID} เรียบร้อยแล้ว");
 
         Destroy(selectedFurniture.gameObject);

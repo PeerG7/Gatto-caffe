@@ -223,6 +223,54 @@ MonoBehaviour:
     m_Key: Back To MainMenu
     m_Metadata:
       m_Items: []
+  - m_Id: 690480365953024
+    m_Key: NOTI_BUY_COOK_BOT_SUCCESS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 690490331619328
+    m_Key: NOTI_BUY_SERVER_BOT_SUCCESS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 690558119960576
+    m_Key: NOTI_ITEM_BOUGHT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 690613908398080
+    m_Key: NOTI_NOT_ENOUGH_MONEY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 690668753117184
+    m_Key: NOTI_FURNITURE_PLACED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 690718216544256
+    m_Key: NOTI_FURNITURE_STORED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 692045726343168
+    m_Key: NOTI_FURNITURE_UNLOCKED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 692092606078976
+    m_Key: NOTI_FURNITURE_NEED_UNLOCK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 692139095744512
+    m_Key: NOTI_FURNITURE_UPGRADED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 692186348773376
+    m_Key: 'NOTI_NOT_ENOUGH_MONEY
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 697400749449216
+    m_Key: 'NOTI_FURNITURE_STORED
+
+'
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -253,6 +253,50 @@ MonoBehaviour:
     m_Localized: Back To MainMenu
     m_Metadata:
       m_Items: []
+  - m_Id: 690480365953024
+    m_Localized: hire  chef successful
+    m_Metadata:
+      m_Items: []
+  - m_Id: 690490331619328
+    m_Localized: hire waiter successful
+    m_Metadata:
+      m_Items: []
+  - m_Id: 690558119960576
+    m_Localized: purchase successful
+    m_Metadata:
+      m_Items: []
+  - m_Id: 690613908398080
+    m_Localized: "Not  enough money to\n purchase require {0}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 690668753117184
+    m_Localized: Placement  is successful
+    m_Metadata:
+      m_Items: []
+  - m_Id: 690718216544256
+    m_Localized: 'acquire  stuff '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 692045726343168
+    m_Localized: unlock the  furniture
+    m_Metadata:
+      m_Items: []
+  - m_Id: 692092606078976
+    m_Localized: you can unlock this
+    m_Metadata:
+      m_Items: []
+  - m_Id: 692139095744512
+    m_Localized: furniture upgraded
+    m_Metadata:
+      m_Items: []
+  - m_Id: 692186348773376
+    m_Localized: ' to upgrade require {0}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 697400749449216
+    m_Localized: you have  retrive stuff  back
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

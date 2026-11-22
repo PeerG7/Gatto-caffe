@@ -11,10 +11,8 @@ public class ShopItemButton : MonoBehaviour
     [Range(0f, 1f)]
     public float sfxVolume = 1f;
 
-    // AudioSource กลาง ใช้ร่วมกันทุกปุ่มซื้อ ไม่ต้องใส่ AudioSource ทีละอัน
     private static AudioSource sharedSource;
 
-    // ฟังก์ชันซื้อแล้วสร้าง Instance ใหม่ส่งเข้าคลัง
     public void OnClickBuyToInventory()
     {
         if (itemData == null)
@@ -23,22 +21,22 @@ public class ShopItemButton : MonoBehaviour
             return;
         }
 
-        // เช็กและหักเงินผ่าน CurrencyManager
         if (CurrencyManager.Instance != null && CurrencyManager.Instance.TrySpendMoney(itemData.price))
         {
-            PlayBuySound();   // <-- เล่นเสียงเฉพาะตอนซื้อสำเร็จ
+            PlayBuySound();
 
             if (FurnitureInventory.Instance != null)
             {
-                // สร้าง Instance ใหม่เริ่มต้นที่ Level 1
                 FurnitureInstanceData newInstance = new FurnitureInstanceData(itemData, 1, false);
                 FurnitureInventory.Instance.AddInstance(newInstance);
                 Debug.Log($"ซื้อ {itemData.furnitureName} สำเร็จ! เข้าคลังเรียบร้อย");
+                UINotificationManager.Instance?.ShowNotification("NOTI_ITEM_BOUGHT");
             }
         }
         else
         {
             Debug.Log("เงินไม่พอซื้อ!");
+            UINotificationManager.Instance?.ShowNotification("NOTI_NOT_ENOUGH_MONEY", itemData.price);
         }
     }
 
@@ -56,7 +54,7 @@ public class ShopItemButton : MonoBehaviour
             DontDestroyOnLoad(go);
             sharedSource = go.AddComponent<AudioSource>();
             sharedSource.playOnAwake = false;
-            sharedSource.spatialBlend = 0f; // 2D sound
+            sharedSource.spatialBlend = 0f;
         }
         return sharedSource;
     }

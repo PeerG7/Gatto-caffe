@@ -31661,7 +31661,10 @@ MonoBehaviour:
   mascotImage: {fileID: 977614115}
   expandableBackground: {fileID: 1398543642}
   mascotAnimator: {fileID: 0}
+  defaultStringTable: StringPasaa
+  autoLocalizeByKey: 1
   displayDuration: 2
+  fadeDuration: 1
 --- !u!114 &1106574826
 MonoBehaviour:
   m_ObjectHideFlags: 0

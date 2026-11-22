@@ -51,13 +51,11 @@ public class FurnitureObject : MonoBehaviour
                 }
 
                 UpdateVisuals();
-                if (UINotificationManager.Instance != null)
-                    UINotificationManager.Instance.ShowNotification("Furniture unlock successful!");
+                UINotificationManager.Instance?.ShowNotification("NOTI_FURNITURE_UNLOCKED");
             }
             else
             {
-                if (UINotificationManager.Instance != null)
-                    UINotificationManager.Instance.ShowNotification("Not Enough Money! Need " + price + " $");
+                UINotificationManager.Instance?.ShowNotification("NOTI_NOT_ENOUGH_MONEY", price);
             }
         }
         else
@@ -71,8 +69,7 @@ public class FurnitureObject : MonoBehaviour
     {
         if (!isUnlocked)
         {
-            if (UINotificationManager.Instance != null)
-                UINotificationManager.Instance.ShowNotification("ต้องซื้อโต๊ะนี้ก่อนถึงจะ Upgrade ได้");
+            UINotificationManager.Instance?.ShowNotification("NOTI_FURNITURE_NEED_UNLOCK");
             return;
         }
 
@@ -89,7 +86,7 @@ public class FurnitureObject : MonoBehaviour
             isUpgraded = true;
             UpdateVisuals();
 
-            //  เชื่อมต่อไปยัง PlacedFurniture เพื่อเพิ่ม Current Level และเปลี่ยน Sprite
+            // เชื่อมต่อไปยัง PlacedFurniture เพื่อเพิ่ม Current Level และเปลี่ยน Sprite
             PlacedFurniture placed = GetComponent<PlacedFurniture>();
             if (placed != null)
             {
@@ -101,13 +98,11 @@ public class FurnitureObject : MonoBehaviour
             else
                 Debug.LogWarning("หา NPCSpawner.Instance ไม่เจอ — โอกาส VIP จะไม่ถูกเพิ่ม");
 
-            if (UINotificationManager.Instance != null)
-                UINotificationManager.Instance.ShowNotification("Upgrade to Marble Table successful!");
+            UINotificationManager.Instance?.ShowNotification("NOTI_FURNITURE_UPGRADED", upgradePrice);
         }
         else
         {
-            if (UINotificationManager.Instance != null)
-                UINotificationManager.Instance.ShowNotification("Not Enough Money! Need " + upgradePrice + " $");
+            UINotificationManager.Instance?.ShowNotification("NOTI_NOT_ENOUGH_MONEY", upgradePrice);
         }
     }
 

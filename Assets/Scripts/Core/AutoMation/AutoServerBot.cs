@@ -3,27 +3,10 @@ using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
 
-// =====================================================================
-// AutoServerBot (Drone Edition) — โดรนส่งอาหารอัตโนมัติ (ไม่ใช้ NavMesh แล้ว)
-//
-// การทำงาน:
-//   1. ทุก checkInterval วินาที หาโต๊ะที่มีแมวรออาหารอยู่ และมีอาหารใน Tray ที่ตรงกับที่แมวสั่ง
-//   2. โดรนโผล่เหนือถาด (Fade In) บินลงไปที่ถาด หยิบอาหาร แล้วลอยขึ้นพร้อมอาหารและหายไป
-//   3. โดรนโผล่เหนือโต๊ะที่จะเสิร์ฟ (Fade In) แล้วบินลงมาพร้อมอาหาร
-//   4. เสิร์ฟอาหาร
-//   5. บินกลับขึ้นไปพร้อม Fade Out แล้วซ่อนตัว รอรอบต่อไป
-//
-// Setup:
-//   - วางสคริปต์นี้บน GameObject ของโดรน แล้วใส่รูปโดรนเป็น SpriteRenderer (บนตัวเองหรือ Child ก็ได้)
-//   - (ไม่บังคับ) ลาก SpriteRenderer รูปอาหารที่เป็น Child ของโดรนมาใส่ช่อง Food Renderer
-//     ✅ ใหม่: ถ้าไม่ลาก สคริปต์จะสร้างรูปอาหารให้เองอัตโนมัติ (ห้อยใต้ตัวโดรน)
-//   - ควรลบ NavMeshAgent และ PlayerInventory ที่เคยติดอยู่บนบอทตัวนี้ออก (ไม่ใช้แล้ว)
-//   - API เดิม (botPrice, isActivated, TryBuyAutoServerBot, ActivateBot) ยังใช้งานได้เหมือนเดิม
-// =====================================================================
 public class AutoServerBot : MonoBehaviour
 {
     [Header("Shop & Price Settings")]
-    public int botPrice = 800;
+    public int botPrice = 200;
     public bool isActivated = false;
 
     [Header("Bot Settings")]
@@ -56,10 +39,9 @@ public class AutoServerBot : MonoBehaviour
     public Vector2 trayHoverOffset = new Vector2(0f, 0.5f);
     [Tooltip("เวลาลอยค้างที่ถาดก่อนหยิบอาหาร (วินาที)")]
     public float pickupDelay = 0.3f;
-    [Tooltip("เปิด = อาหารหายจากถาดทันทีที่โดรนหยิบ (ดูเหมือนหยิบจริง) | ปิด = อาหารยังอยู่ในถาดจนกว่าจะเสิร์ฟสำเร็จ (ไม่เสียอาหารถ้าแมวหายไป แต่รูปอาหารจะซ้ำกับที่โดรนถือ)")]
+    [Tooltip("เปิด = อาหารหายจากถาดทันทีที่โดรนหยิบ (ดูเหมือนหยิบจริง) | ปิด = อาหารยังอยู่ในถาดจนกว่าจะเสิร์ฟสำเร็จ")]
     public bool clearTrayAtPickup = true;
 
-    // ✅ ใหม่: ตั้งค่ารูปอาหารที่สคริปต์สร้างให้เอง ─────────────────
     [Header("Auto Food Sprite (ใหม่)")]
     [Tooltip("ใช้ตอนสคริปต์สร้างรูปอาหารให้เอง (ช่อง Food Renderer ว่าง) — ตำแหน่งเทียบกับตัวโดรน")]
     public Vector2 foodLocalOffset = new Vector2(0f, -0.6f);
@@ -87,14 +69,10 @@ public class AutoServerBot : MonoBehaviour
         isActivated && !IsPaused &&
         (DayNightManager.Instance == null || DayNightManager.Instance.isWorkTime);
 
-    // ------------------------------------------------------------------
-    //  Lifecycle
-    // ------------------------------------------------------------------
     void Awake()
     {
         homeZ = transform.position.z;
 
-        // ไม่ใช้ NavMesh แล้ว — ถ้ายังติด Agent อยู่ ต้องปิด ไม่งั้นมันจะดึงตำแหน่งโดรนกลับ
         NavMeshAgent oldAgent = GetComponent<NavMeshAgent>();
         if (oldAgent != null)
         {
@@ -107,7 +85,6 @@ public class AutoServerBot : MonoBehaviour
             Debug.LogWarning("[AutoServerBot] พบ PlayerInventory บนโดรน — ไม่ได้ใช้แล้ว และอาจทำให้สคริปต์อื่นที่ FindObjectOfType<PlayerInventory>() หยิบผิดตัว แนะนำให้ลบออก", this);
         }
 
-        // ✅ ใหม่: ถ้าไม่ได้ลาก Food Renderer ไว้ ให้สร้างรูปอาหารเป็นลูกของโดรนให้เอง (ห้อยใต้ตัวโดรน)
         if (foodRenderer == null)
         {
             SpriteRenderer droneSr = GetComponentInChildren<SpriteRenderer>(true);
@@ -122,7 +99,6 @@ public class AutoServerBot : MonoBehaviour
 
             if (droneSr != null)
             {
-                // ให้รูปอาหารอยู่หน้าตัวโดรนเล็กน้อย
                 foodRenderer.sortingLayerID = droneSr.sortingLayerID;
                 foodRenderer.sortingOrder = droneSr.sortingOrder + 1;
             }
@@ -157,13 +133,10 @@ public class AutoServerBot : MonoBehaviour
 
             if (!forceOnTop) continue;
             if (!string.IsNullOrEmpty(sortingLayerName)) r.sortingLayerName = sortingLayerName;
-            r.sortingOrder += sortingOrderOffset; // บวกเพิ่ม เพื่อคงลำดับซ้อนกันภายในตัวโดรนเดิมไว้
+            r.sortingOrder += sortingOrderOffset;
         }
     }
 
-    // ------------------------------------------------------------------
-    //  Brain: หางาน -> ส่งของ -> พัก
-    // ------------------------------------------------------------------
     IEnumerator BrainLoop()
     {
         while (true)
@@ -180,7 +153,6 @@ public class AutoServerBot : MonoBehaviour
         }
     }
 
-    // หาโต๊ะที่มีแมวรออาหาร + มีอาหารใน Tray ตรงกับที่แมวสั่ง (ใช้เงื่อนไขเดียวกับตอนเสิร์ฟจริง)
     bool TryFindJob(out CustomerTable foundTable, out TraySlot foundSlot)
     {
         foundTable = null;
@@ -208,32 +180,23 @@ public class AutoServerBot : MonoBehaviour
         return false;
     }
 
-    // ------------------------------------------------------------------
-    //  Delivery:
-    //  บินลงถาด -> หยิบอาหาร -> ลอยขึ้นหาย -> โผล่เหนือโต๊ะ -> บินลง -> เสิร์ฟ -> บินขึ้นหาย
-    // ------------------------------------------------------------------
     IEnumerator DeliverRoutine(CustomerTable table, TraySlot slot)
     {
         string itemName = slot.GetFoodItemName();
         Sprite itemSprite = slot.GetFoodSprite();
 
         lastTablePos = table.transform.position;
-        SetFood(null); // ตอนบินไปถาด มือเปล่า
+        SetFood(null);
 
-        // ── ช่วงที่ 1: ไปรับอาหารที่ถาด ──────────────────────────────
         System.Func<Vector3> trayPoint = () => TrayPoint(slot);
 
         SetPosition(trayPoint() + Vector3.up * flyHeight);
         SetAlpha(0f);
         SetVisible(true);
 
-        // 1) บินลงมาที่ถาดพร้อม Fade In
         yield return FlyIn(trayPoint);
-
-        // 2) ลอยค้างที่ถาดแป๊บหนึ่ง
         yield return Hover(trayPoint, pickupDelay);
 
-        // 3) เช็กก่อนหยิบ — เผื่อผู้เล่นหยิบอาหารไปก่อน / แมวหายไปแล้ว
         bool stillValid = slot != null && slot.HasFood() &&
                           NameEquals(slot.GetFoodItemName(), itemName) &&
                           table != null && table.HasAnyNPCWaiting();
@@ -246,37 +209,27 @@ public class AutoServerBot : MonoBehaviour
             yield break;
         }
 
-        // 4) หยิบอาหาร: รูปอาหารโผล่ที่โดรน (และอาหารหายจากถาดถ้าเปิด clearTrayAtPickup)
         SetFood(itemSprite);
-        // ✅ ใหม่: log ไว้เช็กว่าได้รูปอาหารมาไหม (ลบทิ้งได้เมื่อใช้งานปกติแล้ว)
         Debug.Log($"[AutoServerBot] pickup: sprite={(itemSprite != null ? itemSprite.name : "NULL")}, foodRenderer={(foodRenderer != null ? foodRenderer.name : "NULL")}");
         if (clearTrayAtPickup) slot.ClearSlot();
 
-        // 5) ลอยขึ้นพร้อมอาหาร + Fade Out (หายไป)
         yield return FlyOut(trayPoint);
 
-        // ── ช่วงที่ 2: ไปเสิร์ฟที่โต๊ะ ────────────────────────────────
         System.Func<Vector3> tablePoint = () => HoverPoint(table);
 
-        // 6) "วาร์ป" ไปโผล่เหนือโต๊ะ (ซ่อนก่อนย้ายตำแหน่ง กันกะพริบ) — รูปอาหารยังถืออยู่
         SetVisible(false);
         SetAlpha(0f);
         SetPosition(tablePoint() + Vector3.up * flyHeight);
         SetVisible(true);
 
-        // 7) บินลงมาที่โต๊ะพร้อมอาหาร + Fade In
         yield return FlyIn(tablePoint);
-
-        // 8) ลอยค้างก่อนเสิร์ฟ
         yield return Hover(tablePoint, serveDelay);
 
-        // 9) เสิร์ฟ — เช็กอีกรอบเผื่อแมวหายไปประหว่างทาง
         bool served = false;
         if (table != null && table.HasAnyNPCWaiting() && table.TryServeFoodDirect(itemName))
         {
             served = true;
 
-            // ถ้าไม่ได้เคลียร์ตอนหยิบ ให้เคลียร์ตอนเสิร์ฟสำเร็จ (เหมือนพฤติกรรมเดิม)
             if (!clearTrayAtPickup && slot != null && slot.HasFood() &&
                 NameEquals(slot.GetFoodItemName(), itemName))
             {
@@ -291,19 +244,14 @@ public class AutoServerBot : MonoBehaviour
                 ? $"[AutoServerBot] โดรนเสิร์ฟ '{itemName}' ไม่สำเร็จ (แมวออกไปแล้ว) — อาหารถูกหยิบจากถาดไปแล้วจึงสูญไป"
                 : $"[AutoServerBot] โดรนเสิร์ฟ '{itemName}' ไม่สำเร็จ (แมวออกไปแล้ว) — อาหารยังอยู่ในถาด"));
 
-        // 10) ค้างนิดหนึ่งก่อนบินกลับ
         if (leaveDelay > 0f)
             yield return Hover(tablePoint, leaveDelay, bob: false);
 
-        // 11) บินกลับขึ้นไปพร้อม Fade Out
         yield return FlyOut(tablePoint);
 
         HideDrone();
     }
 
-    // ── ท่าบินพื้นฐาน (ใช้ทั้งที่ถาดและที่โต๊ะ) ──────────────────────
-
-    // บินลงมาจากด้านบนจนถึงจุดหมาย พร้อม Fade In
     IEnumerator FlyIn(System.Func<Vector3> point)
     {
         yield return Tween(flyInDuration, t =>
@@ -314,7 +262,6 @@ public class AutoServerBot : MonoBehaviour
         });
     }
 
-    // ลอยค้างที่จุดหมาย (โยกเบา ๆ ถ้าเปิด bob)
     IEnumerator Hover(System.Func<Vector3> point, float duration, bool bob = true)
     {
         float hoverTime = Mathf.Max(0.01f, duration);
@@ -326,7 +273,6 @@ public class AutoServerBot : MonoBehaviour
         });
     }
 
-    // ลอยขึ้นไปด้านบน พร้อม Fade Out
     IEnumerator FlyOut(System.Func<Vector3> point)
     {
         yield return Tween(flyOutDuration, t =>
@@ -337,14 +283,12 @@ public class AutoServerBot : MonoBehaviour
         });
     }
 
-    // จุดลอยของโดรนเหนือโต๊ะ (ถ้าโต๊ะถูกเก็บระหว่างทาง ใช้ตำแหน่งสุดท้ายที่รู้)
     Vector3 HoverPoint(CustomerTable table)
     {
         if (table != null) lastTablePos = table.transform.position;
         return new Vector3(lastTablePos.x + hoverOffset.x, lastTablePos.y + hoverOffset.y, homeZ);
     }
 
-    // จุดลอยของโดรนเหนือช่องถาด (รองรับถาดที่เป็น UI แบบ Screen Space - Overlay ด้วย)
     Vector3 TrayPoint(TraySlot slot)
     {
         if (slot != null)
@@ -354,7 +298,6 @@ public class AutoServerBot : MonoBehaviour
             Canvas canvas = slot.GetComponentInParent<Canvas>();
             if (canvas != null && canvas.rootCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
             {
-                // Overlay: transform.position เป็นพิกเซลหน้าจอ → แปลงเป็นพิกัดโลกของกล้องหลัก
                 Camera cam = Camera.main;
                 if (cam != null)
                     p = cam.ScreenToWorldPoint(new Vector3(p.x, p.y, Mathf.Abs(cam.transform.position.z - homeZ)));
@@ -366,7 +309,6 @@ public class AutoServerBot : MonoBehaviour
         return new Vector3(lastTrayPos.x + trayHoverOffset.x, lastTrayPos.y + trayHoverOffset.y, homeZ);
     }
 
-    // Tween แบบหยุดนิ่งตอนเกมพอส (step รับค่า t 0..1)
     IEnumerator Tween(float duration, System.Action<float> step)
     {
         duration = Mathf.Max(0.01f, duration);
@@ -390,9 +332,6 @@ public class AutoServerBot : MonoBehaviour
         return a.Trim().Equals(b.Trim(), System.StringComparison.OrdinalIgnoreCase);
     }
 
-    // ------------------------------------------------------------------
-    //  Visual helpers
-    // ------------------------------------------------------------------
     void SetPosition(Vector3 pos)
     {
         transform.position = pos;
@@ -425,7 +364,6 @@ public class AutoServerBot : MonoBehaviour
         if (foodRenderer == null) return;
 
         foodRenderer.sprite = sprite;
-        // ถ้าโดรนกำลังแสดงอยู่ ให้รูปอาหารตามสถานะใหม่ด้วย
         if (!foodShown) foodRenderer.enabled = false;
         else if (IsDroneVisible()) foodRenderer.enabled = true;
     }
@@ -445,9 +383,6 @@ public class AutoServerBot : MonoBehaviour
         SetVisible(false);
     }
 
-    // ------------------------------------------------------------------
-    //  Shop API (คงของเดิมไว้ — ปุ่มใน UI ไม่ต้องแก้)
-    // ------------------------------------------------------------------
     public void TryBuyAutoServerBot()
     {
         if (isActivated) return;
@@ -457,13 +392,11 @@ public class AutoServerBot : MonoBehaviour
             if (CurrencyManager.Instance.TrySpendMoney(botPrice))
             {
                 ActivateBot();
-                if (UINotificationManager.Instance != null)
-                    UINotificationManager.Instance.ShowNotification("Buy AutoServerBot Success");
+                UINotificationManager.Instance?.ShowNotification("NOTI_BUY_SERVER_BOT_SUCCESS");
             }
             else
             {
-                if (UINotificationManager.Instance != null)
-                    UINotificationManager.Instance.ShowNotification("เงินไม่พอ! ต้องการ " + botPrice + " $");
+                UINotificationManager.Instance?.ShowNotification("NOTI_NOT_ENOUGH_MONEY", botPrice);
             }
         }
     }
@@ -472,7 +405,6 @@ public class AutoServerBot : MonoBehaviour
     {
         isActivated = true;
 
-        // เผื่อใน Scene ปิด GameObject นี้ไว้ตั้งแต่แรก (แบบบอทเก่า) — เปิดเพื่อให้ลูปทำงาน ตัวโดรนจะยังซ่อนอยู่จนกว่าจะมีงาน
         if (!gameObject.activeSelf) gameObject.SetActive(true);
 
         Debug.Log("[AutoServerBot] เปิดใช้งานโดรนเสิร์ฟอาหารแล้ว!");
