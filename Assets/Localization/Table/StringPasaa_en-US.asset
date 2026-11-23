@@ -333,6 +333,30 @@ MonoBehaviour:
     m_Localized: Best Friend
     m_Metadata:
       m_Items: []
+  - m_Id: 1165331325247488
+    m_Localized: Select&Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1165639304601600
+    m_Localized: Leave
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1165813741510656
+    m_Localized: Delete
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1165946960994304
+    m_Localized: Start Cooking
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1166212766621696
+    m_Localized: Tempura cooking
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1168471546126336
+    m_Localized: StartBeverage
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

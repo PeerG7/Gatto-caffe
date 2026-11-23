@@ -307,6 +307,30 @@ MonoBehaviour:
     m_Key: Best Friend
     m_Metadata:
       m_Items: []
+  - m_Id: 1165331325247488
+    m_Key: Select&Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1165639304601600
+    m_Key: Leave
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1165813741510656
+    m_Key: Delete
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1165946960994304
+    m_Key: Cooking
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1166212766621696
+    m_Key: Deepfry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1168471546126336
+    m_Key: Start Beverage
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
