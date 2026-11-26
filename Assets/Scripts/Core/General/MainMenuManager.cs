@@ -70,6 +70,10 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
+        // 🎮 หน้า Main Menu ทั้งฉากถือเป็น "หน้า UI": ปุ่ม A = คลิกซ้าย, D-pad เลือกปุ่มได้
+        //    (สคริปต์นี้อยู่บน GameObject ที่เปิดค้างตลอด จึงแปะ UIContextTag ไว้ที่ตัวเองได้เลย)
+        if (GetComponent<UIContextTag>() == null) gameObject.AddComponent<UIContextTag>();
+
         RefreshContinueButton();
 
         if (MainMenuIntro.Exists) return;

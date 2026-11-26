@@ -9329,6 +9329,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &289002288
 GameObject:
   m_ObjectHideFlags: 0
@@ -13402,6 +13404,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &411176910
 GameObject:
   m_ObjectHideFlags: 0
@@ -15243,6 +15247,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &469687350
 GameObject:
   m_ObjectHideFlags: 0
@@ -20354,6 +20360,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!114 &642683102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20451,6 +20459,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!114 &652003987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21396,6 +21406,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &679899882
 GameObject:
   m_ObjectHideFlags: 0
@@ -23256,6 +23268,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &780916468
 GameObject:
   m_ObjectHideFlags: 0
@@ -25964,6 +25978,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &842583079
 GameObject:
   m_ObjectHideFlags: 0
@@ -28343,6 +28359,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &915785294
 GameObject:
   m_ObjectHideFlags: 0
@@ -34011,6 +34029,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &1132856793
 GameObject:
   m_ObjectHideFlags: 0
@@ -35207,6 +35227,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!114 &1193584607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35592,6 +35614,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &1239623327
 GameObject:
   m_ObjectHideFlags: 0
@@ -36596,6 +36620,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!114 &1261430935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37874,6 +37900,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!114 &1303507155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38024,6 +38052,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &1308247060
 GameObject:
   m_ObjectHideFlags: 0
@@ -54469,6 +54499,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &1413805354
 GameObject:
   m_ObjectHideFlags: 0
@@ -55254,6 +55286,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &1449364173
 GameObject:
   m_ObjectHideFlags: 0
@@ -56646,6 +56680,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &1497134430
 GameObject:
   m_ObjectHideFlags: 0
@@ -59646,6 +59682,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &1600957685
 GameObject:
   m_ObjectHideFlags: 0
@@ -59742,6 +59780,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &1601345491
 GameObject:
   m_ObjectHideFlags: 0
@@ -64469,6 +64509,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!114 &1794817779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69097,6 +69139,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &1973848898
 GameObject:
   m_ObjectHideFlags: 0
@@ -69156,6 +69200,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!114 &1973848901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69306,6 +69352,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!1 &1979704960
 GameObject:
   m_ObjectHideFlags: 0
@@ -72789,6 +72837,8 @@ MonoBehaviour:
   nintendo: {fileID: 0}
   showOnKeyboardMouse: []
   showOnGamepad: []
+  reapplyEveryFrame: 1
+  warnIfMissing: 1
 --- !u!114 &2122651237
 MonoBehaviour:
   m_ObjectHideFlags: 0

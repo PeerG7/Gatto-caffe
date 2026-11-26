@@ -28,6 +28,11 @@ public class PauseMenuManager : MonoBehaviour
                            "ให้ย้ายสคริปต์ไปไว้ใน GameObject แยก (เช่น PauseManager) ที่ไม่ถูกปิด");
         }
 
+        // 🎮 ให้ Pause Menu เป็น "หน้า UI" ตอนเปิดอยู่: ปุ่ม A = คลิกซ้าย, D-pad เลือกปุ่มได้
+        //    (แปะ UIContextTag ให้ด้วยโค้ด ไม่ต้องทำใน Inspector — แท็กนับเฉพาะตอน Panel เปิดอยู่)
+        TagAsUI(pauseMenuUI);
+        TagAsUI(confirmExitPanel);
+
         _isMenuOpen = false;
         Time.timeScale = 1f; // 🟢 กัน timeScale ค้างจากฉากก่อนหน้า
 
@@ -42,8 +47,9 @@ public class PauseMenuManager : MonoBehaviour
     void LateUpdate()
     {
         bool esc = Input.GetKeyDown(KeyCode.Escape) && (_isMenuOpen || !GameInput.BackHandledThisFrame);
+        bool padBack = _isMenuOpen && GameInput.PadBackDown;   // 🎮 B ตอนเมนู Pause เปิดอยู่ = ปิดหน้าต่างยืนยัน / Continue
 
-        if (esc || GameInput.PadPauseDown)
+        if (esc || GameInput.PadPauseDown || padBack)
         {
             // ถ้าหน้าต่างยืนยันออกเกมเปิดอยู่ ให้กด Esc เพื่อปิดหน้าต่างยืนยันนั้นก่อน
             if (confirmExitPanel != null && confirmExitPanel.activeSelf)
@@ -57,6 +63,12 @@ public class PauseMenuManager : MonoBehaviour
             if (_isMenuOpen) ResumeGame();
             else PauseGame();
         }
+    }
+
+    static void TagAsUI(GameObject go)
+    {
+        if (go != null && go.GetComponent<UIContextTag>() == null)
+            go.AddComponent<UIContextTag>();
     }
 
     /// <summary>

@@ -2,20 +2,28 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // =====================================================================
-// InputIconSwitcher — แปะบน Image (UI) หรือ SpriteRenderer (ฟองลอยเหนือ station)
+// InputIconSwitcher — แปะบน Image (UI) หรือ SpriteRenderer (ฟองลอยเหนือแมว / station)
 // แล้วลากรูปไอคอนของแต่ละอุปกรณ์ใส่ ระบบจะสลับรูปให้เองแบบ Realtime
 //
 //   เมาส์/คีย์บอร์ด → รูปในช่อง Keyboard Mouse
 //   จอย             → รูปตามยี่ห้อ (Xbox / PlayStation / Nintendo)
 //                     ช่องที่ว่างจะใช้รูปของ Xbox แทน
 //
+// เวอร์ชันนี้แก้บั๊ก "ไอคอนบางตัวยังเป็น E":
+//   • Reapply Every Frame: ตั้งรูปซ้ำใน LateUpdate ทุกเฟรม (LateUpdate รันหลัง Animator และสคริปต์อื่น)
+//     ถ้ามีสคริปต์/Animation ที่ตั้งรูปกลับเป็น E ตอนแมวมานั่ง รูปจะถูกตั้งทับกลับเป็นรูปที่ถูกต้องทันที
+//   • หา Image / SpriteRenderer ในลูกด้วย ถ้า Component นี้ไม่ได้อยู่บนตัวที่วาดรูปโดยตรง
+//   • เตือนใน Console ถ้าช่องรูปของอุปกรณ์ปัจจุบันว่าง (เดิมเงียบ ๆ แล้วรูปไม่เปลี่ยน)
+//
 // เสริม: ใส่ GameObject ในช่อง Show On Keyboard Mouse / Show On Gamepad
-//        เพื่อเปิด-ปิดกลุ่มคำแนะนำทั้งกลุ่มตามอุปกรณ์ (เช่น แผงปุ่มลัดของ Furniture)
+//        เพื่อเปิด-ปิดกลุ่มไอคอนทั้งกลุ่มตามอุปกรณ์
+//        (ถ้าไอคอนมี Animation ที่คีย์รูปเอง ให้แยกเป็น 2 ลูก: ไอคอนคีย์บอร์ด / ไอคอนจอย แล้วใช้ช่องกลุ่มนี้แทน
+//         เพราะ Reapply Every Frame จะตั้งรูปทับ Animation)
 // =====================================================================
 [DisallowMultipleComponent]
 public class InputIconSwitcher : MonoBehaviour
 {
-    [Header("Target (ว่าง = หา Image หรือ SpriteRenderer บน GameObject นี้เอง)")]
+    [Header("Target (ว่าง = หา Image หรือ SpriteRenderer บน GameObject นี้ หรือในลูก)")]
     public Image targetImage;
     public SpriteRenderer targetSprite;
 
@@ -31,13 +39,29 @@ public class InputIconSwitcher : MonoBehaviour
     public GameObject[] showOnKeyboardMouse;
     public GameObject[] showOnGamepad;
 
+    [Header("Behaviour")]
+    [Tooltip("ตั้งรูปซ้ำทุกเฟรมใน LateUpdate กันสคริปต์/Animator อื่นตั้งรูปกลับเป็นรูปเดิม (เช่นตอนแมวมานั่ง)")]
+    public bool reapplyEveryFrame = true;
+    [Tooltip("เตือนใน Console ถ้าช่องรูปของอุปกรณ์ปัจจุบันยังว่าง")]
+    public bool warnIfMissing = true;
+
     void Awake()
     {
         if (targetImage == null && targetSprite == null)
         {
             targetImage = GetComponent<Image>();
             if (targetImage == null) targetSprite = GetComponent<SpriteRenderer>();
+
+            // ไม่ได้อยู่บนตัวที่วาดรูปโดยตรง → หาในลูก (รวมลูกที่ยังปิดอยู่)
+            if (targetImage == null && targetSprite == null)
+            {
+                targetImage = GetComponentInChildren<Image>(true);
+                if (targetImage == null) targetSprite = GetComponentInChildren<SpriteRenderer>(true);
+            }
         }
+
+        if (targetImage == null && targetSprite == null && warnIfMissing)
+            Debug.LogWarning("[InputIconSwitcher] ไม่พบ Image หรือ SpriteRenderer บน '" + name + "' (หรือในลูก) — ลากใส่ช่อง Target เอง", this);
     }
 
     void OnEnable()
@@ -51,31 +75,47 @@ public class InputIconSwitcher : MonoBehaviour
         InputDeviceMonitor.Changed -= Refresh;
     }
 
+    void LateUpdate()
+    {
+        if (reapplyEveryFrame) ApplySprite(false);
+    }
+
     public void Refresh()
     {
+        ApplySprite(true);
+
         bool pad = InputDeviceMonitor.UsingGamepad;
-
-        Sprite pick;
-        if (!pad) pick = keyboardMouse;
-        else
-        {
-            switch (InputDeviceMonitor.Style)
-            {
-                case PadStyle.PlayStation: pick = playStation != null ? playStation : xbox; break;
-                case PadStyle.Nintendo:    pick = nintendo != null ? nintendo : xbox; break;
-                default:                   pick = xbox; break;
-            }
-        }
-
-        // ช่องที่ยังไม่ได้ลากรูป → ไม่แตะรูปเดิม
-        if (pick != null)
-        {
-            if (targetImage != null) targetImage.sprite = pick;
-            if (targetSprite != null) targetSprite.sprite = pick;
-        }
-
         SetGroup(showOnKeyboardMouse, !pad);
         SetGroup(showOnGamepad, pad);
+    }
+
+    Sprite Pick()
+    {
+        if (!InputDeviceMonitor.UsingGamepad) return keyboardMouse;
+
+        switch (InputDeviceMonitor.Style)
+        {
+            case PadStyle.PlayStation: return playStation != null ? playStation : xbox;
+            case PadStyle.Nintendo: return nintendo != null ? nintendo : xbox;
+            default: return xbox;
+        }
+    }
+
+    void ApplySprite(bool warn)
+    {
+        Sprite pick = Pick();
+
+        if (pick == null)
+        {
+            // ช่องรูปยังว่าง → ไม่แตะรูปเดิม (แต่เตือนครั้งเดียวตอนอุปกรณ์เปลี่ยน)
+            if (warn && warnIfMissing)
+                Debug.LogWarning("[InputIconSwitcher] '" + name + "' ยังไม่ได้ลากรูปสำหรับอุปกรณ์ " +
+                                 InputDeviceMonitor.Current + " (" + InputDeviceMonitor.Style + ") — รูปจึงไม่เปลี่ยน", this);
+            return;
+        }
+
+        if (targetImage != null && targetImage.sprite != pick) targetImage.sprite = pick;
+        if (targetSprite != null && targetSprite.sprite != pick) targetSprite.sprite = pick;
     }
 
     static void SetGroup(GameObject[] group, bool active)
