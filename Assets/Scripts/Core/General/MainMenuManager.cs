@@ -43,6 +43,10 @@ public class MainMenuManager : MonoBehaviour
     [Tooltip("ความโปร่งใสของปุ่ม Continue ตอนกดไม่ได้")]
     public float continueDisabledAlpha = 0.35f;
 
+    [Header("Gamepad UI")]
+    [Tooltip("ชื่อ Scene หน้า Main Menu — จะแปะ UIContextTag (ปุ่ม A = คลิก) เฉพาะใน Scene นี้ (หรือ Build Index 0) เท่านั้น กันกรณี MainMenuManager ไปอยู่ใน Scene เกมแล้วทำให้ปุ่ม A โต้ตอบไม่ได้ตลอด")]
+    public string menuSceneName = "MainMenu";
+
     // 🔑 Key นี้ถูกเขียนทุกครั้งที่เซฟ Checkpoint (จบ Tutorial / ขึ้นวันใหม่) และถูกลบตอน New Game
     private const string DaySaveKey = "SavedGameDay";
 
@@ -72,7 +76,11 @@ public class MainMenuManager : MonoBehaviour
     {
         // 🎮 หน้า Main Menu ทั้งฉากถือเป็น "หน้า UI": ปุ่ม A = คลิกซ้าย, D-pad เลือกปุ่มได้
         //    (สคริปต์นี้อยู่บน GameObject ที่เปิดค้างตลอด จึงแปะ UIContextTag ไว้ที่ตัวเองได้เลย)
-        if (GetComponent<UIContextTag>() == null) gameObject.AddComponent<UIContextTag>();
+        //    ⚠️ แปะเฉพาะตอนอยู่ใน Scene เมนูจริง ๆ — ถ้า MainMenuManager ถูกวางไว้ใน Scene เกม (เช่นใช้ปุ่ม Back to Menu)
+        //       แล้วแปะ tag ไว้ จะทำให้ UIContext เป็น true ตลอดเกม → ปุ่ม A กลายเป็นคลิกอย่างเดียว โต้ตอบไม่ได้
+        Scene sc = gameObject.scene;
+        bool isMenuScene = sc.buildIndex == 0 || sc.name == menuSceneName;
+        if (isMenuScene && GetComponent<UIContextTag>() == null) gameObject.AddComponent<UIContextTag>();
 
         RefreshContinueButton();
 

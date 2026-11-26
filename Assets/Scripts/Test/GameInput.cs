@@ -18,6 +18,8 @@ public static class GameInput
 #if ENABLE_INPUT_SYSTEM
     static Gamepad Pad => Gamepad.current;
 
+    const float NavDeadzone = 0.2f;
+
     public static bool PadConnected => Pad != null;
 
     // สำรอง: ถ้า Input System ไม่เห็นจอยเป็น Gamepad แต่ Input แบบเก่าเห็น (เช่นจอย DirectInput ทั่วไป)
@@ -77,7 +79,9 @@ public static class GameInput
         {
             if (Pad == null) return Vector2.zero;
             Vector2 d = Pad.dpad.ReadValue();
-            return d.sqrMagnitude > 0.01f ? d : Pad.leftStick.ReadValue();
+            if (d.sqrMagnitude > 0.01f) return d;                       // D-pad ก่อน
+            Vector2 st = Pad.leftStick.ReadValue();
+            return st.sqrMagnitude > NavDeadzone * NavDeadzone ? st : Vector2.zero;   // กันก้านซ้ายดริฟต์ทำให้ตัวละครเดินเอง
         }
     }
 
@@ -151,18 +155,21 @@ public static class GameInput
     //    โลกปกติ  → A = E (โต้ตอบ)
     //    หน้า UI  → A = คลิกซ้ายตรงตำแหน่งเคอร์เซอร์ (เลือก / กดปุ่ม / วางเฟอร์นิเจอร์)
     // =================================================================
-    public static bool UIContext
+    /// <summary>เปิดไว้ = เวลากด A แล้วถูกบล็อกเพราะ "อยู่หน้า UI" จะ log สาเหตุใน Console (ปิดเมื่อแก้เสร็จ)</summary>
+    public static bool DebugUIContext = true;
+
+    /// <summary>คืนชื่อสาเหตุที่ทำให้ถือว่าอยู่หน้า UI (null = อยู่โลกปกติ)</summary>
+    public static string UIContextReason()
     {
-        get
-        {
-            if (UIContextTag.Count > 0) return true;                       // Canvas ที่แปะ UIContextTag อยู่
-            if (PlayerController2D.IsLocked) return true;                  // Cooking / Drink / สมุด / ร้านคอม / แมว+QTE ล็อกตัวละครอยู่
-            if (ScreenSmudgeManager.IsInterrupting) return true;           // แมว/ซอสบังจอ
-            if (ComputerStation.IsShopOpen) return true;
-            if (FurnitureManager.Instance != null && FurnitureManager.Instance.isEditMode) return true;   // Edit Mode + วางของ
-            return false;
-        }
+        if (UIContextTag.Count > 0) return "UIContextTag: " + UIContextTag.Describe();   // Canvas ที่แปะ UIContextTag อยู่
+        if (PlayerController2D.IsLocked) return "PlayerController2D.IsLocked";            // Cooking / Drink / สมุด / ร้านคอม / แมว+QTE
+        if (ScreenSmudgeManager.IsInterrupting) return "ScreenSmudgeManager.IsInterrupting";   // แมว/ซอสบังจอ
+        if (ComputerStation.IsShopOpen) return "ComputerStation.IsShopOpen";
+        if (FurnitureManager.Instance != null && FurnitureManager.Instance.isEditMode) return "FurnitureManager.isEditMode";
+        return null;
     }
+
+    public static bool UIContext => UIContextReason() != null;
 
     /// <summary>ปุ่ม QTE ใหญ่กำลังโชว์ → ตอนนี้ A = กดค้าง/รัว QTE (เหมือน Space) ไม่ใช่คลิก</summary>
     public static bool QTEButtonShown
@@ -178,7 +185,25 @@ public static class GameInput
     public static bool ClickMode => UIContext && !QTEButtonShown;
 
     /// <summary>A = โต้ตอบ (เหมือน E) — ใช้ในโลกปกติเท่านั้น ในหน้า UI ปุ่ม A เป็นคลิกแทน</summary>
-    public static bool PadInteractDown => !UIContext && PadConfirmDown;
+    private static int _lastDebugFrame = -1;
+
+    public static bool PadInteractDown
+    {
+        get
+        {
+            if (!PadConfirmDown) return false;
+
+            string reason = UIContextReason();
+            if (reason == null) return true;
+
+            if (DebugUIContext && _lastDebugFrame != Time.frameCount)
+            {
+                _lastDebugFrame = Time.frameCount;
+                Debug.Log("[GameInput] กด A แล้วแต่ไม่ Interact เพราะเกมคิดว่าอยู่หน้า UI → " + reason);
+            }
+            return false;
+        }
+    }
 
     // =================================================================
     //  Esc / B ถูกใช้ปิดหน้าต่าง (หรือยกเลิกอะไรบางอย่าง) ไปแล้วในเฟรมนี้หรือยัง

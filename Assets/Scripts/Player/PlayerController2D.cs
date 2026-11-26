@@ -103,8 +103,12 @@ public class PlayerController2D : MonoBehaviour
         movement.y = Input.GetAxisRaw("Vertical");
 
         // 🎮 ก้านซ้าย / D-pad ผ่าน Input System (ไม่พึ่ง Input Manager เก่า → ใช้ได้ทั้ง Xbox/PlayStation)
-        Vector2 padMove = GameInput.Navigate;
-        if (padMove.sqrMagnitude > movement.sqrMagnitude) movement = padMove;
+        //    (ข้ามตอนอยู่หน้า UI เพราะ D-pad ถูกใช้เลื่อนเลือกปุ่มอยู่)
+        if (!GameInput.UIContext)
+        {
+            Vector2 padMove = GameInput.Navigate;
+            if (padMove.sqrMagnitude > movement.sqrMagnitude) movement = padMove;
+        }
 
         movement = movement.normalized;
 

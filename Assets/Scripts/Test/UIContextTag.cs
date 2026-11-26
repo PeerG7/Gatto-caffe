@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 // =====================================================================
@@ -9,29 +11,43 @@ using UnityEngine;
 //   • เคอร์เซอร์จอยโผล่ขึ้นมาให้เอง
 // ปิดเมื่อไหร่ ปุ่ม A ก็กลับไปเป็นปุ่มโต้ตอบ (E) ตามเดิม
 //
-// หน้า Cooking / Drink / สมุด / ร้านคอม / QTE / วางเฟอร์นิเจอร์ ไม่ต้องแปะ (ตรวจเองอยู่แล้ว)
+// เวอร์ชันนี้เก็บเป็น "รายชื่อ tag ที่เปิดอยู่" แทนตัวนับ:
+//   • Count ไม่เพี้ยน (ตัวที่ถูกทำลาย/ปิดจะหลุดจากรายชื่ออัตโนมัติ)
+//   • Describe() บอกชื่อ GameObject ที่ทำให้ค้าง → หาตัวการได้ทันทีจาก Console
 // =====================================================================
 [DisallowMultipleComponent]
 public class UIContextTag : MonoBehaviour
 {
-    public static int Count { get; private set; }
+    static readonly HashSet<UIContextTag> active = new HashSet<UIContextTag>();
 
-    private bool counted;
+    public static int Count
+    {
+        get
+        {
+            active.RemoveWhere(t => t == null || !t.isActiveAndEnabled);   // เก็บกวาดตัวที่ตายแล้ว/ปิดแล้ว
+            return active.Count;
+        }
+    }
+
+    /// <summary>ชื่อ GameObject (พร้อม Scene) ของ tag ที่กำลังเปิดอยู่ — ใช้ debug</summary>
+    public static string Describe()
+    {
+        var sb = new StringBuilder();
+        foreach (var t in active)
+        {
+            if (t == null || !t.isActiveAndEnabled) continue;
+            if (sb.Length > 0) sb.Append(", ");
+            sb.Append(t.gameObject.scene.name).Append('/').Append(t.name);
+        }
+        return sb.ToString();
+    }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    static void ResetStatics() { Count = 0; }
+    static void ResetStatics() { active.Clear(); }
 
-    void OnEnable()
-    {
-        if (counted) return;
-        counted = true;
-        Count++;
-    }
+    void OnEnable() { active.Add(this); }
 
-    void OnDisable()
-    {
-        if (!counted) return;
-        counted = false;
-        Count--;
-    }
+    void OnDisable() { active.Remove(this); }
+
+    void OnDestroy() { active.Remove(this); }
 }
