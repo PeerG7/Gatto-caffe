@@ -610,6 +610,8 @@ MonoBehaviour:
   currentZone: {fileID: 0}
   waitForPlayerTimeout: 15
   interactionChoiceTimeout: 5
+  dataCat1OnlyStaysDuringTutorial: 1
+  stuckTimeout: 6
 --- !u!195 &4791925765790317714
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1943,7 +1945,6 @@ MonoBehaviour:
   mode: 0
   choiceIndex: 0
   qteKey: 32
-  qteAction: {fileID: 0}
 --- !u!1 &4156088880442391247
 GameObject:
   m_ObjectHideFlags: 0
@@ -1955,6 +1956,7 @@ GameObject:
   - component: {fileID: 85759111334582902}
   - component: {fileID: 4972184682963831693}
   - component: {fileID: 2120587168073000314}
+  - component: {fileID: 2931011971226620005}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -2020,6 +2022,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2931011971226620005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4156088880442391247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b12b8d34369e47847b4ea22020324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputIconSwitcher
+  targetImage: {fileID: 0}
+  targetSprite: {fileID: 0}
+  keyboardMouse: {fileID: 21300000, guid: 5cedcefb9881548419f1196220162387, type: 3}
+  xbox: {fileID: 8233837717101521642, guid: 7569729010543924c84424ae2fa90ff4, type: 3}
+  playStation: {fileID: 0}
+  nintendo: {fileID: 0}
+  showOnKeyboardMouse: []
+  showOnGamepad: []
 --- !u!1 &4165529758686354775
 GameObject:
   m_ObjectHideFlags: 0
