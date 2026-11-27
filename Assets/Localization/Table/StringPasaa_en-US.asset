@@ -342,9 +342,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1165813741510656
-    m_Localized: Delete
+    m_Localized: Move analog
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2014452015362473984
   - m_Id: 1165946960994304
     m_Localized: Start Cooking
     m_Metadata:
@@ -355,6 +356,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1168471546126336
     m_Localized: StartBeverage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2569457162510336
+    m_Localized: Move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2583909899427840
+    m_Localized: 'Delete '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2584176778797056
+    m_Localized: Move
     m_Metadata:
       m_Items: []
   references:
@@ -371,3 +384,4 @@ MonoBehaviour:
         - id: 328218479312896
         - id: 328077307428864
         - id: 328276893384704
+        - id: 1165813741510656

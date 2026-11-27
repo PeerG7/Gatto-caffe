@@ -316,7 +316,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1165813741510656
-    m_Key: Delete
+    m_Key: 'Move analog
+
+'
     m_Metadata:
       m_Items: []
   - m_Id: 1165946960994304
@@ -329,6 +331,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1168471546126336
     m_Key: Start Beverage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2569457162510336
+    m_Key: Move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2583909899427840
+    m_Key: Delete
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2584176778797056
+    m_Key: Move Player
     m_Metadata:
       m_Items: []
   m_Metadata:

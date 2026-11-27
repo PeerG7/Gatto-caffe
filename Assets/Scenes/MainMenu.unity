@@ -937,6 +937,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4b9a5721912a33740b4f7313ea1f02cf, type: 2}
   continueButton: {fileID: 0}
   continueDisabledAlpha: 0.35
+  menuSceneName: MainMenu
 --- !u!114 &849411324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1333,7 +1334,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 23}
+  m_AnchoredPosition: {x: 0, y: 20}
   m_SizeDelta: {x: 550, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1399527805
@@ -1423,8 +1424,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
