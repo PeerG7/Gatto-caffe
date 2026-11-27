@@ -58,6 +58,7 @@ public class MainMenuIntro : MonoBehaviour
 
     CanvasGroup bgGroup;
     CanvasGroup[] buttonGroups;
+    bool introDone;
 
     void Awake()
     {
@@ -115,6 +116,21 @@ public class MainMenuIntro : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ล็อก/ปลดล็อกปุ่มเมนูทั้งหมด (ใช้ตอนเล่น Comic) — ทำงานหลัง Intro จบเท่านั้น
+    /// กันทั้งเมาส์และการกดผ่านจอย/คีย์บอร์ด (Submit) ที่ไปโดนปุ่มข้างหลัง
+    /// </summary>
+    public void SetButtonsLocked(bool locked)
+    {
+        if (!introDone || buttonGroups == null) return;
+        foreach (var g in buttonGroups)
+        {
+            if (g == null) continue;
+            g.interactable = !locked;
+            g.blocksRaycasts = !locked;
+        }
+    }
+
     IEnumerator ShowButton(CanvasGroup g)
     {
         yield return FadeGroup(g, 1f, buttonFadeDuration);
@@ -147,6 +163,8 @@ public class MainMenuIntro : MonoBehaviour
             if (buttonStagger > 0f)
                 yield return new WaitForSecondsRealtime(buttonStagger);
         }
+
+        introDone = true;
     }
 
     IEnumerator FadeGroup(CanvasGroup g, float target, float duration)

@@ -53,6 +53,16 @@ public class ComicSequencePlayer : MonoBehaviour
 
     [Header("Controls")]
     public KeyCode skipKey = KeyCode.Escape;
+    [Tooltip("ปุ่มจอยสำหรับไปต่อ (ค่าเริ่มต้น = ปุ่ม A / JoystickButton0)")]
+    public KeyCode gamepadAdvanceKey = KeyCode.JoystickButton0;
+    [Tooltip("ปุ่มจอยสำหรับข้ามทั้งชุด (ค่าเริ่มต้น = ปุ่ม Start / JoystickButton7)")]
+    public KeyCode gamepadSkipKey = KeyCode.JoystickButton7;
+
+    [Header("Input Blocking (กันคลิก/กดทะลุไปโดนปุ่มเมนูข้างหลัง)")]
+    [Tooltip("สร้างฉากหลังเต็มจอที่รับ Raycast ให้เองตอนเล่น — กันคลิกทะลุไปโดนปุ่ม New Game / Quit ที่อยู่ข้างหลัง")]
+    public bool blockInputBehind = true;
+    [Tooltip("สีฉากหลังเต็มจอ (ดำ = ไม่เห็นเมนูทะลุตอนภาพไม่เต็มจอ)")]
+    public Color backdropColor = Color.black;
 
     [Header("Button Hook (ใช้กับ OnClick ใน Inspector)")]
     [Tooltip("ฉากที่เล่นเมื่อปุ่มเรียก PlayAssigned()")]
@@ -65,6 +75,7 @@ public class ComicSequencePlayer : MonoBehaviour
     private bool _skipRequested, _advanceRequested;
     private bool _pausedByComic, _lockedByComic;
     private Coroutine _captionRoutine;
+    private GameObject _blocker;
 
     // PageFocus
     private struct CamState { public Vector2 center; public float zoom; }
@@ -98,13 +109,13 @@ public class ComicSequencePlayer : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) ||
             Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) ||
-            Input.GetKeyDown(KeyCode.RightArrow))
+            Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(gamepadAdvanceKey))
             _advanceRequested = true;
 
-        if (_current.allowSkip && Input.GetKeyDown(skipKey))
+        if (_current.allowSkip && (Input.GetKeyDown(skipKey) || Input.GetKeyDown(gamepadSkipKey)))
         {
             _skipRequested = true;
-            Debug.Log("[Comic] ผู้เล่นกดข้าม (" + skipKey + ")");
+            Debug.Log("[Comic] ผู้เล่นกดข้าม");
         }
     }
 
@@ -156,6 +167,7 @@ public class ComicSequencePlayer : MonoBehaviour
         Debug.Log($"[Comic] เริ่มเล่น '{seq.name}' ({seq.layout}, {seq.panels.Count} จุด) ที่ {Time.unscaledTime:0.00}s");
 
         root.SetActive(true);
+        PrepareInputBlock();
         if (rootGroup != null) rootGroup.alpha = 0f;
         if (skipHint != null) skipHint.SetActive(seq.allowSkip);
         SetCaptionAlpha(0f);
@@ -175,6 +187,43 @@ public class ComicSequencePlayer : MonoBehaviour
 
         Cleanup();
         onFinished?.Invoke();
+    }
+
+    // ทำให้ Comic อยู่หน้าสุด + รับ Raycast ทั้งจอ (ไม่งั้นคลิกที่ใช้ข้าม Comic จะทะลุไปกดปุ่มเมนูข้างหลังด้วย)
+    private void PrepareInputBlock()
+    {
+        root.transform.SetAsLastSibling();
+
+        if (rootGroup != null)
+        {
+            rootGroup.blocksRaycasts = true;
+            rootGroup.interactable = true;
+        }
+
+        // ถ้า Root เป็น Canvas ของตัวเอง ต้องมี GraphicRaycaster ถึงจะบล็อกได้
+        if (root.GetComponent<Canvas>() != null && root.GetComponent<GraphicRaycaster>() == null)
+            root.AddComponent<GraphicRaycaster>();
+
+        if (!blockInputBehind) return;
+
+        if (_blocker == null)
+        {
+            _blocker = new GameObject("InputBlocker", typeof(RectTransform), typeof(Image));
+            _blocker.transform.SetParent(root.transform, false);
+
+            RectTransform rt = (RectTransform)_blocker.transform;
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
+        }
+
+        Image img = _blocker.GetComponent<Image>();
+        img.color = backdropColor;
+        img.raycastTarget = true;
+
+        _blocker.SetActive(true);
+        _blocker.transform.SetAsFirstSibling();   // อยู่หลังภาพ Comic แต่หน้าเมนู
     }
 
     // ค่าเริ่มต้นของ Element ใหม่ใน List ของ Unity เป็น 0 ทั้งหมด (ไม่ใช่ค่าที่ตั้งในโค้ด)
@@ -574,6 +623,8 @@ public class ComicSequencePlayer : MonoBehaviour
         EndHold();
 
         _current = null;
+        _advanceRequested = false;
+        _skipRequested = false;
         IsPlaying = false;
     }
 }

@@ -32,6 +32,12 @@ public class MainMenuManager : MonoBehaviour
     [Tooltip("เวลารอให้ฝูงแมววิ่งเต็มจอก่อนจะยอมสลับไปฉากเกมจริง")]
     public float transitionAnimationDelay = 2.0f;
 
+    [Header("Comic (เล่นก่อนเข้าเกมตอนกด New Game)")]
+    [Tooltip("ติ๊ก = กด New Game แล้วเล่น Comic ก่อน จบแล้วค่อยเข้าเกม")]
+    public bool playComicOnNewGame = true;
+    [Tooltip("ฉาก Comic ที่จะเล่น — เว้นว่างได้ จะใช้ 'Sequence To Play' ของ ComicSequencePlayer แทน")]
+    public ComicSequenceData newGameComic;
+
     [Header("Cat Relationship Data (สำหรับสั่ง New Game)")]
     [Tooltip("ลาก ScriptableObject CatData ของแมวทุกตัวในเกมมาใส่ เพื่อให้รู้ Key ที่ต้องรีเซ็ตตอนกด New Game")]
     public System.Collections.Generic.List<CatRelationshipData> allCats;
@@ -96,8 +102,43 @@ public class MainMenuManager : MonoBehaviour
     /// </summary>
     public void OnNewGamePressed()
     {
+        if (isStarting) return;
+
         ResetAllRelationshipData();
+
+        // 🎬 เล่น Comic ก่อน → จบ/ข้ามแล้วค่อยเข้าเกม (แมวถล่มจอ + โหลดฉาก)
+        ComicSequencePlayer comic = ComicSequencePlayer.Instance;
+        ComicSequenceData seq = newGameComic != null ? newGameComic : (comic != null ? comic.sequenceToPlay : null);
+
+        if (playComicOnNewGame && comic != null && seq != null)
+        {
+            isStarting = true;      // กันกดซ้ำ (New Game / Continue / Quit) ระหว่างเล่น Comic
+            SetMenuLocked(true);
+
+            bool accepted = comic.Play(seq, () =>
+            {
+                isStarting = false; // ปลดล็อกเพื่อให้ OnPlayPressed ทำงานต่อ
+                OnPlayPressed();
+            });
+
+            if (!accepted)
+            {
+                Debug.LogWarning("[MainMenu] Comic กำลังเล่นอยู่ — ยกเลิกการเริ่มเกมรอบนี้");
+                isStarting = false;
+                SetMenuLocked(false);
+            }
+            return;
+        }
+
         OnPlayPressed();
+    }
+
+    /// <summary>ล็อก/ปลดล็อกปุ่มเมนูทั้งหมดผ่าน MainMenuIntro</summary>
+    void SetMenuLocked(bool locked)
+    {
+        MainMenuIntro intro = FindObjectOfType<MainMenuIntro>();
+        if (intro != null) intro.SetButtonsLocked(locked);
+        if (!locked) RefreshContinueButton();   // คืนสถานะปุ่ม Continue ตามเซฟจริง
     }
 
     /// <summary>
@@ -217,6 +258,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnQuitPressed()
     {
+        if (isStarting) return;
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -283,6 +326,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnContinuePressed()
     {
+        if (isStarting) return;
+
         // กันกรณีถูกเรียกจากที่อื่นโดยไม่มีเซฟ
         if (!HasSaveData())
         {
