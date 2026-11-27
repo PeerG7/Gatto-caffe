@@ -31,6 +31,13 @@ public class UISummaryController : MonoBehaviour
     public TextMeshProUGUI ratingText;        // ใช้เฉพาะตอนไม่ได้ใส่ Rating Localize (แบบเดิม)
     public TextMeshProUGUI ratingDetailText;  // ใช้เฉพาะตอนไม่ได้ใส่ Rating Detail Localize (แบบเดิม)
 
+    [Header("Cafe Rating — แบบรูปดาว (ไม่บังคับ)")]
+    [Tooltip("ดาวของ Rating เดิม (ก่อนจบวัน) — ลาก Image ดาวเรียงซ้าย→ขวา")]
+    public Image[] oldStarImages;
+
+    [Tooltip("ดาวของ Rating ใหม่ (หลังจบวัน) — ลาก Image ดาวเรียงซ้าย→ขวา")]
+    public Image[] newStarImages;
+
     // ── Localization ──────────────────────────────────────────────
     [Header("Localization")]
     [Tooltip("Localize String Event ของ DayText (key: day_result) ตัวแปร: {day}")]
@@ -134,6 +141,30 @@ public class UISummaryController : MonoBehaviour
             evt.RefreshString();
     }
 
+    // ตั้งดาวตามค่า rating — ดวงที่ i เต็มตาม (rating - i) รองรับครึ่งดาว
+    private static void ApplyStars(Image[] stars, float rating)
+    {
+        if (stars == null || stars.Length == 0) return;
+
+        int max = CafeRatingManager.Instance != null
+            ? Mathf.RoundToInt(CafeRatingManager.Instance.maxRating)
+            : stars.Length;
+
+        for (int i = 0; i < stars.Length; i++)
+        {
+            Image img = stars[i];
+            if (img == null) continue;
+
+            // บังคับเป็น Filled เสมอ (ถ้าเป็น Simple ดาวจะเต็มทุกดวง)
+            img.type = Image.Type.Filled;
+            img.fillMethod = Image.FillMethod.Horizontal;
+            img.fillOrigin = (int)Image.OriginHorizontal.Left;
+
+            img.fillAmount = Mathf.Clamp01(rating - i);
+            img.gameObject.SetActive(i < max);
+        }
+    }
+
     // ส่งข้อมูลทั้งหมดเข้า Localization
     // result = null → ใส่ค่า placeholder ให้ตัวแปรของ Rating ครบ (ใช้ก่อนเปิด Canvas)
     private void ApplyLocalizedData(int day, int served, int earnings, CafeRatingManager.DayResult result)
@@ -180,6 +211,10 @@ public class UISummaryController : MonoBehaviour
             rMissed = result.missed;
             rInteract = result.interactSuccess;
         }
+
+        // ⭐ ดาวของ Rating (ถ้าไม่ได้ผูก Image ไว้ จะข้ามไปเอง)
+        ApplyStars(oldStarImages, result != null ? result.oldRating : 0f);
+        ApplyStars(newStarImages, result != null ? result.newRating : 0f);
 
         if (ratingLocalize != null)
         {
