@@ -35,8 +35,8 @@ public class InputDeviceMonitor : MonoBehaviour
 
     [Tooltip("ก้านต้องเอียงเกินค่านี้ถึงนับว่า 'ขยับ' (กันก้านเอียงเอง)")]
     public float stickThreshold = 0.35f;
-    [Tooltip("เมาส์ต้องขยับเกินกี่พิกเซลต่อเฟรมถึงนับว่า 'ขยับ'")]
-    public float mouseMovePixels = 3f;
+    [Tooltip("เมาส์ต้องขยับเกินกี่พิกเซลต่อเฟรมถึงนับว่า 'ขยับ' (ปรับเพิ่มเพื่อกันเมาส์สะเทือนดึงกลับจากจอย)")]
+    public float mouseMovePixels = 12f;
 
     private static InputDeviceMonitor instance;
 

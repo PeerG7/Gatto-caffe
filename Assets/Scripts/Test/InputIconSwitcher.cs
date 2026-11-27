@@ -9,16 +9,11 @@ using UnityEngine.UI;
 //   จอย             → รูปตามยี่ห้อ (Xbox / PlayStation / Nintendo)
 //                     ช่องที่ว่างจะใช้รูปของ Xbox แทน
 //
-// เวอร์ชันนี้แก้บั๊ก "ไอคอนบางตัวยังเป็น E":
+// เวอร์ชันนี้ปรับปรุง:
 //   • Reapply Every Frame: ตั้งรูปซ้ำใน LateUpdate ทุกเฟรม (LateUpdate รันหลัง Animator และสคริปต์อื่น)
-//     ถ้ามีสคริปต์/Animation ที่ตั้งรูปกลับเป็น E ตอนแมวมานั่ง รูปจะถูกตั้งทับกลับเป็นรูปที่ถูกต้องทันที
+//   • Force Switch: ย้ำสถานะเปิด-ปิดกลุ่ม Show On Keyboard Mouse / Show On Gamepad ทุกเฟรมใน LateUpdate
 //   • หา Image / SpriteRenderer ในลูกด้วย ถ้า Component นี้ไม่ได้อยู่บนตัวที่วาดรูปโดยตรง
 //   • เตือนใน Console ถ้าช่องรูปของอุปกรณ์ปัจจุบันว่าง (เดิมเงียบ ๆ แล้วรูปไม่เปลี่ยน)
-//
-// เสริม: ใส่ GameObject ในช่อง Show On Keyboard Mouse / Show On Gamepad
-//        เพื่อเปิด-ปิดกลุ่มไอคอนทั้งกลุ่มตามอุปกรณ์
-//        (ถ้าไอคอนมี Animation ที่คีย์รูปเอง ให้แยกเป็น 2 ลูก: ไอคอนคีย์บอร์ด / ไอคอนจอย แล้วใช้ช่องกลุ่มนี้แทน
-//         เพราะ Reapply Every Frame จะตั้งรูปทับ Animation)
 // =====================================================================
 [DisallowMultipleComponent]
 public class InputIconSwitcher : MonoBehaviour
@@ -40,15 +35,12 @@ public class InputIconSwitcher : MonoBehaviour
     public GameObject[] showOnGamepad;
 
     [Header("Behaviour")]
-    [Tooltip("ตั้งรูปซ้ำทุกเฟรมใน LateUpdate กันสคริปต์/Animator อื่นตั้งรูปกลับเป็นรูปเดิม")]
+    [Tooltip("ตั้งรูปซ้ำทุกเฟรมใน LateUpdate กันสคริปต์/Animator อื่นตั้งรูปกลับเป็นรูปเดิม (เช่นตอนแมวมานั่ง)")]
     public bool reapplyEveryFrame = true;
-    [Tooltip("บังคับเปิด-ปิดกลุ่ม Show On Keyboard Mouse / Show On Gamepad ตามสถานะปัจจุบันทุกเฟรม")]
+    [Tooltip("บังคับเปิด-ปิดกลุ่ม Show On Keyboard Mouse / Show On Gamepad ตามสถานะปัจจุบันทุกเฟรมใน LateUpdate")]
     public bool forceSwitch = true;
     [Tooltip("เตือนใน Console ถ้าช่องรูปของอุปกรณ์ปัจจุบันยังว่าง")]
     public bool warnIfMissing = true;
-
-    private bool? lastPadState;
-
 
     void Awake()
     {
@@ -68,7 +60,6 @@ public class InputIconSwitcher : MonoBehaviour
         if (targetImage == null && targetSprite == null && warnIfMissing)
             Debug.LogWarning("[InputIconSwitcher] ไม่พบ Image หรือ SpriteRenderer บน '" + name + "' (หรือในลูก) — ลากใส่ช่อง Target เอง", this);
     }
-
 
     void OnEnable()
     {
@@ -91,6 +82,13 @@ public class InputIconSwitcher : MonoBehaviour
     {
         ApplySprite(true);
         ApplyGroups();
+    }
+
+    void ApplyGroups()
+    {
+        bool pad = InputDeviceMonitor.UsingGamepad;
+        SetGroup(showOnKeyboardMouse, !pad);
+        SetGroup(showOnGamepad, pad);
     }
 
     Sprite Pick()
@@ -120,13 +118,6 @@ public class InputIconSwitcher : MonoBehaviour
 
         if (targetImage != null && targetImage.sprite != pick) targetImage.sprite = pick;
         if (targetSprite != null && targetSprite.sprite != pick) targetSprite.sprite = pick;
-    }
-
-    void ApplyGroups()
-    {
-        bool pad = InputDeviceMonitor.UsingGamepad;
-        SetGroup(showOnKeyboardMouse, !pad);
-        SetGroup(showOnGamepad, pad);
     }
 
     static void SetGroup(GameObject[] group, bool active)
