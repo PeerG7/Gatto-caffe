@@ -4419,6 +4419,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &139401645
 MonoBehaviour:
@@ -4952,6 +4953,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &153344192
 MonoBehaviour:
@@ -6097,6 +6099,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 193745103}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &193745106
 MonoBehaviour:
@@ -9852,6 +9855,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &289002288
 GameObject:
@@ -14191,6 +14195,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &409792042
 MonoBehaviour:
@@ -14343,6 +14348,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &411176910
 GameObject:
@@ -15050,6 +15056,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &445600604
 GameObject:
@@ -16462,6 +16469,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &469687350
 GameObject:
@@ -21575,6 +21583,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &642683102
 MonoBehaviour:
@@ -21749,6 +21758,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &652003987
 MonoBehaviour:
@@ -22696,6 +22706,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &679899882
 GameObject:
@@ -22879,6 +22890,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 0}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &690712282
 MonoBehaviour:
@@ -24961,6 +24973,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &780916468
 GameObject:
@@ -25645,6 +25658,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &788476779
 MonoBehaviour:
@@ -27739,6 +27753,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 0}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &839776026
 MonoBehaviour:
@@ -27891,6 +27906,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &842583079
 GameObject:
@@ -28671,6 +28687,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &866726782
 MonoBehaviour:
@@ -30236,6 +30253,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &910698453 stripped
 GameObject:
@@ -30492,6 +30510,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &915785294
 GameObject:
@@ -32936,6 +32955,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1009982861
 MonoBehaviour:
@@ -36518,6 +36538,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &1132856793
 GameObject:
@@ -36659,6 +36680,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 1133826102}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1133826105
 MonoBehaviour:
@@ -37895,6 +37917,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1193584607
 MonoBehaviour:
@@ -38282,6 +38305,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &1239623327
 GameObject:
@@ -39288,6 +39312,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1261430935
 MonoBehaviour:
@@ -40088,6 +40113,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 0}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1285867682
 MonoBehaviour:
@@ -40667,6 +40693,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1303507155
 MonoBehaviour:
@@ -40819,6 +40846,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &1308247060
 GameObject:
@@ -55822,6 +55850,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 1353854305}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1353854308
 MonoBehaviour:
@@ -57851,6 +57880,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &1413805354
 GameObject:
@@ -58510,6 +58540,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 0}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1445742075
 MonoBehaviour:
@@ -58760,6 +58791,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &1449364173
 GameObject:
@@ -60159,6 +60191,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &1497134430
 GameObject:
@@ -60896,6 +60929,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 0}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1516623909
 MonoBehaviour:
@@ -63001,6 +63035,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 1581241841}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1581241844
 MonoBehaviour:
@@ -63541,6 +63576,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &1600957685
 GameObject:
@@ -63639,6 +63675,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &1601345491
 GameObject:
@@ -65325,6 +65362,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &1685476721
 GameObject:
@@ -67041,6 +67079,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 0}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1727639701
 MonoBehaviour:
@@ -67219,7 +67258,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7681728805988401472, guid: 74ac6207acd72154ba31bbea551f0d4b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -67779,6 +67818,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1757577375
 MonoBehaviour:
@@ -67879,6 +67919,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 1757804477}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1757804480
 MonoBehaviour:
@@ -69017,6 +69058,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1794817779
 MonoBehaviour:
@@ -70467,6 +70509,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 0}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1851673436
 MonoBehaviour:
@@ -71401,6 +71444,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &1881371474
 GameObject:
@@ -74078,6 +74122,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &1973848898
 GameObject:
@@ -74139,6 +74184,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &1973848901
 MonoBehaviour:
@@ -74291,6 +74337,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!1 &1979704960
 GameObject:
@@ -75759,6 +75806,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 2028530351}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &2028530354
 MonoBehaviour:
@@ -76322,6 +76370,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &2056044209
 MonoBehaviour:
@@ -76615,6 +76664,7 @@ MonoBehaviour:
   showOnGamepad:
   - {fileID: 2061538210}
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &2061538213
 MonoBehaviour:
@@ -78662,6 +78712,7 @@ MonoBehaviour:
   showOnKeyboardMouse: []
   showOnGamepad: []
   reapplyEveryFrame: 1
+  forceSwitch: 1
   warnIfMissing: 1
 --- !u!114 &2122651237
 MonoBehaviour:

@@ -24,6 +24,9 @@ MonoBehaviour:
       height: 922
     revealStyle: 0
     visibleFromStart: 1
+    zoomIn: 0
+    zoomDuration: 1
+    zoomOutAfter: 1
     caption: 
     waitForInput: 1
     autoAdvanceSeconds: 0
@@ -39,6 +42,9 @@ MonoBehaviour:
       height: 922
     revealStyle: 0
     visibleFromStart: 0
+    zoomIn: 0
+    zoomDuration: 1
+    zoomOutAfter: 1
     caption: 
     waitForInput: 1
     autoAdvanceSeconds: 0
@@ -54,13 +60,16 @@ MonoBehaviour:
       height: 922
     revealStyle: 0
     visibleFromStart: 0
+    zoomIn: 0
+    zoomDuration: 1
+    zoomOutAfter: 1
     caption: 
     waitForInput: 1
     autoAdvanceSeconds: 0
     slideDuration: 0
     driftPixelsPerSecond: 0
     sfx: {fileID: 0}
-  pageImage: {fileID: 21300000, guid: fe29be30b68283c4bb71cdb2359c7f2a, type: 3}
+  pageImage: {fileID: 8144014452104338489, guid: 633d4276bc3b93f4d8e3ef0db86eedcc, type: 3}
   overviewHoldSeconds: 1.2
   endWithOverview: 0
   focusPadding: 0.96

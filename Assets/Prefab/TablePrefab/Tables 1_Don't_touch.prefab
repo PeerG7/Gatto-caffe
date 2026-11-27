@@ -71,21 +71,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a5e2be636ff68247a29aae9e62b30fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomerTable
-  seatPoint: {fileID: 2143094716382707973}
-  isOccupied: 0
-  sittingNPC: {fileID: 0}
+  seatPoints: []
+  sittingNPCs: []
   wantedItem: 
   dishReward: 50
   tableItemRenderer: {fileID: 7924761688268685119}
-  heartIcon: {fileID: 5825165951669725367}
   angryIcon: {fileID: 8141302274863683036}
   vipBadgeIcon: {fileID: 0}
-  interactionCanvas: {fileID: 0}
-  interactionButtonGroup: {fileID: 0}
-  interactionDuration: 5
+  moneyIconOnTable: {fileID: 0}
+  hasMoneyToCollect: 0
+  popDuration: 0.55
+  popHopHeight: 0.35
+  idleBobHeight: 0.04
+  idleBobSpeed: 4
   interactionChance: 50
+  chatTriggerChance: 80
   coinSoundClip: {fileID: 0}
   sfxSource: {fileID: 0}
+  patienceBonusOnFriendServed: 15
 --- !u!114 &3268972240486383739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,7 +110,9 @@ MonoBehaviour:
   isUnlocked: 1
   upgradePrice: 500
   isUpgraded: 0
-  vipChanceBonusOnUpgrade: 15
+  vipChanceBonusOnUpgrade: 1
+  furnitureID: 
+  furniturePrefab: {fileID: 0}
 --- !u!61 &1892044533809279172
 BoxCollider2D:
   m_ObjectHideFlags: 0
