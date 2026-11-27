@@ -11,6 +11,12 @@ public class PauseMenuManager : MonoBehaviour
     [Tooltip("ลาก GameObject ของ Panel ยืนยันการออกเกม (Exit Confirmation) มาใส่ที่นี่")]
     public GameObject confirmExitPanel;
 
+    [Header("Gamepad (D-pad) — ปุ่มที่ถูกเลือกก่อนเมื่อเปิดหน้า")]
+    [Tooltip("ปุ่มในหน้ายืนยันออกเกมที่ให้จอยเลือกก่อน (แนะนำปุ่ม No / Cancel กันกดพลาด) — เว้นว่างได้")]
+    public Button confirmDefaultButton;
+    [Tooltip("ปุ่มในหน้า Pause ที่ให้จอยเลือกก่อน เช่น Continue — เว้นว่างได้")]
+    public Button pauseDefaultButton;
+
     [Header("Scene Settings")]
     [Tooltip("ชื่อของ Scene หน้า Main Menu ที่จะให้กลับไปเมื่อกด Title")]
     public string mainMenuSceneName = "MainMenu";
@@ -82,6 +88,8 @@ public class PauseMenuManager : MonoBehaviour
         if (pauseMenuUI != null) pauseMenuUI.SetActive(true);
         if (confirmExitPanel != null) confirmExitPanel.SetActive(false);
 
+        UIFocusHelper.Select(pauseDefaultButton);
+
         if (DayNightManager.Instance != null)
         {
             DayNightManager.Instance.PauseGame();
@@ -141,7 +149,31 @@ public class PauseMenuManager : MonoBehaviour
         if (confirmExitPanel != null)
         {
             confirmExitPanel.SetActive(true);
+
+            // 🎮 ย้ายปุ่มที่เลือกมาที่หน้ายืนยัน — ไม่งั้นปุ่ม Exit ที่เพิ่งกดยังค้างเป็นปุ่มที่เลือก
+            //    D-pad จะวิ่งไปปุ่มของหน้า Pause ที่อยู่ข้างหลังแทน
+            UIFocusHelper.Select(PickConfirmButton());
         }
+    }
+
+    // ปุ่มที่ให้จอยเลือกก่อนในหน้ายืนยัน: ใช้ที่ลากไว้ใน Inspector ก่อน
+    // ถ้าไม่ได้ลาก → หาปุ่มที่ชื่อเหมือน No / Cancel / Back (ปลอดภัยกว่า Yes) ไม่เจอก็ใช้ปุ่มแรกในหน้า
+    private Selectable PickConfirmButton()
+    {
+        if (confirmDefaultButton != null) return confirmDefaultButton;
+        if (confirmExitPanel == null) return null;
+
+        Selectable first = null;
+        foreach (Selectable s in confirmExitPanel.GetComponentsInChildren<Selectable>(false))
+        {
+            if (first == null) first = s;
+
+            string n = s.name.Trim().ToLowerInvariant();
+            if (n == "no" || (n.StartsWith("no") && !n.StartsWith("not")) || n.Contains("cancel") || n.Contains("back") ||
+                n.EndsWith("no") || n.Contains("_no") || n.Contains(" no"))
+                return s;
+        }
+        return first;
     }
 
     public void CloseConfirmExit()
@@ -150,6 +182,9 @@ public class PauseMenuManager : MonoBehaviour
         {
             confirmExitPanel.SetActive(false);
         }
+
+        // 🎮 กลับมาเลือกปุ่มของหน้า Pause (ปุ่มในหน้ายืนยันที่ค้างเลือกอยู่ถูกปิดไปแล้ว)
+        if (_isMenuOpen) UIFocusHelper.Select(pauseDefaultButton);
     }
 
     public void ConfirmExitGame()

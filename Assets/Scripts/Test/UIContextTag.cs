@@ -42,10 +42,17 @@ public class UIContextTag : MonoBehaviour
         return sb.ToString();
     }
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    static void ResetStatics() { active.Clear(); }
+    /// <summary>ยิงทุกครั้งที่มี tag ถูกเปิด (หน้า UI ใหม่เปิดขึ้นมา) — GamepadUINavigator ใช้ย้ายปุ่มที่เลือกไปหน้าใหม่</summary>
+    public static event System.Action<UIContextTag> Enabled;
 
-    void OnEnable() { active.Add(this); }
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatics() { active.Clear(); Enabled = null; }
+
+    void OnEnable()
+    {
+        active.Add(this);
+        Enabled?.Invoke(this);
+    }
 
     void OnDisable() { active.Remove(this); }
 

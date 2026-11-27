@@ -98,8 +98,18 @@ public class UISummaryController : MonoBehaviour
     // เก็บ reference เดิมของ DayText ไว้ เผื่อสลับกลับจาก day_final
     private LocalizedString _originalDayString;
 
+    // 🎮 ให้หน้าสรุปวันเป็น "หน้า UI" ตอนเปิดอยู่: ปุ่ม A = คลิกซ้าย, D-pad เลือกปุ่มได้
+    //    (แปะ UIContextTag ด้วยโค้ดเหมือน PauseMenuManager — แท็กนับเฉพาะตอน Canvas เปิดอยู่)
+    private static void TagAsUI(GameObject go)
+    {
+        if (go != null && go.GetComponent<UIContextTag>() == null)
+            go.AddComponent<UIContextTag>();
+    }
+
     void Start()
     {
+        TagAsUI(summaryCanvas);
+
         if (summaryCanvas != null) summaryCanvas.SetActive(false);
         if (blackOverlay != null) blackOverlay.gameObject.SetActive(false);
 
@@ -343,6 +353,9 @@ public class UISummaryController : MonoBehaviour
             canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
         }
+
+        // 🎮 ผู้เล่นจอย: เลือกปุ่ม Next Day ให้เลย (D-pad เลื่อนไปปุ่มอื่นต่อได้)
+        UIFocusHelper.Select(nextDayButton);
     }
 
     // ── ปุ่ม Next Day / End Game ───────────────────────────────────

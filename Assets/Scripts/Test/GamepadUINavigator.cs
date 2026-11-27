@@ -24,6 +24,14 @@ public class GamepadUINavigator : MonoBehaviour
 {
     public static GamepadUINavigator Instance { get; private set; }
 
+    /// <summary>เปิดไว้ = ขึ้น Log ใน Console เวลากด D-pad ว่าทำงานไหม / เลือกปุ่มอะไร / ถูกบล็อกเพราะอะไร (ปิดเมื่อแก้เสร็จ)</summary>
+    public static bool DebugLog = true;
+    private float _lastDebugTime = -10f;
+
+    // หน้า UI ที่เพิ่งเปิดและรอย้ายปุ่มที่เลือกไปไว้ในหน้านั้น (ถ้าปุ่มที่เลือกค้างอยู่ที่หน้าเดิมข้างหลัง)
+    private UIContextTag _pendingPage;
+    private int _pendingFrame;
+
     [Header("Navigation")]
     [Tooltip("D-pad / ก้านซ้ายต้องเอียงเกินค่านี้ถึงนับว่ากด")]
     public float navThreshold = 0.5f;
@@ -62,11 +70,51 @@ public class GamepadUINavigator : MonoBehaviour
         Instance = this;
         if (transform.parent == null) DontDestroyOnLoad(gameObject);
         BuildFrame();
+        UIContextTag.Enabled += OnPageOpened;
     }
 
     void OnDisable() { SetFrame(null); }
 
-    void OnDestroy() { if (Instance == this) Instance = null; }
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            UIContextTag.Enabled -= OnPageOpened;
+            Instance = null;
+        }
+    }
+
+    void OnPageOpened(UIContextTag page)
+    {
+        _pendingPage = page;
+        _pendingFrame = Time.frameCount;
+    }
+
+    /// <summary>
+    /// สคริปต์อื่น (UIFocusHelper) ย้ายปุ่มที่เลือกเองแล้ว → ให้ถือว่าเป็นการเลือกที่ถูกต้อง
+    /// ไม่งั้นถ้าเพิ่งกด D-pad ไม่ถึง 0.3 วินาที จะนึกว่า D-pad พาหลุดไปหน้าอื่นแล้วเด้งกลับ
+    /// </summary>
+    public void AcceptSelection(GameObject go)
+    {
+        lastSelected = go;
+    }
+
+    // ปุ่มที่ปลอดภัยที่สุดในหน้าใหม่ (No / Cancel / Back / Close ก่อน ไม่เจอใช้ปุ่มแรกที่ใช้ได้)
+    static Selectable PickPreferred(UIContextTag page)
+    {
+        Selectable first = null;
+        foreach (Selectable s in page.GetComponentsInChildren<Selectable>(false))
+        {
+            if (!CanUse(s)) continue;
+            if (first == null) first = s;
+
+            string n = s.name.Trim().ToLowerInvariant();
+            if (n == "no" || (n.StartsWith("no") && !n.StartsWith("not")) || n.EndsWith("no") || n.Contains("_no") ||
+                n.Contains("cancel") || n.Contains("back") || n.Contains("close"))
+                return s;
+        }
+        return first;
+    }
 
     // LateUpdate = หลัง EventSystem ประมวลผลการเลื่อนของเฟรมนี้แล้ว (กันเลือกซ้อนจนข้ามปุ่ม)
     void LateUpdate()
@@ -74,8 +122,18 @@ public class GamepadUINavigator : MonoBehaviour
         EventSystem es = EventSystem.current;
         if (es == null || !GameInput.ClickMode || !InputDeviceMonitor.UsingGamepad)
         {
+            if (DebugLog && GameInput.Navigate.sqrMagnitude > navThreshold * navThreshold && Time.unscaledTime - _lastDebugTime > 1f)
+            {
+                _lastDebugTime = Time.unscaledTime;
+                Debug.Log("[GamepadUINavigator] กด D-pad แต่ไม่ทำงาน → " +
+                          $"EventSystem: {(es != null ? "มี" : "ไม่มี")} | " +
+                          $"อยู่หน้า UI (ClickMode): {GameInput.ClickMode}" +
+                          $"{(GameInput.ClickMode ? "" : " (สาเหตุ: " + (GameInput.UIContextReason() ?? "ไม่มี UIContextTag/ไม่ได้ล็อกผู้เล่น") + ", QTE ปุ่มโชว์: " + GameInput.QTEButtonShown + ")")} | " +
+                          $"ใช้จอยอยู่: {InputDeviceMonitor.UsingGamepad}");
+            }
             lastSelected = null;
             prevNavActive = false;
+            _pendingPage = null;
             SetFrame(null);
             return;
         }
@@ -86,12 +144,58 @@ public class GamepadUINavigator : MonoBehaviour
         prevNavActive = navActive;
         if (navActive) lastNavTime = Time.unscaledTime;
 
+        // หน้า UI ใหม่เพิ่งเปิดทับ แต่ปุ่มที่เลือกยังค้างอยู่ที่หน้าเดิมข้างหลัง (เช่น ปุ่ม Exit ตอนเปิดหน้ายืนยัน)
+        // → ย้ายไปปุ่มในหน้าใหม่ ไม่งั้น D-pad จะวิ่งไปปุ่มหน้าเดิมแล้วถูกเด้งกลับตลอด
+        if (_pendingPage != null)
+        {
+            if (!_pendingPage.isActiveAndEnabled)
+            {
+                _pendingPage = null;
+            }
+            else
+            {
+                GameObject cur = es.currentSelectedGameObject;
+                if (cur == null || cur.transform.IsChildOf(_pendingPage.transform))
+                {
+                    _pendingPage = null;   // ไม่มีปุ่มค้าง หรืออยู่ในหน้าใหม่อยู่แล้ว
+                }
+                else
+                {
+                    Selectable pick = PickPreferred(_pendingPage);
+                    if (pick != null)
+                    {
+                        es.SetSelectedGameObject(pick.gameObject);
+                        FocusCursorOn(pick);
+                        lastSelected = pick.gameObject;
+                        if (DebugLog) Debug.Log($"[GamepadUINavigator] หน้าใหม่ '{_pendingPage.name}' เปิดทับ → ย้ายปุ่มที่เลือกจาก '{cur.name}' ไป '{pick.name}'");
+                        _pendingPage = null;
+                    }
+                    else if (Time.frameCount - _pendingFrame > 40)
+                    {
+                        _pendingPage = null;   // รอปุ่มพร้อม (เช่น กำลัง Fade) เกิน ~0.6 วินาทีแล้ว เลิกรอ
+                    }
+                }
+            }
+        }
+
         Selectable sel = Usable(es.currentSelectedGameObject);
+
+        if (DebugLog && navEdge)
+        {
+            GameObject cur = es.currentSelectedGameObject;
+            Debug.Log("[GamepadUINavigator] กด D-pad: ปุ่มที่เลือกอยู่ = " +
+                      (cur != null ? cur.name : "ไม่มี") +
+                      (cur != null && sel == null ? " (ใช้ไม่ได้: ไม่ Interactable หรือถูกปิด)" : "") +
+                      (sel != null ? $" | Navigation = {sel.navigation.mode}" : ""));
+        }
 
         if (navEdge && sel == null)
         {
             // ยังไม่มีปุ่มที่เลือกอยู่ → เลือกปุ่มที่ใกล้เคอร์เซอร์ที่สุด
             Selectable cand = FindNearest(GameInput.PointerPosition);
+            if (DebugLog)
+                Debug.Log("[GamepadUINavigator] ยังไม่มีปุ่มที่เลือก → หาปุ่มใกล้เคอร์เซอร์: " +
+                          (cand != null ? cand.name : "ไม่พบเลย (ปุ่มอาจเป็น Navigation=None / ไม่ Interactable / อยู่นอกจอ)"));
             if (cand != null)
             {
                 es.SetSelectedGameObject(cand.gameObject);
@@ -108,6 +212,9 @@ public class GamepadUINavigator : MonoBehaviour
                 Selectable prev = Usable(lastSelected);
                 if (restrictToCurrentPage && prev != null && Scope(prev) != Scope(sel))
                 {
+                    if (DebugLog)
+                        Debug.Log($"[GamepadUINavigator] เลื่อนจาก '{prev.name}' ไป '{sel.name}' ซึ่งอยู่คนละหน้า " +
+                                  $"({(Scope(prev) != null ? Scope(prev).name : "-")} → {(Scope(sel) != null ? Scope(sel).name : "-")}) → เด้งกลับ");
                     es.SetSelectedGameObject(prev.gameObject);   // หลุดไปหน้าอื่น → เด้งกลับ
                     sel = prev;
                 }
