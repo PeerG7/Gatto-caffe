@@ -353,6 +353,18 @@ MonoBehaviour:
     m_Key: Nyanloo
     m_Metadata:
       m_Items: []
+  - m_Id: 2720752791969792
+    m_Key: Interact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2721313876598784
+    m_Key: OpenB
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2727354819403776
+    m_Key: NOTI_NO_More_Table
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

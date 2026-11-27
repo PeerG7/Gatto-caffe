@@ -378,6 +378,18 @@ MonoBehaviour:
     m_Localized: assists  to help on serving
     m_Metadata:
       m_Items: []
+  - m_Id: 2720752791969792
+    m_Localized: interact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2721313876598784
+    m_Localized: Inventory
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2727354819403776
+    m_Localized: no type  of table
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

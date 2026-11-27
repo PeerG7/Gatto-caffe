@@ -145,7 +145,7 @@ public class NPCInteract : MonoBehaviour
 
             // 🟢 แจ้งเตือนผู้เล่นว่าทำไมแมวถึงเดินออกไป
             if (UINotificationManager.Instance != null)
-                UINotificationManager.Instance.ShowNotification($"No table for {groupSize} cats! They left the cafe.");
+                UINotificationManager.Instance.ShowNotification($"NOTI_NO_More_Table");
 
             StartCoroutine(HandleGroupRejectAndExit(frontNPC.groupID));
             return;
