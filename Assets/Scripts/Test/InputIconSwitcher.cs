@@ -98,6 +98,7 @@ public class InputIconSwitcher : MonoBehaviour
 
     public void Refresh()
     {
+        Debug.Log($"[Refresh] {name} | UsingGamepad={InputDeviceMonitor.UsingGamepad}");
         ApplySprite(true);
 
         bool pad = InputDeviceMonitor.UsingGamepad;
