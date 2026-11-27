@@ -214,7 +214,7 @@ public class FurnitureManager : MonoBehaviour
             if (UINotificationManager.Instance != null)
             {
                 string tableName = currentPlacingInstance.itemData != null ? currentPlacingInstance.itemData.name : "โต๊ะ";
-                UINotificationManager.Instance.ShowNotification($"Place {tableName} Complete");
+                UINotificationManager.Instance.ShowNotification($"NOTI_FURNITURE_PLACED");
             }
 
             // 🌟 [JUICE] เล่นอนิเมชันเด้งดึ๋งนุ่มนวลตอนวางเฟอร์นิเจอร์

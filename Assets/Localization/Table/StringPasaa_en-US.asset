@@ -132,11 +132,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 63570416910336
-    m_Localized: Cooking Bot
+    m_Localized: Chefnyan
     m_Metadata:
       m_Items: []
   - m_Id: 64071212613632
-    m_Localized: Serve Bot
+    m_Localized: Nyanloon
     m_Metadata:
       m_Items: []
   - m_Id: 64344119197696
@@ -368,6 +368,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2584176778797056
     m_Localized: Move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2639209859899392
+    m_Localized: assists  to  help on cooking
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2639219641016320
+    m_Localized: assists  to help on serving
     m_Metadata:
       m_Items: []
   references:
