@@ -44,6 +44,9 @@ public class InputIconSwitcher : MonoBehaviour
     public bool reapplyEveryFrame = true;
     [Tooltip("เตือนใน Console ถ้าช่องรูปของอุปกรณ์ปัจจุบันยังว่าง")]
     public bool warnIfMissing = true;
+    
+    private bool? lastPadState;
+
 
     void Awake()
     {
@@ -64,6 +67,7 @@ public class InputIconSwitcher : MonoBehaviour
             Debug.LogWarning("[InputIconSwitcher] ไม่พบ Image หรือ SpriteRenderer บน '" + name + "' (หรือในลูก) — ลากใส่ช่อง Target เอง", this);
     }
 
+
     void OnEnable()
     {
         InputDeviceMonitor.Changed += Refresh;
@@ -78,6 +82,18 @@ public class InputIconSwitcher : MonoBehaviour
     void LateUpdate()
     {
         if (reapplyEveryFrame) ApplySprite(false);
+
+        bool pad = InputDeviceMonitor.UsingGamepad;
+        SetGroup(showOnGamepad, pad);
+
+        if (lastPadState != pad)
+        {
+            lastPadState = pad;
+            if (showOnGamepad != null && showOnGamepad.Length > 0 && showOnGamepad[0] != null)
+            {
+                Debug.Log($"[Test Switcher] pad={pad} | goActiveSelf={showOnGamepad[0].activeSelf}");
+            }
+        }
     }
 
     public void Refresh()
