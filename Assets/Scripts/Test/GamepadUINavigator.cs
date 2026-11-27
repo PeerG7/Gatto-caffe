@@ -32,7 +32,8 @@ public class GamepadUINavigator : MonoBehaviour
     public float scrollPadding = 12f;
 
     [Header("Selection frame")]
-    public bool showSelectionFrame = true;
+    [Tooltip("วาดกรอบสีเหลืองรอบปุ่มที่เลือกด้วย D-pad (ปิดไว้เป็นค่าเริ่มต้น — เคอร์เซอร์จะกระโดดไปอยู่บนปุ่มที่เลือกอยู่แล้ว)")]
+    public bool showSelectionFrame = false;
     public Color frameColor = new Color(1f, 0.85f, 0.2f, 1f);
     [Tooltip("ระยะกรอบห่างจากปุ่ม (พิกเซลที่จอสูง 1080)")]
     public float framePadding = 6f;

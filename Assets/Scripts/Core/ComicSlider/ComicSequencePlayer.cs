@@ -7,16 +7,16 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 // =====================================================================
-// ComicSequencePlayer — เล่นฉาก Comic Slide บน UI
+// ComicSequencePlayer — เล่นฉาก Comic บน UI
 //
-//  แผงทั้งหมดเรียงต่อกันเป็นแถบยาวในแนวนอน แล้ว "เลื่อนมุมมองไปทางขวา" ทีละแผง (ภาพเปลี่ยนตอนสไลด์)
-//  ระหว่างอ่านแต่ละแผงภาพจะลอยไปทางขวาช้าๆ ให้ดูมีชีวิต
+//  Layout = SlideStrip : แผงเรียงต่อกันเป็นแถบยาว เลื่อนมุมมองไปทางขวาทีละแผง
+//  Layout = PageFocus  : รูปทั้งหน้ากระดาษรูปเดียว กล้องซูม/เลื่อนไปทีละช่อง (ตาม Focus Rect ของแต่ละ Panel)
 //
-//  ควบคุม: คลิกซ้าย / Space / Enter / ลูกศรขวา = ไปแผงต่อไป | skipKey (Esc) = ข้ามทั้งชุด
+//  ควบคุม: คลิกซ้าย / Space / Enter / ลูกศรขวา = ไปต่อ | skipKey (Esc) = ข้ามทั้งชุด
 //
 //  วางสคริปต์นี้บน GameObject ที่ "เปิดอยู่เสมอ" (เช่น ComicSystem) ส่วน Root ของ UI ให้ปิดไว้ตอนเริ่ม
-//  ไม่ผูกกับ New Game โดยตรง — ใช้เล่นจาก MainMenu หรือในเกมก็ได้:
 //      ComicSequencePlayer.Instance.Play(mySequence, () => { /* ทำต่อเมื่อจบ */ });
+//  หรือจากปุ่ม (OnClick): ComicSequencePlayer → PlayAssigned()
 // =====================================================================
 public class ComicSequencePlayer : MonoBehaviour
 {
@@ -30,9 +30,9 @@ public class ComicSequencePlayer : MonoBehaviour
     public CanvasGroup rootGroup;
     [Tooltip("กรอบที่มองเห็นภาพ (เต็มจอ) — ใส่ RectMask2D ไว้ด้วย")]
     public RectTransform viewport;
-    [Tooltip("แถบที่เลื่อนไปมา (ลูกของ Viewport, ว่างเปล่า)")]
+    [Tooltip("แถบ/หน้ากระดาษที่เลื่อนและซูม (ลูกของ Viewport, ว่างเปล่า)")]
     public RectTransform strip;
-    [Tooltip("Image ต้นแบบของแต่ละแผง (ลูกของ Strip, ปิดไว้ — สคริปต์จะ Clone ไปใช้)")]
+    [Tooltip("Image ต้นแบบ (ลูกของ Strip, ปิดไว้ — สคริปต์จะ Clone ไปใช้)")]
     public Image panelTemplate;
     [Tooltip("ข้อความใต้ภาพ (เว้นว่างได้)")]
     public TextMeshProUGUI captionText;
@@ -47,7 +47,7 @@ public class ComicSequencePlayer : MonoBehaviour
     public float panelGap = 0f;
     public float fadeDuration = 0.4f;
     public float captionFadeDuration = 0.25f;
-    [Tooltip("ไม่รับการกดไปแผงต่อไปในช่วงแรกของแต่ละแผง (กันกดรัวข้ามโดยไม่ได้ตั้งใจ)")]
+    [Tooltip("ไม่รับการกดไปต่อในช่วงแรกของแต่ละแผง (กันกดรัวข้ามโดยไม่ได้ตั้งใจ)")]
     public float inputDelay = 0.3f;
     public bool preserveAspect = true;
 
@@ -65,6 +65,11 @@ public class ComicSequencePlayer : MonoBehaviour
     private bool _skipRequested, _advanceRequested;
     private bool _pausedByComic, _lockedByComic;
     private Coroutine _captionRoutine;
+
+    // PageFocus
+    private struct CamState { public Vector2 center; public float zoom; }
+    private float _pageW, _pageH, _viewW, _viewH;
+    private bool _clampToPage;
 
     void Awake()
     {
@@ -107,10 +112,12 @@ public class ComicSequencePlayer : MonoBehaviour
     {
         if (IsPlaying) return false;
 
-        if (sequence == null || sequence.panels == null || sequence.panels.Count == 0 ||
-            root == null || viewport == null || strip == null || panelTemplate == null)
+        bool invalid = sequence == null || sequence.panels == null || sequence.panels.Count == 0 ||
+                       root == null || viewport == null || strip == null || panelTemplate == null ||
+                       (sequence.layout == ComicLayout.PageFocus && sequence.pageImage == null);
+        if (invalid)
         {
-            Debug.LogWarning("[ComicSequencePlayer] เล่นไม่ได้: ข้อมูลหรือ UI Reference ไม่ครบ");
+            Debug.LogWarning("[ComicSequencePlayer] เล่นไม่ได้: ข้อมูลหรือ UI Reference ไม่ครบ (PageFocus ต้องใส่ Page Image ด้วย)");
             onFinished?.Invoke();
             return true;
         }
@@ -119,10 +126,7 @@ public class ComicSequencePlayer : MonoBehaviour
         return true;
     }
 
-    /// <summary>
-    /// สำหรับปุ่ม (OnClick): เล่นฉากที่ลากไว้ในช่อง Sequence To Play แล้วเรียก On Finished เมื่อจบ
-    /// (Play(seq, callback) ด้านบนไม่โผล่ในเมนู OnClick เพราะ Unity รองรับเมธอดที่มีพารามิเตอร์ได้แค่ 1 ตัวและชนิดง่ายๆ)
-    /// </summary>
+    /// <summary>สำหรับปุ่ม (OnClick): เล่นฉากในช่อง Sequence To Play แล้วเรียก On Finished เมื่อจบ</summary>
     public void PlayAssigned()
     {
         Play(sequenceToPlay, () => onFinished?.Invoke());
@@ -149,11 +153,23 @@ public class ComicSequencePlayer : MonoBehaviour
         SetCaptionAlpha(0f);
         Canvas.ForceUpdateCanvases();
 
-        float w = BuildPanels(seq);
-        SetStripX(0f);
+        bool pageMode = seq.layout == ComicLayout.PageFocus;
+        float stripPanelWidth = pageMode ? BuildPage(seq) : BuildPanels(seq);
 
         yield return StartCoroutine(FadeRoot(0f, 1f));
 
+        if (pageMode) yield return StartCoroutine(RunPageFocus(seq));
+        else yield return StartCoroutine(RunStrip(seq, stripPanelWidth));
+
+        yield return StartCoroutine(FadeRoot(1f, 0f));
+
+        Cleanup();
+        onFinished?.Invoke();
+    }
+
+    // ═════════════════════════ SlideStrip ═════════════════════════
+    private IEnumerator RunStrip(ComicSequenceData seq, float w)
+    {
         for (int i = 0; i < seq.panels.Count && !_skipRequested; i++)
         {
             ComicPanel p = seq.panels[i];
@@ -168,15 +184,10 @@ public class ComicSequencePlayer : MonoBehaviour
             if (_skipRequested) break;
 
             ShowCaption(p.caption);
-            if (p.sfx != null && sfxSource != null) sfxSource.PlayOneShot(p.sfx);
+            PlaySfx(p);
 
             yield return StartCoroutine(HoldPanel(p, seq, baseX));
         }
-
-        yield return StartCoroutine(FadeRoot(1f, 0f));
-
-        Cleanup();
-        onFinished?.Invoke();
     }
 
     private float BuildPanels(ComicSequenceData seq)
@@ -187,6 +198,8 @@ public class ComicSequencePlayer : MonoBehaviour
         strip.anchorMax = new Vector2(0f, 1f);
         strip.pivot = new Vector2(0f, 0.5f);
         strip.sizeDelta = new Vector2(0f, 0f);
+        strip.localScale = Vector3.one;
+        SetStripX(0f);
 
         for (int i = 0; i < seq.panels.Count; i++)
         {
@@ -249,6 +262,189 @@ public class ComicSequencePlayer : MonoBehaviour
             yield return null;
         }
         SetStripX(targetX);
+    }
+
+    // ═════════════════════════ PageFocus ═════════════════════════
+    // กล้อง = (center, zoom)  center เป็นหน่วยพิกเซลของหน้า วัดจากกึ่งกลางหน้า (แกน Y ชี้ขึ้น)
+    // ภาพจริง = strip ที่ถูกขยาย (localScale = zoom) และเลื่อนให้จุด center ไปอยู่กลางจอ
+    private float BuildPage(ComicSequenceData seq)
+    {
+        _viewW = Mathf.Max(1f, viewport.rect.width);
+        _viewH = Mathf.Max(1f, viewport.rect.height);
+        _clampToPage = seq.clampToPage;
+
+        Sprite sp = seq.pageImage;
+        float imgW = Mathf.Max(1f, sp.rect.width);
+        float imgH = Mathf.Max(1f, sp.rect.height);
+        float fit = Mathf.Min(_viewW / imgW, _viewH / imgH); // ย่อรูปให้พอดีจอ (zoom = 1 = เห็นทั้งหน้า)
+        _pageW = imgW * fit;
+        _pageH = imgH * fit;
+
+        strip.anchorMin = new Vector2(0.5f, 0.5f);
+        strip.anchorMax = new Vector2(0.5f, 0.5f);
+        strip.pivot = new Vector2(0.5f, 0.5f);
+        strip.sizeDelta = new Vector2(_pageW, _pageH);
+
+        GameObject go = Instantiate(panelTemplate.gameObject, strip);
+        go.name = "ComicPage";
+        go.SetActive(true);
+        _spawned.Add(go);
+
+        Image img = go.GetComponent<Image>();
+        img.sprite = sp;
+        img.preserveAspect = false; // ขนาดคำนวณให้ตรงสัดส่วนรูปแล้ว
+        img.raycastTarget = false;
+
+        RectTransform rt = go.GetComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.pivot = new Vector2(0.5f, 0.5f);
+        rt.offsetMin = Vector2.zero;
+        rt.offsetMax = Vector2.zero;
+
+        ApplyCamera(new CamState { center = Vector2.zero, zoom = 1f });
+        return _pageW;
+    }
+
+    private IEnumerator RunPageFocus(ComicSequenceData seq)
+    {
+        CamState overview = new CamState { center = Vector2.zero, zoom = 1f };
+        CamState cur = overview;
+        ApplyCamera(cur);
+
+        // เริ่มด้วยภาพทั้งหน้า
+        if (seq.overviewHoldSeconds > 0f)
+            yield return StartCoroutine(HoldSimple(seq.overviewHoldSeconds, false));
+
+        for (int i = 0; i < seq.panels.Count && !_skipRequested; i++)
+        {
+            ComicPanel p = seq.panels[i];
+            CamState target = StateForRect(p.focusRect, seq.focusPadding);
+
+            SetCaptionAlpha(0f);
+            float dur = p.slideDuration >= 0f ? p.slideDuration : seq.defaultSlideDuration;
+            yield return StartCoroutine(MoveCamera(cur, target, dur));
+            cur = target;
+            if (_skipRequested) break;
+
+            ShowCaption(p.caption);
+            PlaySfx(p);
+
+            yield return StartCoroutine(HoldFocus(p, seq, target));
+        }
+
+        // จบด้วยการซูมออกให้เห็นทั้งหน้า (ถ้าเปิดไว้ และไม่ได้ถูกข้าม)
+        if (seq.endWithOverview && !_skipRequested)
+        {
+            SetCaptionAlpha(0f);
+            yield return StartCoroutine(MoveCamera(cur, overview, seq.defaultSlideDuration));
+            if (!_skipRequested)
+                yield return StartCoroutine(HoldSimple(Mathf.Max(1f, seq.overviewHoldSeconds), true));
+        }
+    }
+
+    private CamState StateForRect(Rect r, float padding)
+    {
+        float rw = Mathf.Max(0.001f, r.width) * _pageW;
+        float rh = Mathf.Max(0.001f, r.height) * _pageH;
+
+        float z = Mathf.Min(_viewW / rw, _viewH / rh) * Mathf.Clamp(padding, 0.1f, 1f);
+        z = Mathf.Max(1f, z);
+
+        // Rect ใช้แกน Y จากด้านบน → แปลงเป็นแกน Y ขึ้นด้านบนจากกึ่งกลางหน้า
+        Vector2 c = new Vector2(
+            (r.x + r.width * 0.5f - 0.5f) * _pageW,
+            (0.5f - (r.y + r.height * 0.5f)) * _pageH);
+
+        return new CamState { center = c, zoom = z };
+    }
+
+    private void ApplyCamera(CamState s)
+    {
+        float z = Mathf.Max(1f, s.zoom);
+        Vector2 c = s.center;
+
+        if (_clampToPage)
+        {
+            // กล้องมองเห็นพื้นที่กว้าง (viewW / zoom) → ไม่ให้ขอบกล้องหลุดออกนอกหน้า
+            float halfW = _viewW / (2f * z);
+            float halfH = _viewH / (2f * z);
+            float maxX = Mathf.Max(0f, _pageW * 0.5f - halfW);
+            float maxY = Mathf.Max(0f, _pageH * 0.5f - halfH);
+            c.x = Mathf.Clamp(c.x, -maxX, maxX);
+            c.y = Mathf.Clamp(c.y, -maxY, maxY);
+        }
+
+        strip.localScale = new Vector3(z, z, 1f);
+        strip.anchoredPosition = -c * z;
+    }
+
+    private IEnumerator MoveCamera(CamState from, CamState to, float duration)
+    {
+        if (duration <= 0f) { ApplyCamera(to); yield break; }
+
+        float logFrom = Mathf.Log(Mathf.Max(1f, from.zoom));
+        float logTo = Mathf.Log(Mathf.Max(1f, to.zoom));
+
+        float t = 0f;
+        while (t < duration && !_skipRequested)
+        {
+            t += Time.unscaledDeltaTime;
+            float k = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t / duration));
+
+            CamState s;
+            s.center = Vector2.Lerp(from.center, to.center, k);
+            s.zoom = Mathf.Exp(Mathf.Lerp(logFrom, logTo, k)); // ซูมแบบ log ให้ความรู้สึกสม่ำเสมอ
+            ApplyCamera(s);
+            yield return null;
+        }
+        ApplyCamera(to);
+    }
+
+    private IEnumerator HoldFocus(ComicPanel p, ComicSequenceData seq, CamState target)
+    {
+        float t = 0f;
+        _advanceRequested = false;
+
+        while (!_skipRequested)
+        {
+            t += Time.unscaledDeltaTime;
+
+            // ค่อยๆ ซูมเข้าเพิ่มนิดหน่อยระหว่างอ่านให้ภาพดูมีชีวิต (ช้าลงเรื่อยๆ ไม่กระชาก)
+            if (seq.holdPushIn > 0f)
+            {
+                CamState s = target;
+                s.zoom = target.zoom * (1f + seq.holdPushIn * (1f - Mathf.Exp(-t * 0.6f)));
+                ApplyCamera(s);
+            }
+
+            if (t >= inputDelay && _advanceRequested) break;
+            if (!p.waitForInput && t >= p.autoAdvanceSeconds) break;
+            yield return null;
+        }
+        _advanceRequested = false;
+    }
+
+    // รอเวลาที่กำหนด (กดข้ามได้หลัง inputDelay) — ใช้กับภาพทั้งหน้าตอนเริ่ม/จบ
+    private IEnumerator HoldSimple(float seconds, bool alsoWaitForInput)
+    {
+        float t = 0f;
+        _advanceRequested = false;
+
+        while (!_skipRequested)
+        {
+            t += Time.unscaledDeltaTime;
+            if (t >= inputDelay && _advanceRequested) break;
+            if (!alsoWaitForInput && t >= seconds) break;
+            yield return null;
+        }
+        _advanceRequested = false;
+    }
+
+    // ═════════════════════════ Common ═════════════════════════
+    private void PlaySfx(ComicPanel p)
+    {
+        if (p.sfx != null && sfxSource != null) sfxSource.PlayOneShot(p.sfx);
     }
 
     private IEnumerator FadeRoot(float from, float to)
@@ -339,6 +535,7 @@ public class ComicSequencePlayer : MonoBehaviour
         foreach (GameObject go in _spawned) if (go != null) Destroy(go);
         _spawned.Clear();
 
+        if (strip != null) strip.localScale = Vector3.one; // คืนค่า (PageFocus ขยาย strip ไว้)
         if (root != null) root.SetActive(false);
         EndHold();
 
