@@ -118,8 +118,8 @@ public class FurniturePlacementManager : MonoBehaviour
         Instantiate(currentPrefab, currentGhost.transform.position, currentGhost.transform.rotation);
         AudioManager.instance?.PlayPlaceFurniture();
         UINotificationManager.Instance?.ShowNotification("NOTI_FURNITURE_PLACED");
+        Cancel();          // 🔧 ทำลายผี (Ghost) ก่อน แล้วค่อย Bake — RebakeNavMesh() ซ่อน Ghost ให้อีกชั้นอยู่แล้ว
         RebakeNavMesh();
-        Cancel();
     }
 
     public void Cancel()
@@ -136,7 +136,16 @@ public class FurniturePlacementManager : MonoBehaviour
     public void RebakeNavMesh()
     {
         var surface = FindObjectOfType<NavMeshSurface>();
-        if (surface != null) surface.BuildNavMesh();
+        if (surface == null) return;
+
+        // 🔧 ซ่อนผี (Ghost) ระหว่าง Bake ไม่ให้ถูกอบเป็นช่องว่าง
+        bool hideGhost = currentGhost != null && currentGhost.activeSelf;
+        if (hideGhost) currentGhost.SetActive(false);
+
+        Physics2D.SyncTransforms();   // 🔧 ให้ Collider2D อัปเดตล่าสุดก่อนอบ
+        surface.BuildNavMesh();
+
+        if (hideGhost && currentGhost != null) currentGhost.SetActive(true);
     }
 
     public void SelectPlacedFurniture(FurnitureObject furniture)
@@ -153,6 +162,8 @@ public class FurniturePlacementManager : MonoBehaviour
 
         GameObject prefabToMove = selectedFurniture.furniturePrefab != null ? selectedFurniture.furniturePrefab : selectedFurniture.gameObject;
 
+        // 🔧 Destroy() ไม่ได้ลบทันที (ลบตอนจบเฟรม) ต้องปิดก่อน ไม่งั้น Bake ยังเห็นของเก่า → ช่องว่างค้างตรงที่เดิม
+        selectedFurniture.gameObject.SetActive(false);
         Destroy(selectedFurniture.gameObject);
         selectedFurniture = null;
         RebakeNavMesh();
@@ -168,6 +179,7 @@ public class FurniturePlacementManager : MonoBehaviour
         UINotificationManager.Instance?.ShowNotification("NOTI_FURNITURE_STORED");
         Debug.Log($"เก็บ {selectedFurniture.furnitureID} เรียบร้อยแล้ว");
 
+        selectedFurniture.gameObject.SetActive(false);   // 🔧 เหตุผลเดียวกับด้านบน
         Destroy(selectedFurniture.gameObject);
         selectedFurniture = null;
         RebakeNavMesh();

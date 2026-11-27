@@ -69,8 +69,13 @@ public class UISummaryController : MonoBehaviour
     [Tooltip("จำนวนวันสูงสุดก่อนจบเกม — default 3")]
     public int maxDays = 3;
 
-    [Tooltip("ชื่อ scene ที่จะโหลดเมื่อครบ maxDays")]
+    [Tooltip("ชื่อ scene Ending แบบเดิม — ใช้เฉพาะตอนไม่ได้ใส่ Ending Comics ด้านล่าง")]
     public string endingSceneName = "Ending";
+
+    [Header("Ending Comic (เล่นในซีนเดิม ไม่เปลี่ยน Scene)")]
+    [Tooltip("Comic ตอนจบ/EndCredit เล่นต่อกันตามลำดับ (หน้า 1, 2, 3 …) — จบแล้วกลับ MainMenu และ Continue จะเล่นต่อแบบ Endless\n" +
+             "ถ้าเว้นว่างทั้งหมด จะใช้ Scene Ending แบบเดิม")]
+    public ComicSequenceData[] endingComics;
 
     [Tooltip("ปุ่ม Next Day — script จะเปลี่ยน label ให้อัตโนมัติ")]
     public Button nextDayButton;
@@ -246,7 +251,8 @@ public class UISummaryController : MonoBehaviour
     public void StartSummarySequence(int day, int served, int earnings)
     {
         _currentDay = day;
-        _isLastDay = day >= maxDays;
+        // ดู Ending แล้ว → Endless: ไม่มีวันสุดท้ายอีก (ปุ่มกลับเป็น Next Day ทุกวัน)
+        _isLastDay = day >= maxDays && !DayNightManager.HasSeenEnding;
 
         // ✅ ตั้งตัวแปรให้ครบก่อนเปิด Canvas (Rating จริงยังไม่รู้ → ใส่ placeholder ไปก่อน)
         ApplyLocalizedData(day, served, earnings, null);
@@ -374,7 +380,33 @@ public class UISummaryController : MonoBehaviour
             yield return null;
         }
 
-        // Crossfade เพลงแล้วโหลด ending scene
+        // 🎬 มี Ending Comic → เล่นในซีนนี้เลย จบแล้วกลับ MainMenu (Continue = Endless)
+        if (HasEndingComic())
+        {
+            if (blackOverlay != null) blackOverlay.gameObject.SetActive(false);
+            if (summaryCanvas != null) summaryCanvas.SetActive(false);
+
+            // เซฟจุดเริ่ม "วันถัดไป" + จำว่าดู Ending แล้ว ก่อนเล่น Comic
+            // → ต่อให้ปิดเกมกลางคัน กด Continue ก็จะเป็น Endless ไม่วนกลับมาวันสุดท้ายอีก
+            if (DayNightManager.Instance != null) DayNightManager.Instance.SaveNextDayCheckpoint();
+            DayNightManager.MarkEndingSeen();
+
+            foreach (ComicSequenceData comic in endingComics)
+            {
+                if (comic == null) continue;
+
+                bool done = false;
+                if (!ComicSequencePlayer.Instance.Play(comic, () => done = true)) break;
+                while (!done) yield return null;
+
+                if (ComicSequencePlayer.LastSequenceSkipped) break;   // กดข้าม = ข้ามทั้งหมด
+            }
+
+            LoadMainMenu();
+            yield break;
+        }
+
+        // (แบบเดิม) Crossfade เพลงแล้วโหลด ending scene
         if (AudioManager.instance != null && AudioManager.instance.menuMusic != null)
         {
             AudioManager.instance.CrossfadeTo(
@@ -388,9 +420,23 @@ public class UISummaryController : MonoBehaviour
         }
     }
 
+    private bool HasEndingComic()
+    {
+        if (ComicSequencePlayer.Instance == null || endingComics == null) return false;
+        foreach (ComicSequenceData c in endingComics) if (c != null) return true;
+        return false;
+    }
+
     // ── Next Day sequence ──────────────────────────────────────────
     private IEnumerator NextDaySequence()
     {
+        // กันกดปุ่มซ้ำระหว่าง Fade / เล่น Comic
+        if (canvasGroup != null)
+        {
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
+
         float timer = 0;
         while (timer < fadeDuration)
         {
@@ -408,6 +454,16 @@ public class UISummaryController : MonoBehaviour
 
         if (blackOverlay != null) blackOverlay.gameObject.SetActive(false);
         if (summaryCanvas != null) summaryCanvas.SetActive(false);
+
+        // 🎬 Comic ก่อนขึ้นวันใหม่ (เฉพาะวันที่กำหนดใน DayNightManager และยังไม่เคยดู)
+        DayNightManager dn = DayNightManager.Instance;
+        int nextDay = _currentDay + 1;
+        if (dn != null && dn.ShouldPlayDayIntroComic(nextDay))
+        {
+            // เซฟจุดเริ่มวันถัดไปก่อน: ถ้าปิดเกมระหว่างดู Comic แล้วกด Continue จะได้เริ่มวันใหม่และเห็น Comic อีกรอบ
+            dn.SaveNextDayCheckpoint();
+            yield return dn.PlayDayIntroComicRoutine(nextDay);
+        }
 
         // เปิดช่องเก็บของกลับมา
         SetHiddenUI(false);
@@ -445,6 +501,11 @@ public class UISummaryController : MonoBehaviour
             canvasGroup.blocksRaycasts = false;
         }
 
+        LoadMainMenu();
+    }
+
+    private void LoadMainMenu()
+    {
         if (AudioManager.instance != null && AudioManager.instance.menuMusic != null)
         {
             AudioManager.instance.CrossfadeTo(

@@ -327,7 +327,17 @@ public class FurnitureManager : MonoBehaviour
     // =========================================================================
     // 🌟 JUICE EFFECT 1: อนิเมชันเด้งดึ๋งนุ่มนวลตอนวางเฟอร์นิเจอร์ลงบนฉาก
     // =========================================================================
+    // นับจำนวนอนิเมชันเด้งที่กำลังเล่น — ตอน Bake ต้องรอให้จบก่อน ไม่งั้น Collider ที่กำลังยืด/แบนจะถูกอบเป็นช่องว่างที่ใหญ่เกินจริง
+    private int _animatingCount = 0;
+
     private System.Collections.IEnumerator AnimatePlacementBounce(Transform targetTransform)
+    {
+        _animatingCount++;
+        yield return StartCoroutine(AnimatePlacementBounceInner(targetTransform));
+        _animatingCount = Mathf.Max(0, _animatingCount - 1);
+    }
+
+    private System.Collections.IEnumerator AnimatePlacementBounceInner(Transform targetTransform)
     {
         if (targetTransform == null) yield break;
 
@@ -436,8 +446,25 @@ public class FurnitureManager : MonoBehaviour
         yield return null;
         yield return null;
 
+        // 🔧 รออนิเมชันเด้งตอนวางให้จบก่อน (Collider ถูกยืด/แบนตาม Scale ระหว่างเด้ง → ช่องว่างจะใหญ่เกินตัวโต๊ะ)
+        float timeout = Time.realtimeSinceStartup + 1.5f;
+        while (_animatingCount > 0 && Time.realtimeSinceStartup < timeout) yield return null;
+
         NavMeshSurface surface = FindFirstObjectByType<NavMeshSurface>();
-        if (surface != null) surface.BuildNavMesh();
+        if (surface != null)
+        {
+            // 🔧 ซ่อนพรีวิว (เฟอร์นิเจอร์ที่ถือค้างอยู่) ชั่วคราว — ไม่งั้นมันถูกอบเป็นช่องว่างตรงตำแหน่งเมาส์ตอนนั้น
+            GameObject preview = currentPlacingObject;
+            bool hidePreview = preview != null && preview.activeSelf;
+            if (hidePreview) preview.SetActive(false);
+
+            // 🔧 บังคับให้ Collider2D อัปเดตตำแหน่ง/Scale ล่าสุดก่อนอบ (ไม่งั้นอาจได้ค่าเก่าจากเฟรมที่แล้ว)
+            Physics2D.SyncTransforms();
+
+            surface.BuildNavMesh();
+
+            if (hidePreview && preview != null) preview.SetActive(true);
+        }
         _rebakeRoutine = null;
     }
 }

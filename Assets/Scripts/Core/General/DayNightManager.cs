@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 // =====================================================================
@@ -51,6 +52,64 @@ public class DayNightManager : MonoBehaviour
 
     [Header("References")]
     public UISummaryController summaryUI;
+
+    // ── Day Intro Comic ───────────────────────────────────────────
+    [Header("Day Intro Comic (Comic ตอนเริ่มวันที่กำหนด)")]
+    [Tooltip("Comic ที่จะเล่นก่อนเริ่มวันที่กำหนด (เล่นครั้งเดียวต่อเซฟ) — เว้นว่าง = ไม่เล่น")]
+    public ComicSequenceData dayIntroComic;
+    [Tooltip("เล่น Comic ตอนเริ่มวันที่เท่าไหร่ (ค่าเริ่มต้น 2)")]
+    public int dayIntroComicDay = 2;
+
+    private const string ComicSeenKeyPrefix = "ComicSeen_Day";
+    private const string EndingSeenKey = "EndingSeen";
+
+    /// <summary>ผู้เล่นดู Ending (Comic EndCredit) แล้วหรือยัง — ถ้าดูแล้วเกมจะเล่นต่อแบบ Endless (ไม่มีวันสุดท้ายอีก)</summary>
+    public static bool HasSeenEnding => PlayerPrefs.GetInt(EndingSeenKey, 0) == 1;
+
+    public static void MarkEndingSeen()
+    {
+        PlayerPrefs.SetInt(EndingSeenKey, 1);
+        PlayerPrefs.Save();
+    }
+
+    /// <summary>ล้างสถานะ "เคยดู Comic แล้ว" และ "เคยดู Ending แล้ว" ทั้งหมด — เรียกตอนกด New Game</summary>
+    public static void ClearDayComicFlags()
+    {
+        for (int i = 1; i <= 30; i++) PlayerPrefs.DeleteKey(ComicSeenKeyPrefix + i);
+        PlayerPrefs.DeleteKey(EndingSeenKey);
+        PlayerPrefs.Save();
+    }
+
+    /// <summary>วันนี้ต้องเล่น Comic ไหม (เป็นวันที่กำหนด + ยังไม่เคยดู + มี ComicSequencePlayer ในฉาก)</summary>
+    public bool ShouldPlayDayIntroComic(int day)
+    {
+        return dayIntroComic != null
+            && day == dayIntroComicDay
+            && ComicSequencePlayer.Instance != null
+            && PlayerPrefs.GetInt(ComicSeenKeyPrefix + day, 0) == 0;
+    }
+
+    /// <summary>เล่น Comic ของวันนั้น (ถ้าต้องเล่น) แล้วรอจนจบ/ถูกข้าม จากนั้นจำว่าดูแล้ว — ใช้ yield return ต่อได้</summary>
+    public IEnumerator PlayDayIntroComicRoutine(int day)
+    {
+        if (!ShouldPlayDayIntroComic(day)) yield break;
+
+        bool done = false;
+        bool accepted = ComicSequencePlayer.Instance.Play(dayIntroComic, () => done = true);
+        if (!accepted) yield break;
+
+        while (!done) yield return null;
+
+        PlayerPrefs.SetInt(ComicSeenKeyPrefix + day, 1);
+        PlayerPrefs.Save();
+    }
+
+    // กด Continue แล้วเข้ามาเริ่มวันที่กำหนดโดยยังไม่เคยดู Comic (เช่น กด Main Menu จากหน้าสรุปวันที่ 1)
+    private IEnumerator PlayComicAtSceneStart()
+    {
+        yield return null;   // รอให้ทุกระบบใน Scene ตั้งค่าเสร็จก่อน
+        yield return PlayDayIntroComicRoutine(currentDay);
+    }
 
     // ── event สำหรับ sunrise transition ─────────────────────
     public event System.Action OnNewDayStarted;
@@ -145,6 +204,10 @@ public class DayNightManager : MonoBehaviour
 
         // 🟢 ตั้งสีแสงตามเวลาเริ่มวันทันที (เดิมไม่ได้ตั้ง ทำให้ใช้สีที่ค้างอยู่ในฉากจนกว่าเกมจะเลิก Pause)
         UpdateLightColor();
+
+        // 🎬 Continue เข้ามาที่วันที่กำหนด (เช่น วันที่ 2) และยังไม่เคยดู Comic → เล่นก่อนเริ่มวัน
+        if (PlayerPrefs.HasKey(DaySaveKey) && ShouldPlayDayIntroComic(currentDay))
+            StartCoroutine(PlayComicAtSceneStart());
     }
 
     void Update()

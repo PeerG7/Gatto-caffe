@@ -1,0 +1,139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7684de07c1c86cf42bfb02acc7b0f2eb, type: 3}
+  m_Name: Comic3
+  m_EditorClassIdentifier: Assembly-CSharp::ComicSequenceData
+  sequenceId: Comic3
+  layout: 1
+  panels:
+  - image: {fileID: 0}
+    focusRect:
+      serializedVersion: 2
+      x: 0.036
+      y: 0.069
+      width: 0.621
+      height: 0.497
+    revealStyle: 0
+    visibleFromStart: 1
+    zoomIn: 0
+    zoomDuration: 1
+    zoomOutAfter: 1
+    caption: 
+    waitForInput: 0
+    autoAdvanceSeconds: 0
+    slideDuration: 0
+    driftPixelsPerSecond: 0
+    sfx: {fileID: 0}
+  - image: {fileID: 0}
+    focusRect:
+      serializedVersion: 2
+      x: 0.655
+      y: 0.07
+      width: 0.31
+      height: 0.45
+    revealStyle: 0
+    visibleFromStart: 0
+    zoomIn: 0
+    zoomDuration: 1
+    zoomOutAfter: 1
+    caption: 
+    waitForInput: 1
+    autoAdvanceSeconds: 0
+    slideDuration: 0
+    driftPixelsPerSecond: 0
+    sfx: {fileID: 0}
+  - image: {fileID: 0}
+    focusRect:
+      serializedVersion: 2
+      x: 0.039
+      y: 0.565
+      width: 0.191
+      height: 0.361
+    revealStyle: 0
+    visibleFromStart: 0
+    zoomIn: 0
+    zoomDuration: 1
+    zoomOutAfter: 1
+    caption: 
+    waitForInput: 1
+    autoAdvanceSeconds: 0
+    slideDuration: 0
+    driftPixelsPerSecond: 0
+    sfx: {fileID: 0}
+  - image: {fileID: 0}
+    focusRect:
+      serializedVersion: 2
+      x: 0.232
+      y: 0.537
+      width: 0.186
+      height: 0.389
+    revealStyle: 0
+    visibleFromStart: 0
+    zoomIn: 0
+    zoomDuration: 1
+    zoomOutAfter: 1
+    caption: 
+    waitForInput: 1
+    autoAdvanceSeconds: 0
+    slideDuration: 0
+    driftPixelsPerSecond: 0
+    sfx: {fileID: 0}
+  - image: {fileID: 0}
+    focusRect:
+      serializedVersion: 2
+      x: 0.419
+      y: 0.5
+      width: 0.333
+      height: 0.426
+    revealStyle: 0
+    visibleFromStart: 0
+    zoomIn: 0
+    zoomDuration: 1
+    zoomOutAfter: 1
+    caption: 
+    waitForInput: 1
+    autoAdvanceSeconds: 0
+    slideDuration: 0
+    driftPixelsPerSecond: 0
+    sfx: {fileID: 0}
+  - image: {fileID: 0}
+    focusRect:
+      serializedVersion: 2
+      x: 0.753
+      y: 0.474
+      width: 0.21
+      height: 0.452
+    revealStyle: 0
+    visibleFromStart: 0
+    zoomIn: 0
+    zoomDuration: 1
+    zoomOutAfter: 1
+    caption: 
+    waitForInput: 1
+    autoAdvanceSeconds: 0
+    slideDuration: 0
+    driftPixelsPerSecond: 0
+    sfx: {fileID: 0}
+  pageImage: {fileID: 21300000, guid: ec1efe1648d2a0d41bd90e46d83dd94e, type: 3}
+  overviewHoldSeconds: 1.2
+  endWithOverview: 0
+  focusPadding: 0.96
+  clampToPage: 1
+  holdPushIn: 0.03
+  revealStartDelay: 0.5
+  revealMaskColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultSlideDuration: 1
+  defaultDriftPixelsPerSecond: 12
+  maxDriftPixels: 60
+  allowSkip: 1
+  pauseGameTime: 1
+  lockPlayer: 1

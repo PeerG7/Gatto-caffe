@@ -1195,6 +1195,8 @@ MonoBehaviour:
   canvasTransform: {fileID: 1751371736}
   spawnCount: 100
   transitionAnimationDelay: 1.5
+  playComicOnNewGame: 1
+  newGameComic: {fileID: 11400000, guid: bc649a01057cf124fac031fb83b3e44d, type: 2}
   allCats:
   - {fileID: 11400000, guid: d33e67c8905f6fa4db912fdde811998a, type: 2}
   - {fileID: 11400000, guid: b628f753d5cec514d8878dbdcd0f92af, type: 2}
@@ -1582,22 +1584,14 @@ MonoBehaviour:
   inputDelay: 0.3
   preserveAspect: 1
   skipKey: 27
+  gamepadAdvanceKey: 330
+  gamepadSkipKey: 337
+  blockInputBehind: 1
+  backdropColor: {r: 0, g: 0, b: 0, a: 1}
   sequenceToPlay: {fileID: 11400000, guid: bc649a01057cf124fac031fb83b3e44d, type: 2}
   onFinished:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 41046552}
-        m_TargetAssemblyTypeName: MainMenuIntro, Assembly-CSharp
-        m_MethodName: TriggerTransitionEffect
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!4 &1315367048
 Transform:
   m_ObjectHideFlags: 0
@@ -3347,21 +3341,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 849411328}
-        m_TargetAssemblyTypeName: NewGameIntroDialogue, Assembly-CSharp
-        m_MethodName: OnNewGameButtonClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1315367047}
-        m_TargetAssemblyTypeName: ComicSequencePlayer, Assembly-CSharp
-        m_MethodName: PlayAssigned
+      - m_Target: {fileID: 849411323}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: OnNewGamePressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

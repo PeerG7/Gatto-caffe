@@ -22,6 +22,8 @@ MonoBehaviour:
       y: 0.07
       width: 0.535
       height: 0.425
+    revealStyle: 0
+    visibleFromStart: 0
     caption: 
     waitForInput: 1
     autoAdvanceSeconds: 0
@@ -35,6 +37,8 @@ MonoBehaviour:
       y: 0.07
       width: 0.396
       height: 0.425
+    revealStyle: 0
+    visibleFromStart: 0
     caption: 
     waitForInput: 1
     autoAdvanceSeconds: 0
@@ -48,6 +52,8 @@ MonoBehaviour:
       y: 0.495
       width: 0.44
       height: 0.435
+    revealStyle: 0
+    visibleFromStart: 0
     caption: 
     waitForInput: 1
     autoAdvanceSeconds: 0
@@ -61,6 +67,8 @@ MonoBehaviour:
       y: 0.495
       width: 0.235
       height: 0.435
+    revealStyle: 0
+    visibleFromStart: 0
     caption: 
     waitForInput: 1
     autoAdvanceSeconds: 0
@@ -74,18 +82,22 @@ MonoBehaviour:
       y: 0.495
       width: 0.265
       height: 0.435
+    revealStyle: 0
+    visibleFromStart: 0
     caption: 
     waitForInput: 1
     autoAdvanceSeconds: 0
     slideDuration: 0
     driftPixelsPerSecond: 0
     sfx: {fileID: 0}
-  pageImage: {fileID: 4858392147246888816, guid: 0a335acbb5d43464db9362e156e90c86, type: 3}
+  pageImage: {fileID: 21300000, guid: 0a335acbb5d43464db9362e156e90c86, type: 3}
   overviewHoldSeconds: 1.2
   endWithOverview: 0
   focusPadding: 0.96
   clampToPage: 1
   holdPushIn: 0.03
+  revealStartDelay: 0.5
+  revealMaskColor: {r: 1, g: 1, b: 1, a: 1}
   defaultSlideDuration: 1.2
   defaultDriftPixelsPerSecond: 12
   maxDriftPixels: 60
