@@ -40,11 +40,13 @@ public class InputIconSwitcher : MonoBehaviour
     public GameObject[] showOnGamepad;
 
     [Header("Behaviour")]
-    [Tooltip("ตั้งรูปซ้ำทุกเฟรมใน LateUpdate กันสคริปต์/Animator อื่นตั้งรูปกลับเป็นรูปเดิม (เช่นตอนแมวมานั่ง)")]
+    [Tooltip("ตั้งรูปซ้ำทุกเฟรมใน LateUpdate กันสคริปต์/Animator อื่นตั้งรูปกลับเป็นรูปเดิม")]
     public bool reapplyEveryFrame = true;
+    [Tooltip("บังคับเปิด-ปิดกลุ่ม Show On Keyboard Mouse / Show On Gamepad ตามสถานะปัจจุบันทุกเฟรม")]
+    public bool forceSwitch = true;
     [Tooltip("เตือนใน Console ถ้าช่องรูปของอุปกรณ์ปัจจุบันยังว่าง")]
     public bool warnIfMissing = true;
-    
+
     private bool? lastPadState;
 
 
@@ -82,28 +84,13 @@ public class InputIconSwitcher : MonoBehaviour
     void LateUpdate()
     {
         if (reapplyEveryFrame) ApplySprite(false);
-
-        bool pad = InputDeviceMonitor.UsingGamepad;
-        SetGroup(showOnGamepad, pad);
-
-        if (lastPadState != pad)
-        {
-            lastPadState = pad;
-            if (showOnGamepad != null && showOnGamepad.Length > 0 && showOnGamepad[0] != null)
-            {
-                Debug.Log($"[Test Switcher] pad={pad} | goActiveSelf={showOnGamepad[0].activeSelf}");
-            }
-        }
+        if (forceSwitch) ApplyGroups();
     }
 
     public void Refresh()
     {
-        Debug.Log($"[Refresh] {name} | UsingGamepad={InputDeviceMonitor.UsingGamepad}");
         ApplySprite(true);
-
-        bool pad = InputDeviceMonitor.UsingGamepad;
-        SetGroup(showOnKeyboardMouse, !pad);
-        SetGroup(showOnGamepad, pad);
+        ApplyGroups();
     }
 
     Sprite Pick()
@@ -133,6 +120,13 @@ public class InputIconSwitcher : MonoBehaviour
 
         if (targetImage != null && targetImage.sprite != pick) targetImage.sprite = pick;
         if (targetSprite != null && targetSprite.sprite != pick) targetSprite.sprite = pick;
+    }
+
+    void ApplyGroups()
+    {
+        bool pad = InputDeviceMonitor.UsingGamepad;
+        SetGroup(showOnKeyboardMouse, !pad);
+        SetGroup(showOnGamepad, pad);
     }
 
     static void SetGroup(GameObject[] group, bool active)
