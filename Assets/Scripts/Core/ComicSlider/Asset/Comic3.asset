@@ -123,7 +123,7 @@ MonoBehaviour:
     slideDuration: 0
     driftPixelsPerSecond: 0
     sfx: {fileID: 0}
-  pageImage: {fileID: 21300000, guid: ec1efe1648d2a0d41bd90e46d83dd94e, type: 3}
+  pageImage: {fileID: 21300000, guid: f59bc6f14c3e4694eafac927394911e5, type: 3}
   overviewHoldSeconds: 1.2
   endWithOverview: 0
   focusPadding: 0.96
