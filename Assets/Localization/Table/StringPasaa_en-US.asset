@@ -91,13 +91,13 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 42841193463808
-    m_Localized: oh  congrat nyan ! uwu  now  open your  inventory  down there  or
-      place  B OWO
+    m_Localized: 'oh  congrat nyan !  now  look at bottom  of us to  press and  open 
+      inventory '
     m_Metadata:
       m_Items: []
   - m_Id: 58752457654272
-    m_Localized: look who there  infront of  out cafe  hurry  up and heading there 
-      to invite  them   by press E >W<
+    m_Localized: 'look who there  infront of  out cafe  hurry  up and heading there 
+      to invite  them   '
     m_Metadata:
       m_Items: []
   - m_Id: 59309335396352
@@ -106,7 +106,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 60237262241792
-    m_Localized: 'now  press E  to guide our  customer  and  press again to  table
+    m_Localized: 'now  went closer  to guide our  customer  and  heading to  table
       that  empty  nyan '
     m_Metadata:
       m_Items: []
