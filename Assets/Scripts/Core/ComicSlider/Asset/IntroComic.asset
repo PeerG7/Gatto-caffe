@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7684de07c1c86cf42bfb02acc7b0f2eb, type: 3}
+  m_Name: IntroComic
+  m_EditorClassIdentifier: Assembly-CSharp::ComicSequenceData
+  sequenceId: intro
+  layout: 1
+  panels:
+  - image: {fileID: 0}
+    focusRect:
+      serializedVersion: 2
+      x: 0.035
+      y: 0.07
+      width: 0.535
+      height: 0.425
+    caption: 
+    waitForInput: 1
+    autoAdvanceSeconds: 0
+    slideDuration: 0
+    driftPixelsPerSecond: 0
+    sfx: {fileID: 0}
+  - image: {fileID: 0}
+    focusRect:
+      serializedVersion: 2
+      x: 0.572
+      y: 0.07
+      width: 0.396
+      height: 0.425
+    caption: 
+    waitForInput: 1
+    autoAdvanceSeconds: 0
+    slideDuration: 0
+    driftPixelsPerSecond: 0
+    sfx: {fileID: 0}
+  - image: {fileID: 0}
+    focusRect:
+      serializedVersion: 2
+      x: 0.035
+      y: 0.495
+      width: 0.44
+      height: 0.435
+    caption: 
+    waitForInput: 1
+    autoAdvanceSeconds: 0
+    slideDuration: 0
+    driftPixelsPerSecond: 0
+    sfx: {fileID: 0}
+  - image: {fileID: 0}
+    focusRect:
+      serializedVersion: 2
+      x: 0.47
+      y: 0.495
+      width: 0.235
+      height: 0.435
+    caption: 
+    waitForInput: 1
+    autoAdvanceSeconds: 0
+    slideDuration: 0
+    driftPixelsPerSecond: 0
+    sfx: {fileID: 0}
+  - image: {fileID: 0}
+    focusRect:
+      serializedVersion: 2
+      x: 0.7
+      y: 0.495
+      width: 0.265
+      height: 0.435
+    caption: 
+    waitForInput: 1
+    autoAdvanceSeconds: 0
+    slideDuration: 0
+    driftPixelsPerSecond: 0
+    sfx: {fileID: 0}
+  pageImage: {fileID: 4858392147246888816, guid: 0a335acbb5d43464db9362e156e90c86, type: 3}
+  overviewHoldSeconds: 1.2
+  endWithOverview: 0
+  focusPadding: 0.96
+  clampToPage: 1
+  holdPushIn: 0.03
+  defaultSlideDuration: 1.2
+  defaultDriftPixelsPerSecond: 12
+  maxDriftPixels: 60
+  allowSkip: 1
+  pauseGameTime: 0
+  lockPlayer: 0

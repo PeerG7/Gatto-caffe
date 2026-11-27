@@ -31,17 +31,17 @@ public class ComicPanel
     [Tooltip("ข้อความใต้ภาพ (เว้นว่างได้)")]
     [TextArea(2, 5)] public string caption;
 
-    [Tooltip("true = รอผู้เล่นกดไปต่อ | false = ไปเองหลัง Auto Advance Seconds (ผู้เล่นกดข้ามได้ก่อน)")]
+    [Tooltip("ติ๊ก = รอผู้เล่นกดไปต่อ | ไม่ติ๊ก = ไปเองหลัง Auto Advance Seconds (ถ้า Auto Advance Seconds เป็น 0 จะถือว่ารอผู้เล่นกดเหมือนกัน)")]
     public bool waitForInput = true;
 
-    [Tooltip("ใช้เมื่อ Wait For Input = false")]
+    [Tooltip("วินาทีที่รอก่อนไปต่อเอง — ใช้เมื่อไม่ติ๊ก Wait For Input (ผู้เล่นกดข้ามได้ก่อน)")]
     public float autoAdvanceSeconds = 3f;
 
-    [Tooltip("ระยะเวลาเคลื่อนมาที่แผง/จุดนี้ (วินาที) | -1 = ใช้ค่า Default ของ Sequence")]
-    public float slideDuration = -1f;
+    [Tooltip("ระยะเวลาเคลื่อนมาที่แผง/จุดนี้ (วินาที) | 0 = ใช้ Default Slide Duration ของ Sequence")]
+    public float slideDuration = 0f;
 
-    [Tooltip("(SlideStrip) ภาพลอยไปทางขวาช้าๆ ระหว่างอ่าน (พิกเซล/วินาที) | -1 = ใช้ค่า Default | 0 = ไม่ขยับ")]
-    public float driftPixelsPerSecond = -1f;
+    [Tooltip("(SlideStrip) ภาพลอยไปทางขวาช้าๆ ระหว่างอ่าน (พิกเซล/วินาที) | 0 = ใช้ค่า Default ของ Sequence (ปิดลอยทั้งชุดที่ Max Drift Pixels = 0)")]
+    public float driftPixelsPerSecond = 0f;
 
     [Tooltip("เสียงที่เล่นตอนขึ้นแผง/จุดนี้ (เว้นว่างได้)")]
     public AudioClip sfx;

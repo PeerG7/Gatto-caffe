@@ -69,6 +69,7 @@ public class ComicSequencePlayer : MonoBehaviour
     // PageFocus
     private struct CamState { public Vector2 center; public float zoom; }
     private float _pageW, _pageH, _viewW, _viewH;
+    private float _imgW, _imgH; // ขนาดพิกเซลจริงของรูป (ใช้แปลง Focus Rect ที่ใส่เป็นพิกเซลโดยไม่ตั้งใจ)
     private bool _clampToPage;
 
     void Awake()
@@ -101,7 +102,10 @@ public class ComicSequencePlayer : MonoBehaviour
             _advanceRequested = true;
 
         if (_current.allowSkip && Input.GetKeyDown(skipKey))
+        {
             _skipRequested = true;
+            Debug.Log("[Comic] ผู้เล่นกดข้าม (" + skipKey + ")");
+        }
     }
 
     /// <summary>
@@ -121,6 +125,9 @@ public class ComicSequencePlayer : MonoBehaviour
             onFinished?.Invoke();
             return true;
         }
+
+        if (sequence.layout == ComicLayout.SlideStrip && sequence.pageImage != null)
+            Debug.LogWarning($"[ComicSequencePlayer] '{sequence.name}' ใส่ Page Image ไว้ แต่ Layout เป็น SlideStrip จึงไม่ซูม — ตั้ง Layout เป็น PageFocus");
 
         StartCoroutine(PlayRoutine(sequence, onFinished));
         return true;
@@ -146,6 +153,7 @@ public class ComicSequencePlayer : MonoBehaviour
         _skipRequested = false;
         _advanceRequested = false;
         BeginHold(seq);
+        Debug.Log($"[Comic] เริ่มเล่น '{seq.name}' ({seq.layout}, {seq.panels.Count} จุด) ที่ {Time.unscaledTime:0.00}s");
 
         root.SetActive(true);
         if (rootGroup != null) rootGroup.alpha = 0f;
@@ -161,10 +169,26 @@ public class ComicSequencePlayer : MonoBehaviour
         if (pageMode) yield return StartCoroutine(RunPageFocus(seq));
         else yield return StartCoroutine(RunStrip(seq, stripPanelWidth));
 
+        Debug.Log($"[Comic] จบ '{seq.name}' ที่ {Time.unscaledTime:0.00}s (ถูกกดข้าม: {_skipRequested})");
+
         yield return StartCoroutine(FadeRoot(1f, 0f));
 
         Cleanup();
         onFinished?.Invoke();
+    }
+
+    // ค่าเริ่มต้นของ Element ใหม่ใน List ของ Unity เป็น 0 ทั้งหมด (ไม่ใช่ค่าที่ตั้งในโค้ด)
+    // จึงตีความให้ "0 = ใช้ค่าปกติ" เพื่อกันกรณีลืมใส่ค่า แล้วฉากเลื่อนผ่านไปทันที
+    //  • Slide Duration  ≤ 0  → ใช้ Default Slide Duration ของ Sequence
+    //  • ไปเองอัตโนมัติ เฉพาะเมื่อ "ไม่ติ๊ก Wait For Input" และ Auto Advance Seconds > 0 | นอกนั้น = รอผู้เล่นกด
+    private static float SlideDuration(ComicPanel p, ComicSequenceData seq)
+    {
+        return p.slideDuration > 0f ? p.slideDuration : seq.defaultSlideDuration;
+    }
+
+    private static bool IsAutoAdvance(ComicPanel p)
+    {
+        return !p.waitForInput && p.autoAdvanceSeconds > 0.01f;
     }
 
     // ═════════════════════════ SlideStrip ═════════════════════════
@@ -178,7 +202,7 @@ public class ComicSequencePlayer : MonoBehaviour
             if (i > 0)
             {
                 SetCaptionAlpha(0f);
-                float dur = p.slideDuration >= 0f ? p.slideDuration : seq.defaultSlideDuration;
+                float dur = SlideDuration(p, seq);
                 yield return StartCoroutine(SlideTo(baseX, dur));
             }
             if (_skipRequested) break;
@@ -225,7 +249,7 @@ public class ComicSequencePlayer : MonoBehaviour
 
     private IEnumerator HoldPanel(ComicPanel p, ComicSequenceData seq, float baseX)
     {
-        float drift = p.driftPixelsPerSecond >= 0f ? p.driftPixelsPerSecond : seq.defaultDriftPixelsPerSecond;
+        float drift = p.driftPixelsPerSecond > 0f ? p.driftPixelsPerSecond : seq.defaultDriftPixelsPerSecond;
         float limit = Mathf.Max(0f, seq.maxDriftPixels);
         float t = 0f;
         _advanceRequested = false;
@@ -242,7 +266,7 @@ public class ComicSequencePlayer : MonoBehaviour
             }
 
             if (t >= inputDelay && _advanceRequested) break;
-            if (!p.waitForInput && t >= p.autoAdvanceSeconds) break;
+            if (IsAutoAdvance(p) && t >= p.autoAdvanceSeconds) break;
             yield return null;
         }
         _advanceRequested = false;
@@ -276,6 +300,8 @@ public class ComicSequencePlayer : MonoBehaviour
         Sprite sp = seq.pageImage;
         float imgW = Mathf.Max(1f, sp.rect.width);
         float imgH = Mathf.Max(1f, sp.rect.height);
+        _imgW = imgW;
+        _imgH = imgH;
         float fit = Mathf.Min(_viewW / imgW, _viewH / imgH); // ย่อรูปให้พอดีจอ (zoom = 1 = เห็นทั้งหน้า)
         _pageW = imgW * fit;
         _pageH = imgH * fit;
@@ -321,8 +347,12 @@ public class ComicSequencePlayer : MonoBehaviour
             ComicPanel p = seq.panels[i];
             CamState target = StateForRect(p.focusRect, seq.focusPadding);
 
+            Debug.Log($"[Comic] จุดที่ {i + 1}/{seq.panels.Count}: Focus Rect {p.focusRect} → ซูม x{target.zoom:0.00}");
+            if (target.zoom < 1.05f)
+                Debug.LogWarning($"[Comic] จุดที่ {i + 1} แทบไม่ซูม — Focus Rect ครอบเกือบทั้งหน้า (ค่าเริ่มต้น 0,0,1,1) ให้ใส่พื้นที่ช่องที่ต้องการซูม");
+
             SetCaptionAlpha(0f);
-            float dur = p.slideDuration >= 0f ? p.slideDuration : seq.defaultSlideDuration;
+            float dur = SlideDuration(p, seq);
             yield return StartCoroutine(MoveCamera(cur, target, dur));
             cur = target;
             if (_skipRequested) break;
@@ -345,6 +375,10 @@ public class ComicSequencePlayer : MonoBehaviour
 
     private CamState StateForRect(Rect r, float padding)
     {
+        // ถ้าใส่ค่าเป็นพิกเซลของรูป (มีค่าเกิน 1) ให้แปลงเป็นสัดส่วน 0–1 ให้เอง (แกน Y นับจากด้านบนเหมือนกัน)
+        if (r.xMax > 1.01f || r.yMax > 1.01f || r.width > 1.01f || r.height > 1.01f)
+            r = new Rect(r.x / _imgW, r.y / _imgH, r.width / _imgW, r.height / _imgH);
+
         float rw = Mathf.Max(0.001f, r.width) * _pageW;
         float rh = Mathf.Max(0.001f, r.height) * _pageH;
 
@@ -419,7 +453,7 @@ public class ComicSequencePlayer : MonoBehaviour
             }
 
             if (t >= inputDelay && _advanceRequested) break;
-            if (!p.waitForInput && t >= p.autoAdvanceSeconds) break;
+            if (IsAutoAdvance(p) && t >= p.autoAdvanceSeconds) break;
             yield return null;
         }
         _advanceRequested = false;
